@@ -2,20 +2,14 @@
 		
 	\section{Funkcionalni zahtjevi}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Navesti \textbf{dionike} koji imaju \textbf{interes u ovom sustavu} ili  \textbf{su nositelji odgovornosti}. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.}\\
-				
-			\textit{Navesti \textbf{aktore} koji izravno \textbf{koriste} ili \textbf{komuniciraju sa sustavom}. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.}\\
-			
-			
 			\noindent \textbf{Dionici:}
 			
 			\begin{packed_enum}
 				
-				\item Dionik 1
-				\item Dionik 2				
-				\item ...
+				\item Naručitelji
+				\item Učenici (korisnici)
+				\item Administratori				
+				\item Razvojni tim
 				
 			\end{packed_enum}
 			
@@ -23,30 +17,86 @@
 			
 			
 			\begin{packed_enum}
-				\item  \underbar{Aktor 1 (inicijator) može:}
+				\item  \underbar{Neregistrirani učenik (inicijator) može:}
 				
 				\begin{packed_enum}
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					\begin{packed_enum}
-						
-						\item  podfunkcionalnost 1 
-						\item  podfunkcionalnost 2
-				
-					\end{packed_enum}
-					\item  funkcionalnost 3
+					\item se registrirati adresom elektroničke pošte
 					
 				\end{packed_enum}
 			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+			
+				\item  \underbar{Učenik (inicijator) može:}
 				
 				\begin{packed_enum}
+					\item izvršiti prijavu u sustav za koju su mu potrebni adresa elektroničke pošte i lozinka
+					\item promijeniti trenutnu lozinku
+					\item obrisati svoj korisnički račun
+					\item pregledavati postojeće rječnike grupirane po jeziku
+					\item pokrenuti učenje riječi odabirom jednog od ponuđenih rječnika i načina učenja
+					\item odgovarati na pitanja o riječima ovisno o odabranom načinu učenja
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
+					\begin{packed_enum}
+						\item odabirom točnog odgovora
+						\item upisivanjem točnog odgovora
+						\item snimanjem izgovora riječi u zvučnu datoteku
+					\end{packed_enum}
 					
 				\end{packed_enum}
+			
+					
+			\item  \underbar{Administrator (inicijator) može:}
+			
+			\begin{packed_enum}
+				
+				\item stvarati nove rječnike
+				\item dodavati i brisati riječi iz rječnika
+				\item uređivati komponente postojećih riječi u rječniku
+				
+			\end{packed_enum}
+			
+			
+			\item  \underbar{Korijenski administrator (inicijator) može:}
+			
+			\begin{packed_enum}
+				
+				\item definirati administratore
+				\item stvarati nove rječnike
+				\item dodavati i brisati riječi iz rječnika
+				\item uređivati komponente postojećih riječi u rječniku
+				
+			\end{packed_enum}
+		
+			
+			\item  \underbar{Baza podataka (sudionik):}
+		
+			\begin{packed_enum}
+			
+			\item pohranjuje rječnike
+			\item pohranjuje sve podatke o učenicima i administratorima
+			
+			\end{packed_enum}
+		
+			
+			\item  \underbar{Vanjski rječnik (sudionik):}
+		
+			\begin{packed_enum}
+			
+			\item sadrži informacije koje se koriste prilikom dodavanja novih riječi u rječnike
+			
+			\end{packed_enum}
+		
+			
+			\item  \underbar{Servis za ocjenu kvalitete izgovora (sudionik):}
+	
+			\begin{packed_enum}
+		
+			\item provjerava točnost snimljene izgovorene riječi
+			\item na temelju provjere odgovara s ocjenom u ljestvici od jedan do deset
+		
+			\end{packed_enum}		
+		
+	
 			\end{packed_enum}
 			
 			\eject 
