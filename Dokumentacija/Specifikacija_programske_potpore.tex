@@ -111,6 +111,151 @@
 					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
 
+					\noindent \underbar{\textbf{UC$<$1$>$ -$<$Registracija$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Stvoriti korisnički račun za pristup sustavu$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$-$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik odabire gumb za registraciju$>$
+							\item $<$Učenik unosi potrebne korisničke podatke$>$
+							\item $<$Učenik prima obavijest o uspješnoj registraciji$>$
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] $<$Unos krivih korisničkih podatka, odabir već zauzetog e-maila, unos već zauzetog korisničkog imena, unos krivog e-maila$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava učenika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju$>$
+								\item $<$Učenik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije$>$
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$2$>$ -$<$Prijava u sustav$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Dobiti pristup sučelju za učenje stranih jezika$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Registracija$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Unos korisničkog imena ili e-maila i lozinke$>$
+							\item $<$Potvrda o ispravnosti unesenih podataka$>$
+							\item $<$Pristup korisničkom sučelju$>$
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] $<$Neispravno uneseno korisničko ime/lozinka$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava učenika o neuspjeloj prijavi te ga vraća na stranicu za prijavu$>$
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$3$>$ -$<$Pregled osobnih podataka$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Pregledati osobne podatke$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik odlazi na svoj profil$>$
+							\item $<$Učenik odabire opciju "Osobni podatci"$>$
+							\item $<$Aplikacije prikazuje osobne podatke učenika$>$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$4$>$ -$<$Promjena osobnih podataka$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Promjeniti osobne podatke$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik odlazi na svoj profil$>$
+							\item $<$Učenik bira koje podatke želi mijenjati$>$
+							\item $<$Učenik mijenja određene osobne podatke$>$
+							\item $<$Učenik sprema promjene$>$
+							\item $<$Baza podataka ažurira napravljenje promjene$>$
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] $<$Učenik mijenja svoje podatke, ali ne spremi promjene$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava učenika da nije spremio podatke$>$
+								\item $<$Učenik odabire želi li spremiti napravljenje promjene ili ostaviti podatke kakvi su bili$>$
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$5$>$ -$<$Brisanje korisničkog računa$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Izbrisati svoj korisnički račun$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik odlazi na svoj profil$>$
+							\item $<$Učenik bira opciju obriši korisnički račun$>$
+							\item $<$Sustav ispituje učenika je li siguran da želi obrisati korisnički račun$>$
+							\item $<$Učenik potvrđuje da želi obrisati korisnički račun$>$
+							\item $<$Korisnički račun se briše iz baze podataka$>$
+							\item $<$Sustav šalje učenika na stranicu za registraciju$>$
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] $<$Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan$>$
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
 					\begin{packed_item}
 	
