@@ -246,7 +246,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije$>$
+							\item[4.a] $<$Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije$>$
 							\item[] \begin{packed_enum}
 								
 								\item $<$Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan$>$
@@ -256,39 +256,248 @@
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					\noindent \underbar{\textbf{UC$<$6$>$ -$<$Pregled rječnika$>$}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Pregled rječnika kako bi mogao odlučiti koji mu se sviđa$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							\item $<$Učenik odabire opciju "Pregled rječnika"$>$
+							\item $<$Otvara se padajuća lista jezika rječnika$>$
+							\item $<$Učenik odabire jezik koji želi proučiti$>$
+							\item $<$Otvara se stranica sa izborom rječnika koji su na raspolaganju$>$
+							\item $<$Učenik odabire rječnik$>$
+							\item $<$Otvara se stranica na kojoj učenik može listati rječnik$>$
 						\end{packed_enum}
 						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$7$>$ -$<$Pokretanje učenja$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Pokrenuti učenje jezika kojeg je učenik odabrao$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka, Servis za ocjenu kvalitete izgovora$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik bira opciju "Pokreni učenje"$>$
+							\item $<$Otvara se padajuća lista jezika rječnika$>$
+							\item $<$Učenik odabire jezik koji želi proučiti$>$
+							\item $<$Otvara se stranica sa izborom rječnika koji su na raspolaganju$>$
+							\item $<$Učenik odabire rječnik iz kojeg želi učiti$>$
+							\item $<$Otvara se stranica sa ponuđenim načinima učenja$>$
+							\item $<$Učenik odabire način na koji želi učiti jezik$>$
+							\item $<$Otvara se stranica na kojoj učenik odgovara na pitanja o riječima na temelju načina učenja kojeg je odabrao$>$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$8$>$ -$<$Prekid učenja$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Prekinuti učenje i spremiti posao koji je učenik odradio$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik bira opciju "Prekini učenje"$>$
+							\item $<$U bazu podataka se sprema napredak i posao koji je učenik napravio na određenom rječniku, jeziku i načinu učenja$>$
+							\item $<$Sustav učenika vrača na početnu stranicu aplikacije$>$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$9$>$ -$<$Promjena načina učenja$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Promijeniti način na koji učenik uči određeni jezik$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učenik bira opciju "Promijeni način učenja"$>$
+							\item $<$Otvara se stranica sa jezicima$>$
+							\item $<$Učenik odabire jezik koji trenutno uči$>$
+							\item $<$Otvara se stranica sa izborom rječnika$>$
+							\item $<$Učenik odabire rječnik iz kojeg trenutno uči$>$
+							\item $<$Otvara se stranica sa ponuđenim načinima učenja$>$
+							\item $<$Učenik odabire način na koji želi učiti jezik$>$
+							\item $<$Baza podataka ažurira način učenja za određeni rječnik i jezik$>$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$10$>$ -$<$Dodavanje administratora$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Korijenski Administrator$>$
+						\item  \textbf{Cilj:} $<$Definirati nove administratore$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Korijenski administator odabire opciju postavaljnja administratora$>$
+							\item $<$Otvara se prozor za upis korisničkog imena korisnika$>$
+							\item $<$Korijenski administrator upisuje korisničko ime i potvrđuje upis$>$
+							\item $<$Baza podataka ažurira promjene za određeno korisničko ime$>$
+						\end{packed_enum}
+
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+							\item[3.a] $<$Upisano je neispravno korisničko ime$>$
 							\item[] \begin{packed_enum}
 								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
+								\item $<$Sustav obavještava korijenskog administratora o neuspjelom upisu$>$
 								
 							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
-							
 						\end{packed_item}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$11$>$ -$<$Stvori rječnik$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Administrator$>$
+						\item  \textbf{Cilj:} $<$Stvoriti novi rječnik$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
+						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Administrator odabire opciju "Stvori novi rječnik"$>$
+							\item $<$Vlasnik unosi riječi i podatke o novom rječniku$>$
+							\item $<$Baza podataka ažurira novi rječnik$>$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$12$>$ -$<$Dodaj riječ$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Administrator$>$
+						\item  \textbf{Cilj:} $<$Dodati riječi u postojeći rječnik$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
+						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Administrator odabire opciju "Dodaj novu riječ"$>$
+							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
+							\item $<$Administrator odabire jezik i rječnik u koji želi dodati novu riječ$>$
+							\item $<$Otvara se prozor za upis riječi$>$
+							\item $<$Administrator upisuje novu riječ, njen opis, izgovor riječi i ostale podatke bitne za riječ i rječnik$>$
+							\item $<$Baza podataka ažurira novu riječ za određeni jezik i rječnik$>$
+						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] $<$Upisana riječ već postoji$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava korijenskog administratora o tome da upisana riječ već postoji u rječniku$>$
+								\item $<$Administrator odlučuje želi li zamijeniti već postojeću riječ s novoupisanom ili ostaviti istu$>$
+								
+							\end{packed_enum}
+						\end{packed_item}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$13$>$ -$<$Ukloni riječ$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Administrator$>$
+						\item  \textbf{Cilj:} $<$Ukloniti riječ iz rječnika$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Administrator odabire opciju "Ukloni riječ"$>$
+							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
+							\item $<$Administrator odabire jezik i rječnik iz kojeg želi ukloniti riječ$>$
+							\item $<$Otvara se prozor za upis riječi$>$
+							\item $<$Administrator upisuje riječ$>$
+							\item $<$Baza podataka ažurira određeni rječnik bez upisane riječi$>$
+						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] $<$Upisana riječ ne postoji$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava administratora o neuspjelom uklanjanju upisane riječi$>$
+								
+							\end{packed_enum}
+						\end{packed_item}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$14$>$ -$<$Izmijeni riječ$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Administrator$>$
+						\item  \textbf{Cilj:} $<$Izmijeniti riječ iz rječnika$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
+						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Administrator odabire opciju "Izmijeni riječ"$>$
+							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
+							\item $<$Administrator odabire jezik i rječnik u kojem želi izmijeniti riječ$>$
+							\item $<$Otvara se prozor za upis riječi$>$
+							\item $<$Administrator upisuje riječ$>$
+							\item $<$Otvara se prozor u kojem za izmjenu opisa i podataka riječi$>$
+							\item $<$Administrator mijenja opis riječi i podatke o riječi$>$
+							\item $<$Administrator sprema promjene$>$
+							\item $<$Baza podataka ažurira odeđenu riječ za određeni jezik i rječnik$>$
+						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] $<$Upisana riječ ne postoji$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava administratora da upisana riječ ne postoji u rječniku$>$
+								
+							\end{packed_enum}
+							\item[8.a] $<$Administrator nije spremio promjene$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Sustav obavještava administratora da nije spremio promjene$>$
+								\item $<$Administrator odlučuje želi li spremtiti napravljenje promjene ili ostaviti riječ kakva je bila$>$
+								
+							\end{packed_enum}
+
+						\end{packed_item}			
 					\end{packed_item}
 				
 					
