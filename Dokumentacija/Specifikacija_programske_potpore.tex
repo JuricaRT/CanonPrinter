@@ -21,7 +21,7 @@
 				
 				\begin{packed_enum}
 					
-					\item se registrirati adresom elektroničke pošte
+					\item se registrirati e-mail adresom
 					
 				\end{packed_enum}
 			
@@ -29,7 +29,7 @@
 				\item  \underbar{Učenik (inicijator) može:}
 				
 				\begin{packed_enum}
-					\item izvršiti prijavu u sustav za koju su mu potrebni adresa elektroničke pošte i lozinka
+					\item izvršiti prijavu u sustav za koju su mu potrebni e-mail adresa i lozinka
 					\item promijeniti trenutnu lozinku
 					\item obrisati svoj korisnički račun
 					\item pregledavati postojeće rječnike grupirane po jeziku
@@ -51,7 +51,7 @@
 				
 				\item stvarati nove rječnike
 				\item dodavati i brisati riječi iz rječnika
-				\item uređivati komponente postojećih riječi u rječniku
+				\item uređivati komponente postojećih riječi u rječniku\newline
 				
 			\end{packed_enum}
 			
@@ -101,432 +101,431 @@
 			
 			\eject 
 			
-			
-				
+						
 			\subsection{Obrasci uporabe}
-				
-				\textbf{\textit{dio 1. revizije}}
-				
-				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
+				\subsubsection{Opis obrazaca uporabe}		
 
-					\noindent \underbar{\textbf{UC$<$1$>$ -$<$Registracija$>$}}
+					\noindent \underbar{\textbf{UC1 - Registracija}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Korisnik$>$
-						\item  \textbf{Cilj:} $<$Stvoriti korisnički račun za pristup sustavu$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$-$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Stvoriti korisnički račun za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik odabire gumb za registraciju$>$
-							\item $<$Učenik unosi potrebne korisničke podatke$>$
-							\item $<$Učenik prima obavijest o uspješnoj registraciji$>$
+							\item Učenik odabire gumb za registraciju
+							\item Učenik unosi potrebne korisničke podatke
+							\item Učenik prima obavijest o uspješnoj registraciji
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$Unos krivih korisničkih podatka, odabir već zauzetog e-maila, unos već zauzetog korisničkog imena, unos krivog e-maila$>$
+							\item[2.a] Unos već zauzetog e-maila, unos već zauzetog korisničkog imena, unos neispravnog e-maila
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava učenika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju$>$
-								\item $<$Učenik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije$>$
+								\item Sustav obavještava učenika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju
+								\item Učenik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije
 								
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$2$>$ -$<$Prijava u sustav$>$}}
+					\noindent \underbar{\textbf{UC2 - Prijava u sustav}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Dobiti pristup sučelju za učenje stranih jezika$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Registracija$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Izvršiti prijavu u sustav
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Registracija
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Unos korisničkog imena ili e-maila i lozinke$>$
-							\item $<$Potvrda o ispravnosti unesenih podataka$>$
-							\item $<$Pristup korisničkom sučelju$>$
+							\item Unos korisničkog imena ili e-maila i lozinke
+							\item Potvrda o ispravnosti unesenih podataka
+							\item Pristup korisničkom sučelju
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$Neispravno uneseno korisničko ime/lozinka$>$
+							\item[2.a] Neispravno uneseno korisničko ime, email ili lozinka
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava učenika o neuspjeloj prijavi te ga vraća na stranicu za prijavu$>$
+								\item Sustav obavještava učenika o neuspjeloj prijavi te ga vraća na stranicu za prijavu
 								
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$3$>$ -$<$Pregled osobnih podataka$>$}}
+					\noindent \underbar{\textbf{UC3 - Pregled osobnih podataka}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Pregledati osobne podatke$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Pregledati osobne podatke
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik odlazi na svoj profil$>$
-							\item $<$Učenik odabire opciju "Osobni podatci"$>$
-							\item $<$Aplikacije prikazuje osobne podatke učenika$>$
+							\item Učenik odlazi na svoj profil
+							\item Učenik odabire opciju "Osobni podatci"
+							\item Aplikacije prikazuje osobne podatke učenika
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$4$>$ -$<$Promjena osobnih podataka$>$}}
+					\noindent \underbar{\textbf{UC4 - Promjena osobnih podataka}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Promjeniti osobne podatke$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Promijeniti osobne podatke
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik odlazi na svoj profil$>$
-							\item $<$Učenik bira koje podatke želi mijenjati$>$
-							\item $<$Učenik mijenja određene osobne podatke$>$
-							\item $<$Učenik sprema promjene$>$
-							\item $<$Baza podataka ažurira napravljenje promjene$>$
+							\item Učenik odlazi na svoj profil
+							\item Učenik bira koje osobne podatke želi mijenjati
+							\item Učenik mijenja odabrane osobne podatke
+							\item Učenik sprema promjene
+							\item Baza podataka ažurira napravljene promjene
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$Učenik mijenja svoje podatke, ali ne spremi promjene$>$
+							\item[4.a] Učenik mijenja svoje podatke, ali ne spremi promjene
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava učenika da nije spremio podatke$>$
-								\item $<$Učenik odabire želi li spremiti napravljenje promjene ili ostaviti podatke kakvi su bili$>$
+								\item Sustav obavještava učenika da nije spremio podatke
+								\item Učenik odabire želi li spremiti ili odbaciti napravljene promjene 
 								
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$5$>$ -$<$Brisanje korisničkog računa$>$}}
+					\noindent \underbar{\textbf{UC5 - Brisanje korisničkog računa}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Izbrisati svoj korisnički račun$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Izbrisati svoj korisnički račun
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik odlazi na svoj profil$>$
-							\item $<$Učenik bira opciju obriši korisnički račun$>$
-							\item $<$Sustav ispituje učenika je li siguran da želi obrisati korisnički račun$>$
-							\item $<$Učenik potvrđuje da želi obrisati korisnički račun$>$
-							\item $<$Korisnički račun se briše iz baze podataka$>$
-							\item $<$Sustav šalje učenika na stranicu za registraciju$>$
+							\item Učenik odlazi na svoj profil
+							\item Učenik bira opciju obriši korisnički račun
+							\item Sustav ispituje učenika je li siguran da želi obrisati korisnički račun
+							\item Učenik potvrđuje da želi obrisati korisnički račun
+							\item Korisnički račun se briše iz baze podataka
+							\item Sustav šalje učenika na stranicu za registraciju
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[4.a] $<$Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije$>$
+							\item[4.a] Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan$>$
+								\item Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan
 								
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$6$>$ -$<$Pregled rječnika$>$}}
+					\noindent \underbar{\textbf{UC6 - Pregled rječnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Pregled rječnika kako bi mogao odlučiti koji mu se sviđa$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Pregledati postojeće rječnike za učenje
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik odabire opciju "Pregled rječnika"$>$
-							\item $<$Otvara se padajuća lista jezika rječnika$>$
-							\item $<$Učenik odabire jezik koji želi proučiti$>$
-							\item $<$Otvara se stranica sa izborom rječnika koji su na raspolaganju$>$
-							\item $<$Učenik odabire rječnik$>$
-							\item $<$Otvara se stranica na kojoj učenik može listati rječnik$>$
+							\item Učenik odabire opciju "Pregled rječnika"
+							\item Otvara se padajuća lista dostupnih jezika
+							\item Učenik odabire jezik
+							\item Otvara se stranica sa izborom rječnika koji su dostupni na odabranom jeziku
+							\item Učenik odabire rječnik
+							\item Otvara se stranica na kojoj učenik može pregledavati rječnik
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$7$>$ -$<$Pokretanje učenja$>$}}
+					\noindent \underbar{\textbf{UC7 - Pokretanje učenja}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Pokrenuti učenje jezika kojeg je učenik odabrao$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka, Servis za ocjenu kvalitete izgovora$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Pokrenuti učenje jezika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik bira opciju "Pokreni učenje"$>$
-							\item $<$Otvara se padajuća lista jezika rječnika$>$
-							\item $<$Učenik odabire jezik koji želi proučiti$>$
-							\item $<$Otvara se stranica sa izborom rječnika koji su na raspolaganju$>$
-							\item $<$Učenik odabire rječnik iz kojeg želi učiti$>$
-							\item $<$Otvara se stranica sa ponuđenim načinima učenja$>$
-							\item $<$Učenik odabire način na koji želi učiti jezik$>$
-							\item $<$Otvara se stranica na kojoj učenik odgovara na pitanja o riječima na temelju načina učenja kojeg je odabrao$>$
+							\item Učenik bira opciju "Pokreni učenje"
+							\item Otvara se padajuća lista jezika rječnika
+							\item Učenik odabire jezik
+							\item Otvara se stranica sa izborom rječnika koji dostupni na odabranom jeziku
+							\item Učenik odabire rječnik iz kojeg želi učiti
+							\item Otvara se stranica sa ponuđenim načinima učenja
+							\item Učenik odabire način na koji želi učiti jezik
+							\item Otvara se stranica na kojoj učenik odgovara na pitanja o riječima na temelju načina učenja kojeg je odabrao
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$8$>$ -$<$Prekid učenja$>$}}
+					\noindent \underbar{\textbf{UC8 - Prekid učenja}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Prekinuti učenje i spremiti posao koji je učenik odradio$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Prekinuti učenje i spremiti napredak
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik bira opciju "Prekini učenje"$>$
-							\item $<$U bazu podataka se sprema napredak i posao koji je učenik napravio na određenom rječniku, jeziku i načinu učenja$>$
-							\item $<$Sustav učenika vrača na početnu stranicu aplikacije$>$
+							\item Učenik bira opciju "Prekini učenje"
+							\item U bazu podataka se sprema napredak koji je učenik napravio na određenom rječniku, jeziku i načinu učenja
+							\item Sustav učenika vraća na početnu stranicu aplikacije
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$9$>$ -$<$Promjena načina učenja$>$}}
+					\noindent \underbar{\textbf{UC9 - Promjena načina učenja}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Promijeniti način na koji učenik uči određeni jezik$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je prijavljen u sustav$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Promijeniti način na koji učenik uči određeni jezik
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učenik bira opciju "Promijeni način učenja"$>$
-							\item $<$Otvara se stranica sa jezicima$>$
-							\item $<$Učenik odabire jezik koji trenutno uči$>$
-							\item $<$Otvara se stranica sa izborom rječnika$>$
-							\item $<$Učenik odabire rječnik iz kojeg trenutno uči$>$
-							\item $<$Otvara se stranica sa ponuđenim načinima učenja$>$
-							\item $<$Učenik odabire način na koji želi učiti jezik$>$
-							\item $<$Baza podataka ažurira način učenja za određeni rječnik i jezik$>$
+							\item Učenik bira opciju "Promijeni način učenja"
+							\item Otvara se stranica sa jezicima
+							\item Učenik odabire jezik koji trenutno uči
+							\item Otvara se stranica sa izborom rječnika
+							\item Učenik odabire rječnik iz kojeg trenutno uči
+							\item Otvara se stranica sa ponuđenim načinima učenja
+							\item Učenik odabire način na koji želi učiti jezik
+							\item Baza podataka ažurira način učenja za određeni rječnik i jezik
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$10$>$ -$<$Učenje po odabranom modu$>$}}
+					\noindent \underbar{\textbf{UC10 - Učenje po odabranom načinu učenja}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
-						\item  \textbf{Cilj:} $<$Učiti jezik na način koji je učenik odabrao$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Učenik je pokrenuo proces učenja$>$
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Učiti jezik na način koji je učenik odabrao
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je pokrenuo proces učenja
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Učeniku se postavlja pitanje o odabranoj riječi ovisno o načinu učenja, podatcima o učenju i odabranom rječniku$>$
-							\item $<$Učeniku se nudi obrazac za odgovor na postavljeno pitanje$>$
-							\item $<$Učenik obrascem odgovara na postavljeno pitanje$>$
-							\item $<$Učenik potvrđuje svoj odgovor na obrascu$>$
-							\item $<$Baza podataka ažurira podatke učenja učenika određenim rječnikom, jezikom i načinom učenja$>$
-							\item $<$Ponavlja se prvi korak sve dok učenik ne prekine učenje$>$
+							\item Učeniku se postavlja pitanje o odabranoj riječi ovisno o načinu učenja, podatcima o učenju i odabranom rječniku
+							\item Učeniku se nudi obrazac za odgovor na postavljeno pitanje
+							\item Učenik obrascem odgovara na postavljeno pitanje
+							\item Učenik potvrđuje svoj odgovor na obrascu
+							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom, jezikom i načinom učenja
+							\item Ponavlja se prvi korak sve dok učenik ne prekine učenje
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[5.a] $<$Nije moguće spajanje na bazu podataka$>$
+							\item[5.a] Nije moguće spajanje na bazu podataka
 							\item[] \begin{packed_enum}
 								
-								\item $<$Učenik dobiva informaciju o nedostupnosti baze podataka i prekida se učenje$>$
+								\item Učenik dobiva informaciju o nedostupnosti baze podataka i prekida se učenje
 								
 							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$11$>$ -$<$Dodavanje administratora$>$}}
+					\noindent \underbar{\textbf{UC11 - Dodavanje administratora}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Korijenski Administrator$>$
-						\item  \textbf{Cilj:} $<$Definirati nove administratore$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item \textbf{Glavni sudionik: }Korijenski administrator
+						\item  \textbf{Cilj:} Definirati nove administratore
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava korijenskog administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Korijenski administator odabire opciju postavaljnja administratora$>$
-							\item $<$Otvara se prozor za upis korisničkog imena korisnika$>$
-							\item $<$Korijenski administrator upisuje korisničko ime i potvrđuje upis$>$
-							\item $<$Baza podataka ažurira promjene za određeno korisničko ime$>$
+							\item Korijenski administator odabire opciju postavljanja administratora
+							\item Otvara se prozor za upis korisničkog imena korisnika
+							\item Korijenski administrator upisuje korisničko ime i potvrđuje upis
+							\item Baza podataka ažurira promjene za određeno korisničko ime
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] $<$Upisano je neispravno korisničko ime$>$
+							\item[3.a] Upisano je neispravno korisničko ime
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava korijenskog administratora o neuspjelom upisu$>$
+								\item Sustav obavještava korijenskog administratora o neuspjelom upisu
 								
 							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$12$>$ -$<$Stvori rječnik$>$}}
+					\noindent \underbar{\textbf{UC12 - Stvori rječnik}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Administrator$>$
-						\item  \textbf{Cilj:} $<$Stvoriti novi rječnik$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
-						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Stvoriti novi rječnik
+						\item  \textbf{Sudionici:} Baza podataka, Vanjski rječnik
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Administrator odabire opciju "Stvori novi rječnik"$>$
-							\item $<$Vlasnik unosi riječi i podatke o novom rječniku$>$
-							\item $<$Baza podataka ažurira novi rječnik$>$
+							\item Administrator odabire opciju "Stvori novi rječnik"
+							\item Administrator unosi riječi i podatke o novom rječniku
+							\item Baza podataka ažurira novi rječnik
 						\end{packed_enum}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$13$>$ -$<$Dodaj riječ$>$}}
+					\noindent \underbar{\textbf{UC13 - Dodaj riječ}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Administrator$>$
-						\item  \textbf{Cilj:} $<$Dodati riječi u postojeći rječnik$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
-						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Dodati riječ u postojeći rječnik
+						\item  \textbf{Sudionici:} Baza podataka, Vanjski rječnik
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Administrator odabire opciju "Dodaj novu riječ"$>$
-							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
-							\item $<$Administrator odabire jezik i rječnik u koji želi dodati novu riječ$>$
-							\item $<$Otvara se prozor za upis riječi$>$
-							\item $<$Administrator upisuje novu riječ, njen opis, izgovor riječi i ostale podatke bitne za riječ i rječnik$>$
-							\item $<$Baza podataka ažurira novu riječ za određeni jezik i rječnik$>$
+							\item Administrator odabire opciju "Dodaj novu riječ"
+							\item Otvara se prozor za odabir jezika i rječnika
+							\item Administrator odabire jezik i rječnik u koji želi dodati novu riječ
+							\item Otvara se prozor za upis riječi
+							\item Administrator upisuje riječ
+							\item Pokreće se procedura pretrage na vanjskom rječniku
+							\item Administrator odabire opis i ostale podatke bitne za riječ koje je dobio od vanjskog rječnika
+							\item Administrator uređuje odabrane podatke
+							\item Administrator potvrđuje unos
+							\item Baza podataka ažurira novu riječ za određeni jezik i rječnik
+					
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[5.a] $<$Upisana riječ već postoji$>$
+							\item[5.a] Upisana riječ već postoji u rječniku
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava korijenskog administratora o tome da upisana riječ već postoji u rječniku$>$
-								\item $<$Administrator odlučuje želi li zamijeniti već postojeću riječ s novoupisanom ili ostaviti istu$>$
+								\item Sustav obavještava administratora o tome da upisana riječ već postoji u rječniku
+								\item Administrator može odabrati opciju uređivanja postojeće riječi ili upisati drugu riječ
 								
 							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$14$>$ -$<$Ukloni riječ$>$}}
+					\noindent \underbar{\textbf{UC14 - Ukloni riječ}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Administrator$>$
-						\item  \textbf{Cilj:} $<$Ukloniti riječ iz rječnika$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka$>$
-						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Ukloniti riječ iz rječnika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Administrator odabire opciju "Ukloni riječ"$>$
-							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
-							\item $<$Administrator odabire jezik i rječnik iz kojeg želi ukloniti riječ$>$
-							\item $<$Otvara se prozor za upis riječi$>$
-							\item $<$Administrator upisuje riječ$>$
-							\item $<$Baza podataka ažurira određeni rječnik bez upisane riječi$>$
+							\item Administrator odabire opciju "Ukloni riječ"
+							\item Otvara se prozor za odabir jezika i rječnika
+							\item Administrator odabire jezik i rječnik iz kojeg želi ukloniti riječ
+							\item Otvara se prozor za upis riječi
+							\item Administrator upisuje riječ
+							\item Odabrana riječ se briše iz rječnika
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[5.a] $<$Upisana riječ ne postoji$>$
+							\item[5.a] Upisana riječ ne postoji
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava administratora o neuspjelom uklanjanju upisane riječi$>$
-								
+								\item Sustav obavještava administratora da upisana riječ ne postoji u rječniku
 							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$15$>$ -$<$Izmijeni riječ$>$}}
+					\noindent \underbar{\textbf{UC15 - Izmijeni riječ}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Administrator$>$
-						\item  \textbf{Cilj:} $<$Izmijeniti riječ iz rječnika$>$
-						\item  \textbf{Sudionici:} $<$Baza podataka, Vanjski rječnik$>$
-						\item  \textbf{Preduvjet:} $<$Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora$>$
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Izmijeniti riječ iz rječnika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$Administrator odabire opciju "Izmijeni riječ"$>$
-							\item $<$Otvara se prozor za odabir jezika i rječnika$>$
-							\item $<$Administrator odabire jezik i rječnik u kojem želi izmijeniti riječ$>$
-							\item $<$Otvara se prozor za upis riječi$>$
-							\item $<$Administrator upisuje riječ$>$
-							\item $<$Otvara se prozor u kojem za izmjenu opisa i podataka riječi$>$
-							\item $<$Administrator mijenja opis riječi i podatke o riječi$>$
-							\item $<$Administrator sprema promjene$>$
-							\item $<$Baza podataka ažurira odeđenu riječ za određeni jezik i rječnik$>$
+							\item Administrator odabire opciju "Izmijeni riječ"
+							\item Otvara se prozor za odabir jezika i rječnika
+							\item Administrator odabire jezik i rječnik u kojem želi izmijeniti riječ
+							\item Otvara se prozor za upis riječi
+							\item Administrator upisuje riječ
+							\item Otvara se prozor za izmjenu opisa i podataka riječi
+							\item Administrator mijenja opis riječi i podatke o riječi
+							\item Administrator sprema promjene
+							\item Baza podataka ažurira određenu riječ za određeni jezik i rječnik
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[5.a] $<$Upisana riječ ne postoji$>$
+							\item[5.a] Upisana riječ ne postoji
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava administratora da upisana riječ ne postoji u rječniku$>$
+								\item Sustav obavještava administratora da upisana riječ ne postoji u rječniku
 								
 							\end{packed_enum}
-							\item[8.a] $<$Administrator nije spremio promjene$>$
+							\item[8.a] Administrator nije spremio promjene
 							\item[] \begin{packed_enum}
 								
-								\item $<$Sustav obavještava administratora da nije spremio promjene$>$
-								\item $<$Administrator odlučuje želi li spremtiti napravljenje promjene ili ostaviti riječ kakva je bila$>$
+								\item Sustav obavještava administratora da nije spremio promjene
+								\item Administrator odlučuje želi li spremiti ili odbaciti napravljene promjene
 								
 							\end{packed_enum}
 
@@ -536,7 +535,6 @@
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
-					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{dijagrami/ucdiag1.png} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrasca uporabe, funkcionalnost korisnika i učenika}
@@ -545,7 +543,7 @@
 
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{dijagrami/ucdiag2.png} %veličina u odnosu na širinu linije
-						\caption{Dijagram obrasca uporabe, funkcionalnost korjenskog administratora i administratora}
+						\caption{Dijagram obrasca uporabe, funkcionalnost korijenskog administratora i administratora}
 						\label{fig:ucdiag2} %label mora biti drugaciji za svaku sliku
 					\end{figure}
 
