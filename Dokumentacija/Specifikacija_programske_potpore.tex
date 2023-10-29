@@ -336,22 +336,84 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC10 - Učenje po odabranom načinu učenja}}
+					\noindent \underbar{\textbf{UC10 -Učenje upitom engleske riječi uz odabir hrvatskog prijevoda}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Učenik
-						\item  \textbf{Cilj:} Učiti jezik na način koji je učenik odabrao
+						\item  \textbf{Cilj:} Učiti prijevod engleske riječi na hrvatski jezik
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Učenik je pokrenuo proces učenja
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Učeniku se postavlja pitanje o odabranoj riječi ovisno o načinu učenja, podatcima o učenju i odabranom rječniku
-							\item Učeniku se nudi obrazac za odgovor na postavljeno pitanje
-							\item Učenik obrascem odgovara na postavljeno pitanje
-							\item Učenik potvrđuje svoj odgovor na obrascu
-							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom, jezikom i načinom učenja
+							\item Učeniku se zadaje engleska riječ iz odabranog rječnika i ponuđeni odgovori istoznačne hrvatske riječi
+							\item Učenik odabire smatrani točan odgovor
+							\item Učenik potvrđuje svoj odgovor
+							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom temeljeno na točnosti odgovora
+							\item Ponavlja se prvi korak sve dok učenik ne prekine učenje
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC11 - Učenje upitom hrvatske riječi uz odabir engleskog prijevoda}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Učiti prijevod hrvatske riječi na engleski jezik
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je pokrenuo proces učenja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Učeniku se zadaje hrvatska riječ iz odabranog rječnika i ponuđeni odgovori istoznačne engleske riječi
+							\item Učenik odabire smatrani točan odgovor
+							\item Učenik potvrđuje svoj odgovor
+							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom temeljeno na točnosti odgovora
+							\item Ponavlja se prvi korak sve dok učenik ne prekine učenje
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC12 - Učenje upitom izgovora engleske riječi uz pisanje riječi na engleskom}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Učiti točno pisanje engleskih riječi na temelju izgovora
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik je pokrenuo proces učenja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Učeniku se zadaje glasovni zapis engleske riječi
+							\item Učenik na obrazac upisuje izgovorenu riječ u tekstualnom obliku
+							\item Učenik potvrđuje svoj odgovor
+							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom temeljeno na točnosti odgovora
+							\item Ponavlja se prvi korak sve dok učenik ne prekine učenje
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC13 - Učenje upitom pisane engleske riječi uz snimanje izgovora}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Učenik
+						\item  \textbf{Cilj:} Učiti izgovor engleskih riječi na temelju tekstualnog oblika riječi
+						\item  \textbf{Sudionici:} Baza podataka, Vanjski ispitni API
+						\item  \textbf{Preduvjet:} Učenik je pokrenuo proces učenja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Učeniku se zadaje tekstualni zapis engleske riječi
+							\item Učenik odabire opciju za snimanje glasa
+							\item Učenik u mikrofon izgovara zadanu riječ
+							\item Učenik odabire opciju za prestanak snimanja glasa
+							\item Učenik potvrđuje svoj odgovor
+							\item Vanjski ispitni API ocjenjuje točnost izgovora riječi
+							\item Baza podataka ažurira podatke učenja učenika određenim rječnikom temeljeno na točnosti odgovora
 							\item Ponavlja se prvi korak sve dok učenik ne prekine učenje
 						\end{packed_enum}
 
@@ -359,17 +421,18 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[5.a] Nije moguće spajanje na bazu podataka
+							\item[2.a] Učenik nema detektirani mikrofon
 							\item[] \begin{packed_enum}
 								
-								\item Učenik dobiva informaciju o nedostupnosti baze podataka i prekida se učenje
+								\item Sustav onemogućuje opciju snimanja glasa
+								\item Sustav obavještava učenika nemogućnost snimanja glasa
 								
 							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC11 - Dodavanje administratora}}
+					\noindent \underbar{\textbf{UC14 - Dodavanje administratora}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Korijenski administrator
@@ -400,7 +463,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC12 - Stvori rječnik}}
+					\noindent \underbar{\textbf{UC15 - Stvori rječnik}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
@@ -418,7 +481,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC13 - Dodaj riječ}}
+					\noindent \underbar{\textbf{UC16 - Dodaj riječ}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
@@ -457,7 +520,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC14 - Ukloni riječ}}
+					\noindent \underbar{\textbf{UC17 - Ukloni riječ}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
@@ -489,7 +552,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC15 - Izmijeni riječ}}
+					\noindent \underbar{\textbf{UC18 - Izmijeni riječ}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
