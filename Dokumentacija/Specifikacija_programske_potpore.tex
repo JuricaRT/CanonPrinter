@@ -114,7 +114,7 @@
 					\noindent \underbar{\textbf{UC$<$1$>$ -$<$Registracija$>$}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item \textbf{Glavni sudionik: }$<$Korisnik$>$
 						\item  \textbf{Cilj:} $<$Stvoriti korisnički račun za pristup sustavu$>$
 						\item  \textbf{Sudionici:} $<$Baza podataka$>$
 						\item  \textbf{Preduvjet:} $<$-$>$
@@ -341,7 +341,40 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$10$>$ -$<$Dodavanje administratora$>$}}
+					\noindent \underbar{\textbf{UC$<$10$>$ -$<$Učenje po odabranom modu$>$}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }$<$Učenik$>$
+						\item  \textbf{Cilj:} $<$Učiti jezik na način koji je učenik odabrao$>$
+						\item  \textbf{Sudionici:} $<$Baza podataka$>$
+						\item  \textbf{Preduvjet:} $<$Učenik je pokrenuo proces učenja$>$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item $<$Učeniku se postavlja pitanje o odabranoj riječi ovisno o načinu učenja, podatcima o učenju i odabranom rječniku$>$
+							\item $<$Učeniku se nudi obrazac za odgovor na postavljeno pitanje$>$
+							\item $<$Učenik obrascem odgovara na postavljeno pitanje$>$
+							\item $<$Učenik potvrđuje svoj odgovor na obrascu$>$
+							\item $<$Baza podataka ažurira podatke učenja učenika određenim rječnikom, jezikom i načinom učenja$>$
+							\item $<$Ponavlja se prvi korak sve dok učenik ne prekine učenje$>$
+						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] $<$Nije moguće spajanje na bazu podataka$>$
+							\item[] \begin{packed_enum}
+								
+								\item $<$Učenik dobiva informaciju o nedostupnosti baze podataka i prekida se učenje$>$
+								
+							\end{packed_enum}
+						\end{packed_item}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$11$>$ -$<$Dodavanje administratora$>$}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }$<$Korijenski Administrator$>$
@@ -372,7 +405,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$11$>$ -$<$Stvori rječnik$>$}}
+					\noindent \underbar{\textbf{UC$<$12$>$ -$<$Stvori rječnik$>$}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }$<$Administrator$>$
@@ -390,7 +423,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$12$>$ -$<$Dodaj riječ$>$}}
+					\noindent \underbar{\textbf{UC$<$13$>$ -$<$Dodaj riječ$>$}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }$<$Administrator$>$
@@ -424,7 +457,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$13$>$ -$<$Ukloni riječ$>$}}
+					\noindent \underbar{\textbf{UC$<$14$>$ -$<$Ukloni riječ$>$}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }$<$Administrator$>$
@@ -457,7 +490,7 @@
 						
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC$<$14$>$ -$<$Izmijeni riječ$>$}}
+					\noindent \underbar{\textbf{UC$<$15$>$ -$<$Izmijeni riječ$>$}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }$<$Administrator$>$
@@ -504,6 +537,18 @@
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{dijagrami/ucdiag1.png} %veličina u odnosu na širinu linije
+						\caption{Dijagram obrasca uporabe, funkcionalnost korisnika i učenika}
+						\label{fig:ucdiag1} %label mora biti drugaciji za svaku sliku
+					\end{figure}
+
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{dijagrami/ucdiag2.png} %veličina u odnosu na širinu linije
+						\caption{Dijagram obrasca uporabe, funkcionalnost korjenskog administratora i administratora}
+						\label{fig:ucdiag2} %label mora biti drugaciji za svaku sliku
+					\end{figure}
+
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
