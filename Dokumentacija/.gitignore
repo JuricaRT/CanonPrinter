@@ -16,3 +16,4 @@
 *.synctex(busy)
 *.synctex.gz
 *.synctex.gz(busy)
+*.DS_Store
