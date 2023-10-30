@@ -616,7 +616,46 @@
 				\textbf{\textit{dio 1. revizije}}\\
 				
 				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-				\eject
+				
+				\subsubsection{Obrasci uporabe UC3 i UC4 - Osobni podatci}
+                    Učenik je prijavljen u sustav. Odabire opciju "Osobni podatci" te dobiva listu osobnih podataka koje može mijenjati.
+                    Može promijeniti svoje osobne podatke ako želi. Učenik mijenja svoje podatke te pokušava izaći iz "Osobnih podataka".
+                    Sustav ga obavještava da pokušava izići bez spremanja promjena te ga pita želi li nastaviti tako ili želi spremiti svoje promjene.
+                    Nakon odabira baza podataka ažurira osobne podatke.
+
+                    \begin{figure}[H]
+                        \includegraphics[width=\textwidth]{dijagrami/sdiag1.png}
+                        \caption{Sekvencijski dijagram osobnih podataka}
+                        \label{fig:sdiag1}
+                    \end{figure}
+
+                \eject
+
+				\subsubsection{Obrasci uporabe UC16, UC17 i UC18 - Dodaj, ukloni i izmjeni riječi}
+					Korisnik je prijavljen u sustav. Dobio je administratorska prava. Administrator ima tri moguće opcije.
+					Odabire dodavanje riječi. Zatim dobiva popis jezika i rječnike koje može odabrati i u njih dodati riječ.
+					Upisuje riječ koju želi dodati. Moguće je da već postoji upisana riječ u rječniku te sustav obavještava administratora
+					da modificira upisanu riječ ili da napiše novu riječ. Nakon toga pokreće se pretraga na vanjskom rječniku. 
+					Administrator odabire opis i podatke bitne za riječ koje je dobio od vanjskog rječnika. Uređuje podatke te potvrđuje 
+					njihov unos te nakon toga baza podataka ažurira riječ za odabrani jezik i rječnik. Druga opcija je uklanjanje riječi
+					te odabire tu opciju. Dobiva popis jezika i rječnika koje može odabrati. Odabire jezik i rječnik. Upisuje riječ koju
+					želi ukloniti. Sada postoji mogućnost da riječ koju je upisao ne postoji u rječniku te da upiše novu riječ. Nakon upisane
+					ispravne riječi ta riječ se uklanje iz tog rječnika i jezika te se ažurira baza podataka prema tome. Treća opcija koju može
+					odabrati je izmjena riječi. Dobiva popis jezika i rječnika koje može odabrati. Nakon odabira dobiva mogućnost upisa riječi
+					koju želi izmjeniti. Upisuje željenu riječ. Moguće je da upisana riječ ne postoji u rječniku te sustav obavještava administratora
+					da modificira riječ ili upiše novu. Nakon upisa ispravne riječi dobiva opis i podatke te riječi koje može promjeniti.
+					Mijenja njene podatke. Tada može spremiti podatke ili ih može zaboraviti spremiti te ga u tom trenutku obavještava sustav 
+					da nije spremio izmjene te želi li nastaviti ili spremiti izmjene. Nakon toga se ažurira baza podataka.
+
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{dijagrami/sdiag2.png}
+						\caption{Sekvencijski dijagram upravljanja rječnikom}
+						\label{fig:sdiag2}
+					\end{figure}
+
+				\eject	
+
+			\eject
 	
 		\section{Ostali zahtjevi}
 		
