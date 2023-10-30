@@ -1,18 +1,28 @@
 \chapter{Opis projektnog zadatka}
 		
-		\textbf{\textit{dio 1. revizije}}\\
-		
-		\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
-		\begin{packed_item}
-			\item \textit{potencijalna korist ovog projekta}
-			\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-			\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-			\item \textit{mogućnost prilagodbe rješenja }
-			\item \textit{opseg projektnog zadatka}
-			\item \textit{moguće nadogradnje projektnog zadatka}
-		\end{packed_item}
-		
-		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
+Cilj ovog projekta je razviti aplikaciju za učenje stranog jezika koja se bazira na ponavljanju s odmakom (još i poznato pod „spaced repetition“). Popularne aplikacije kao što su Quizlet, Anki te Memrise. Nove riječi se uče postavljanjem pitanja o riječima koje su prethodno definirane u bazi riječi. Učenik odgovara s prijevodima riječi odabirući ispravan odabir od nekoliko ponuđenih alternativnih riječi. Ako učenik točno odgovori na pitanje, riječ koja se nalazi u pitanju se pomiče u sljedeću skupinu/posudu riječi, no ako učenik netočno odgovori na pitanje, riječ će se vratiti na „početak“ odnosno u prvu skupinu/posudu riječi koje se smatraju ne naučenima. Svaka skupina, koje su međusobno povezane u niz, ima određeno vrijeme „trajanja“ prema čijem isteku riječ postaje ponovno dostupna za prikazivanje učeniku u formi pitanja. Vrijeme trajanja za prvu skupinu koja se nalazi u nizu je jedan dan, druga skupina u nizu ima vrijeme trajanja od 2 dana te se za svaku sljedeću skupinu broj dana udvostručuje. Aplikacija ima _____ broj posuda te ako se riječ nalazi u posljednjoj od povezanih posuda, tada se po isteku vremena riječ smatra naučenom te se smješta u posebnu posudu i više ne sudjeluje u učenju strane riječi. 
+
+Administrator dodaje strane riječi, iz odabranog stranog jezika, u aplikaciju. Uzmimo za primjer engleski jezik kako bi pokazali funkcionalnost aplikacije. Svaka riječ koja će se učiti se sastoji od engleske riječi, opisa riječi koji je sačinjen od nekoliko fraza ili rečenica, prijevoda engleske riječi na hrvatski te nekoliko rečenica/fraza koje je bolje opisuju te na posljetku glasovne datoteke izgovora na engleskom jeziku. Svaka riječ koja je dodana u bazu se može obrisati ili joj se mogu promijeniti komponente. Riječi su povezane u rječnike koji se sastoje od imena i riječi. Nove riječi se mogu dodati u jedan ili više otprije postojanih rječnika. Kod definiranja riječi, administrator riječi ima pomoć u obliku savjeta koji su prikupljeni od strane vanjskog izbora. Aplikacija komunicira s vanjskim rječnikom (https://rapidapi.com/collection/thesaurus-apis) kada administrator upiše dio riječi te pokrene proceduru pretrage preko koje se prihvaćaju riječi i njezini opisi. 
+
+Učenik/korisnik se može registrirati putem elektroničke pošte i promijeniti lozinku. Prilikom prvog login-a se na korisnikovu elektroničku poštu šalje privremena lozinka koja se mora promijeniti. 
+Atributi korisničkog/učeničkog računa: 
+1.	Elektronička pošta 
+2.	Lozinka 
+Učenik odabire jedan od ponuđenih rječnika te može pokrenuti učenje riječi. 
+Učenje riječi se može odvijati kroz nekoliko različitih mode-ova
+Mode-ovi:
+1.	Upit engleske riječi uz odabir hrvatskog prijevoda 
+2.	Upit hrvatske riječi uz odabir engleskog prijevoda
+3.	Upit izgovorom engleske riječi uz pisanje riječi na engleskom (provjera ispravnog pisanja)
+4.	Upit tekstualnim oblikom engleske riječi uz snimanje izgovora u zvučnu datoteku
+Netočni odgovori ponuđeni studentu se izabiru slučajnim odabirom iz skupine odgovora koji moraju biti istog tipa drugih rječnika kod mode-ova učenja gdje se prezentira više opcija odabira. Za kontrolu snimljenih datoteka u kojima su izgovorene riječi stranog jezika „postoji“ servis koji kontrolira točnost izgovorenih riječi i vraća povratnu ocjenu. Implementirano je i umjetno aplikacijsko sučelje koje će prihvatiti takvu glasovnu datoteku te će povratno vratiti ocjenu na ljestvici od 1 do 10. 
+
+Bez obzira koji jezik učili, funkcionalnosti su jednako implementirane za sve jezike. Svaki rječnik ima dodatnu oznaku kako bi se znalo na koji jezik se on odnosi te sadrži riječi samo jednog jezika. Rječnici su grupirani po jeziku te se takvi prikazuju učeniku/korisniku prilikom odabira rječnika. 
+
+Hijerarhijski postoji glavni administrator sa najvećim ovlastima koje su mu korijenski dodijeljene. On može druge korisničke/učeničke račune „unaprijediti“ u administratore koji će imati jednake ovlasti kao i on sam. Učenički računi ne ovise o administratorskim te se oni sami registriraju i brišu svoj korisnički račun po potrebi.
+
+Za kraj opisa projekta proći ćemo kroz aplikaciju po imenu Quizlet, ranije navedenu, te ćemo pogledati njihov način implementacije.
+
 		\eject
 		
 		\section{Primjeri u \LaTeX u}
