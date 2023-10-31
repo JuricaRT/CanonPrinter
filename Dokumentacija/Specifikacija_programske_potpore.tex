@@ -119,7 +119,12 @@
 	
 							\item Učenik odabire gumb za registraciju
 							\item Učenik unosi potrebne korisničke podatke
-							\item Učenik prima obavijest o uspješnoj registraciji
+							\item Učenik prima potvrdu o registraciji i dobiva inicijalnu lozinku za prijavu u aplikaciju
+							\item Učenik se prijavljuje u aplikaciju s inicijalnom lozinkom
+							\item Aplikacija zahtijeva od učenika da promijeni lozinku
+							\item Učenik upisuje novu lozinku i potvrdu nove lozinke
+							\item Učenik sprema promjene
+							\item Baza podataka ažurira korisničke podatke
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -132,6 +137,24 @@
 								\item Sustav obavještava učenika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju
 								\item Učenik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije
 								
+							\end{packed_enum}
+							\item[4.a] Unos krive inicijalne lozinke
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava učenika o unosu krive lozinke
+								
+							\end{packed_enum}
+							\item[6.a] Učenik upisuje krivu potvrdu lozinke
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava učenika da se prvo upisana lozinka i potvrda lozinke ne podudaraju
+								
+							\end{packed_enum}
+							\item[7.a] Učenik ne sprema promjene
+							\item[] \begin{packed_enum}
+								
+								\item Sustav vraća učenika na ponovni upis nove lozinke
+
 							\end{packed_enum}
 							
 						\end{packed_item}
