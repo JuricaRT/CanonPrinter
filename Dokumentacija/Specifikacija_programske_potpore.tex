@@ -49,18 +49,7 @@
 			
 			\begin{packed_enum}
 				
-				\item stvarati nove rječnike
-				\item dodavati i brisati riječi iz rječnika
-				\item uređivati komponente postojećih riječi u rječniku\newline
-				
-			\end{packed_enum}
-			
-			
-			\item  \underbar{Korijenski administrator (inicijator) može:}
-			
-			\begin{packed_enum}
-				
-				\item definirati administratore
+				\item definirati nove administratore
 				\item stvarati nove rječnike
 				\item dodavati i brisati riječi iz rječnika
 				\item uređivati komponente postojećih riječi u rječniku
@@ -109,7 +98,7 @@
 					\noindent \underbar{\textbf{UC1 - Registracija}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }Učenik
+						\item \textbf{Glavni sudionik: }Korisnik (neregistrirani učenik)
 						\item  \textbf{Cilj:} Stvoriti korisnički račun za pristup sustavu
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} -
@@ -117,13 +106,13 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Učenik odabire gumb za registraciju
-							\item Učenik unosi potrebne korisničke podatke
-							\item Učenik prima potvrdu o registraciji i dobiva inicijalnu lozinku za prijavu u aplikaciju
-							\item Učenik se prijavljuje u aplikaciju s inicijalnom lozinkom
-							\item Aplikacija zahtijeva od učenika da promijeni lozinku
-							\item Učenik upisuje novu lozinku i potvrdu nove lozinke
-							\item Učenik sprema promjene
+							\item Korisnik odabire gumb za registraciju
+							\item Korisnik unosi potrebne korisničke podatke
+							\item Korisnik prima potvrdu o registraciji i dobiva inicijalnu lozinku za prijavu u aplikaciju
+							\item Korisnik se prijavljuje u aplikaciju s inicijalnom lozinkom
+							\item Aplikacija zahtijeva od korisnika da promijeni lozinku
+							\item Korisnik upisuje novu lozinku i potvrdu nove lozinke
+							\item Korisnik sprema promjene
 							\item Baza podataka ažurira korisničke podatke
 						\end{packed_enum}
 						
@@ -134,26 +123,26 @@
 							\item[2.a] Unos već zauzetog e-maila, unos već zauzetog korisničkog imena, unos neispravnog e-maila
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava učenika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju
-								\item Učenik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije
+								\item Sustav obavještava korisnika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju
+								\item Korisnik mijenja potrebne unesene podatke i završava unos ili odustaje od registracije
 								
 							\end{packed_enum}
 							\item[4.a] Unos krive inicijalne lozinke
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava učenika o unosu krive lozinke
+								\item Sustav obavještava korisnika o unosu krive lozinke
 								
 							\end{packed_enum}
-							\item[6.a] Učenik upisuje krivu potvrdu lozinke
+							\item[6.a] Korisnik upisuje krivu potvrdu lozinke
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava učenika da se prvo upisana lozinka i potvrda lozinke ne podudaraju
 								
 							\end{packed_enum}
-							\item[7.a] Učenik ne sprema promjene
+							\item[7.a] Korisnik ne sprema promjene
 							\item[] \begin{packed_enum}
 								
-								\item Sustav vraća učenika na ponovni upis nove lozinke
+								\item Sustav vraća korisnik na ponovni upis nove lozinke
 
 							\end{packed_enum}
 							
@@ -457,17 +446,17 @@
 					\noindent \underbar{\textbf{UC14 - Dodavanje administratora}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }Korijenski administrator
+						\item \textbf{Glavni sudionik: }Administrator
 						\item  \textbf{Cilj:} Definirati nove administratore
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava korijenskog administratora
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i dodijeljena su mu prava administratora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korijenski administator odabire opciju postavljanja administratora
+							\item Administator odabire opciju postavljanja administratora
 							\item Otvara se prozor za upis korisničkog imena korisnika
-							\item Korijenski administrator upisuje korisničko ime i potvrđuje upis
+							\item Administrator upisuje korisničko ime i potvrđuje upis
 							\item Baza podataka ažurira promjene za određeno korisničko ime
 						\end{packed_enum}
 
@@ -478,7 +467,7 @@
 							\item[3.a] Upisano je neispravno korisničko ime
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korijenskog administratora o neuspjelom upisu
+								\item Sustav obavještava administratora o neuspjelom upisu
 								
 							\end{packed_enum}
 						\end{packed_item}
@@ -628,7 +617,7 @@
 
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{dijagrami/ucdiag2.png} %veličina u odnosu na širinu linije
-						\caption{Dijagram obrasca uporabe, funkcionalnost korijenskog administratora i administratora}
+						\caption{Dijagram obrasca uporabe, funkcionalnost administratora}
 						\label{fig:ucdiag2} %label mora biti drugaciji za svaku sliku
 					\end{figure}
 

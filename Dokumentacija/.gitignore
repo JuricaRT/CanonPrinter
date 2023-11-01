@@ -17,3 +17,4 @@
 *.synctex.gz
 *.synctex.gz(busy)
 .DS_Store
+*.bak
