@@ -14,36 +14,35 @@
 		\label{fig:arhitektura}
 	\end{figure}
 
-	\indent{\textit{\underline{Web preglednik(Internetski preglednik)}} je program koji korisniku omogućuje pregled
+	\indent{\textit{\underline{Web preglednik}} je program koji korisniku omogućuje pregled
 	web-stranica i multimedijalnih sadržaja vezanih uz njih. Svaki web preglednik je predvoditelj korištenja web aplikacija,
 	jer omogućuje korisniku da preko web preglednika šalje zahtjeve web poslužitelju.}
 
-	\indent{\textit{\underline{Web poslužitelj}} je osnova rada web aplikacija. On pokreće cijeli sustav rada aplikacije
-	te joj proslijeđuje zahtjeve od korisnika. Osnovna zadaća web poslužitelja je komunikacija korisnika i aplikacije, a ta
+	\indent{\textit{\underline{Web poslužitelj}} je osnova rada web aplikacije. On pokreće cijeli sustav rada aplikacije
+	te joj prosljeđuje zahtjeve od korisnika. Osnovna zadaća web poslužitelja je omogućiti komunikaciju između korisnika i aplikacije, a ta
 	komunikacija se odvija preko HTTP protokola. To je vrsta protokola koja se koristi za prijenos informacija na internetu.}
 
 	\indent{\textit{\underline{Web aplikacija}} je dio web poslužitelja koja služi korisniku za obradu željenih zahtjeva.
-	Web aplikacija radi tako da prima zahtjeve i ovisno o zahtjevu pristupa {\textit{\underline{bazi podataka}}} iz koje vuče
+	Web aplikacija radi tako da prima zahtjeve i ovisno o zahtjevu pristupa {\textit{\underline{bazi podataka}}} iz koje dohvaća
 	"odgovore" na željene zahtjeve. Te "odgovore" šalje natrag korisniku preko web poslužitelja u obliku HTML dokumenta kojeg
 	korisnik vidi u web pregledniku.}
 
-	\indent{Programski jezik kojeg smo odabrali za izradu naše web aplikacije je Python. U sklopu Pythona koristimo Django
-	što nije programski jezik, nego Python radni okvir koji služi za izradu web aplikacija. Razvojno okruženje koje koristimo
-	je Microsfot Visual Studio Code. Arhitektura sustava temelji se na MVC odnosno MTV konceptu.}
+	\indent{Programski jezik kojeg smo odabrali za izradu naše web aplikacije je Python. U sklopu Pythona koristimo Django, radni okvir koji služi za izradu web aplikacija. Razvojno okruženje koje koristimo
+	je Microsoft Visual Studio Code. Arhitektura sustava temelji se na MVC odnosno MTV konceptu.}
 
-	\indent{Django je modeliran oko MVC okvira, no svoju arhitekturu definira kao MTV (eng. {\textit{Model-Template-View}})
-	arhitektura. Komponentu upravitelj (eng. {\textit{Controller}}) zamjenjuje komponentom pogled (eng. {\textit{View}}) te
+	\indent{Django je modeliran oko MVC arhitekture, no svoju arhitekturu definira kao MTV (eng. {\textit{Model-Template-View}})
+	arhitekturu. Komponentu upravitelj (eng. {\textit{Controller}}) zamjenjuje komponentom pogled (eng. {\textit{View}}) te
 	komponentu pogled s komponentom predložak (eng. {\textit{Template}}). MTV razdvaja različite dijelove web-stranice: prikaz,
 	pristup podatcima i logiku web stranice. Također omogućava neovisnu izgradnju web-stranica, povećava sigurnost sustava te
 	pojednostavljuje održavanje sustava.}
 
-	\noindent{MTV sastoji se od:}
+	\noindent{MTV se sastoji od:}
 	\begin{itemize}
-		\item 	\textbf{Model} - definira oblike i odnose podataka u bazama podataka. Model u Django okruženju je klasa napisana
+		\item 	\textbf{Model} - definira oblike i odnose podataka u bazi podataka. Model u Django okruženju je klasa napisana
 				u programskom jeziku Python. Određuje varijable i metode pridužene određenim tipovima podataka te ima značenje
 				tablice u bazi podataka. Model je usko povezan s bazom podataka i pogledom. Od baze podataka model dohvaća tražene
-				podatke i prodljeđuje ih pogledu.
-		\item 	\textbf{Predložak} - sloj arhitekture MTV - a usko povezan s web-preglednikom. Predložak je HTML stranica s dodanim
+				podatke i prosljeđuje ih pogledu.
+		\item 	\textbf{Predložak} - sloj arhitekture MTV-a usko povezan s web-preglednikom. Predložak je HTML stranica s dodanim
 				strukturama koje omogućavaju prikaz podataka koji su proslijeđeni od pogleda. Zadaća predloška je sadržaj primljen
 				od pogleda organizirati i ugraditi u HTML kod koji će se prikazati u web-pregledniku.
 		\item 	\textbf{Pogled} - određuje koji će podatci biti prikazani, odnosno, koji će podatci biti dohvaćeni iz baze podataka
