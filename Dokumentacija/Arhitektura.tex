@@ -58,7 +58,7 @@
 				
 		\section{Baza podataka}
 			
-		{Potrebe sustava za bazu podataka su relativno jednostavne, a relacije između entiteta nisu osobito kompleksne. Zbog tih razloga, sustav za bazu podataka koristi MongoDB – \textit{NoSQL}, dokumentno-orijentirana baza podataka.} \\ {Entiteti za pohranjivanje podataka su:}
+		{Potrebe sustava za bazu podataka su relativno jednostavne, a relacije između entiteta nisu osobito kompleksne. Zbog tih razloga, sustav za bazu podataka koristi MongoDB – \textit{NoSQL}, dokumentno-orijentiranu bazu podataka.} \\ {Entiteti za pohranjivanje podataka su:}
 		\begin{itemize}
 			\item 	\textbf{Word}{,}
 			\item 	\textbf{PronunciationAudio}{,}
@@ -67,7 +67,7 @@
 			\item 	\textbf{WordProgress}{,}
 			\item 	\textbf{DictionaryProgress}{.}
 		\end{itemize}
-		{Zvučni zapis izgovora riječi odvojen je od same riječi na koju se odnosi jer je zvučna datoteka relativno puno veća od ostatka podataka za riječ čime su ubrzaje vrijeme dohvata riječi kada se ne koristi način učenja slovkanjem riječi uz dani izgovor.}
+		{Zvučni zapis izgovora riječi odvojen je od same riječi na koju se odnosi jer je zvučna datoteka relativno veća od ostatka podataka za riječ čime se ubrzava vrijeme dohvata riječi kada se ne koristi način učenja slovkanjem riječi uz dani izgovor.}
 		
 			\subsection{Opis tablica}
 			
@@ -139,11 +139,11 @@
 					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ profila  	\\ \hline
 					email	& string &   Adresa e-pošte profila.	\\ \hline 
 					encryptedPass	& binData &   SHA-256 kôd lozinke profila.	\\ \hline
-					type	& int &   Tip profila. Dopuštene vrijednosti: 0 (korijenski administrator), 1 (administrator), 3 (učenik)	\\ \hline
+					type	& int &   Tip profila. Dopuštene vrijednosti: 1 (administrator), 2 (učenik)	\\ \hline
 					hasInitialPass	& boolean &   Naznaka je li korisnik promijenio inicijalnu lozinku dodijeljenju prilikom registracije. False ... inicijalna lozinka nije promijenjena.     True ... inicijalna lozinka je promijenjena.	\\ \hline  
 				\end{longtblr}
 				
-				\textbf{WordProgress} \\ {Opis napretka učenja određene riječi. Dokuemnti entiteta \textbf{WordProgress} pojavljuje se kao ugradbeni dokumenti u dokumentima entiteta \textbf{WordProgress}.}
+				\textbf{WordProgress} \\ {Opis napretka učenja određene riječi. Dokumenti entiteta \textbf{WordProgress} pojavljuje se kao ugradbeni dokumenti u dokumentima entiteta \textbf{WordProgress}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -170,10 +170,10 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{DictionaryProgress}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} account\_id	& objectId &   Referenca na profil koji uči referncirani rječnik.	\\ \hline 
+					\SetCell{LightBlue} account\_id	& objectId &   Referenca na profil koji uči referencirani rječnik.	\\ \hline 
 					\SetCell{LightBlue} dict\_id	& objectId &   Referenca na rječnik kojeg referencirani profil aktivno uči.	\\ \hline
 					learningMode	& int &   Trenutni način učenja referenciranog rječnika za referenciranog korisnika. Dopuštene vrijednosti: 1 (prijevod na ciljani jezik), 2 (prijevod na hrvatski), 3 (slovkanje), 4 (izgovor)	\\ \hline
-					\SetCell{LightBlue} wordsProgress	& array &   Polje napretka svih riječi referenciranog rječnika. Tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
+					\SetCell{LightBlue} wordsProgress	& array &   Polje napretka svih riječi referenciranog rječnika, tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
 				\end{longtblr}
 			
 			\subsection{Dijagram baze podataka}
