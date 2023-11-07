@@ -58,36 +58,126 @@
 				
 		\section{Baza podataka}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-		\textit{Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.}
+		{Potrebe sustava za bazu podataka su relativno jednostavne, a relacije između entiteta nisu osobito kompleksne. Zbog tih razloga, sustav za bazu podataka koristi MongoDB – \textit{NoSQL}, dokumentno-orijentirana baza podataka.} \\ {Entiteti za pohranjivanje podataka su:}
+		\begin{itemize}
+			\item 	\textbf{Word}{,}
+			\item 	\textbf{PronunciationAudio}{,}
+			\item 	\textbf{Dictionary}{,}
+			\item 	\textbf{Account}{.}
+			\item 	\textbf{WordProgress}{,}
+			\item 	\textbf{DictionaryProgress}{.}
+		\end{itemize}
+		{Zvučni zapis izgovora riječi odvojen je od same riječi na koju se odnosi jer je zvučna datoteka relativno puno veća od ostatka podataka za riječ čime su ubrzaje vrijeme dohvata riječi kada se ne koristi način učenja slovkanjem riječi uz dani izgovor.}
 		
 			\subsection{Opis tablica}
 			
 
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
+				\textit{Važno je istaknuti da je svakom MongoDB dokumentu automatski pridodjeljen jedinstveni ObjectId u "\_id" atributu (primarni ključ) te je on u tablicama prikazan samo ondje gdje se eksplicitno koristi.} \\
 				
+				\textbf{Word} \\ {Opisuje riječ. Više rječnika može sadržavati iste riječi pa je veza \textit{N..N}. Sadrži strani ključ na zvučni zapis izgovora riječi na ciljanom jeziku. Veza sa zvučnim zapisom je \textit{N..1}. Svi dokumenti entiteta \textbf{Word} sadržani su u kolekciji "Words".}
 				
 				\begin{longtblr}[
 					label=none,
 					entry=none
 					]{
 						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{korisnik - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \SetCell[c=3]{c}{\textbf{Word}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ riječi  	\\ \hline
+					word & string	&  	Zapis riječi na ciljanom jeziku  	\\ \hline
+					translation	& string &   Prevedeni zapis riječi na hrvatskom.	\\ \hline 
+					descriptionLang & string	&  	Opis riječi na ciljanom jeziku.	\\ \hline
+					descriptionCro & string	&  	Opis riječi na hrvatskome jeziku.	\\ \hline  
+					\SetCell{LightBlue} audio\_id	& objectId &   Primarni ključ zvučnog zapisa izgovora riječi na ciljanom jeziku.	\\ \hline 
 				\end{longtblr}
 				
+				\textbf{PronunciationAudio} \\ {Sadrži zvučni zapis izgovora na ciljanom jeziku nekih riječi. Sadrži strani ključ na riječi čiji je izgovor za ciljanom jeziku zapisan u zvučnom zapisu. Veza s riječima je \textit{1..N} u slučaju postojanja homofona. Svi dokumenti entiteta \textbf{PronunciationAudio} sadržani su u kolekciji "PronunciationAudios".}
 				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{PronunciationAudio}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ zvučnog zapisa  	\\ \hline
+					audio	& binData &   Binarni zapis .mp3 datoteke zvučnog zapisa izgovora na ciljanom jeziku.	\\ \hline 
+				\end{longtblr}
+				
+				\textbf{Dictionary} \\ {Opis rječnika. Riječi riječnika zapisane su kao polje referenci na dokumente entitete \textbf{word} u atributu "words". Veza s riječima je \textit{N..N} jer više rječnika mogu sadržavati istu riječ. Svi dokumenti entiteta \textbf{Dictionary} sadržani su u kolekciji "Dictionaries".}
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Dictionary}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ rječnika  	\\ \hline
+					name	& string &   Ime rječnika.	\\ \hline 
+					language	& string &   Ciljani jezik rječnika.	\\ \hline
+					\SetCell{LightBlue} words	& array &   Polje referenci na dokumenate riječi koje čine rječnik.	\\ \hline  
+				\end{longtblr}
+				
+				\textbf{Account} \\ {Opis profila. Različite klase profila razlikujemo kroz atribut "type".  Svi dokumenti entiteta \textbf{Account} sadržani su u kolekciji "Accounts".}
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Account}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ profila  	\\ \hline
+					email	& string &   Adresa e-pošte profila.	\\ \hline 
+					encryptedPass	& binData &   SHA-256 kôd lozinke profila.	\\ \hline
+					type	& int &   Tip profila. Dopuštene vrijednosti: 0 (korijenski administrator), 1 (administrator), 3 (učenik)	\\ \hline
+					hasInitialPass	& boolean &   Naznaka je li korisnik promijenio inicijalnu lozinku dodijeljenju prilikom registracije. False ... inicijalna lozinka nije promijenjena.     True ... inicijalna lozinka je promijenjena.	\\ \hline  
+				\end{longtblr}
+				
+				\textbf{WordProgress} \\ {Opis napretka učenja određene riječi. Dokuemnti entiteta \textbf{WordProgress} pojavljuje se kao ugradbeni dokumenti u dokumentima entiteta \textbf{WordProgress}.}
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{WordProgress}}	 \\ \hline[3pt]
+					\SetCell{LightBlue} word\_id	& objectId &   Referenca na riječ čiji se napredak zabilježava.	\\ \hline 
+					timeExpiry	& timestamp &   UNIX vrijeme nakon kojeg je riječ potrebno ponovno ispitati. Vrijeme posljednjeg ispitivanja + vrijeme isteka trenutne posude.	\\ \hline
+					currBox	& int &   Trenutna posuda u kojoj se riječ nalazi. Dopuštene vrijednosti: 1, ..., n, n + 1. Ako se riječ nalazi u n + 1. posudi, smatra se naučenom.	\\ \hline
+				\end{longtblr}
+				
+				\textbf{DictionaryProgress} \\ {Opis napretka učenja određenog rječnika od strane određenog učenika.  Svi dokumenti entiteta \textbf{DictionaryProgress} sadržani su u kolekciji "DictionaryProgresses".}
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[8,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{DictionaryProgress}}	 \\ \hline[3pt]
+					\SetCell{LightBlue} profile\_id	& objectId &   Referenca na profil koji uči referncirani rječnik.	\\ \hline 
+					\SetCell{LightBlue} dict\_id	& objectId &   Referenca na rječnik kojeg referencirani profil aktivno uči.	\\ \hline
+					learningMode	& int &   Trenutni način učenja referenciranog rječnika za referenciranog korisnika. Dopuštene vrijednosti: 1 (prijevod na ciljani jezik), 2 (prijevod na hrvatski), 3 (slovkanje), 4 (izgovor)	\\ \hline
+					\SetCell{LightBlue} progress	& array &   Polje napretka svih riječi referenciranog rječnika. Tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
+				\end{longtblr}
 			
 			\subsection{Dijagram baze podataka}
-				\textit{ U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati. Podsjetite se kolegija "Baze podataka".}
+				
 			
 			\eject
 			
