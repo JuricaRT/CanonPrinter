@@ -72,7 +72,7 @@
 			\subsection{Opis tablica}
 			
 
-				\textit{Važno je istaknuti da je svakom MongoDB dokumentu automatski pridodjeljen jedinstveni ObjectId u "\_id" atributu (primarni ključ) te je on u tablicama prikazan samo ondje gdje se eksplicitno koristi.} \\
+				\textit{Važno je istaknuti da je svakom MongoDB dokumentu automatski pridodjeljen , uz ostale atribute, jedinstveni ObjectId u "\_id" atributu (primarni ključ) te je on u tablicama prikazan samo ondje gdje se eksplicitno koristi.} \\
 				
 				\textbf{Word} \\ {Opisuje riječ. Više rječnika može sadržavati iste riječi pa je veza \textit{N..N}. Sadrži strani ključ na zvučni zapis izgovora riječi na ciljanom jeziku. Veza sa zvučnim zapisom je \textit{N..1}. Svi dokumenti entiteta \textbf{Word} sadržani su u kolekciji "Words".}
 				
@@ -159,7 +159,7 @@
 					currBox	& int &   Trenutna posuda u kojoj se riječ nalazi. Dopuštene vrijednosti: 1, ..., n, n + 1. Ako se riječ nalazi u n + 1. posudi, smatra se naučenom.	\\ \hline
 				\end{longtblr}
 				
-				\textbf{DictionaryProgress} \\ {Opis napretka učenja određenog rječnika od strane određenog učenika.  Svi dokumenti entiteta \textbf{DictionaryProgress} sadržani su u kolekciji "DictionaryProgresses".}
+				\textbf{DictionaryProgress} \\ {Opis napretka učenja određenog rječnika od strane određenog učenika.  Svi dokumenti entiteta \textbf{DictionaryProgress} sadržani su u kolekciji "DictionariesProgress".}
 				
 				\begin{longtblr}[
 					label=none,
@@ -170,14 +170,21 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{DictionaryProgress}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} profile\_id	& objectId &   Referenca na profil koji uči referncirani rječnik.	\\ \hline 
+					\SetCell{LightBlue} account\_id	& objectId &   Referenca na profil koji uči referncirani rječnik.	\\ \hline 
 					\SetCell{LightBlue} dict\_id	& objectId &   Referenca na rječnik kojeg referencirani profil aktivno uči.	\\ \hline
 					learningMode	& int &   Trenutni način učenja referenciranog rječnika za referenciranog korisnika. Dopuštene vrijednosti: 1 (prijevod na ciljani jezik), 2 (prijevod na hrvatski), 3 (slovkanje), 4 (izgovor)	\\ \hline
-					\SetCell{LightBlue} progress	& array &   Polje napretka svih riječi referenciranog rječnika. Tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
+					\SetCell{LightBlue} wordsProgress	& array &   Polje napretka svih riječi referenciranog rječnika. Tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
 				\end{longtblr}
 			
 			\subsection{Dijagram baze podataka}
+			
+			\textit{Važno je istaknuti da je svakom MongoDB dokumentu automatski pridodjeljen , uz ostale atribute, jedinstveni ObjectId u "\_id" atributu (primarni ključ) te je on u tablicama prikazan samo ondje gdje se eksplicitno koristi.} \\
 				
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{dijagrami/CanonPrinterDB_ER.png} %veličina u odnosu na širinu linije
+				\caption{ER dijagram baze podataka}
+				\label{fig:SD_ProcesUcenja} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 			
 			\eject
 			
