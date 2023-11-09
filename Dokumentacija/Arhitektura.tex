@@ -93,7 +93,7 @@
 					\SetCell{LightBlue} audio\_id	& objectId &   Primarni ključ zvučnog zapisa izgovora riječi na ciljanom jeziku.	\\ \hline 
 				\end{longtblr}
 				
-				\textbf{PronunciationAudio} \\ {Sadrži zvučni zapis izgovora na ciljanom jeziku nekih riječi. Sadrži strani ključ na riječi čiji je izgovor za ciljanom jeziku zapisan u zvučnom zapisu. Veza s riječima je \textit{1..N} u slučaju postojanja homofona. Svi dokumenti entiteta \textbf{PronunciationAudio} sadržani su u kolekciji "PronunciationAudios".}
+				\textbf{PronunciationAudio} \\ {Sadrži zvučni zapis izgovora na ciljanom jeziku nekih riječi. Veza s riječima je \textit{1..N} u slučaju postojanja homofona. Svi dokumenti entiteta \textbf{PronunciationAudio} sadržani su u kolekciji "PronunciationAudios".}
 				
 				\begin{longtblr}[
 					label=none,
@@ -125,7 +125,7 @@
 					\SetCell{LightBlue} words	& array &   Polje referenci na dokumenate riječi koje čine rječnik.	\\ \hline  
 				\end{longtblr}
 				
-				\textbf{Account} \\ {Opis profila. Različite klase profila razlikujemo kroz atribut "type".  Svi dokumenti entiteta \textbf{Account} sadržani su u kolekciji "Accounts".}
+				\textbf{Account} \\ {Opis profila. Administratorske profile od učeničkih profila razlikujemo atributom "isAdmin". Svi dokumenti entiteta \textbf{Account} sadržani su u kolekciji "Accounts".}
 				
 				\begin{longtblr}[
 					label=none,
