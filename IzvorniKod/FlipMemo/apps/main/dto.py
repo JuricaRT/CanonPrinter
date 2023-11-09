@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from models import PermissionLevel
+from . import models
 
 @dataclass
 class UserDTO:
@@ -13,14 +13,14 @@ class UserDTO:
 
 #Utility Functions
 def permission_level_to_int(permission_level):
-    if permission_level == PermissionLevel.ADMIN_LEVEL:
+    if permission_level == models.PermissionLevel.ADMIN_LEVEL:
         return 1
     else:
         return 0
     
 def int_to_permission_level(integer):
     if integer == 0:
-        return PermissionLevel.USER_LEVEL
+        return models.PermissionLevel.USER_LEVEL
     else:
-        return PermissionLevel.ADMIN_LEVEL
+        return models.PermissionLevel.ADMIN_LEVEL
 

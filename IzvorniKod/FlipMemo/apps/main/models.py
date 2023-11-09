@@ -1,6 +1,6 @@
 from django.db import models
 from enum import Enum
-import dto
+from . import dto
 
 class PermissionLevel(models.TextChoices):
     ADMIN_LEVEL = 'ADMIN'
