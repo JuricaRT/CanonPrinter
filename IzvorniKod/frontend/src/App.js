@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import axios from "axios";
+import React from "react";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <LogSignButtons />
+      <Message></Message>
+      <Reviews></Reviews>
     </div>
   );
 }
 
-export default App;
+function LogSignButtons() {
+  return (
+    <div className="buttons">
+      <Button style={{}}>Log in</Button>
+      <Button>Sign up</Button>
+    </div>
+  );
+}
+
+function Reviews() {
+  return (
+    <div className="reviews">
+      <Review>Jedna od najboljih aplikacija za učenje stranih jezika</Review>
+      <Review>
+        Nakon 6 mjeseci učenja sam prošao ispit i dobio posao u Njemačkoj{" "}
+      </Review>
+    </div>
+  );
+}
+
+function Button({ children }) {
+  if (children === "Log in") {
+    return <button className="button1">{children}</button>;
+  }
+  return <button className="button2">{children}</button>;
+}
+
+function Message() {
+  return (
+    <div className="openingMessage">
+      <div className="pictureAndMessage">
+        Dobrodošli na najbolje mjesto za učenje stranih jezika!
+      </div>
+    </div>
+  );
+}
+
+function Review({ children }) {
+  return (
+    <div className="review">
+      <div className="reviewChildren">{children}</div>
+      <div className="reviewPerson">Anonymus ⭐⭐⭐⭐⭐</div>
+    </div>
+  );
+}
