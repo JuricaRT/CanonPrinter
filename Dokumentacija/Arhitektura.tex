@@ -85,8 +85,8 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Word}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ riječi  	\\ \hline
-					word & string	&  	Zapis riječi na ciljanom jeziku  	\\ \hline
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ riječi.  	\\ \hline
+					word & string	&  	Zapis riječi na ciljanom jeziku.  	\\ \hline
 					translation	& string &   Prevedeni zapis riječi na hrvatskom.	\\ \hline 
 					descriptionLang & string	&  	Opis riječi na ciljanom jeziku.	\\ \hline
 					descriptionCro & string	&  	Opis riječi na hrvatskome jeziku.	\\ \hline  
@@ -104,7 +104,7 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{PronunciationAudio}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ zvučnog zapisa  	\\ \hline
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ zvučnog zapisa.  	\\ \hline
 					audio	& binData &   Binarni zapis .mp3 datoteke zvučnog zapisa izgovora na ciljanom jeziku.	\\ \hline 
 				\end{longtblr}
 				
@@ -119,7 +119,7 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Dictionary}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ rječnika  	\\ \hline
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ rječnika.  	\\ \hline
 					name	& string &   Ime rječnika.	\\ \hline 
 					language	& string &   Ciljani jezik rječnika.	\\ \hline
 					\SetCell{LightBlue} words	& array &   Polje referenci na dokumenate riječi koje čine rječnik.	\\ \hline  
@@ -136,10 +136,10 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Account}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ profila  	\\ \hline
+					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ profila.  	\\ \hline
 					email	& string &   Adresa e-pošte profila.	\\ \hline 
 					encryptedPass	& binData &   SHA-256 kôd lozinke profila.	\\ \hline
-					type	& int &   Tip profila. Dopuštene vrijednosti: 1 (administrator), 2 (učenik)	\\ \hline
+					isAdmin	& boolean &   Naznaka posjeduje li profil administratorske privilegije.	\\ \hline
 					hasInitialPass	& boolean &   Naznaka je li korisnik promijenio inicijalnu lozinku dodijeljenju prilikom registracije. False ... inicijalna lozinka nije promijenjena.     True ... inicijalna lozinka je promijenjena.	\\ \hline  
 				\end{longtblr}
 				
@@ -172,7 +172,7 @@
 					\hline \SetCell[c=3]{c}{\textbf{DictionaryProgress}}	 \\ \hline[3pt]
 					\SetCell{LightBlue} account\_id	& objectId &   Referenca na profil koji uči referencirani rječnik.	\\ \hline 
 					\SetCell{LightBlue} dict\_id	& objectId &   Referenca na rječnik kojeg referencirani profil aktivno uči.	\\ \hline
-					learningMode	& int &   Trenutni način učenja referenciranog rječnika za referenciranog korisnika. Dopuštene vrijednosti: 1 (prijevod na ciljani jezik), 2 (prijevod na hrvatski), 3 (slovkanje), 4 (izgovor)	\\ \hline
+					learningMode	& int &   Trenutni način učenja referenciranog rječnika za referenciranog korisnika. Dopuštene vrijednosti: 1 (prijevod na ciljani jezik), 2 (prijevod na hrvatski), 3 (slovkanje), 4 (izgovor).	\\ \hline
 					\SetCell{LightBlue} wordsProgress	& array &   Polje napretka svih riječi referenciranog rječnika, tj. polje ugrađenih dokumenata entiteta \textbf{WordProgress}.	\\ \hline 
 				\end{longtblr}
 			
