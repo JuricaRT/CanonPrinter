@@ -1,6 +1,6 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import "./App.css";
-import axios from "axios";
+//import axios from "axios";
 import React from "react";
 
 export default function App() {
@@ -16,7 +16,7 @@ export default function App() {
 function LogSignButtons() {
   return (
     <div className="buttons">
-      <Button style={{}}>Log in</Button>
+      <Button>Log in</Button>
       <Button>Sign up</Button>
     </div>
   );
@@ -27,7 +27,7 @@ function Reviews() {
     <div className="reviews">
       <Review>Jedna od najboljih aplikacija za učenje stranih jezika</Review>
       <Review>
-        Nakon 6 mjeseci učenja sam prošao ispit i dobio posao u Njemačkoj{" "}
+        Nakon 6 mjeseci učenja sam prošao ispit i dobio posao u Njemačkoj
       </Review>
     </div>
   );
