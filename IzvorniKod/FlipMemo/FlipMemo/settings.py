@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +78,8 @@ WSGI_APPLICATION = 'FlipMemo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'tempDB'
     }
 }
 
@@ -132,3 +132,6 @@ EMAIL_HOST_PASSWORD = 'superuser'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# FlipMemo dev settings
+AUTH_USER_MODEL = 'main.CustomUser'
