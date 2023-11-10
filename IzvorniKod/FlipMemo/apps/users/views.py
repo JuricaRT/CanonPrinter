@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from apps.main.models import User
+from apps.main.models import CustomUser
 from django.urls import reverse_lazy
 from .forms import SignupForm
 from apps.main.dto import UserDTO
@@ -36,7 +36,7 @@ class SignupView(CreateView):
     
 
 class ProfileView(ListView):
-    model = User
+    model = CustomUser
     fields = ['user_name', 'name', 'last_name', 'email', 'password']
     template_name = 'profile.html'
     login_required = True

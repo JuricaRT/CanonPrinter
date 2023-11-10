@@ -1,4 +1,4 @@
-from apps.main.models import User
+from apps.main.models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms import ModelForm
 from django import forms
@@ -12,5 +12,5 @@ class UserLoginForm(AuthenticationForm):
 
 class SignupForm(ModelForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['email']

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from enum import Enum
 from . import dto
 
@@ -7,27 +8,27 @@ class PermissionLevel(models.TextChoices):
     USER_LEVEL = 'USER'
 
 
-class User(models.Model):
-    user_name = models.CharField(max_length=32)
+class CustomUser(AbstractUser):
+    username = models.CharField(max_length=32, unique=True)
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
-    email = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, unique=True)
     permission_level = models.CharField(max_length=5, choices=PermissionLevel.choices, default=PermissionLevel.USER_LEVEL)
 
-    def register():
+    def register(self):
         return
     
-    def login():
+    def login(self):
         return
     
-    def view_user_data():
+    def view_user_data(self):
         return
     
-    def change_user_data():
+    def change_user_data(self):
         return
     
-    def delete_user():
+    def delete_user(self):
         return  
 
     def to_dto(self):
@@ -36,32 +37,35 @@ class User(models.Model):
         user_dto.password = self.password
         user_dto.name = self.name 
         user_dto.email = self.email      
-        user_dto.permission_level = self.permission_level
+        user_dto.permission_level = dto.permission_level_to_int(self.permission_level)
         return user_dto      
     
-class Administrator(User):
-    def add_administrator(user_name):
+class Administrator(CustomUser):
+    def add_administrator(self, user_name):
         return
     
-    def create_dictionary(): #passes dictionary
+    def create_dictionary(self): #passes dictionary
         return
     
-    def add_word(): #passes dictionary, word
+    def add_word(self): #passes dictionary, word
         return
     
-    def remove_word(): #passes dictionary, word
+    def remove_word(self): #passes dictionary, word
         return
     
-    def change_word(): #passes dictionary, old_word, new_word
+    def change_word(self): #passes dictionary, old_word, new_word
         return
     
-class Student(User):
+    def delete_user(self, user_name):
+        return
+    
+class Student(CustomUser):
     #session attr
-    def select_learning_mode(): #passes mode
+    def select_learning_mode(self): #passes mode
         return
     
-    def select_dictionary(): #passes dictionary
+    def select_dictionary(self): #passes dictionary
         return
     
-    def init_learning(): #passes nothing
+    def init_learning(self): #passes nothing
         return
