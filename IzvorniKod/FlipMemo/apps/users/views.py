@@ -1,39 +1,25 @@
-from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from apps.main.models import User
-from django.urls import reverse_lazy
-from .forms import SignupForm
 from apps.main.dto import UserDTO
 from django.core.mail import send_mail
 
-class SignupView(CreateView):
-    form_class = SignupForm
-    template_name = 'signup.html'
-    success_url = reverse_lazy('login')
-    
-    def form_valid(self, form):
-        
-        user_dto = UserDTO(
-            user_name='',
-            password='',
-            name='',
-            last_name='',
-            email=form.cleaned_data['email'],
-            permission_level=0
-        )
+def login(request):
+    return render(request, 'login.html')
 
-        initial_password = '12345678'
-        send_mail(
-            'Your initial password',
-            'Your initial password is: {initial_password}',
-            'lov587395@gmail.com',
-            [user_dto.email],
-            fail_silently=False,
-        )
+def signup(request):
 
-        return super().form_valid(form)
-    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        user = User
+        user.email = email
+
+        user.save()
+
+        return redirect('login')
+
+    return render(request, 'signup.html')
 
 class ProfileView(ListView):
     model = User
