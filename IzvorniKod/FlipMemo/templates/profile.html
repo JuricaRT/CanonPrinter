@@ -1,0 +1,6 @@
+<form action="GET">
+    {% csrf_token %}
+    {% for object in form %}
+    {{ object }}
+    {% endfor %}
+</form>
