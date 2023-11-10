@@ -3,9 +3,9 @@ from os import environ
 
 client: MongoClient = None
 
-def db_init():
+def _db_init():
         global client
-
+        
         client = MongoClient(environ["DB_CONNECTION_STRING"])
 
 # Ovdje dodavajte prototipove funckija za pristup bazi podataka koje vam trebaju.
@@ -17,7 +17,8 @@ def db_init():
 #       pass
 # 
 # Ja ću dalje implementirati tijela funckija da obavljaju traženu funkcionalnost.
-# Ovaj modul možete importati iz bilo kojih aplikacija ovako: "import FlipMemo.database as db".
+# Ovaj modul možete importati iz bilo kojih aplikacija ovako: "import FlipMemo.database as db"
+# i ne koristite privatne funkcije (one kojima ime pocinje sa '_').
 
 if __name__ == "FlipMemo.database":
-        db_init()
+        _db_init()
