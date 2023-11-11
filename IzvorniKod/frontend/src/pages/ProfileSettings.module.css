@@ -1,0 +1,31 @@
+.div {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  height: 80vh;
+}
+
+.return:link,
+.return:visited {
+  display: inline-block;
+  background-color: beige;
+  color: var(--color-dark--1);
+  text-transform: uppercase;
+  text-decoration: none;
+  width: 250px;
+  height: 50px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.h1 {
+  text-align: center;
+}
+
+.donji {
+  display: flex;
+  justify-content: flex-end;
+}

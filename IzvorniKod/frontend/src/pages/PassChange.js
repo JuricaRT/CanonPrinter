@@ -22,30 +22,57 @@ function Form() {
 
   let backendError = false;
 
-  function handlePassword(e) {
+  const handlePassword = async (e) => {
     e.preventDefault();
-    if (password === repeatedPassword) {
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: { "Content-Type": "applications/json" },
-      //   body: JSON.stringify(password),
-      // };
 
-      // const response = fetch("http://localhost:8000", requestOptions);
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(password),
+    };
 
-      // if (response.ok) {
-      //   navigate("/mainScreen");
-      // } else {
-      //   backendError = true;
-      // }
-
-      navigate("/mainScreen");
-      setPassError(false);
-    } else {
-      setPassError(true);
-      setRepeatedPassword("");
+    try {
+      if (password === repeatedPassword) {
+        const response = await fetch("http://localhost:8000", requestOption);
+        if (response.ok) {
+          navigate("mainScreen");
+        } else {
+          backendError = true;
+        }
+        setPassError(false);
+      } else {
+        setPassError(true);
+        setRepeatedPassword("");
+      }
+    } catch (error) {
+      console("error: ", error);
     }
-  }
+  };
+
+  // function handlePassword(e) {
+  //   e.preventDefault();
+  //   if (password === repeatedPassword) {
+  //     const requestOptions = {
+  //       method: "POST",
+  //       headers: { "Content-Type": "applications/json" },
+  //       body: JSON.stringify(password),
+  //     };
+
+  //     const response = fetch("http://localhost:8000/passChange/", requestOptions);
+
+  //     if (response.ok) {
+  //       navigate("/mainScreen");
+  //     } else {
+  //       backendError = true;
+  //     }
+
+  //     navigate("/mainScreen");
+  //     setPassError(false);
+  //   } else {
+  //     setPassError(true);
+  //     setRepeatedPassword("");
+  //   }
+  //}
 
   return (
     <form className={styles.form} onSubmit={handlePassword}>
