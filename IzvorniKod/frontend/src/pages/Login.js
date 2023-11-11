@@ -47,7 +47,7 @@ function RightPartScreen() {
         setError(true);
       }
     } catch (error) {
-      console("error: ", error);
+      console.log("error: ", error);
     }
   };
 
