@@ -1,102 +1,135 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic.list import ListView
 from apps.main.models import CustomUser
 from apps.main.dto import UserDTO
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.views import View
+from django.http import JsonResponse
 
-def login(request):
+class UsersView():
 
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+    @staticmethod
+    def login_user(request):
 
-        user = authenticate(email=email, password=password)
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            print(f'{username} {password}')
+            user = authenticate(username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                return redirect('profile')
+            else:
+                messages.error('Wrong username or password')
+                return redirect('login')
 
-        if user is not None:
-            login(request, user)
-            return redirect('profile')
-        else:
-            messages.error('Wrong email or password')
+        return render(request, 'login.html')
+
+    @staticmethod
+    def signup(request):
+        if request.method == 'POST':
+            print("HERE")
+            userDTO = UserDTO(
+                username = request.POST.get('username'),
+                name = request.POST.get('name'),
+                last_name = request.POST.get('last_name'),
+                email = request.POST.get('email'),
+                password=None,
+                permission_level=None
+            )
+
+            unencrypted_pass = request.POST.get('password')
+
+            if CustomUser.objects.filter(username=userDTO.username).exists():
+                #todo handle error
+                return
+            
+            if CustomUser.objects.filter(email=userDTO.email).exists():
+                #todo handle error
+                return
+
+            new_user = CustomUser.objects.create_user(
+                username=userDTO.username,
+                email=userDTO.email,
+                name=userDTO.name,
+                last_name=userDTO.last_name,
+            )
+
+            new_user.set_password(unencrypted_pass)
+
+            new_user.save()
+            print("signup")
+            #send_mail(
+            #    'Inicijalni password',
+            #    'Budala',
+            #    'settings.EMAIL_HOST_USER',
+            #    [email],
+            #    fail_silently=False
+            #)
+
             return redirect('login')
 
-    return render(request, 'login.html')
+        return render(request, 'signup.html')
 
-def signup(request):
+#    if request.method == 'POST':
+#        email = request.POST.get('mail')
+#        password = request.POST.get('password')
+#
+#        print(email)
+#        print(password)
+#
+#        return JsonResponse({'message': 'ok'})
+#    return JsonResponse({'message': 'ok'})
+#        email = request.POST.get('email')
+#        password = request.POST.get('password')
+#
+ #       user = authenticate(email=email, password=password)
+#
+ #       if user is not None:
+#            login(request, user)
+#            return redirect('profile')
+#        else:
+#            messages.error('Wrong email or password')
+#            return redirect('login')
+#
+#    return render(request, 'login.html')
 
-    if request.method == 'POST':
-        userDTO = UserDTO(
-            username = request.POST.get('username'),
-            name = request.POST.get('name'),
-            last_name = request.POST.get('last_name'),
-            email = request.POST.get('email'),
-        )
+    @staticmethod
+    def profile(request):
+        return render(request, 'profile.html')
 
-        unencrypted_pass = request.POST.get('password')
+    @staticmethod
+    def edit_profile(request):
 
-        if CustomUser.objects.filter(username=userDTO.user_name).exists():
-            #todo handle error
-            return
-        
-        if CustomUser.objects.filter(email=userDTO.email).exists():
-            #todo handle error
-            return
+        if request.method == 'POST':
+            userDTO = UserDTO(
+                username = request.POST.get('username'),
+                password = None,
+                name = request.POST.get('name'),
+                last_name = request.POST.get('last_name'),
+                email = request.POST.get('email'),
+                permission_level = None
+            )
 
-        new_user = CustomUser.objects.create_user(
-            username=userDTO.username,
-            email=userDTO.email,
-            name=userDTO.name,
-            last_name=userDTO.last_name,
-        )
+            try:
+                user = CustomUser.objects.get(email=userDTO.email)
+            except:
+                user = None
 
-        new_user.set_password(unencrypted_pass)
+            if user == None:
+                #Error?
+                return redirect('profile')
 
-        new_user.save()
+            user.username = userDTO.username
+            user.name = userDTO.name
+            user.last_name = userDTO.last_name
+            user.email = userDTO.email
 
-        #send_mail(
-        #    'Inicijalni password',
-        #    'Budala',
-        #    'settings.EMAIL_HOST_USER',
-        #    [email],
-        #    fail_silently=False
-        #)
-
-        return redirect('login')
-
-    return render(request, 'signup.html')
-
-def profile(request):
-    return render(request, 'profile.html')
-
-def edit_profile(request):
-
-    if request.method == 'POST':
-        userDTO = UserDTO(
-            username = request.POST.get('username'),
-            password = request.POST.get('password'),
-            name = request.POST.get('name'),
-            last_name = request.POST.get('last_name'),
-            email = request.POST.get('email')
-        )
-
-        try:
-            user = CustomUser.objects.get(email=userDTO.email)
-        except:
-            user = None
-
-        if user == None:
-            #Error?
+            user.save()
+            
             return redirect('profile')
 
-        user.username = userDTO.username
-        user.password = userDTO.password
-        user.name = userDTO.name
-        user.last_name = userDTO.last_name
-        user.email = userDTO.email
-
-        user.save()
-        
-        return redirect('profile')
-
-    return render(request, 'edit_profile.html')
+        return render(request, 'edit_profile.html')

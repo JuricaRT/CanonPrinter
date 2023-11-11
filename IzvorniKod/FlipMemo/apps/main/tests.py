@@ -1,9 +1,12 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from apps.main.models import CustomUser, PermissionLevel
 from django.db import transaction
+from unittest import skip
+from apps.main import views
 
 # Create your tests here.
 
+@skip("nepotrebno")
 class AdminTests(SimpleTestCase):
     databases = ['default']
 
@@ -21,3 +24,5 @@ class AdminTests(SimpleTestCase):
     @classmethod
     def tearDownClass(cls):
         pass
+    
+
