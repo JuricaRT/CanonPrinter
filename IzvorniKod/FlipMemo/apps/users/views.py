@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic.list import ListView
 from apps.main.models import CustomUser
 from apps.main.dto import UserDTO
@@ -13,8 +13,11 @@ def login(request):
         email = request.POST.get('mail')
         password = request.POST.get('password')
 
+        print(email)
+        print(password)
+
         return JsonResponse({'message': 'ok'})
-    return JsonResponse({'message': 'no'})
+    return JsonResponse({'message': 'ok'})
 #        email = request.POST.get('email')
 #        password = request.POST.get('password')
 #
