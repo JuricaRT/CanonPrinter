@@ -141,3 +141,9 @@ html {
   color: black;
   cursor: pointer;
 }
+
+.wrongDataError {
+  color: red;
+  font-size: 11px;
+  margin-right: 10px;
+}
