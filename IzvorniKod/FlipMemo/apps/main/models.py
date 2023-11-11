@@ -16,18 +16,23 @@ class CustomUser(AbstractUser):
     email = models.CharField(max_length=255, unique=True)
     permission_level = models.CharField(max_length=5, choices=PermissionLevel.choices, default=PermissionLevel.USER_LEVEL)
 
+    @staticmethod
     def register(self):
         return
     
+    @staticmethod
     def login(self):
         return
     
+    @staticmethod
     def view_user_data(self):
         return
     
+    @staticmethod
     def change_user_data(self):
         return
     
+    @staticmethod
     def delete_user(self):
         return  
 

@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'tempDB',
         'TEST': {
-            'NAME': 'tempDB',
+            'NAME': 'testDB',
         }
     }
 }
@@ -141,6 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
+<<<<<<< HEAD
 AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
 
 CORS_ALLOWED_ORIGINS = [
@@ -150,3 +151,6 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
 ]
+=======
+AUTHENTICATION_BACKENDS = ['apps.main.auth_backends.FlipMemoAuthBackend']
+>>>>>>> origin/dev

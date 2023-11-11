@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 
-def login(request):
+def login_user(request):
 
     if request.method == 'POST':
         email = request.POST.get('mail')
@@ -40,6 +40,8 @@ def signup(request):
             name = request.POST.get('name'),
             last_name = request.POST.get('last_name'),
             email = request.POST.get('email'),
+            password=None,
+            permission_level=None
         )
 
         unencrypted_pass = request.POST.get('password')
@@ -83,10 +85,11 @@ def edit_profile(request):
     if request.method == 'POST':
         userDTO = UserDTO(
             username = request.POST.get('username'),
-            password = request.POST.get('password'),
+            password = None,
             name = request.POST.get('name'),
             last_name = request.POST.get('last_name'),
-            email = request.POST.get('email')
+            email = request.POST.get('email'),
+            permission_level = None
         )
 
         try:
@@ -99,7 +102,6 @@ def edit_profile(request):
             return redirect('profile')
 
         user.username = userDTO.username
-        user.password = userDTO.password
         user.name = userDTO.name
         user.last_name = userDTO.last_name
         user.email = userDTO.email
