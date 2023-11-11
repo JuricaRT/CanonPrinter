@@ -44,7 +44,7 @@ function RightPartScreen() {
         setError(true);
       }
     } catch (error) {
-      console.error("Error in submitting", error);
+      console.error("Error in submitting: ", error);
     }
   };
 
