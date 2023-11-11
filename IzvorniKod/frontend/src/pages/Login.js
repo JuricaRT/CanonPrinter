@@ -34,7 +34,7 @@ function RightPartScreen() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataSource),
     };
-    const response = fetch("http://localhost:8000/", requestOption);
+    const response = fetch("http://localhost:8000", requestOption);
     if (response.ok) {
       navigate("mainScreen");
     } else {
