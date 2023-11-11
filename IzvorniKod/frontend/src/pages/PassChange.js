@@ -1,4 +1,6 @@
 import styles from "./PassChange.module.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function PassChange() {
   return (
@@ -12,18 +14,41 @@ export default function PassChange() {
 }
 
 function Form() {
+  const [password, setPassword] = useState("");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [errorPass, setErrorPass] = useState(false);
+
+  function handlePassword(e) {
+    e.preventDefault();
+    if (password === repeatedPassword) {
+      <Link to="/mainScreen"></Link>;
+    } else {
+      setErrorPass(true);
+      setRepeatedPassword("");
+    }
+  }
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handlePassword}>
       <input
         type="text"
         placeholder="Password"
         style={{ margin: "10px" }}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       ></input>
       <input
         type="text"
         placeholder="Repeat password"
         style={{ margin: "10px" }}
+        value={repeatedPassword}
+        onChange={(e) => setRepeatedPassword(e.target.value)}
       ></input>
+      {errorPass && (
+        <p style={{ color: "red" }}>
+          Make sure you enter the same passwords!!!
+        </p>
+      )}
       <button
         style={{
           backgroundColor: "green",
