@@ -1,117 +1,133 @@
 from pymongo import MongoClient
-from pymongo.collection import Collection
-from os import environ
-from apps.main import dto
-from hashlib import sha256 # temp
+from os import environ, getpid
+# from apps.main import dto
 from warnings import warn
+from dataclasses import dataclass, fields
 
-class UsernameAlreadyExists(Exception):
-    def __init__(self, msg):
-        super().__init__(msg)
+# ---- TEMP --------------------
+@dataclass
+class DefaultVal:
+    val: any
 
-accounts_col: Collection = None
-dicts_col: Collection = None
-dict_progresses_col: Collection = None
-pronun_audios_col: Collection = None
-words_col: Collection = None
+@dataclass
+class UserDTO:
+    username: str = ''
+    password: str = ''
+    name: str = ''
+    last_name: str = ''
+    email: str = ''
+    permission_level: int = 0
 
-def _db_init():
-    global accounts_col
-    global dicts_col
-    global dict_progresses_col
-    global pronun_audios_col
-    global words_col
-        
-    client = MongoClient(environ["DB_CONNECTION_STRING"])
+    def __post_init__(self):
+        for field in fields(self):
+            if isinstance(field.default, DefaultVal):
+                field_val = getattr(self, field.name)
+                if isinstance(field_val, DefaultVal) or field_val is None:
+                    setattr(self, field.name, field.default.val)
+# ---- TEMP -----------------------
 
-    accounts_col = client["CanonPrinterDB"]["Accounts"]
-    dicts_col = client["CanonPrinterDB"]["Dictionaries"]
-    dict_progresses_col = client["CanonPrinterDB"]["DicitonaryProgresses"]
-    pronun_audios_col = client["CanonPrinterDB"]["PronunciationAudios"]
-    words_col = client["CanonPrinterDB"]["Words"]
+def singleton(class_):
+    instance = [None] # Hacky
 
-def _doc_to_dto(doc) -> dto.UserDTO:
-    return dto.UserDTO(
+    def get_instance():
+        if not instance[0]:
+            instance[0] = class_()
+
+        return instance[0]
+    
+    return get_instance
+
+def _doc_to_dto(doc) -> UserDTO:
+    return UserDTO(
         username=doc["username"],
-        password="", # temp
+        password=doc["encryptedPass"],
         name=doc["first_name"],
         last_name=doc["last_name"],
         email=doc["email"],
         permission_level=int(doc["isAdmin"])
     )
 
-def modify_user(target_username: str, new_UserDTO: dto.UserDTO) -> None:
-    if accounts_col.count_documents({ 
-        "$and": [
-            { "username": { "$ne": target_username } }, 
-            { "username": new_UserDTO.username }
-        ]
-        }):
-        raise UsernameAlreadyExists("Cannot change username to a preexisting one.")
-    
-    accounts_col.find_one_and_update(
-        { "username" : target_username },
-        { "$set" : {
-            "username" : new_UserDTO.username,
-            "email" : new_UserDTO.email,
-            "encryptedPass" : sha256(new_UserDTO.password.encode("utf-8")).digest(), # temp
-            "first_name" : new_UserDTO.name,
-            "last_name" : new_UserDTO.last_name,
-            "isAdmin" : bool(new_UserDTO.permission_level)
-        }}
-    )
+class UniqueConstraintError(Exception):
+    def __init__(self, msg):
+        super().__init__(msg)
 
-def add_user(userDTO: dto.UserDTO) -> None:
-    if accounts_col.count_documents({ "username" : userDTO.username }):
-        raise UsernameAlreadyExists("Cannot add a new account to the database without a unique username.")
+@singleton
+class Database:
+    def __init__(self):
+            print("I should run only once", getpid())
+            self.client = MongoClient(environ["DB_CONNECTION_STRING"])
 
-    accounts_col.insert_one({
-        "username" : userDTO.username,
-        "email" : userDTO.email,
-        "encryptedPass" : sha256(userDTO.password.encode("utf-8")).digest(), # temp
-        "first_name" : userDTO.name,
-        "last_name" : userDTO.last_name,
-        "isAdmin" : bool(userDTO.permission_level),
-        "hasInitialPass" : True
-    })
+            self.accounts_col = self.client["CanonPrinterDB"]["Accounts"]
+            self.dicts_col = self.client["CanonPrinterDB"]["Dictionaries"]
+            self.dict_progresses_col = self.client["CanonPrinterDB"]["DicitonaryProgresses"]
+            self.pronun_audios_col = self.client["CanonPrinterDB"]["PronunciationAudios"]
+            self.words_col = self.client["CanonPrinterDB"]["Words"]
 
-def delete_user(userDTO: dto.UserDTO) -> None:
-    delete_result = accounts_col.delete_one({ "username" : userDTO.username })
-
-    if delete_result.deleted_count == 0:
-        warn(f"No account with username \"{userDTO.username}\" to delete.")
-
-def set_role(target_username: str, role: int) -> None: #0 user, 1 admin, ostalo nedefinirano
-    res = accounts_col.find_one_and_update(
-            { "username" : target_username },
+    def modify_user(self, old_UserDTO: UserDTO, new_UserDTO: UserDTO) -> None:
+        if self.accounts_col.count_documents({ 
+            "$and": [
+                { "username": { "$ne": old_UserDTO.username } }, 
+                { "username": new_UserDTO.username }
+            ]
+            }):
+            raise UniqueConstraintError("Cannot change username to a preexisting one.")
+        
+        if self.accounts_col.count_documents({ 
+            "$and": [
+                { "email": { "$ne": old_UserDTO.email } }, 
+                { "email": new_UserDTO.email }
+            ]
+            }):
+            raise UniqueConstraintError("Cannot change e-mail to a preexisting one.")
+        
+        self.accounts_col.find_one_and_update(
+            { "username" : old_UserDTO.username },
             { "$set" : {
-                "isAdmin" : bool(role)
+                "username" : new_UserDTO.username,
+                "email" : new_UserDTO.email,
+                "encryptedPass" : new_UserDTO.password,
+                "first_name" : new_UserDTO.name,
+                "last_name" : new_UserDTO.last_name,
+                "isAdmin" : bool(new_UserDTO.permission_level)
             }}
         )
-    
-    if not res:
-        warn(f"No account with username \"{target_username}\" to change role for.")
 
-def get_users() -> list[dto.UserDTO]:
-    return [_doc_to_dto(doc) for doc in accounts_col.find({})]
+    def add_user(self, userDTO: UserDTO) -> None:
+        if self.accounts_col.count_documents({ "username" : userDTO.username }):
+            raise UniqueConstraintError("Cannot add a new account to the database without a unique username.")
 
-def get_admins() -> list[dto.UserDTO]:
-    return [_doc_to_dto(doc) for doc in accounts_col.find({ "isAdmin" : True })]
+        self.accounts_col.insert_one({
+            "username" : userDTO.username,
+            "email" : userDTO.email,
+            "encryptedPass" : userDTO.password,
+            "first_name" : userDTO.name,
+            "last_name" : userDTO.last_name,
+            "isAdmin" : bool(userDTO.permission_level),
+            "hasInitialPass" : True
+        })
 
-def get_students() -> list[dto.UserDTO]:
-    return [_doc_to_dto(doc) for doc in accounts_col.find({ "isAdmin" : False })]
+    def delete_user(self, userDTO: UserDTO) -> None:
+        delete_result = self.accounts_col.delete_one({ "username" : userDTO.username })
 
-# Ovdje dodavajte prototipove funckija za pristup bazi podataka koje vam trebaju.
-# npr.:
-#  
-# def add_user(name: str, [itd.]) -> None:
-#    """[Opis funkcuionalnosti ako iz imena funkcije nije očito.
-#    Korsitite type-hintig za parametre i povratne vrijednosti!!!]"""
-#    pass
-# 
-# Ja ću dalje implementirati tijela funckija da obavljaju traženu funkcionalnost.
-# Ovaj modul možete importati iz bilo kojih aplikacija ovako: "import FlipMemo.database as db"
-# i ne koristite privatne funkcije (one kojima ime pocinje sa '_').
+        if delete_result.deleted_count == 0:
+            warn(f"No account with username \"{userDTO.username}\" to delete.")
 
-if __name__ == "FlipMemo.database":
-    _db_init()
+    def set_role(self, target_username: str, role: int) -> None:
+        res = self.accounts_col.find_one_and_update(
+                { "username" : target_username },
+                { "$set" : {
+                    "isAdmin" : bool(role)
+                }}
+            )
+        
+        if not res:
+            warn(f"No account with username \"{target_username}\" to change role for.")
+
+    def get_users(self) -> list[UserDTO]:
+        return [_doc_to_dto(doc) for doc in self.accounts_col.find({})]
+
+    def get_admins(self) -> list[UserDTO]:
+        return [_doc_to_dto(doc) for doc in self.accounts_col.find({ "isAdmin" : True })]
+
+    def get_students(self) -> list[UserDTO]:
+        return [_doc_to_dto(doc) for doc in self.accounts_col.find({ "isAdmin" : False })]
