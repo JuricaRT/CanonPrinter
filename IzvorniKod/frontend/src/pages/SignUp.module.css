@@ -1,0 +1,131 @@
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  height: 100vh;
+}
+
+.picture {
+  flex: 1;
+  border-right: solid 2px black;
+}
+
+.rightPartScreen {
+  flex: 1;
+}
+
+.picture {
+  background-image: url("../../public/pictures/mainPicture.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.buttons {
+  position: relative;
+  background-color: grey;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  border: 1px solid black;
+}
+.button1 {
+  padding: 8px;
+  margin: 10px;
+  width: auto;
+  border-radius: 20px;
+  display: inline-block;
+  background-color: beige;
+  border: solid 2px beige;
+  font-size: 20px;
+  color: black;
+  cursor: pointer;
+}
+.button2 {
+  padding: 8px;
+  margin: 10px;
+  width: auto;
+  border-radius: 20px;
+  border: solid 2px bisque;
+  display: inline-block;
+  background-color: bisque;
+  font-size: 20px;
+  color: black;
+  cursor: pointer;
+}
+
+.picture {
+  flex: 1;
+  border-right: solid 2px black;
+}
+
+.rightPartScreen {
+  flex: 1;
+}
+.comingSoonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comingSoonDivIteration {
+  width: 70%;
+  background-color: #f0f0f0;
+  opacity: 0.6;
+  box-shadow: inset 0px 12px 25px 5px rgba(0, 0, 0, 0.4);
+}
+.comingSoonLogInGoogleAppleDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.comingSoonText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  font-size: 24px;
+}
+
+.comingSoon {
+  width: 50%;
+  height: 40px;
+  margin-bottom: 3%;
+  font-size: auto;
+}
+
+.emailInputDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+  margin-bottom: 10%;
+}
+
+.emailInput {
+  width: 50%;
+  height: 40px;
+  font-size: 20px;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.buttonOkDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonOk {
+  margin-top: 10%;
+  width: 10%;
+  height: 30px;
+  margin-right: 7%;
+}
