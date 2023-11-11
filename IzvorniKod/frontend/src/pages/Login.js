@@ -14,6 +14,7 @@ function Login() {
 function RightPartScreen() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [mail, setMail] = useState("");
 
   const togglePasswordVisibility = (e) => {
     e.preventDefault();
@@ -33,6 +34,8 @@ function RightPartScreen() {
           className={styles.emailInput}
           type="text"
           placeholder="Email..."
+          value={mail}
+          onChange={(e) => setMail(e.target.value)}
         />
       </div>
       <div>
