@@ -1,6 +1,19 @@
-export default function Form() {
+import styles from "./PassChange.module.css";
+
+export default function PassChange() {
   return (
-    <form className="form">
+    <div className={styles.page}>
+      <div className={styles.leftSide}></div>
+      <div className={styles.rightSide}>
+        <Form />
+      </div>
+    </div>
+  );
+}
+
+function Form() {
+  return (
+    <form className={styles.form}>
       <input
         type="text"
         placeholder="Password"

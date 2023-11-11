@@ -17,15 +17,15 @@ code {
   height: 100vh;
 }
 
-.left-side {
+.leftSide {
   width: 50%;
-  background-image: url("../public/pictures/Image.jpeg");
+  background-image: url("../../public/pictures/Image.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.right-side {
+.rightSide {
   text-align: center;
   display: flex;
   flex-flow: column;
