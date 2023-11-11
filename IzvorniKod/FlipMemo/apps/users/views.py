@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.http import JsonResponse
+import json
 
 class UsersView():
 
@@ -14,19 +15,18 @@ class UsersView():
     def login_user(request):
 
         if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            print(f'{username} {password}')
-            user = authenticate(username=username, password=password)
+            json_data = json.loads(request.body.decode('utf-8'))
+            mail = json_data.get('mail')
+            password = json_data.get('password')
+            print(f'{mail} {password}')
+            user = authenticate(email=mail, password=password)
             
             if user is not None:
                 login(request, user)
-                return redirect('profile')
+                return JsonResponse({'message': 'ok'})
             else:
                 messages.error('Wrong username or password')
-                return redirect('login')
-
-        return render(request, 'login.html')
+                return JsonResponse({'message': 'invalid'})
 
     @staticmethod
     def signup(request):
