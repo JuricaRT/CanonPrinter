@@ -1,5 +1,21 @@
-function MainScreen() {
-  return <div>Main Screen</div>;
+export default function MainScreen() {
+  return (
+    <div>
+      <Logo />
+      <SearchBar />
+      <Profile />
+    </div>
+  );
 }
 
-export default MainScreen;
+function Logo() {
+  return <div></div>;
+}
+
+function SearchBar() {
+  return <div></div>;
+}
+
+function Profile() {
+  return <div></div>;
+}
