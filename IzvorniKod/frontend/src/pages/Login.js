@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useState } from "react";
 
@@ -12,17 +12,38 @@ function Login() {
 }
 
 function RightPartScreen() {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [mail, setMail] = useState("");
+  const [error, setError] = useState(false);
 
   const togglePasswordVisibility = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const dataSource = {
+      mail: mail,
+      password: password,
+    };
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataSource),
+    };
+    const response = fetch("http://localhost:8000/", requestOption);
+    if (response.ok) {
+      navigate("mainScreen");
+    } else {
+      setError(true);
+    }
+  }
+
   return (
-    <form className={styles.rightPartScreen}>
+    <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
         <button className={styles.button1}>Log in</button>
         <Link to="/signup">
@@ -49,6 +70,11 @@ function RightPartScreen() {
           />
         </div>
         <div className={styles.showPasswordButton}>
+          {error ? (
+            <p className={styles.wrongDataError}>*Wrong email or password* </p>
+          ) : (
+            ""
+          )}
           <button onClick={togglePasswordVisibility}>
             {showPassword ? "Hide" : "Show"}
           </button>
