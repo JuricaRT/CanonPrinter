@@ -33,12 +33,15 @@ class CustomUser(AbstractUser):
 
     def to_dto(self):
         user_dto = dto.UserDTO()
-        user_dto.user_name = self.user_name
+        user_dto.user_name = self.username
         user_dto.password = self.password
         user_dto.name = self.name 
         user_dto.email = self.email      
         user_dto.permission_level = dto.permission_level_to_int(self.permission_level)
         return user_dto      
+
+    def __str__(self) -> str:
+        return self.email
     
 class Administrator(CustomUser):
     def add_administrator(self, user_name):

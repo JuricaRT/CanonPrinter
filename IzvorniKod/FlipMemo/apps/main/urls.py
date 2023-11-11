@@ -10,5 +10,5 @@ urlpatterns = [
     path("", views.temp_func, name="Test"),
     path('login/', user_views.login, name='login'),
     path('signup/', user_views.signup, name='signup'),
-    path('profile/', user_views.ProfileView.as_view(), name='profile'),
+    path('profile/', user_views.profile, name='profile'),
 ]
