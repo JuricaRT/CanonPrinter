@@ -7,14 +7,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path("", views.temp_func, name="Test"),
-    path('login/', user_views.login_user, name='login'),
-    path('signup/', user_views.signup, name='signup'),
-    path('profile/', user_views.profile, name='profile'),
-    path('edit_profile/', user_views.edit_profile, name='edit_profile'),
-    path('get_admins/', views.get_administrators, name='get_admins'),
-    path('add_admin/', views.add_administrator, name='add_admins'),
-    path('remove_admin/', views.remove_administrator, name='remove_admin'),
-    path('delete_user/', views.delete_user, name='delete_user'),
-    path('get_students/', views.get_students, name='get_admins'),
+    path("", views.MainViews.temp_func, name="Test"),
+    path('login/', user_views.UsersView.login_user, name='login'),
+    path('signup/', user_views.UsersView.signup, name='signup'),
+    path('profile/', user_views.UsersView.profile, name='profile'),
+    path('edit_profile/', user_views.UsersView.edit_profile, name='edit_profile'),
+    path('get_admins/', views.MainViews.get_administrators, name='get_admins'),
+    path('add_admin/', views.MainViews.add_administrator, name='add_admins'),
+    path('remove_admin/', views.MainViews.remove_administrator, name='remove_admin'),
+    path('delete_user/', views.MainViews.delete_user, name='delete_user'),
+    path('get_students/', views.MainViews.get_students, name='get_admins'),
 ]

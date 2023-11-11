@@ -4,7 +4,6 @@ from django.db import transaction
 from unittest import skip
 from apps.main import views
 from django.urls import reverse
-import xml.etree.ElementTree as ET
 
 class AdminTests(TestCase):
     def test_admin_funcs(self):
@@ -62,18 +61,17 @@ class AdminTests(TestCase):
 
         print("STUDENTS: JOHNY DOEE")
         response = self.client.get('/get_students/')
-        root = ET.fromstring(response.content)
-        print(root.find(".//field[@name='name']").text + ' ' + root.find(".//field[@name='last_name']").text)
+        data = response.json()
+        print(data[0]['fields']['name'])
+            
 
         response = self.client.post('/add_admin/', {'username': 'test_usernew2'})
 
         print("ADMINS: johny doee")
         response = self.client.get('/get_admins/')
-        root = ET.fromstring(response.content)
         print(response.content)
 
         response = self.client.post('/delete_user/', {'username': 'test_usernew2'})
         print("ADMINS: SAMO JEDAN")
         response = self.client.get('/get_admins/')
-        root = ET.fromstring(response.content)
         print(response.content)
