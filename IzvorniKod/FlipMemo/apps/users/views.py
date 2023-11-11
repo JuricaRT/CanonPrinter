@@ -5,23 +5,29 @@ from apps.main.dto import UserDTO
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 
 def login(request):
 
     if request.method == 'POST':
-        email = request.POST.get('email')
+        email = request.POST.get('mail')
         password = request.POST.get('password')
 
-        user = authenticate(email=email, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('profile')
-        else:
-            messages.error('Wrong email or password')
-            return redirect('login')
-
-    return render(request, 'login.html')
+        return JsonResponse({'message': 'ok'})
+    return JsonResponse({'message': 'no'})
+#        email = request.POST.get('email')
+#        password = request.POST.get('password')
+#
+ #       user = authenticate(email=email, password=password)
+#
+ #       if user is not None:
+#            login(request, user)
+#            return redirect('profile')
+#        else:
+#            messages.error('Wrong email or password')
+#            return redirect('login')
+#
+#    return render(request, 'login.html')
 
 def signup(request):
 
@@ -35,7 +41,7 @@ def signup(request):
 
         unencrypted_pass = request.POST.get('password')
 
-        if CustomUser.objects.filter(username=userDTO.user_name).exists():
+        if CustomUser.objects.filter(username=userDTO.username).exists():
             #todo handle error
             return
         
