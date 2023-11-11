@@ -31,7 +31,7 @@ function Form() {
       //   body: JSON.stringify(password),
       // };
 
-      // const response = fetch("http://localhost:8000/", requestOptions);
+      // const response = fetch("http://localhost:8000", requestOptions);
 
       // if (response.ok) {
       //   navigate("/mainScreen");
@@ -74,7 +74,7 @@ function Form() {
       )}
       <button
         style={{
-          backgroundColor: "green",
+          backgroundColor: "beige",
           marginLeft: "250px",
           marginRight: "20px",
           marginTop: "40px",

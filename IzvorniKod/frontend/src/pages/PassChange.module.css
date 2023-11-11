@@ -19,7 +19,7 @@ code {
 
 .leftSide {
   width: 50%;
-  background-image: url("../../public/pictures/Image.jpeg");
+  background-image: url("../../public/pictures/mainPicture.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

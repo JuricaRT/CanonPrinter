@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import PassChange from "./pages/PassChange";
 import MainScreen from "./pages/MainScreen";
+import ProfileSettings from "./pages/ProfileSettings";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="passChange" element={<PassChange />}></Route>
         <Route path="mainScreen" element={<MainScreen />}></Route>
+        <Route path="profileSettings" element={<ProfileSettings />}></Route>
       </Routes>
     </BrowserRouter>
   );
