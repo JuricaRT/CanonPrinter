@@ -79,7 +79,10 @@ WSGI_APPLICATION = 'FlipMemo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'tempDB'
+        'NAME': 'tempDB',
+        'TEST': {
+            'NAME': 'tempDB',
+        }
     }
 }
 
@@ -136,3 +139,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
+AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
