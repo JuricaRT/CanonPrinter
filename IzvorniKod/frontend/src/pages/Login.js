@@ -23,9 +23,7 @@ function RightPartScreen() {
   return (
     <form className={styles.rightPartScreen}>
       <div className={styles.buttons}>
-        <Link to="/login">
-          <button className={styles.button1}>Log in</button>
-        </Link>
+        <button className={styles.button1}>Log in</button>
         <Link to="/signup">
           <button className={styles.button2}>Sign up</button>
         </Link>
