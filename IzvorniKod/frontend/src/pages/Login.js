@@ -23,8 +23,9 @@ function RightPartScreen() {
     setShowPassword(!showPassword);
   };
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const dataSource = {
       mail: mail,
       password: password,
@@ -34,13 +35,18 @@ function RightPartScreen() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataSource),
     };
-    const response = fetch("http://localhost:8000", requestOption);
-    if (response.ok) {
-      navigate("mainScreen");
-    } else {
-      setError(true);
+
+    try {
+      const response = await fetch("http://localhost:8000", requestOption);
+      if (response.ok) {
+        navigate("mainScreen");
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Error in submitting", error);
     }
-  }
+  };
 
   return (
     <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
