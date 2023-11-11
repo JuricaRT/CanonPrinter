@@ -20,7 +20,7 @@ html {
 }
 
 .picture {
-  background-image: url("../../public/pictures/IMG_0020.jpg");
+  background-image: url("../../public/pictures/mainPicture.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -40,10 +40,10 @@ html {
   width: auto;
   border-radius: 20px;
   display: inline-block;
-  background-color: #82a53e;
-  border: solid 2px #82a53e;
+  background-color: beige;
+  border: solid 2px beige;
   font-size: 20px;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 .button2 {
@@ -51,11 +51,11 @@ html {
   margin: 10px;
   width: auto;
   border-radius: 20px;
-  border: solid 2px #3f843e;
+  border: solid 2px bisque;
   display: inline-block;
-  background-color: #3f843e;
+  background-color: bisque;
   font-size: 20px;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 
