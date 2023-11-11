@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic.list import ListView
 from apps.main.models import CustomUser
 from apps.main.dto import UserDTO
@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views import View
+from django.http import JsonResponse
 
 class UsersView():
 
@@ -72,6 +73,29 @@ class UsersView():
             return redirect('login')
 
         return render(request, 'signup.html')
+
+#    if request.method == 'POST':
+#        email = request.POST.get('mail')
+#        password = request.POST.get('password')
+#
+#        print(email)
+#        print(password)
+#
+#        return JsonResponse({'message': 'ok'})
+#    return JsonResponse({'message': 'ok'})
+#        email = request.POST.get('email')
+#        password = request.POST.get('password')
+#
+ #       user = authenticate(email=email, password=password)
+#
+ #       if user is not None:
+#            login(request, user)
+#            return redirect('profile')
+#        else:
+#            messages.error('Wrong email or password')
+#            return redirect('login')
+#
+#    return render(request, 'login.html')
 
     @staticmethod
     def profile(request):

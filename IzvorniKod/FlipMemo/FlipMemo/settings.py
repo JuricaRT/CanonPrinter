@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'FlipMemo.urls'
@@ -139,4 +141,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
+AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
 AUTHENTICATION_BACKENDS = ['apps.main.auth_backends.FlipMemoAuthBackend']

@@ -13,8 +13,8 @@ urlpatterns = [
     path('profile/', user_views.UsersView.profile, name='profile'),
     path('edit_profile/', user_views.UsersView.edit_profile, name='edit_profile'),
     path('get_admins/', views.MainViews.get_administrators, name='get_admins'),
-    path('add_admin/', views.MainViews.add_administrator, name='add_admins'),
+    path('add_admin/', views.MainViews.add_administrator, name='add_admin'),
     path('remove_admin/', views.MainViews.remove_administrator, name='remove_admin'),
     path('delete_user/', views.MainViews.delete_user, name='delete_user'),
-    path('get_students/', views.MainViews.get_students, name='get_admins'),
+    path('get_students/', views.MainViews.get_students, name='get_students'),
 ]
