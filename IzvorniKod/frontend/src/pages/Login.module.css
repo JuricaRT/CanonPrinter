@@ -1,0 +1,143 @@
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  height: 100vh;
+}
+
+.picture {
+  flex: 1;
+  border-right: solid 2px black;
+}
+
+.rightPartScreen {
+  flex: 1;
+}
+
+.picture {
+  background-image: url("../../public/pictures/IMG_0020.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.comingSoonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comingSoonDivIteration {
+  width: 70%;
+  background-color: #f0f0f0;
+  opacity: 0.6;
+  box-shadow: inset 0px 12px 25px 5px rgba(0, 0, 0, 0.4);
+}
+.comingSoonLogInGoogleAppleDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.comingSoonText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  font-size: 24px;
+}
+
+.comingSoon {
+  width: 50%;
+  height: 40px;
+  margin-bottom: 3%;
+  font-size: auto;
+}
+
+.passwordInputDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 7%;
+  margin-bottom: 0.5%;
+}
+
+.showPasswordButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 24.7%;
+  margin-bottom: 7%;
+}
+
+.passwordInput {
+  width: 50%;
+  height: 40px;
+  font-size: 20px;
+}
+
+.emailInputDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+}
+
+.emailInput {
+  width: 50%;
+  height: 40px;
+  font-size: 20px;
+}
+
+.buttonOkDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonOk {
+  margin-top: 10%;
+  width: 10%;
+  height: 30px;
+  margin-right: 7%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.buttons {
+  position: relative;
+  background-color: grey;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  border: 1px solid black;
+}
+.button1 {
+  padding: 8px;
+  margin: 10px;
+  width: auto;
+  border-radius: 20px;
+  display: inline-block;
+  background-color: #82a53e;
+  border: solid 2px #82a53e;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
+.button2 {
+  padding: 8px;
+  margin: 10px;
+  width: auto;
+  border-radius: 20px;
+  border: solid 2px #3f843e;
+  display: inline-block;
+  background-color: #3f843e;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
