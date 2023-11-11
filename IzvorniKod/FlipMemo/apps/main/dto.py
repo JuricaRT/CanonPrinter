@@ -3,7 +3,7 @@ from . import models
 
 @dataclass
 class UserDTO:
-    user_name: str
+    username: str
     password: str
     name: str
     last_name: str

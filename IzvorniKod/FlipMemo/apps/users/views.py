@@ -12,42 +12,55 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-#        user = authenticate(email=email, password=password)
+        user = authenticate(email=email, password=password)
 
-#        if user is not None:
-#            login(request, user)
-#            return redirect('profile')
-#        else:
-#            messages.error('Wrong email or password')
-#            return redirect('login')
+        if user is not None:
+            login(request, user)
+            return redirect('profile')
+        else:
+            messages.error('Wrong email or password')
+            return redirect('login')
 
     return render(request, 'login.html')
 
 def signup(request):
 
     if request.method == 'POST':
-        email = request.POST.get('email')
-
-        user = CustomUser()
-        user.email = email
-        user.name = ''
-        user.username = ''
-        user.password = ''
-        user.permission_level = 0
-        user.last_name = ''
-
-#        if CustomUser.objects.filter(email=email):
-#            messages.error(request, 'Email already exists!')
-
-#        user.save()
-
-        send_mail(
-            'Inicijalni password',
-            'Budala',
-            'settings.EMAIL_HOST_USER',
-            [email],
-            fail_silently=False
+        userDTO = UserDTO(
+            username = request.POST.get('username'),
+            name = request.POST.get('name'),
+            last_name = request.POST.get('last_name'),
+            email = request.POST.get('email'),
         )
+
+        unencrypted_pass = request.POST.get('password')
+
+        if CustomUser.objects.filter(username=userDTO.user_name).exists():
+            #todo handle error
+            return
+        
+        if CustomUser.objects.filter(email=userDTO.email).exists():
+            #todo handle error
+            return
+
+        new_user = CustomUser.objects.create_user(
+            username=userDTO.username,
+            email=userDTO.email,
+            name=userDTO.name,
+            last_name=userDTO.last_name,
+        )
+
+        new_user.set_password(unencrypted_pass)
+
+        new_user.save()
+
+        #send_mail(
+        #    'Inicijalni password',
+        #    'Budala',
+        #    'settings.EMAIL_HOST_USER',
+        #    [email],
+        #    fail_silently=False
+        #)
 
         return redirect('login')
 
@@ -59,20 +72,30 @@ def profile(request):
 def edit_profile(request):
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        name = request.POST.get('name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
+        userDTO = UserDTO(
+            username = request.POST.get('username'),
+            password = request.POST.get('password'),
+            name = request.POST.get('name'),
+            last_name = request.POST.get('last_name'),
+            email = request.POST.get('email')
+        )
 
-        user = CustomUser()
-        user.username = username
-        user.password = password
-        user.name = name
-        user.last_name = last_name
-        user.email = email
+        try:
+            user = CustomUser.objects.get(email=userDTO.email)
+        except:
+            user = None
 
-#        user.save()
+        if user == None:
+            #Error?
+            return redirect('profile')
+
+        user.username = userDTO.username
+        user.password = userDTO.password
+        user.name = userDTO.name
+        user.last_name = userDTO.last_name
+        user.email = userDTO.email
+
+        user.save()
         
         return redirect('profile')
 
