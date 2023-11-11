@@ -1,60 +1,22 @@
-//import logo from "./logo.svg";
-import "./App.css";
-//import axios from "axios";
-import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import PassChange from "./pages/PassChange";
+import MainScreen from "./pages/MainScreen";
 
-export default function App() {
+function App() {
   return (
-    <div className="container">
-      <LogSignButtons />
-      <Message></Message>
-      <Reviews></Reviews>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />}></Route>
+        <Route path="login" element={<Login />}></Route>
+        <Route path="signup" element={<SignUp />}></Route>
+        <Route path="passChange" element={<PassChange />}></Route>
+        <Route path="mainScreen" element={<MainScreen />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-function LogSignButtons() {
-  return (
-    <div className="buttons">
-      <Button>Log in</Button>
-      <Button>Sign up</Button>
-    </div>
-  );
-}
-
-function Reviews() {
-  return (
-    <div className="reviews">
-      <Review>Jedna od najboljih aplikacija za učenje stranih jezika</Review>
-      <Review>
-        Nakon 6 mjeseci učenja sam prošao ispit i dobio posao u Njemačkoj
-      </Review>
-    </div>
-  );
-}
-
-function Button({ children }) {
-  if (children === "Log in") {
-    return <button className="button1">{children}</button>;
-  }
-  return <button className="button2">{children}</button>;
-}
-
-function Message() {
-  return (
-    <div className="openingMessage">
-      <div className="pictureAndMessage">
-        Dobrodošli na najbolje mjesto za učenje stranih jezika!
-      </div>
-    </div>
-  );
-}
-
-function Review({ children }) {
-  return (
-    <div className="review">
-      <div className="reviewChildren">{children}</div>
-      <div className="reviewPerson">Anonymus ⭐⭐⭐⭐⭐</div>
-    </div>
-  );
-}
+export default App;
