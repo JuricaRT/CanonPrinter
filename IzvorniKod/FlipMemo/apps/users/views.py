@@ -44,7 +44,7 @@ def signup(request):
             return
 
         new_user = CustomUser.objects.create_user(
-            username=userDTO.username
+            username=userDTO.username,
             email=userDTO.email,
             name=userDTO.name,
             last_name=userDTO.last_name,
