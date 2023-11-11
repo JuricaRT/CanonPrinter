@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'tempDB',
         'TEST': {
-            'NAME': 'tempDB',
+            'NAME': 'testDB',
         }
     }
 }
@@ -139,4 +139,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
-AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
+AUTHENTICATION_BACKENDS = ['apps.main.auth_backends.FlipMemoAuthBackend']

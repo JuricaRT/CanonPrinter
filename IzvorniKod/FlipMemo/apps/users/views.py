@@ -6,19 +6,19 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
-def login(request):
+def login_user(request):
 
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-
-        user = authenticate(email=email, password=password)
-
+        print(f'{username} {password}')
+        user = authenticate(username=username, password=password)
+        
         if user is not None:
             login(request, user)
             return redirect('profile')
         else:
-            messages.error('Wrong email or password')
+            messages.error('Wrong username or password')
             return redirect('login')
 
     return render(request, 'login.html')
@@ -31,11 +31,13 @@ def signup(request):
             name = request.POST.get('name'),
             last_name = request.POST.get('last_name'),
             email = request.POST.get('email'),
+            password=None,
+            permission_level=None
         )
 
         unencrypted_pass = request.POST.get('password')
 
-        if CustomUser.objects.filter(username=userDTO.user_name).exists():
+        if CustomUser.objects.filter(username=userDTO.username).exists():
             #todo handle error
             return
         
@@ -74,10 +76,11 @@ def edit_profile(request):
     if request.method == 'POST':
         userDTO = UserDTO(
             username = request.POST.get('username'),
-            password = request.POST.get('password'),
+            password = None,
             name = request.POST.get('name'),
             last_name = request.POST.get('last_name'),
-            email = request.POST.get('email')
+            email = request.POST.get('email'),
+            permission_level = None
         )
 
         try:
@@ -90,7 +93,6 @@ def edit_profile(request):
             return redirect('profile')
 
         user.username = userDTO.username
-        user.password = userDTO.password
         user.name = userDTO.name
         user.last_name = userDTO.last_name
         user.email = userDTO.email
