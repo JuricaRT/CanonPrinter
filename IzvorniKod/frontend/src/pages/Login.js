@@ -37,7 +37,10 @@ function RightPartScreen() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000", requestOption);
+      const response = await fetch(
+        "http://localhost:8000/login",
+        requestOption
+      );
       if (response.ok) {
         navigate("mainScreen");
       } else {
