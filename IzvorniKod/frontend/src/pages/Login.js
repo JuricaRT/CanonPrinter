@@ -1,4 +1,4 @@
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useState } from "react";
 
@@ -49,9 +49,11 @@ function RightPartScreen() {
         console.log(message);
         if (message === "ok") {
           if (initialPassword === true) {
-            navigate("/mainScreen", { state: { dataSource } });
+            navigate("/mainScreen", { state: { data: dataSource } });
           } else {
-            navigate("/passChange", { state: { pass: initialPassword } });
+            navigate("/passChange", {
+              state: { mail: mail, pass: initialPassword },
+            });
           }
         } else {
           setError(true);
