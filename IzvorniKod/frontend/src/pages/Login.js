@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useState } from "react";
 
@@ -43,11 +43,19 @@ function RightPartScreen() {
       );
       if (response.ok) {
         const jsonData = await response.json();
-        console.log(jsonData);
-//        navigate("/mainScreen");
-        navigate("/mainScreen", { state: { data: dataSource } });
-      } else {
-        setError(true);
+        const initialPassword = jsonData.has_initial_pass;
+        const message = jsonData.message;
+        console.log(initialPassword);
+        console.log(message);
+        if (message === "ok") {
+          if (initialPassword === true) {
+            navigate("/mainScreen", { state: { dataSource } });
+          } else {
+            navigate("/passChange", { state: { pass: initialPassword } });
+          }
+        } else {
+          setError(true);
+        }
       }
     } catch (error) {
       console.log("error: ", error);
