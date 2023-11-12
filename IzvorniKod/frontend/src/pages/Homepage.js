@@ -27,9 +27,9 @@ function LogSignButtons() {
 function Reviews() {
   return (
     <div className={styles.reviews}>
-      <Review>Jedna od najboljih aplikacija za učenje stranih jezika</Review>
+      <Review>One of the best apps for learning foreign languages</Review>
       <Review>
-        Nakon 6 mjeseci učenja sam prošao ispit i dobio posao u Njemačkoj
+        After 6 months of study, I passed the exam and got a job in Germany
       </Review>
     </div>
   );
@@ -46,7 +46,7 @@ function Message() {
   return (
     <div className={styles.openingMessage}>
       <div className={styles.pictureAndMessage}>
-        Dobrodošli na najbolje mjesto za učenje stranih jezika!
+        Welcome to the best place to learn foreign languages!
       </div>
     </div>
   );
