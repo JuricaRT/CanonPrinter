@@ -15,6 +15,7 @@ import string
 from apps.main.database import Database as db
 import dataclasses
 
+
 class UsersView():
 
     @staticmethod
@@ -31,7 +32,8 @@ class UsersView():
 
             if user is not None:
                 login(request, user)
-                return JsonResponse({'message': 'ok'})
+                log_user = CustomUser.objects.get(email=mail)
+                return JsonResponse(log_user.has_initial_pass, {'message': 'ok'})
             else:
                 print('Wrong username or password')
                 return JsonResponse({'message': 'invalid'})
@@ -48,7 +50,7 @@ class UsersView():
                 email=json_data.get('mail'),
                 password=None,
                 permission_level=None,
-                has_initial_pass=True
+                has_initial_pass=None
             )
 
             print(userDTO.email)
@@ -64,12 +66,14 @@ class UsersView():
                 last_name=userDTO.last_name,
             )
 
-            rand_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
+            rand_pass = ''.join(random.SystemRandom().choice(
+                string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
 
             new_user.set_password(rand_pass)
 
             userDTO.password = new_user.password
             userDTO.permission_level = 0
+            userDTO.has_initial_pass = True
             database = db()
             database.add_user(userDTO)
 
@@ -90,7 +94,7 @@ class UsersView():
 
     @staticmethod
     def profile(request):
-        
+
         if request.method == 'GET':
             user = request.user
             database = db()
@@ -114,7 +118,8 @@ class UsersView():
                 name=json_data.get('name'),
                 last_name=json_data.get('last_name'),
                 email=json_data.get('email'),
-                permission_level=None
+                permission_level=None,
+                has_initial_pass=json_data.get('initialPass')
             )
 
             try:
@@ -132,6 +137,7 @@ class UsersView():
             user.name = userDTO.name
             user.last_name = userDTO.last_name
             user.email = userDTO.email
+            user.has_initial_pass = userDTO.has_initial_pass
             user.set_password(userDTO.password)
 
             new_userDTO = user.to_dto()
