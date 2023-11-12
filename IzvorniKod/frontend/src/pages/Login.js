@@ -48,7 +48,7 @@ function RightPartScreen() {
         console.log(initialPassword);
         console.log(message);
         if (message === "ok") {
-          if (initialPassword === true) {
+          if (initialPassword === false) {
             navigate("/mainScreen", { state: { data: dataSource } });
           } else {
             navigate("/passChange", {
