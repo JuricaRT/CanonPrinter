@@ -15,6 +15,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=32)
     email = models.CharField(max_length=255, unique=True)
     permission_level = models.CharField(max_length=5, choices=PermissionLevel.choices, default=PermissionLevel.USER_LEVEL)
+    has_initial_pass = models.BooleanField(default=True)
 
     @staticmethod
     def register(self):
@@ -43,6 +44,7 @@ class CustomUser(AbstractUser):
         user_dto.name = self.name 
         user_dto.email = self.email      
         user_dto.permission_level = dto.permission_level_to_int(self.permission_level)
+        user_dto.has_initial_pass = self.has_initial_pass
         return user_dto      
 
     def __str__(self) -> str:

@@ -47,7 +47,8 @@ class UsersView():
                 last_name="Doe",
                 email=json_data.get('mail'),
                 password=None,
-                permission_level=None
+                permission_level=None,
+                has_initial_pass=True
             )
 
             print(userDTO.email)
