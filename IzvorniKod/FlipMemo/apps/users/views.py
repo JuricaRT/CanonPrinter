@@ -13,6 +13,7 @@ import smtplib
 import random
 import string
 from apps.main.database import Database as db
+import dataclasses
 
 class UsersView():
 
@@ -88,18 +89,30 @@ class UsersView():
 
     @staticmethod
     def profile(request):
-        return render(request, 'profile.html')
+        
+        if request.method == 'GET':
+            user = request.user
+            database = db()
+            users = database.get_users()
+            for u in users:
+                if u == user:
+                    user_dict = dataclasses.asdict(u)
+                    json_data = json.dumps(user_dict)
+
+                return JsonResponse(json_data, content_type='application/json')
 
     @staticmethod
     def edit_profile(request):
 
         if request.method == 'POST':
+            json_data = json.loads(request.body.decode('utf-8'))
+
             userDTO = UserDTO(
-                username=request.POST.get('username'),
-                password=request.POST.get('password'),
-                name=request.POST.get('name'),
-                last_name=request.POST.get('last_name'),
-                #email=request.POST.get('email'),
+                username=json_data.get('username'),
+                password=json_data.get('password'),
+                name=json_data.get('name'),
+                last_name=json_data.get('last_name'),
+                email=json_data.get('email'),
                 permission_level=None
             )
 
@@ -110,14 +123,14 @@ class UsersView():
 
             if user == None:
                 # Error?
-                return redirect('profile')
+                return
 
             old_userDTO = user.to_dto()
 
             user.username = userDTO.username
             user.name = userDTO.name
             user.last_name = userDTO.last_name
-            #user.email = userDTO.email
+            user.email = userDTO.email
             user.set_password(userDTO.password)
 
             new_userDTO = user.to_dto()
@@ -126,6 +139,4 @@ class UsersView():
 
             user.save()
 
-            return redirect('profile')
-
-        return render(request, 'edit_profile.html')
+            return JsonResponse({'message': 'ok'})

@@ -34,7 +34,7 @@ function RightPartScreen() {
         requestOption
       );
       if (response.ok) {
-        navigate("login");
+        navigate("/login");
       } else {
         setError(true);
       }

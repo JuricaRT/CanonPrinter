@@ -38,7 +38,7 @@ class CustomUser(AbstractUser):
 
     def to_dto(self):
         user_dto = dto.UserDTO()
-        user_dto.user_name = self.username
+        user_dto.username = self.username
         user_dto.password = self.password
         user_dto.name = self.name 
         user_dto.email = self.email      

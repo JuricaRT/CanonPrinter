@@ -42,7 +42,9 @@ function RightPartScreen() {
         requestOption
       );
       if (response.ok) {
-        navigate("mainScreen");
+        const jsonData = await response.json();
+        console.log(jsonData);
+//        navigate("/mainScreen");
       } else {
         setError(true);
       }
