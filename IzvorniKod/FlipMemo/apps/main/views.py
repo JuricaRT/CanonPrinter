@@ -3,9 +3,11 @@ from django.http import JsonResponse
 from apps.main.models import CustomUser, PermissionLevel
 from apps.main import apis
 from django.contrib.auth.decorators import user_passes_test
-from django.core import serializers
 from django.views import View
-from apps.main import database
+from apps.main.database import Database as db
+from dataclasses import dataclass
+import dataclasses
+import json
 
 class MainViews():
 
@@ -16,20 +18,22 @@ class MainViews():
     @staticmethod
     def get_students(request):
         if request.method == 'GET':
-            students = CustomUser.objects.filter(permission_level=PermissionLevel.USER_LEVEL)
-            serializer = serializers.get_serializer('json')
-            json_serializer = serializer()
-            json_data = json_serializer.serialize(students)
+            database = db()
+            students = database.get_students()
+            students_dict = dataclasses.asdict(students)
+            json_data = json.dumps(students_dict)
+
             return HttpResponse(json_data, content_type='application/json')
 
     @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
     @staticmethod
     def get_administrators(request):
         if request.method == 'GET':
-            admins = CustomUser.objects.filter(permission_level=PermissionLevel.ADMIN_LEVEL)
-            serializer = serializers.get_serializer('json')
-            json_serializer = serializer()
-            json_data = json_serializer.serialize(admins)
+            database = db()
+            admins = database.get_admins()
+            admins_dict = dataclasses.asdict(admins)
+            json_data = json.dumps(admins_dict)
+
             return HttpResponse(json_data, content_type='application/json')
 
     @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
@@ -62,9 +66,13 @@ class MainViews():
 
     @staticmethod
     def set_admin_rights(state, user):
+        old_userDTO = user.to_dto()
         user.permission_level = PermissionLevel.ADMIN_LEVEL if state else PermissionLevel.USER_LEVEL
         user.is_superuser = state
         user.save()
+        userDTO = user.to_dto()
+        database = db()
+        database.modify_user(old_userDTO, userDTO)
 
     @staticmethod
     def delete_user(request):
@@ -73,6 +81,9 @@ class MainViews():
 
             try:
                 user = CustomUser.objects.get(username=username)
+                userDTO = user.to_dto()
+                database = db()
+                database.delete_user(userDTO)
                 user.delete()
             except CustomUser.DoesNotExist:
                 #todo: handle
