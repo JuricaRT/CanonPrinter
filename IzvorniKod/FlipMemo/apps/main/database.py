@@ -40,13 +40,13 @@ class Database:
             self.words_col = self.client["CanonPrinterDB"]["Words"]
 
     def modify_user(self, old_UserDTO: UserDTO, new_UserDTO: UserDTO) -> None:
-        if self.accounts_col.count_documents({ 
-            "$and": [
-                { "username": { "$ne": old_UserDTO.username } }, 
-                { "username": new_UserDTO.username }
-            ]
-            }):
-            raise UniqueConstraintError("Cannot change username to a preexisting one.")
+        # if self.accounts_col.count_documents({ 
+        #     "$and": [
+        #         { "username": { "$ne": old_UserDTO.username } }, 
+        #         { "username": new_UserDTO.username }
+        #     ]
+        #     }):
+        #     raise UniqueConstraintError("Cannot change username to a preexisting one.")
         
         if self.accounts_col.count_documents({ 
             "$and": [
@@ -69,8 +69,8 @@ class Database:
         )
 
     def add_user(self, userDTO: UserDTO) -> None:
-        if self.accounts_col.count_documents({ "username" : userDTO.username }):
-            raise UniqueConstraintError("Cannot add a new account to the database without a unique username.")
+        # if self.accounts_col.count_documents({ "username" : userDTO.username }):
+        #     raise UniqueConstraintError("Cannot add a new account to the database without a unique username.")
 
         self.accounts_col.insert_one({
             "username" : userDTO.username,
