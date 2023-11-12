@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function PassChange() {
+  // const location = useLocation();
+  // const { data } = location.state || {};
+
   return (
     <div className={styles.page}>
       <div className={styles.leftSide}></div>
