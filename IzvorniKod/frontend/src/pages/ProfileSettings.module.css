@@ -1,8 +1,24 @@
-.div {
+.settings {
   display: flex;
-  flex-flow: row;
-  justify-content: space-evenly;
-  height: 80vh;
+  flex-direction: column;
+  /* align-content: center; */
+  /* justify-content: space-between; */
+  height: 70vh;
+  background-color: grey;
+  padding: 25px;
+}
+
+.element {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+}
+
+.change {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 400px;
 }
 
 .return:link,
