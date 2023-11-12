@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import { useState } from "react";
 
@@ -12,10 +12,39 @@ function SignUp() {
 }
 
 function RightPartScreen() {
+  const navigate = useNavigate();
   const [mail, setMail] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const dataSource = {
+      mail: mail,
+    };
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataSource),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/signup/",
+        requestOption
+      );
+      if (response.ok) {
+        navigate("login");
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   return (
-    <form className={styles.rightPartScreen}>
+    <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
         <Link to="/login">
           <button className={styles.button1}>Log in</button>

@@ -38,7 +38,7 @@ function RightPartScreen() {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/login",
+        "http://localhost:8000/login/",
         requestOption
       );
       if (response.ok) {
