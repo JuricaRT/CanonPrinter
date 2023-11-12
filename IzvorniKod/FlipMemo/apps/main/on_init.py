@@ -24,4 +24,3 @@ class DatabaseSync:
                 permission_level = dto.int_to_permission_level(userDTO.permission_level),
                 has_initial_pass = userDTO.has_initial_pass
             )
-
