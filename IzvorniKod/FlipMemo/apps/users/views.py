@@ -12,6 +12,7 @@ import json
 import smtplib
 import random
 import string
+from apps.main.database import Database as db
 
 class UsersView():
 
@@ -31,7 +32,7 @@ class UsersView():
                 login(request, user)
                 return JsonResponse({'message': 'ok'})
             else:
-                messages.error('Wrong username or password')
+                print('Wrong username or password')
                 return JsonResponse({'message': 'invalid'})
 
     @staticmethod
@@ -65,6 +66,11 @@ class UsersView():
 
             new_user.set_password(rand_pass)
 
+            userDTO.password = new_user.password
+            userDTO.permission_level = 0
+            database = db()
+            database.add_user(userDTO)
+
             new_user.save()
 
             try:
@@ -90,10 +96,10 @@ class UsersView():
         if request.method == 'POST':
             userDTO = UserDTO(
                 username=request.POST.get('username'),
-                password=None,
+                password=request.POST.get('password'),
                 name=request.POST.get('name'),
                 last_name=request.POST.get('last_name'),
-                email=request.POST.get('email'),
+                #email=request.POST.get('email'),
                 permission_level=None
             )
 
@@ -106,10 +112,17 @@ class UsersView():
                 # Error?
                 return redirect('profile')
 
+            old_userDTO = user.to_dto()
+
             user.username = userDTO.username
             user.name = userDTO.name
             user.last_name = userDTO.last_name
-            user.email = userDTO.email
+            #user.email = userDTO.email
+            user.set_password(userDTO.password)
+
+            new_userDTO = user.to_dto()
+            database = db()
+            database.modify_user(old_userDTO, new_userDTO)
 
             user.save()
 

@@ -7,7 +7,6 @@ class PermissionLevel(models.TextChoices):
     ADMIN_LEVEL = 'ADMIN'
     USER_LEVEL = 'USER'
 
-
 class CustomUser(AbstractUser):
 
     username = models.CharField(max_length=32, unique=False)
