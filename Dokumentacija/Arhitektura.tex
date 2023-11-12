@@ -137,8 +137,11 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Account}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}\_id & objectId	&  	Primarni ključ profila.  	\\ \hline
-					email	& string &   Adresa e-pošte profila.	\\ \hline 
-					encryptedPass	& binData &   SHA-256 kôd lozinke profila.	\\ \hline
+					username	& string &   Korisničko ime profila. (Alternativni primarni ključ)	\\ \hline 
+					email	& string &   Adresa e-pošte profila. (Alternativni primarni ključ)	\\ \hline 
+					encryptedPass	& string &   SHA-256 kôd lozinke profila.	\\ \hline
+					first\_name	& string &   Ime vlasnika profila.	\\ \hline 
+					last\_name	& string &   Prezime vlasnika profila.	\\ \hline 
 					isAdmin	& boolean &   Naznaka posjeduje li profil administratorske privilegije.	\\ \hline
 					hasInitialPass	& boolean &   Naznaka je li korisnik promijenio inicijalnu lozinku dodijeljenju prilikom registracije. False ... inicijalna lozinka nije promijenjena.     True ... inicijalna lozinka je promijenjena.	\\ \hline  
 				\end{longtblr}
