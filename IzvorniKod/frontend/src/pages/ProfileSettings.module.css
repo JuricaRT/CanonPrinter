@@ -45,3 +45,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.delete {
+  width: 100px;
+}

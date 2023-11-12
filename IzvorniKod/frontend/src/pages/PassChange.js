@@ -33,9 +33,12 @@ function Form() {
 
     try {
       if (password === repeatedPassword) {
-        const response = await fetch("http://localhost:8000", requestOption);
+        const response = await fetch(
+          "http://localhost:8000/edit_profile/",
+          requestOption
+        );
         if (response.ok) {
-          navigate("mainScreen");
+          navigate("/mainScreen");
         } else {
           backendError = true;
         }
@@ -45,7 +48,7 @@ function Form() {
         setRepeatedPassword("");
       }
     } catch (error) {
-      console("error: ", error);
+      console.log("error: ", error);
     }
   };
 

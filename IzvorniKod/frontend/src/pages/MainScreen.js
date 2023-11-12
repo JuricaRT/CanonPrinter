@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import styles from "./MainScreen.module.css";
 
 export default function MainScreen() {
+  // const location = useLocation();
+  // const { data } = location.state || {};
+
   return (
     <>
       <div className={styles.div}>

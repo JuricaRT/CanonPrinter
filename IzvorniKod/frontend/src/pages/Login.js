@@ -42,7 +42,7 @@ function RightPartScreen() {
         requestOption
       );
       if (response.ok) {
-        navigate("mainScreen");
+        navigate("/mainScreen", { state: { data: dataSource } });
       } else {
         setError(true);
       }
