@@ -9,7 +9,8 @@ class PermissionLevel(models.TextChoices):
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=32, unique=True)
+
+    username = models.CharField(max_length=32, unique=False)
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)

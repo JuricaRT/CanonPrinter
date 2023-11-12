@@ -4,9 +4,27 @@ from django.db import transaction
 from unittest import skip
 from apps.main import views
 from django.urls import reverse
+from django.core.mail import send_mail
+import smtplib
+from django.conf import settings
 
 class AdminTests(TestCase):
     def test_admin_funcs(self):
+
+        try:
+            send_mail(
+                'Welcome to FlipMemo',
+                f'Thank you for registering. Your initial password is: {1234}',
+                settings.EMAIL_HOST_USER,
+                ['kristijan.milic02@gmail.com'],
+                fail_silently=False
+            )
+            print("HERE")
+        except smtplib.SMTPServerDisconnected as e:
+            print(f'SMTPServerDisconnected: {e}')        
+
+        input()
+        return
         self.client.post('/signup/', 
             {
                 'username': 'test_user',

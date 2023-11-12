@@ -7,9 +7,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.http import JsonResponse
+from django.conf import settings
 import json
 import smtplib
-
+import random
+import string
 
 class UsersView():
 
@@ -37,22 +39,16 @@ class UsersView():
         if request.method == 'POST':
             json_data = json.loads(request.body.decode('utf-8'))
 
-            print("HERE")
-
             userDTO = UserDTO(
-                username=None,
-                name=None,
-                last_name=None,
+                username="DefaultUser",
+                name="John",
+                last_name="Doe",
                 email=json_data.get('mail'),
                 password=None,
                 permission_level=None
             )
 
             print(userDTO.email)
-
-            if CustomUser.objects.filter(username=userDTO.username).exists():
-                # todo handle error
-                return
 
             if CustomUser.objects.filter(email=userDTO.email).exists():
                 # todo handle error
@@ -65,17 +61,17 @@ class UsersView():
                 last_name=userDTO.last_name,
             )
 
-            initial_pass = 'canonprinter'
+            rand_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
 
-            new_user.set_password(initial_pass)
+            new_user.set_password(rand_pass)
 
             new_user.save()
 
             try:
                 send_mail(
                     'Welcome to FlipMemo',
-                    f'Thank you for registering. Your initial password is: {initial_pass}',
-                    'settings.EMAIL_HOST_USER',
+                    f'Thank you for registering. Your initial password is: {rand_pass}',
+                    settings.EMAIL_HOST_USER,
                     [userDTO.email],
                     fail_silently=False
                 )

@@ -18,6 +18,10 @@ class AdminTests(SimpleTestCase):
                 user.permission_level = PermissionLevel.ADMIN_LEVEL
                 user.save()
 
+            if user.email == 'kristijan.milic02@gmail.com':
+                user.delete_user()
+                user.save()
+
     def tearDown(self) -> None:
         pass
 
