@@ -41,38 +41,42 @@ class Database:
             self.pronun_audios_col = self.client["CanonPrinterDB"]["PronunciationAudios"]
             self.words_col = self.client["CanonPrinterDB"]["Words"]
 
-    def modify_user(self, old_UserDTO: UserDTO, new_UserDTO: UserDTO) -> None:
-        if self.accounts_col.count_documents({ 
-            "$and": [
-                { "username": { "$ne": old_UserDTO.username } }, 
-                { "username": new_UserDTO.username }
-            ]
-            }):
-            raise UniqueConstraintError("Cannot change username to a preexisting one.")
+    def modify_user(self, oldUserDto: UserDTO, new_UserDTO: UserDTO) -> None:
+        # if self.accounts_col.count_documents({ 
+        #     "$and": [
+        #         { "username": { "$ne": old_UserDTO.username } }, 
+        #         { "username": new_UserDTO.username }
+        #     ]
+        #     }):
+        #     raise UniqueConstraintError("Cannot change username to a preexisting one.")
         
-        if self.accounts_col.count_documents({ 
-            "$and": [
-                { "email": { "$ne": old_UserDTO.email } }, 
-                { "email": new_UserDTO.email }
-            ]
-            }):
+        if oldUserDto.email != new_UserDTO.email and self.accounts_col.count_documents({ 
+                                                        "$and": [
+                                                            { "email": { "$ne": oldUserDto.email } }, 
+                                                            { "email": new_UserDTO.email }
+                                                        ]
+                                                        }):
             raise UniqueConstraintError("Cannot change e-mail to a preexisting one.")
         
         self.accounts_col.find_one_and_update(
-            { "username" : old_UserDTO.username },
+            { "email" : oldUserDto.email },
             { "$set" : {
                 "username" : new_UserDTO.username,
                 "email" : new_UserDTO.email,
                 "encryptedPass" : new_UserDTO.password,
                 "first_name" : new_UserDTO.name,
                 "last_name" : new_UserDTO.last_name,
-                "isAdmin" : bool(new_UserDTO.permission_level)
+                "isAdmin" : bool(new_UserDTO.permission_level),
+                "hasInitialPass" : oldUserDto.email != new_UserDTO.email # vjerojatno privremeno
             }}
         )
 
     def add_user(self, userDTO: UserDTO) -> None:
-        if self.accounts_col.count_documents({ "username" : userDTO.username }):
-            raise UniqueConstraintError("Cannot add a new account to the database without a unique username.")
+        # if self.accounts_col.count_documents({ "username" : userDTO.username }):
+        #     raise UniqueConstraintError("Cannot add a new account to the database without a unique username.")
+
+        if self.accounts_col.count_documents({ "email" : userDTO.email }):
+            raise UniqueConstraintError("Cannot add a new account to the database without a unique e-mail.")
 
         self.accounts_col.insert_one({
             "username" : userDTO.username,
@@ -85,21 +89,21 @@ class Database:
         })
 
     def delete_user(self, userDTO: UserDTO) -> None:
-        delete_result = self.accounts_col.delete_one({ "username" : userDTO.username })
+        delete_result = self.accounts_col.delete_one({ "email" : userDTO.email })
 
         if delete_result.deleted_count == 0:
-            warn(f"No account with username \"{userDTO.username}\" to delete.")
+            warn(f"No account with email \"{userDTO.email}\" to delete.")
 
-    def set_role(self, target_username: str, role: int) -> None:
+    def set_role(self, userDto: UserDTO, role: int) -> None:
         res = self.accounts_col.find_one_and_update(
-                { "username" : target_username },
+                { "email" : userDto.email },
                 { "$set" : {
                     "isAdmin" : bool(role)
                 }}
             )
         
         if not res:
-            warn(f"No account with username \"{target_username}\" to change role for.")
+            warn(f"No account with username \"{userDto.email}\" to change role for.")
 
     def get_users(self) -> list[UserDTO]:
         return [_doc_to_dto(doc) for doc in self.accounts_col.find({})]
