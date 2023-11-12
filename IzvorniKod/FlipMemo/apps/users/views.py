@@ -33,7 +33,13 @@ class UsersView():
             if user is not None:
                 login(request, user)
                 log_user = CustomUser.objects.get(email=mail)
-                return JsonResponse(log_user.has_initial_pass, {'message': 'ok'})
+                send_json_data = (
+                    {
+                        'has_initial_pass': log_user.has_initial_pass,
+                        'message': 'ok'
+                    }
+                )
+                return JsonResponse(send_json_data, safe=False)
             else:
                 print('Wrong username or password')
                 return JsonResponse({'message': 'invalid'})
