@@ -1,16 +1,60 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./ProfileSettings.module.css";
 import { useState } from "react";
 
 export default function ProfileSettings() {
+  const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);
+  const [wantToChangeUsername, setWantToChangeUsername] = useState(false);
+  const [wantToChangeName, setWantToChangeName] = useState(false);
+  const [wantToChangeLastName, setWantToChangeLastName] = useState(false);
 
-  function handleClick() {
+  function handlePassClick() {
     setWantToChangePass(true);
+    setWantToChangeUsername(false);
+    setWantToChangeName(false);
+    setWantToChangeLastName(false);
   }
 
   function handleSaveChange() {
     setWantToChangePass(false);
+  }
+
+  function handleUsernameClick() {
+    setWantToChangeUsername(true);
+    setWantToChangePass(false);
+    setWantToChangeName(false);
+    setWantToChangeLastName(false);
+  }
+
+  function handleSaveUsername() {
+    setWantToChangeUsername(false);
+  }
+
+  function handleNameClick() {
+    setWantToChangeName(true);
+    setWantToChangePass(false);
+    setWantToChangeUsername(false);
+    setWantToChangeLastName(false);
+  }
+
+  function handleSaveName() {
+    setWantToChangeName(false);
+  }
+
+  function handleLastNameClick() {
+    setWantToChangeLastName(true);
+    setWantToChangeName(false);
+    setWantToChangePass(false);
+    setWantToChangeUsername(false);
+  }
+
+  function handleSaveLastName() {
+    setWantToChangeLastName(false);
+  }
+
+  function deleteProfile() {
+    navigate("/");
   }
 
   return (
@@ -19,16 +63,40 @@ export default function ProfileSettings() {
       <div className={styles.settings}>
         <Element changable={false}>Mail</Element>
         {wantToChangePass ? (
-          <Change handleSaveChange={handleSaveChange}>Password</Change>
+          <Change handleChange={handleSaveChange}>Password</Change>
         ) : (
           <Element
             changable={true}
-            handleClick={handleClick}
+            handleClick={handlePassClick}
             wantToChange={wantToChangePass}
           >
             Password
           </Element>
         )}
+        {wantToChangeUsername ? (
+          <Change handleChange={handleSaveUsername}>Username</Change>
+        ) : (
+          <Element changable={true} handleClick={handleUsernameClick}>
+            Username
+          </Element>
+        )}
+        {wantToChangeName ? (
+          <Change handleChange={handleSaveName}>Name</Change>
+        ) : (
+          <Element changable={true} handleClick={handleNameClick}>
+            Name
+          </Element>
+        )}
+        {wantToChangeLastName ? (
+          <Change handleChange={handleSaveLastName}>Last name</Change>
+        ) : (
+          <Element changable={true} handleClick={handleLastNameClick}>
+            Last name
+          </Element>
+        )}
+        <button className={styles.delete} onClick={deleteProfile}>
+          Delete profile
+        </button>
       </div>
       <div className={styles.donji}>
         <Return />
@@ -37,12 +105,12 @@ export default function ProfileSettings() {
   );
 }
 
-function Change({ children, handleSaveChange }) {
+function Change({ children, handleChange }) {
   return (
     <div>
       <form className={styles.change}>
         {children}:<input type="text" placeholder="New Password..."></input>
-        <button onClick={handleSaveChange}>Save changes</button>
+        <button onClick={handleChange}>Save changes</button>
       </form>
     </div>
   );

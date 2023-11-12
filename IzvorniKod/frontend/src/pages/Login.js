@@ -45,6 +45,7 @@ function RightPartScreen() {
         const jsonData = await response.json();
         console.log(jsonData);
 //        navigate("/mainScreen");
+        navigate("/mainScreen", { state: { data: dataSource } });
       } else {
         setError(true);
       }
