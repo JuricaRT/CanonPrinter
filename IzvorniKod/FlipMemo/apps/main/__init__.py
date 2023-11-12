@@ -1,4 +1,4 @@
-from FlipMemo.database import Database
+# from FlipMemo.database import Database
 
-db = Database()
-print(db.get_users())
+# db = Database()
+# print(db.get_users())
