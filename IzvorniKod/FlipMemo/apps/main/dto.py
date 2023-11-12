@@ -13,6 +13,7 @@ class UserDTO:
     last_name: str = ''
     email: str = ''
     permission_level: int = 0
+    has_initial_pass: bool = 1
 
     def __post_init__(self):
         for field in fields(self):
