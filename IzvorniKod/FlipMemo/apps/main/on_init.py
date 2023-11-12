@@ -21,6 +21,7 @@ class DatabaseSync:
                 email = userDTO.email,
                 name = userDTO.name,
                 last_name = userDTO.last_name,
-                permission_level = dto.int_to_permission_level(userDTO.permission_level)
+                permission_level = dto.int_to_permission_level(userDTO.permission_level),
+                has_initial_pass = userDTO.has_initial_pass
             )
 

@@ -21,7 +21,8 @@ def _doc_to_dto(doc) -> UserDTO:
         name=doc["first_name"],
         last_name=doc["last_name"],
         email=doc["email"],
-        permission_level=int(doc["isAdmin"])
+        permission_level=int(doc["isAdmin"]),
+        has_initial_pass=bool(doc["hasInitialPass"])
     )
 
 class UniqueConstraintError(Exception):
@@ -65,7 +66,7 @@ class Database:
                 "first_name" : new_UserDTO.name,
                 "last_name" : new_UserDTO.last_name,
                 "isAdmin" : bool(new_UserDTO.permission_level),
-                "hasInitialPass" : oldUserDto.email != new_UserDTO.email # vjerojatno privremeno
+                "hasInitialPass" : oldUserDto.has_initial_pass
             }}
         )
 
