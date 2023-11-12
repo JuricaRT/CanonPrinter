@@ -30,6 +30,17 @@
   font-size: large;
 }
 
+/* .profile {
+  width: 350px;
+  height: 85px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border-radius: 5px;
+  color: var(--color-dark--1);
+  background-color: beige;
+} */
+
 .profileSettings:link,
 .profileSettings:visited {
   display: inline-block;

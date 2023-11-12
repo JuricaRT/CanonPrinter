@@ -1,22 +1,22 @@
 import styles from "./PassChange.module.css";
-import { useState } from "react";
+import { useState, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function PassChange() {
-  // const location = useLocation();
-  // const { data } = location.state || {};
+  const location = useLocation();
+  const { data } = location.state || {};
 
   return (
     <div className={styles.page}>
       <div className={styles.leftSide}></div>
       <div className={styles.rightSide}>
-        <Form />
+        <Form data={data} />
       </div>
     </div>
   );
 }
 
-function Form() {
+function Form({ data }) {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
@@ -28,10 +28,16 @@ function Form() {
   const handlePassword = async (e) => {
     e.preventDefault();
 
+    const sendingData = {
+      password: password,
+      mail: data.mail,
+      initialPass: false,
+    };
+
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(password),
+      body: JSON.stringify(sendingData),
     };
 
     try {
@@ -41,7 +47,7 @@ function Form() {
           requestOption
         );
         if (response.ok) {
-          navigate("/mainScreen");
+          navigate("/mainScreen", { state: sendingData });
         } else {
           backendError = true;
         }
