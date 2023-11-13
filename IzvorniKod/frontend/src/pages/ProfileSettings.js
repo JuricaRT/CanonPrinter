@@ -1,8 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./ProfileSettings.module.css";
 import { useState } from "react";
 
 export default function ProfileSettings() {
+  const location = useLocation();
+  const { data } = location.state || {};
+
   const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);
   const [wantToChangeUsername, setWantToChangeUsername] = useState(false);
@@ -61,7 +64,9 @@ export default function ProfileSettings() {
     <>
       <h1 className={styles.h1}>Profile Settings</h1>
       <div className={styles.settings}>
-        <Element changable={false}>Mail</Element>
+        <Element changable={false} data={data.email}>
+          Mail
+        </Element>
         {wantToChangePass ? (
           <Change handleChange={handleSaveChange}>Password</Change>
         ) : (
@@ -69,6 +74,7 @@ export default function ProfileSettings() {
             changable={true}
             handleClick={handlePassClick}
             wantToChange={wantToChangePass}
+            data={data.password}
           >
             Password
           </Element>
@@ -76,21 +82,33 @@ export default function ProfileSettings() {
         {wantToChangeUsername ? (
           <Change handleChange={handleSaveUsername}>Username</Change>
         ) : (
-          <Element changable={true} handleClick={handleUsernameClick}>
+          <Element
+            changable={true}
+            handleClick={handleUsernameClick}
+            data={data.username}
+          >
             Username
           </Element>
         )}
         {wantToChangeName ? (
           <Change handleChange={handleSaveName}>Name</Change>
         ) : (
-          <Element changable={true} handleClick={handleNameClick}>
+          <Element
+            changable={true}
+            handleClick={handleNameClick}
+            data={data.name}
+          >
             Name
           </Element>
         )}
         {wantToChangeLastName ? (
           <Change handleChange={handleSaveLastName}>Last name</Change>
         ) : (
-          <Element changable={true} handleClick={handleLastNameClick}>
+          <Element
+            changable={true}
+            handleClick={handleLastNameClick}
+            data={data.last_name}
+          >
             Last name
           </Element>
         )}
@@ -109,7 +127,7 @@ function Change({ children, handleChange }) {
   return (
     <div>
       <form className={styles.change}>
-        {children}:<input type="text" placeholder="New Password..."></input>
+        {children}:<input type="text" placeholder={`New ${children}`}></input>
         <button onClick={handleChange}>Save changes</button>
       </form>
     </div>
@@ -124,10 +142,10 @@ function Return() {
   );
 }
 
-function Element({ children, changable, handleClick, wantToChange }) {
+function Element({ children, changable, handleClick, wantToChange, data }) {
   return (
     <div className={styles.element}>
-      {`${children}: Tvoj ${children}`}
+      {`${children}: Tvoj ${data}`}
       {changable && (
         <button
           style={{ height: "20px", margin: "10px" }}
