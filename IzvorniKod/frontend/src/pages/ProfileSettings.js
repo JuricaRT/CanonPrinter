@@ -4,7 +4,11 @@ import { useState } from "react";
 
 export default function ProfileSettings() {
   const location = useLocation();
+<<<<<<< HEAD
   const data = location.state;
+=======
+  const data = location.state || {};
+>>>>>>> origin/dev
 
   const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);
@@ -56,9 +60,26 @@ export default function ProfileSettings() {
     setWantToChangeLastName(false);
   }
 
-  function deleteProfile() {
+  const deleteProfile = async (e) => {
+    e.preventDefault();
+
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data.mail),
+    };
+
+    try {
+      const response = await fetch("http://localhost8000/", requestOption);
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+
     navigate("/");
-  }
+  };
 
   return (
     <>
@@ -145,7 +166,7 @@ function Return() {
 function Element({ children, changable, handleClick, wantToChange, data }) {
   return (
     <div className={styles.element}>
-      {`${children}: Tvoj ${data}`}
+      {`${children}: ${data}`}
       {changable && (
         <button
           style={{ height: "20px", margin: "10px" }}
