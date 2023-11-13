@@ -50,9 +50,9 @@ class UsersView():
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
-                username="DefaultUser",
-                name="John",
-                last_name="Doe",
+                username="",
+                name="",
+                last_name="",
                 email=json_data.get('mail'),
                 password=None,
                 permission_level=None,
@@ -102,15 +102,38 @@ class UsersView():
     def profile(request):
 
         if request.method == 'GET':
-            user = request.user
-            database = db()
-            users = database.get_users()
-            for u in users:
-                if u == user:
-                    user_dict = dataclasses.asdict(u)
-                    json_data = json.dumps(user_dict)
+            json_data = json.loads(request.body.decode('utf-8'))
 
-                return JsonResponse(json_data, content_type='application/json')
+            userDTO = UserDTO(
+                username='',
+                password='',
+                name='',
+                last_name='',
+                email=json_data.get('email'),
+                permission_level=None,
+                has_initial_pass=None
+            )
+
+            try:
+                user = CustomUser.objects.get(email=userDTO.email)
+            except:
+                user = None
+
+            if user == None:
+                # Error?
+                return
+
+            send_json_data = (
+                {
+                    'username': user.username,
+                    'password': user.password,
+                    'name': user.name,
+                    'last_name': user.last_name,
+                    'email': user.email
+                }
+            )
+
+            return JsonResponse(send_json_data, content_type='application/json')
 
     @staticmethod
     def edit_profile(request):
@@ -119,13 +142,13 @@ class UsersView():
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
-                username=json_data.get('username'),
-                password=json_data.get('password'),
-                name=json_data.get('name'),
-                last_name=json_data.get('last_name'),
-                email=json_data.get('email'),
+                username=json_data.get('username') or 'DefaultUser',
+                password=json_data.get('password') or '',
+                name=json_data.get('name') or '',
+                last_name=json_data.get('last_name') or '',
+                email=json_data.get('mail'),
                 permission_level=None,
-                has_initial_pass=json_data.get('initialPass')
+                has_initial_pass=json_data.get('initialPass') or False
             )
 
             try:

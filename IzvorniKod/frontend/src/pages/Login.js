@@ -52,7 +52,7 @@ function RightPartScreen() {
             navigate("/mainScreen", { state: { data: dataSource } });
           } else {
             navigate("/passChange", {
-              state: { mail: mail, pass: initialPassword },
+              state: { mail: mail, pass: false },
             });
           }
         } else {
