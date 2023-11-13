@@ -76,11 +76,11 @@ class MainViews():
 
     @staticmethod
     def delete_user(request):
-        # if request.method == 'POST':
-        #     username = request.POST.get("username")
+        if request.method == 'POST':
+            username = request.POST.get("username")
 
             try:
-                user = CustomUser.objects.get(email='lovro.svenda1@gmail.com')
+                user = CustomUser.objects.get(username=username)
                 userDTO = user.to_dto()
                 database = db()
                 database.delete_user(userDTO)

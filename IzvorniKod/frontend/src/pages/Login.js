@@ -45,11 +45,10 @@ function RightPartScreen() {
         const jsonData = await response.json();
         const initialPassword = jsonData.has_initial_pass;
         const message = jsonData.message;
-        console.log(initialPassword);
-        console.log(message);
         if (message === "ok") {
           if (initialPassword === false) {
-            navigate("/mainScreen", { state: { data: dataSource } });
+            console.log(dataSource)
+            navigate("/mainScreen", { state: dataSource });
           } else {
             navigate("/passChange", {
               state: { mail: mail, pass: false },

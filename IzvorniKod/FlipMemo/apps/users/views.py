@@ -50,9 +50,9 @@ class UsersView():
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
-                username="",
-                name="",
-                last_name="",
+                username="DefaultUser",
+                name="John",
+                last_name="Doe",
                 email=json_data.get('mail'),
                 password=None,
                 permission_level=None,
@@ -101,7 +101,7 @@ class UsersView():
     @staticmethod
     def profile(request):
 
-        if request.method == 'GET':
+        if request.method == 'POST':
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
@@ -109,7 +109,7 @@ class UsersView():
                 password='',
                 name='',
                 last_name='',
-                email=json_data.get('email'),
+                email=json_data.get('mail'),
                 permission_level=None,
                 has_initial_pass=None
             )

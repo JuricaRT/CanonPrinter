@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ProfileSettings() {
   const location = useLocation();
-  const { data } = location.state || {};
+  const data = location.state;
 
   const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function MainScreen() {
   const location = useLocation();
-  const { data } = location.state || {};
+  const data = location.state;
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
@@ -12,8 +12,10 @@ export default function MainScreen() {
       mail: data.mail,
     };
 
+    console.log(data.mail)
+
     const requestOption = {
-      method: "GET",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(sendingData),
     };
@@ -25,6 +27,7 @@ export default function MainScreen() {
       );
       if (response.ok) {
         const finalData = await response.json();
+        console.log(finalData)
         navigate("/profileSettings", { state: finalData });
       }
     } catch (error) {
