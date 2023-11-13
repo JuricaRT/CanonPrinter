@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ProfileSettings() {
   const location = useLocation();
-  const data = location.state || {};
+  const data = location.state;
 
   const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);
@@ -62,17 +62,26 @@ export default function ProfileSettings() {
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data.mail),
+      body: JSON.stringify({ mail: data.email }),
     };
 
     try {
-      const response = await fetch("http://localhost8000/", requestOption);
+      const response = await fetch(
+        "http://localhost:8000/delete_user/",
+        requestOption
+      );
       if (response.ok) {
         navigate("/");
       }
     } catch (error) {
       console.log("error: ", error);
     }
+  };
+
+  const handleReturn = (e) => {
+    e.preventDefault();
+
+    navigate("/mainScreen", { state: { mail: data.email } });
   };
 
   return (
@@ -132,7 +141,7 @@ export default function ProfileSettings() {
         </button>
       </div>
       <div className={styles.donji}>
-        <Return />
+        <Return handleReturn={handleReturn} />
       </div>
     </>
   );
@@ -149,9 +158,9 @@ function Change({ children, handleChange }) {
   );
 }
 
-function Return() {
+function Return({ handleReturn }) {
   return (
-    <Link to="/mainScreen" className={styles.return}>
+    <Link to="/mainScreen" className={styles.return} onClick={handleReturn}>
       Return
     </Link>
   );

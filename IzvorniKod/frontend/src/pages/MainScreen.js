@@ -9,9 +9,12 @@ export default function MainScreen() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
     const sendingData = {
       mail: data.mail,
     };
+
+    console.log(data.mail);
 
     const requestOption = {
       method: "POST",
@@ -26,6 +29,7 @@ export default function MainScreen() {
       );
       if (response.ok) {
         const finalData = await response.json();
+        console.log(finalData);
         navigate("/profileSettings", { state: finalData });
       }
     } catch (error) {
