@@ -4,7 +4,7 @@ from apps.main.models import CustomUser
 from apps.main.dto import UserDTO
 from django.core.mail import send_mail
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.http import JsonResponse
 from django.conf import settings
@@ -36,6 +36,30 @@ class UsersView():
                 send_json_data = (
                     {
                         'has_initial_pass': log_user.has_initial_pass,
+                        'message': 'ok'
+                    }
+                )
+                return JsonResponse(send_json_data, safe=False)
+            else:
+                print('Wrong username or password')
+                return JsonResponse({'message': 'invalid'})
+
+    @staticmethod
+    def logout_user(request):
+
+        if request.method == 'POST':
+            json_data = json.loads(request.body.decode('utf-8'))
+            mail = json_data.get('mail')
+            password = json_data.get('password')
+
+            print(f'{mail} {password}')
+
+            user = authenticate(email=mail, password=password)
+
+            if user is not None:
+                logout(user)
+                send_json_data = (
+                    {
                         'message': 'ok'
                     }
                 )

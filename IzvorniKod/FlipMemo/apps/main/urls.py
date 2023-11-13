@@ -9,6 +9,7 @@ from django.conf import settings
 urlpatterns = [
     path("", views.MainViews.temp_func, name="Test"),
     path('login/', user_views.UsersView.login_user, name='login'),
+    path('logout/', user_views.UsersView.logout_user, name='logout'),
     path('signup/', user_views.UsersView.signup, name='signup'),
     path('profile/', user_views.UsersView.profile, name='profile'),
     path('edit_profile/', user_views.UsersView.edit_profile, name='edit_profile'),
