@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
+import { useState } from "react";
 
 function Homepage() {
   document.title = "HOME";
@@ -13,14 +14,27 @@ function Homepage() {
 }
 
 function LogSignButtons() {
+  const [loggedIn, setLoggedIn] = useState(false);
   return (
     <div className={styles.buttons}>
-      <Link to="/login">
-        <Button>Log in</Button>
-      </Link>
-      <Link to="/signup">
-        <Button>Sign up</Button>
-      </Link>
+      {loggedIn ? (
+        <Link to="/mainScreen">
+          <button className={styles.button1}>Main screen</button>
+        </Link>
+      ) : (
+        <Link to="/login">
+          <button className={styles.button1}>Log in</button>
+        </Link>
+      )}
+      {loggedIn ? (
+        <Link to="/profileSettings">
+          <button className={styles.button2}>Profile</button>
+        </Link>
+      ) : (
+        <Link to="/signup">
+          <button className={styles.button2}>Sign up</button>
+        </Link>
+      )}
     </div>
   );
 }
@@ -34,13 +48,6 @@ function Reviews() {
       </Review>
     </div>
   );
-}
-
-function Button({ children }) {
-  if (children === "Log in") {
-    return <button className={styles.button1}>{children}</button>;
-  }
-  return <button className={styles.button2}>{children}</button>;
 }
 
 function Message() {

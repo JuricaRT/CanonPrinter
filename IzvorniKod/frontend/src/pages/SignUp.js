@@ -15,6 +15,7 @@ function RightPartScreen() {
   const navigate = useNavigate();
   const [mail, setMail] = useState("");
   const [error, setError] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,12 +54,22 @@ function RightPartScreen() {
     <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
         <div className={styles.signUpText}>SIGN UP</div>
-        <Link to="/login">
-          <button className={styles.button1}>Log in</button>
-        </Link>
-        <Link to="/signup">
+        {loggedIn ? (
+          <Link to="/mainScreen">
+            <button className={styles.button1}>Main screen</button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button className={styles.button1}>Log in</button>
+          </Link>
+        )}
+        {loggedIn ? (
+          <Link to="/profileSettings">
+            <button className={styles.button2}>Profile</button>
+          </Link>
+        ) : (
           <button className={styles.button2}>Sign up</button>
-        </Link>
+        )}
       </div>
       <div className={styles.emailInputDivMain}>
         <div className={styles.emailInputDiv}>
