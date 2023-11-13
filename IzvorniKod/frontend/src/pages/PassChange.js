@@ -1,6 +1,6 @@
 import styles from "./PassChange.module.css";
-import { useState, useLocation } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PassChange() {
   const location = useLocation();
