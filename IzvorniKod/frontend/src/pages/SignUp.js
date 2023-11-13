@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function SignUp() {
   return (
@@ -16,6 +16,32 @@ function RightPartScreen() {
   const [mail, setMail] = useState("");
   const [error, setError] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataPackage = {
+        mail: mail,
+      };
+      const requestPackage = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataPackage),
+      };
+      try {
+        const dataResponse = await fetch(
+          "http://localhost:8000/login/",
+          requestPackage
+        );
+        const dataReceived = await dataResponse.json();
+        if (dataReceived.status === "logged") {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
