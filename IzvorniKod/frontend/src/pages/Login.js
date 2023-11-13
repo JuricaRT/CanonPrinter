@@ -17,6 +17,7 @@ function RightPartScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [mail, setMail] = useState("");
   const [error, setError] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const togglePasswordVisibility = (e) => {
     e.preventDefault();
@@ -69,10 +70,22 @@ function RightPartScreen() {
     <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
         <div className={styles.logInText}>LOG IN</div>
-        <button className={styles.button1}>Log in</button>
-        <Link to="/signup">
-          <button className={styles.button2}>Sign up</button>
-        </Link>
+        {loggedIn ? (
+          <Link to="/mainScreen">
+            <button className={styles.button1}>Main screen</button>
+          </Link>
+        ) : (
+          <button className={styles.button1}>Log in</button>
+        )}
+        {loggedIn ? (
+          <Link to="/profileSettings">
+            <button className={styles.button2}>Profile</button>
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <button className={styles.button2}>Sign up</button>
+          </Link>
+        )}
       </div>
       <div className={styles.emailInputDiv}>
         <input
