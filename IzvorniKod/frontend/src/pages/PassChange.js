@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PassChange() {
   const location = useLocation();
-  const receivedData = location.state || {};
+  const receivedData = location.state;
 
   return (
     <div className={styles.page}>

@@ -13,6 +13,8 @@ import smtplib
 import random
 import string
 from apps.main.database import Database as db
+import dataclasses
+
 
 class UsersView():
 
@@ -30,7 +32,14 @@ class UsersView():
 
             if user is not None:
                 login(request, user)
-                return JsonResponse({'message': 'ok'})
+                log_user = CustomUser.objects.get(email=mail)
+                send_json_data = (
+                    {
+                        'has_initial_pass': log_user.has_initial_pass,
+                        'message': 'ok'
+                    }
+                )
+                return JsonResponse(send_json_data, safe=False)
             else:
                 print('Wrong username or password')
                 return JsonResponse({'message': 'invalid'})
@@ -41,13 +50,13 @@ class UsersView():
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
-                username="DefaultUser",
-                name="John",
-                last_name="Doe",
+                username="",
+                name="",
+                last_name="",
                 email=json_data.get('mail'),
                 password=None,
                 permission_level=None,
-                has_initial_pass=True
+                has_initial_pass=None
             )
 
             print(userDTO.email)
@@ -63,12 +72,14 @@ class UsersView():
                 last_name=userDTO.last_name,
             )
 
-            rand_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
+            rand_pass = ''.join(random.SystemRandom().choice(
+                string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
 
             new_user.set_password(rand_pass)
 
             userDTO.password = new_user.password
             userDTO.permission_level = 0
+            userDTO.has_initial_pass = True
             database = db()
             database.add_user(userDTO)
 
@@ -89,19 +100,18 @@ class UsersView():
 
     @staticmethod
     def profile(request):
-        return render(request, 'profile.html')
 
-    @staticmethod
-    def edit_profile(request):
+        if request.method == 'GET':
+            json_data = json.loads(request.body.decode('utf-8'))
 
-        if request.method == 'POST':
             userDTO = UserDTO(
-                username=request.POST.get('username'),
-                password=request.POST.get('password'),
-                name=request.POST.get('name'),
-                last_name=request.POST.get('last_name'),
-                #email=request.POST.get('email'),
-                permission_level=None
+                username='',
+                password='',
+                name='',
+                last_name='',
+                email=json_data.get('email'),
+                permission_level=None,
+                has_initial_pass=None
             )
 
             try:
@@ -111,14 +121,52 @@ class UsersView():
 
             if user == None:
                 # Error?
-                return redirect('profile')
+                return
+
+            send_json_data = (
+                {
+                    'username': user.username,
+                    'password': user.password,
+                    'name': user.name,
+                    'last_name': user.last_name,
+                    'email': user.email
+                }
+            )
+
+            return JsonResponse(send_json_data, content_type='application/json')
+
+    @staticmethod
+    def edit_profile(request):
+
+        if request.method == 'POST':
+            json_data = json.loads(request.body.decode('utf-8'))
+
+            userDTO = UserDTO(
+                username=json_data.get('username') or 'DefaultUser',
+                password=json_data.get('password') or '',
+                name=json_data.get('name') or '',
+                last_name=json_data.get('last_name') or '',
+                email=json_data.get('mail'),
+                permission_level=None,
+                has_initial_pass=json_data.get('initialPass') or False
+            )
+
+            try:
+                user = CustomUser.objects.get(email=userDTO.email)
+            except:
+                user = None
+
+            if user == None:
+                # Error?
+                return
 
             old_userDTO = user.to_dto()
 
             user.username = userDTO.username
             user.name = userDTO.name
             user.last_name = userDTO.last_name
-            #user.email = userDTO.email
+            user.email = userDTO.email
+            user.has_initial_pass = userDTO.has_initial_pass
             user.set_password(userDTO.password)
 
             new_userDTO = user.to_dto()
@@ -127,6 +175,4 @@ class UsersView():
 
             user.save()
 
-            return redirect('profile')
-
-        return render(request, 'edit_profile.html')
+            return JsonResponse({'message': 'ok'})
