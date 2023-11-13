@@ -12,7 +12,6 @@ html {
 
 .picture {
   flex: 1;
-  border-right: solid 2px black;
 }
 
 .rightPartScreen {
@@ -115,7 +114,6 @@ html {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  border: 1px solid black;
 }
 .button1 {
   padding: 8px;
@@ -128,7 +126,14 @@ html {
   font-size: 20px;
   color: black;
   cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+.button1:hover {
+  opacity: 0.7;
+}
+
 .button2 {
   padding: 8px;
   margin: 10px;
@@ -140,6 +145,18 @@ html {
   font-size: 20px;
   color: black;
   cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logInText {
+  margin-right: 17.1%;
+  margin-top: 2.7%;
+  font-size: 24px;
+}
+
+.button2:hover {
+  opacity: 0.7;
 }
 
 .wrongDataError {

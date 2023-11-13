@@ -43,9 +43,12 @@ function RightPartScreen() {
     }
   };
 
+  document.title = "SIGN UP";
+
   return (
     <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
+        <div className={styles.signUpText}>SIGN UP</div>
         <Link to="/login">
           <button className={styles.button1}>Log in</button>
         </Link>

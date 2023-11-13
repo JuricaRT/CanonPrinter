@@ -115,15 +115,17 @@ export default function ProfileSettings() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/logout/", requestOption);
+      const response = await fetch(
+        "http://localhost:8000/logout/",
+        requestOption
+      );
       if (response.ok) {
         const jsonData = await response.json();
         const message = jsonData.message;
         if (message === "ok") {
-          navigate('/');
-        }
-        else {
-          console.log("Neuspješan logout")
+          navigate("/");
+        } else {
+          console.log("Neuspješan logout");
         }
       }
     } catch (error) {
@@ -158,6 +160,8 @@ export default function ProfileSettings() {
 
     navigate("/mainScreen", { state: { mail: data.email } });
   };
+
+  document.title = "PROFILE SETTINGS";
 
   return (
     <>

@@ -45,6 +45,8 @@ export default function MainScreen() {
     }
   };
 
+  document.title = "MAIN PAGE";
+
   return (
     <>
       <div className={styles.div}>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
 
 function Homepage() {
+  document.title = "HOME";
   return (
     <div className={styles.container}>
       <LogSignButtons />

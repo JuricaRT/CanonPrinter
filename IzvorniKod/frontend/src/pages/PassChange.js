@@ -100,6 +100,7 @@ function Form({ data }) {
   //   }
   //}
 
+  document.title = "PASSWORD CHANGE";
   return (
     <form className={styles.form} onSubmit={handlePassword}>
       <h1>Password change</h1>
