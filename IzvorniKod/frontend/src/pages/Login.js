@@ -76,7 +76,7 @@ function RightPartScreen() {
         if (message === "ok") {
           if (initialPassword === false) {
             navigate("/mainScreen", {
-              state: { data: dataSource, userFunction: userFunction },
+              state: { mail: mail, userFunction: userFunction },
             });
           } else {
             navigate("/passChange", {
