@@ -56,9 +56,32 @@ export default function ProfileSettings() {
     setWantToChangeLastName(false);
   }
 
-  function handleSaveUsername() {
+  const handleSaveUsername = async (e) => {
     setWantToChangeUsername(false);
-  }
+
+    const sendingData = {
+      mail: data.email,
+      username: data.username,
+    };
+
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sendingData),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/edit_profile/",
+        requestOption
+      );
+      if (response.ok) {
+        navigate("/mainScreen");
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   function handleNameClick() {
     setWantToChangeName(true);
@@ -92,7 +115,10 @@ export default function ProfileSettings() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/", requestOption);
+      const response = await fetch(
+        "http://localhost:8000/logout/",
+        requestOption
+      );
       if (response.ok) {
         navigate("/");
       }
@@ -154,7 +180,12 @@ export default function ProfileSettings() {
         </div>
         <div>
           {wantToChangeUsername ? (
-            <Change handleChange={handleSaveUsername}>Username</Change>
+            <Change
+              handleChange={handleSaveUsername}
+              setChange={setWantToChangeUsername}
+            >
+              Username
+            </Change>
           ) : (
             <Element
               changable={true}
@@ -205,11 +236,16 @@ export default function ProfileSettings() {
   );
 }
 
-function Change({ children, handleChange }) {
+function Change({ children, handleChange, setChange }) {
   return (
     <div>
       <form className={styles.change}>
-        {children}:<input type="text" placeholder={`New ${children}`}></input>
+        {children}:
+        <input
+          type="text"
+          placeholder={`New ${children}`}
+          onChange={(e) => setChange(e.target.value)}
+        ></input>
         <button onClick={handleChange}>Save changes</button>
       </form>
     </div>
