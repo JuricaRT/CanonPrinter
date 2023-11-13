@@ -43,13 +43,7 @@ function Button({ children }) {
 }
 
 function Message() {
-  return (
-    <div className={styles.openingMessage}>
-      <div className={styles.pictureAndMessage}>
-        Welcome to the best place to learn foreign languages!
-      </div>
-    </div>
-  );
+  return <div className={styles.openingMessage}></div>;
 }
 
 function Review({ children }) {
