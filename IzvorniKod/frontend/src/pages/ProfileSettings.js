@@ -116,10 +116,6 @@ export default function ProfileSettings() {
 
     try {
       const response = await fetch("http://localhost:8000/logout/", requestOption);
-      const response = await fetch(
-        "http://localhost:8000/logout/",
-        requestOption
-      );
       if (response.ok) {
         const jsonData = await response.json();
         const message = jsonData.message;
