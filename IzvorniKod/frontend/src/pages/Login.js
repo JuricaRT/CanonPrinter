@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Login() {
   return (
@@ -24,6 +24,32 @@ function RightPartScreen() {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataPackage = {
+        mail: mail,
+      };
+      const requestPackage = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataPackage),
+      };
+      try {
+        const dataResponse = await fetch(
+          "http://localhost:8000/login/",
+          requestPackage
+        );
+        const dataReceived = await dataResponse.json();
+        if (dataReceived.status === "logged") {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -46,13 +72,15 @@ function RightPartScreen() {
         const jsonData = await response.json();
         const initialPassword = jsonData.has_initial_pass;
         const message = jsonData.message;
+        const userFunction = jsonData.userFunction;
         if (message === "ok") {
           if (initialPassword === false) {
-            console.log(dataSource);
-            navigate("/mainScreen", { state: dataSource });
+            navigate("/mainScreen", {
+              state: { data: dataSource, userFunction: userFunction },
+            });
           } else {
             navigate("/passChange", {
-              state: { mail: mail, pass: false },
+              state: { mail: mail, pass: false, userFunction: userFunction },
             });
           }
         } else {
