@@ -1,12 +1,20 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./ProfileSettings.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProfileSettings() {
   const location = useLocation();
-  const data = location.state;
+  const data = location.state || {};
 
   const navigate = useNavigate();
+
+  console.log(data.mail);
+  useEffect(() => {
+    if (data.mail === undefined) {
+      navigate("/login");
+    }
+  });
+
   const [wantToChangePass, setWantToChangePass] = useState(false);
   const [wantToChangeUsername, setWantToChangeUsername] = useState(false);
   const [wantToChangeName, setWantToChangeName] = useState(false);
@@ -19,35 +27,32 @@ export default function ProfileSettings() {
     setWantToChangeLastName(false);
   }
 
-  function handleSaveChange() {
+  const handleSavePass = async (e) => {
     setWantToChangePass(false);
 
-    // const requestOption = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(sendingData),
-    // };
+    const sendingData = {
+      mail: data.mail,
+      password: data.password,
+    };
 
-    // try {
-    //   if (password === repeatedPassword) {
-    //     const response = await fetch(
-    //       "http://localhost:8000/edit_profile/",
-    //       requestOption
-    //     );
-    //     if (response.ok) {
-    //       navigate("/mainScreen", { state: sendingData });
-    //     } else {
-    //       backendError = true;
-    //     }
-    //     setPassError(false);
-    //   } else {
-    //     setPassError(true);
-    //     setRepeatedPassword("");
-    //   }
-    // } catch (error) {
-    //   console.log("error: ", error);
-    // }
-  }
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sendingData),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/edit_profile/",
+        requestOption
+      );
+      if (response.ok) {
+        navigate("/mainScreen", { state: sendingData });
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   function handleUsernameClick() {
     setWantToChangeUsername(true);
@@ -174,7 +179,7 @@ export default function ProfileSettings() {
         </div>
         <div>
           {wantToChangePass ? (
-            <Change handleChange={handleSaveChange}>Password</Change>
+            <Change handleChange={handleSavePass}>Password</Change>
           ) : (
             <Element
               changable={true}

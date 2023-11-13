@@ -1,10 +1,18 @@
 import styles from "./PassChange.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PassChange() {
   const location = useLocation();
-  const receivedData = location.state;
+  const receivedData = location.state || {};
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (receivedData.mail === undefined) {
+      navigate("/login");
+    }
+  });
 
   return (
     <div className={styles.page}>
