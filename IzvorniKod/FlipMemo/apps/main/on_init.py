@@ -40,4 +40,3 @@ class DatabaseSync():
                 print('User dto is invalid')
                 print(userDTO)
 
->>>>>>> origin/dev
