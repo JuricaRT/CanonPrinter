@@ -8,6 +8,8 @@ export default function MainScreen() {
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
+    e.preventDefault();
+
     const sendingData = {
       mail: data.mail,
     };

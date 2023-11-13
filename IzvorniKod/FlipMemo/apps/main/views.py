@@ -8,6 +8,7 @@ from apps.main.database import Database as db
 from dataclasses import dataclass
 import dataclasses
 import json
+from apps.main.dto import UserDTO
 
 class MainViews():
 
@@ -77,10 +78,20 @@ class MainViews():
     @staticmethod
     def delete_user(request):
         if request.method == 'POST':
-            username = request.POST.get("username")
+            json_data = json.loads(request.body.decode('utf-8'))
+
+            userDTO = UserDTO(
+                username='',
+                password='',
+                name='',
+                last_name='',
+                email=json_data.get('mail'),
+                permission_level=None,
+                has_initial_pass=None
+            )
 
             try:
-                user = CustomUser.objects.get(username=username)
+                user = CustomUser.objects.get(email=userDTO.email)
                 userDTO = user.to_dto()
                 database = db()
                 database.delete_user(userDTO)
@@ -89,4 +100,4 @@ class MainViews():
                 #todo: handle
                 pass
 
-            return HttpResponse("Test")
+            return JsonResponse({'message': 'deleted'})
