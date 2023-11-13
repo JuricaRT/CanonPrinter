@@ -17,13 +17,17 @@ class DatabaseSync():
 
         usersDTO = database.get_users()
         for userDTO in usersDTO:
-            CustomUser.objects.create_user(
-                username = userDTO.username,
-                password = userDTO.password,
-                email = userDTO.email,
-                name = userDTO.name,
-                last_name = userDTO.last_name,
-                permission_level = dto.int_to_permission_level(userDTO.permission_level),
-                has_initial_pass = userDTO.has_initial_pass
-            )
+            try:
+                CustomUser.objects.create_user(
+                    username = userDTO.username,
+                    password = userDTO.password,
+                    email = userDTO.email,
+                    name = userDTO.name,
+                    last_name = userDTO.last_name,
+                    permission_level = dto.int_to_permission_level(userDTO.permission_level),
+                    has_initial_pass = userDTO.has_initial_pass
+                )
+            except Exception as e:
+                print('User dto is invalid')
+                print(userDTO)
 
