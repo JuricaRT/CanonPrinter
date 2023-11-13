@@ -19,11 +19,25 @@ export default function PassChange() {
 function Form({ data }) {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   // const [equalPass, setEqualPass] = useState(false);
   const [passError, setPassError] = useState(false);
 
   let backendError = false;
+
+  const togglePassword = (e) => {
+    e.preventDefault();
+
+    setShowPassword(!showPassword);
+  };
+
+  const toggleRepeated = (e) => {
+    e.preventDefault();
+
+    setShowRepeatedPassword(!showRepeatedPassword);
+  };
 
   const handlePassword = async (e) => {
     e.preventDefault();
@@ -89,20 +103,30 @@ function Form({ data }) {
   return (
     <form className={styles.form} onSubmit={handlePassword}>
       <h1>Password change</h1>
-      <input
-        type="text"
-        placeholder="Password"
-        style={{ margin: "10px" }}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Repeat password"
-        style={{ margin: "10px" }}
-        value={repeatedPassword}
-        onChange={(e) => setRepeatedPassword(e.target.value)}
-      ></input>
+      <div>
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          style={{ width: "250px", margin: "10px" }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></input>
+        <button onClick={togglePassword}>
+          {showPassword ? "Hide" : "Show"}
+        </button>
+      </div>
+      <div>
+        <input
+          type={showRepeatedPassword ? "text" : "password"}
+          placeholder="Repeat password"
+          style={{ width: "250px", margin: "10px" }}
+          value={repeatedPassword}
+          onChange={(e) => setRepeatedPassword(e.target.value)}
+        ></input>
+        <button onClick={toggleRepeated}>
+          {showRepeatedPassword ? "Hide" : "Show"}
+        </button>
+      </div>
       {passError === true && (
         <p style={{ color: "red" }}>
           Make sure you enter the same passwords!!!

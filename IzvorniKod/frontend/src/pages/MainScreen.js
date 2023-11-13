@@ -1,11 +1,19 @@
 import { useLocation, Link } from "react-router-dom";
 import styles from "./MainScreen.module.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function MainScreen() {
   const location = useLocation();
   const data = location.state;
   const navigate = useNavigate();
+
+  console.log(data);
+  useEffect(() => {
+    if (data === null) {
+      navigate("/login");
+    }
+  });
 
   const handleClick = async (e) => {
     e.preventDefault();

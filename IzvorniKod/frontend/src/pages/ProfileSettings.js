@@ -21,6 +21,32 @@ export default function ProfileSettings() {
 
   function handleSaveChange() {
     setWantToChangePass(false);
+
+    // const requestOption = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(sendingData),
+    // };
+
+    // try {
+    //   if (password === repeatedPassword) {
+    //     const response = await fetch(
+    //       "http://localhost:8000/edit_profile/",
+    //       requestOption
+    //     );
+    //     if (response.ok) {
+    //       navigate("/mainScreen", { state: sendingData });
+    //     } else {
+    //       backendError = true;
+    //     }
+    //     setPassError(false);
+    //   } else {
+    //     setPassError(true);
+    //     setRepeatedPassword("");
+    //   }
+    // } catch (error) {
+    //   console.log("error: ", error);
+    // }
   }
 
   function handleUsernameClick() {
@@ -56,6 +82,25 @@ export default function ProfileSettings() {
     setWantToChangeLastName(false);
   }
 
+  const logout = async (e) => {
+    e.preventDefault();
+
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail: data.email, password: data.password }),
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/", requestOption);
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
   const deleteProfile = async (e) => {
     e.preventDefault();
 
@@ -88,54 +133,67 @@ export default function ProfileSettings() {
     <>
       <h1 className={styles.h1}>Profile Settings</h1>
       <div className={styles.settings}>
-        <Element changable={false} data={data.email}>
-          Mail
-        </Element>
-        {wantToChangePass ? (
-          <Change handleChange={handleSaveChange}>Password</Change>
-        ) : (
-          <Element
-            changable={true}
-            handleClick={handlePassClick}
-            wantToChange={wantToChangePass}
-            data={data.password}
-          >
-            Password
+        <div>
+          <Element changable={false} data={data.email}>
+            Mail
           </Element>
-        )}
-        {wantToChangeUsername ? (
-          <Change handleChange={handleSaveUsername}>Username</Change>
-        ) : (
-          <Element
-            changable={true}
-            handleClick={handleUsernameClick}
-            data={data.username}
-          >
-            Username
-          </Element>
-        )}
-        {wantToChangeName ? (
-          <Change handleChange={handleSaveName}>Name</Change>
-        ) : (
-          <Element
-            changable={true}
-            handleClick={handleNameClick}
-            data={data.name}
-          >
-            Name
-          </Element>
-        )}
-        {wantToChangeLastName ? (
-          <Change handleChange={handleSaveLastName}>Last name</Change>
-        ) : (
-          <Element
-            changable={true}
-            handleClick={handleLastNameClick}
-            data={data.last_name}
-          >
-            Last name
-          </Element>
-        )}
+        </div>
+        <div>
+          {wantToChangePass ? (
+            <Change handleChange={handleSaveChange}>Password</Change>
+          ) : (
+            <Element
+              changable={true}
+              handleClick={handlePassClick}
+              wantToChange={wantToChangePass}
+              data={data.password}
+            >
+              Password
+            </Element>
+          )}
+        </div>
+        <div>
+          {wantToChangeUsername ? (
+            <Change handleChange={handleSaveUsername}>Username</Change>
+          ) : (
+            <Element
+              changable={true}
+              handleClick={handleUsernameClick}
+              data={data.username}
+            >
+              Username
+            </Element>
+          )}
+        </div>
+        <div>
+          {wantToChangeName ? (
+            <Change handleChange={handleSaveName}>Name</Change>
+          ) : (
+            <Element
+              changable={true}
+              handleClick={handleNameClick}
+              data={data.name}
+            >
+              Name
+            </Element>
+          )}
+        </div>
+        <div>
+          {wantToChangeLastName ? (
+            <Change handleChange={handleSaveLastName}>Last name</Change>
+          ) : (
+            <Element
+              changable={true}
+              handleClick={handleLastNameClick}
+              data={data.last_name}
+            >
+              Last name
+            </Element>
+          )}
+        </div>
+        <button className={styles.logout} onClick={logout}>
+          Logout
+        </button>
         <button className={styles.delete} onClick={deleteProfile}>
           Delete profile
         </button>

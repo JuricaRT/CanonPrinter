@@ -47,7 +47,7 @@ function RightPartScreen() {
         const message = jsonData.message;
         if (message === "ok") {
           if (initialPassword === false) {
-            console.log(dataSource)
+            console.log(dataSource);
             navigate("/mainScreen", { state: dataSource });
           } else {
             navigate("/passChange", {

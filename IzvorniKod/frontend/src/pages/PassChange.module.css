@@ -20,7 +20,7 @@ code {
 .leftSide {
   width: 50%;
   background-image: url("../../public/pictures/FlipMemoImage2.jpeg");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
