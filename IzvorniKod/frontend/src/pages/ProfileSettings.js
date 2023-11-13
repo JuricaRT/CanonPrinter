@@ -73,8 +73,6 @@ export default function ProfileSettings() {
     } catch (error) {
       console.log("error: ", error);
     }
-
-    navigate("/");
   };
 
   return (
