@@ -60,4 +60,5 @@
 .picturePart {
   height: 89vh;
   background-image: url(../../public/pictures/mainPicture.jpg);
+  background-size: cover;
 }

@@ -8,7 +8,6 @@ export default function MainScreen() {
   const data = location.state;
   const navigate = useNavigate();
 
-  console.log(data);
   useEffect(() => {
     if (data === null) {
       navigate("/login");
