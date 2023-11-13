@@ -1,18 +1,24 @@
 import { useLocation, Link } from "react-router-dom";
 import styles from "./MainScreen.module.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function MainScreen() {
   const location = useLocation();
-  const data = location.state;
+  const data = location.state || {};
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (data === null) {
-      navigate("/login");
-    }
-  });
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // useEffect(() => {
+  //   if (data.mail === null) {
+  //     navigate("/login");
+  //   }
+  // });
+
+  if (data.admin === "admin") {
+    setIsAdmin(!isAdmin);
+  }
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -20,8 +26,6 @@ export default function MainScreen() {
     const sendingData = {
       mail: data.mail,
     };
-
-    console.log(data.mail);
 
     const requestOption = {
       method: "POST",
@@ -54,9 +58,13 @@ export default function MainScreen() {
         <Profile handleClick={handleClick} />
       </div>
       <hr />
-      <div className={styles.picturePart}></div>
+      {isAdmin ? <AdminPage /> : <div className={styles.picturePart}></div>}
     </>
   );
+}
+
+function AdminPage() {
+  return <div></div>;
 }
 
 function Logo() {
