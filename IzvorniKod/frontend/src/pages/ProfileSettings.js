@@ -8,7 +8,6 @@ export default function ProfileSettings() {
 
   const navigate = useNavigate();
 
-  console.log(data.mail);
   useEffect(() => {
     if (data.mail === undefined) {
       navigate("/login");
@@ -16,9 +15,13 @@ export default function ProfileSettings() {
   });
 
   const [wantToChangePass, setWantToChangePass] = useState(false);
+  const [newPassword, setNewPassword] = useState(data.password);
   const [wantToChangeUsername, setWantToChangeUsername] = useState(false);
+  const [newUsername, setNewUsername] = useState(data.username);
   const [wantToChangeName, setWantToChangeName] = useState(false);
+  const [newName, setNewName] = useState(data.name);
   const [wantToChangeLastName, setWantToChangeLastName] = useState(false);
+  const [newLastName, setNewLastName] = useState(data.last_name);
 
   function handlePassClick() {
     setWantToChangePass(true);
@@ -28,11 +31,12 @@ export default function ProfileSettings() {
   }
 
   const handleSavePass = async (e) => {
+    e.preventDefault();
     setWantToChangePass(false);
 
     const sendingData = {
       mail: data.mail,
-      password: data.password,
+      password: newPassword,
     };
 
     const requestOption = {
@@ -47,7 +51,11 @@ export default function ProfileSettings() {
         requestOption
       );
       if (response.ok) {
-        navigate("/mainScreen", { state: sendingData });
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/profileSettings", { state: sendingData });
+        }
       }
     } catch (error) {
       console.log("error: ", error);
@@ -62,11 +70,12 @@ export default function ProfileSettings() {
   }
 
   const handleSaveUsername = async (e) => {
+    e.preventDefault();
     setWantToChangeUsername(false);
 
     const sendingData = {
       mail: data.email,
-      username: data.username,
+      username: newUsername,
     };
 
     const requestOption = {
@@ -81,7 +90,11 @@ export default function ProfileSettings() {
         requestOption
       );
       if (response.ok) {
-        navigate("/mainScreen");
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/profileSettings", { state: sendingData });
+        }
       }
     } catch (error) {
       console.log("error: ", error);
@@ -95,9 +108,37 @@ export default function ProfileSettings() {
     setWantToChangeLastName(false);
   }
 
-  function handleSaveName() {
+  const handleSaveName = async (e) => {
+    e.preventDefault();
     setWantToChangeName(false);
-  }
+
+    const sendingData = {
+      mail: data.email,
+      name: newName,
+    };
+
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sendingData),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/edit_profile/",
+        requestOption
+      );
+      if (response.ok) {
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/profileSettings", { state: sendingData });
+        }
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   function handleLastNameClick() {
     setWantToChangeLastName(true);
@@ -106,9 +147,37 @@ export default function ProfileSettings() {
     setWantToChangeUsername(false);
   }
 
-  function handleSaveLastName() {
+  const handleSaveLastName = async (e) => {
+    e.preventDefault();
     setWantToChangeLastName(false);
-  }
+
+    const sendingData = {
+      mail: data.email,
+      last_name: newLastName,
+    };
+
+    const requestOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ state: sendingData }),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/edit_profile/",
+        requestOption
+      );
+      if (response.ok) {
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/profileSettings", { state: sendingData });
+        }
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   const logout = async (e) => {
     e.preventDefault();
@@ -116,7 +185,7 @@ export default function ProfileSettings() {
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail: data.email, password: data.password }),
+      body: JSON.stringify({ mail: data.email, password: newPassword }),
     };
 
     try {
@@ -141,10 +210,14 @@ export default function ProfileSettings() {
   const deleteProfile = async (e) => {
     e.preventDefault();
 
+    const sendingData = {
+      mail: data.mail,
+    };
+
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail: data.email }),
+      body: JSON.stringify(sendingData),
     };
 
     try {
@@ -153,7 +226,11 @@ export default function ProfileSettings() {
         requestOption
       );
       if (response.ok) {
-        navigate("/");
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/");
+        }
       }
     } catch (error) {
       console.log("error: ", error);
@@ -174,12 +251,14 @@ export default function ProfileSettings() {
       <div className={styles.settings}>
         <div>
           <Element changable={false} data={data.email}>
-            Mail
+            Email
           </Element>
         </div>
         <div>
           {wantToChangePass ? (
-            <Change handleChange={handleSavePass}>Password</Change>
+            <Change handleChange={handleSavePass} setChange={setNewPassword}>
+              Password
+            </Change>
           ) : (
             <Element
               changable={true}
@@ -195,7 +274,7 @@ export default function ProfileSettings() {
           {wantToChangeUsername ? (
             <Change
               handleChange={handleSaveUsername}
-              setChange={setWantToChangeUsername}
+              setChange={setNewUsername}
             >
               Username
             </Change>
@@ -211,7 +290,9 @@ export default function ProfileSettings() {
         </div>
         <div>
           {wantToChangeName ? (
-            <Change handleChange={handleSaveName}>Name</Change>
+            <Change handleChange={handleSaveName} setChange={setNewName}>
+              Name
+            </Change>
           ) : (
             <Element
               changable={true}
@@ -224,7 +305,12 @@ export default function ProfileSettings() {
         </div>
         <div>
           {wantToChangeLastName ? (
-            <Change handleChange={handleSaveLastName}>Last name</Change>
+            <Change
+              handleChange={handleSaveLastName}
+              setChange={setNewLastName}
+            >
+              Last name
+            </Change>
           ) : (
             <Element
               changable={true}
