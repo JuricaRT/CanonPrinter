@@ -4,13 +4,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PassChange() {
   const location = useLocation();
-  const { data } = location.state || {};
+  const receivedData = location.state || {};
 
   return (
     <div className={styles.page}>
       <div className={styles.leftSide}></div>
       <div className={styles.rightSide}>
-        <Form data={data} />
+        <Form data={receivedData} />
       </div>
     </div>
   );
@@ -31,7 +31,7 @@ function Form({ data }) {
     const sendingData = {
       password: password,
       mail: data.mail,
-      initialPass: false,
+      initialPass: data.pass,
     };
 
     const requestOption = {

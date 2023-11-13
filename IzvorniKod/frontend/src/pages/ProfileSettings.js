@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ProfileSettings() {
   const location = useLocation();
-  const { data } = location.state || {};
+  const data = location.state || {};
 
   const navigate = useNavigate();
   const [wantToChangePass, setWantToChangePass] = useState(false);
@@ -145,7 +145,7 @@ function Return() {
 function Element({ children, changable, handleClick, wantToChange, data }) {
   return (
     <div className={styles.element}>
-      {`${children}: Tvoj ${data}`}
+      {`${children}: ${data}`}
       {changable && (
         <button
           style={{ height: "20px", margin: "10px" }}
