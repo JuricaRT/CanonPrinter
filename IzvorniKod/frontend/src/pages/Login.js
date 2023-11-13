@@ -68,7 +68,7 @@ function RightPartScreen() {
   return (
     <form className={styles.rightPartScreen} onSubmit={handleSubmit}>
       <div className={styles.buttons}>
-        <div className={styles.logInText}>LOGIN</div>
+        <div className={styles.logInText}>LOG IN</div>
         <button className={styles.button1}>Log in</button>
         <Link to="/signup">
           <button className={styles.button2}>Sign up</button>
