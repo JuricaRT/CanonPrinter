@@ -34,9 +34,13 @@ function RightPartScreen() {
         requestOption
       );
       if (response.ok) {
-        navigate("/login");
-      } else {
-        setError(true);
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          navigate("/login");
+        } else {
+          setError(true);
+        }
       }
     } catch (error) {
       console.log("error: ", error);
@@ -56,14 +60,23 @@ function RightPartScreen() {
           <button className={styles.button2}>Sign up</button>
         </Link>
       </div>
-      <div className={styles.emailInputDiv}>
-        <input
-          className={styles.emailInput}
-          type="text"
-          placeholder="Email..."
-          value={mail}
-          onChange={(e) => setMail(e.target.value)}
-        />
+      <div className={styles.emailInputDivMain}>
+        <div className={styles.emailInputDiv}>
+          <input
+            className={styles.emailInput}
+            type="text"
+            placeholder="Email..."
+            value={mail}
+            onChange={(e) => setMail(e.target.value)}
+          />
+        </div>
+        {error ? (
+          <p className={styles.wrongDataError}>
+            *Something went wrong, try again*
+          </p>
+        ) : (
+          ""
+        )}
       </div>
       <div className={styles.comingSoonDiv}>
         <div className={styles.comingSoonDivIteration}>
