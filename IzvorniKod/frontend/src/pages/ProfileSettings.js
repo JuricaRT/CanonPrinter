@@ -219,7 +219,7 @@ export default function ProfileSettings() {
 
   function logout() {
     sessionStorage.setItem("loginStatus", "out");
-    navigate("/home");
+    navigate("/");
   }
 
   return (
