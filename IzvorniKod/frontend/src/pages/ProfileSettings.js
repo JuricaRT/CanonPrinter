@@ -8,11 +8,11 @@ export default function ProfileSettings() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (data.mail === undefined) {
-      navigate("/login");
-    }
-  });
+  // useEffect(() => {
+  //   if (data.mail === undefined) {
+  //     navigate("/login");
+  //   }
+  // });
 
   const [wantToChangePass, setWantToChangePass] = useState(false);
   const [newPassword, setNewPassword] = useState(data.password);

@@ -55,7 +55,7 @@ class UsersView():
 
             user = CustomUser.objects.get(email=mail)
 
-            if user is not None:
+            if user.check_password(password):
                 logout(request)
                 send_json_data = (
                     {
