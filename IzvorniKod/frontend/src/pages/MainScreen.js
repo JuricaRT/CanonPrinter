@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function MainScreen() {
   const location = useLocation();
-  const data = location.state || {};
+  const data = location.state;
   const navigate = useNavigate();
 
   const [isAdmin, setIsAdmin] = useState(false);
