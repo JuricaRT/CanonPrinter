@@ -179,34 +179,6 @@ export default function ProfileSettings() {
     }
   };
 
-  const logout = async (e) => {
-    e.preventDefault();
-
-    const requestOption = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail: data.email, password: newPassword }),
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:8000/logout/",
-        requestOption
-      );
-      if (response.ok) {
-        const jsonData = await response.json();
-        const message = jsonData.message;
-        if (message === "ok") {
-          navigate("/");
-        } else {
-          console.log("Neuspješan logout");
-        }
-      }
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  };
-
   const deleteProfile = async (e) => {
     e.preventDefault();
 
@@ -244,6 +216,11 @@ export default function ProfileSettings() {
   };
 
   document.title = "PROFILE SETTINGS";
+
+  function logout() {
+    sessionStorage.setItem("loginStatus", "out");
+    navigate("/");
+  }
 
   return (
     <>
