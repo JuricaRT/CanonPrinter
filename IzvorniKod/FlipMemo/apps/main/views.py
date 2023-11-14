@@ -51,7 +51,7 @@ class MainViews():
             try:
                 user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(True, user)
-                return redirect('Test') #TODO change this
+                return JsonResponse({'message': 'added'})
             except CustomUser.DoesNotExist:
                 #TODO: handle
                 pass
@@ -66,7 +66,7 @@ class MainViews():
             try:
                 user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(False, user)
-                return redirect('Test') #TODO change this
+                return JsonResponse({'message': 'removed'})
             except CustomUser.DoesNotExist:
                 #TODO: handle
                 pass

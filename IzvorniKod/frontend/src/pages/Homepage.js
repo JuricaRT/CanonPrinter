@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 
 function Homepage() {
   document.title = "HOME";
-  const [loggedIn, setLogged] = useState(null)
+  const [loggedIn, setLogged] = useState(false)
 
   useEffect(() => {
 
@@ -18,9 +18,9 @@ function Homepage() {
 
     const fetchAuthStatus = async () => {
       try {
-        let isAuthorized = Cookies.get('is_authenticated');
+        const isAuthorized = Cookies.get('is_authenticated');
         if (isAuthorized == null) isAuthorized = false
-        setLogged(isAuthorized ? true : null)
+        setLogged(isAuthorized)
       } catch (error) {
         console.error('Error fetching authentication status:', error);
       }
@@ -33,28 +33,28 @@ function Homepage() {
 
     updateLoginStatus();
   }, []);
-  console.log(loggedIn)
+
   return (
     <div className={styles.container}>
       <div className={styles.buttons}>
-        {loggedIn ? (
+      {loggedIn == true ? 
           <Link to="/mainScreen">
             <button className={styles.button1}>Main screen</button>
           </Link>
-        ) : (
+         : 
           <Link to="/login">
             <button className={styles.button1}>Log in</button>
           </Link>
-        )}
-        {loggedIn ? (
+        }
+        {loggedIn == true ? 
           <Link to="/profileSettings">
             <button className={styles.button2}>Profile</button>
           </Link>
-        ) : (
+         : 
           <Link to="/signup">
             <button className={styles.button2}>Sign up</button>
           </Link>
-        )}
+        }
       </div>
       <Message></Message>
       <Reviews></Reviews>
