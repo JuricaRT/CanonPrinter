@@ -76,7 +76,7 @@ function RightPartScreen() {
         }
       }
     } catch (error) {
-      console.log("error: ", error);
+      setError(true);
     }
   };
 
