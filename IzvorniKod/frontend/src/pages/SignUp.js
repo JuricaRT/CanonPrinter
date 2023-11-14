@@ -16,7 +16,6 @@ function RightPartScreen() {
   const [mail, setMail] = useState("");
   const [error, setError] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loggedMail, setLoggedMail] = useState("");
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -47,10 +46,20 @@ function RightPartScreen() {
   //   };
   //   fetchData();
   // });
+  useEffect(() => {
+    const loginStatus = sessionStorage.getItem("loginStatus");
+    const updateLoginStatus = () => {
+      if (loginStatus === "in") {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    };
+    updateLoginStatus();
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoggedMail(mail);
 
     const dataSource = {
       mail: mail,
