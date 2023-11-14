@@ -7,7 +7,10 @@ import Cookies from "js-cookie";
 export default function MainScreen() {
   const navigate = useNavigate();
 
-  var isAdmin = false;
+  const [isAdmin, setAdmin] = useState(null);
+
+  var admins = []
+  var students = []
 
   useEffect(() => {
     //if (data.mail === null) {
@@ -31,14 +34,58 @@ export default function MainScreen() {
         );
         if (response.ok) {
           const data = await response.json();
-          isAdmin = data.isAdmin
+          setAdmin(data.isAdmin == 1 ? true : null);
         }
       } catch (error) {
         console.log("error: ", error);
       }
     }
     
+    const getAdmins = async () => {
+  
+      const requestOption = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      };
+  
+      try {
+        const response = await fetch(
+          "http://localhost:8000/get_admins/",
+          requestOption
+        );
+        if (response.ok) {
+          const data = await response.json();
+          admins = data
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+
+    const getStudents = async () => {
+      const requestOption = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      };
+  
+      try {
+        const response = await fetch(
+          "http://localhost:8000/get_students/",
+          requestOption
+        );
+        if (response.ok) {
+          const data = await response.json();
+          students = data
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  
     getIsAdmin();
+    getAdmins();
+    getStudents();
+
   }, []);
 
   //if (data.admin === "admin") {
@@ -74,6 +121,7 @@ export default function MainScreen() {
   };
 
   document.title = "MAIN PAGE";
+  console.log(isAdmin)
 
   return (
     <>

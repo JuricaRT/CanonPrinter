@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 
 function Homepage() {
   document.title = "HOME";
-  var loggedIn = false
+  const [loggedIn, setLogged] = useState(null)
+
   useEffect(() => {
 
     const requestOption = {
@@ -19,8 +20,7 @@ function Homepage() {
       try {
         let isAuthorized = Cookies.get('is_authenticated');
         if (isAuthorized == null) isAuthorized = false
-        console.log(loggedIn)
-        loggedIn = isAuthorized
+        setLogged(isAuthorized ? true : null)
       } catch (error) {
         console.error('Error fetching authentication status:', error);
       }

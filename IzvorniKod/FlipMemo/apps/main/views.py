@@ -15,29 +15,33 @@ class MainViews():
     def temp_func(request):
         return HttpResponse("Test")
 
-    @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
+    #@user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
     @staticmethod
     def get_students(request):
         if request.method == 'GET':
             database = db()
             students = database.get_students()
-            students_dict = dataclasses.asdict(students)
+            students_dict = []
+            for student in students:
+                students_dict.append(dataclasses.asdict(student))
             json_data = json.dumps(students_dict)
 
-            return HttpResponse(json_data, content_type='application/json')
+            return JsonResponse(json_data, content_type='application/json', safe=False)
 
-    @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
+    #@user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
     @staticmethod
     def get_administrators(request):
         if request.method == 'GET':
             database = db()
             admins = database.get_admins()
-            admins_dict = dataclasses.asdict(admins)
+            admins_dict = []
+            for admin in admins:
+                admins_dict.append(dataclasses.asdict(admin))
             json_data = json.dumps(admins_dict)
 
-            return HttpResponse(json_data, content_type='application/json')
+            return JsonResponse(json_data, content_type='application/json', safe=False)
 
-    @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
+    #@user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
     @staticmethod
     def add_administrator(request):
         if request.method == 'POST':
