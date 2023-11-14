@@ -32,10 +32,9 @@ class UsersView():
 
             if user is not None:
                 login(request, user)
-                log_user = CustomUser.objects.get(email=mail)
                 send_json_data = (
                     {
-                        'has_initial_pass': log_user.has_initial_pass,
+                        'has_initial_pass': user.has_initial_pass,
                         'message': 'ok'
                     }
                 )
@@ -54,10 +53,10 @@ class UsersView():
 
             print(f'{mail} {password}')
 
-            user = authenticate(email=mail, password=password)
+            user = CustomUser.objects.get(email=mail)
 
             if user is not None:
-                logout(user)
+                logout(request)
                 send_json_data = (
                     {
                         'message': 'ok'
@@ -87,7 +86,7 @@ class UsersView():
 
             if CustomUser.objects.filter(email=userDTO.email).exists():
                 # todo handle error
-                return
+                return JsonResponse({'status': 'exists'})
 
             new_user = CustomUser.objects.create_user(
                 username=userDTO.username,

@@ -25,37 +25,37 @@ function RightPartScreen() {
     setShowPassword(!showPassword);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (loggedMail !== "") {
-        const dataPackage = {
-          mail: mail,
-        };
-        const requestPackage = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataPackage),
-        };
-        try {
-          const dataResponse = await fetch(
-            "http://localhost:8000/login/",
-            requestPackage
-          );
-          const dataReceived = await dataResponse.json();
-          if (dataReceived.ok) {
-            if (dataReceived.status === "logged") {
-              setLoggedIn(true);
-            } else {
-              setLoggedIn(false);
-            }
-          }
-        } catch (error) {
-          console.log("Error: ", error);
-        }
-      }
-    };
-    fetchData();
-  });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (loggedMail !== "") {
+  //       const dataPackage = {
+  //         mail: mail,
+  //       };
+  //       const requestPackage = {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(dataPackage),
+  //       };
+  //       try {
+  //         const dataResponse = await fetch(
+  //           "http://localhost:8000/login/",
+  //           requestPackage
+  //         );
+  //         const dataReceived = await dataResponse.json();
+  //         if (dataReceived.ok) {
+  //           if (dataReceived.status === "logged") {
+  //             setLoggedIn(true);
+  //           } else {
+  //             setLoggedIn(false);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.log("Error: ", error);
+  //       }
+  //     }
+  //   };
+  //   fetchData();
+  // });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

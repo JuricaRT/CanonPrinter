@@ -77,21 +77,21 @@ class MainViews():
 
     @staticmethod
     def delete_user(request):
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
+        # if request.method == 'POST':
+        #     json_data = json.loads(request.body.decode('utf-8'))
 
-            userDTO = UserDTO(
-                username='',
-                password='',
-                name='',
-                last_name='',
-                email=json_data.get('mail'),
-                permission_level=None,
-                has_initial_pass=None
-            )
+        #     userDTO = UserDTO(
+        #         username='',
+        #         password='',
+        #         name='',
+        #         last_name='',
+        #         email=json_data.get('mail'),
+        #         permission_level=None,
+        #         has_initial_pass=None
+        #     )
 
             try:
-                user = CustomUser.objects.get(email=userDTO.email)
+                user = CustomUser.objects.get(email='lovro.svenda1@gmail.com')
                 userDTO = user.to_dto()
                 database = db()
                 database.delete_user(userDTO)
