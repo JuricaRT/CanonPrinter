@@ -16,41 +16,21 @@ function RightPartScreen() {
   const [mail, setMail] = useState("");
   const [error, setError] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loggedMail, setLoggedMail] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (loggedMail !== "") {
-        const dataPackage = {
-          mail: mail,
-        };
-        const requestPackage = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataPackage),
-        };
-        try {
-          const dataResponse = await fetch(
-            "http://localhost:8000/login/",
-            requestPackage
-          );
-          const dataReceived = await dataResponse.json();
-          if (dataReceived.status === "logged") {
-            setLoggedIn(true);
-          } else {
-            setLoggedIn(false);
-          }
-        } catch (error) {
-          console.log("Error: ", error);
-        }
+    const loginStatus = sessionStorage.getItem("loginStatus");
+    const updateLoginStatus = () => {
+      if (loginStatus === "in") {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
     };
-    fetchData();
+    updateLoginStatus();
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoggedMail(mail);
 
     const dataSource = {
       mail: mail,

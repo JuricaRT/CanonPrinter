@@ -1,40 +1,45 @@
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Homepage() {
   document.title = "HOME";
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const loginStatus = sessionStorage.getItem("loginStatus");
+    const updateLoginStatus = () => {
+      if (loginStatus === "in") {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    };
+    updateLoginStatus();
+  });
   return (
     <div className={styles.container}>
-      <LogSignButtons />
+      <div className={styles.buttons}>
+        {loggedIn ? (
+          <Link to="/mainScreen">
+            <button className={styles.button1}>Main screen</button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button className={styles.button1}>Log in</button>
+          </Link>
+        )}
+        {loggedIn ? (
+          <Link to="/profileSettings">
+            <button className={styles.button2}>Profile</button>
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <button className={styles.button2}>Sign up</button>
+          </Link>
+        )}
+      </div>
       <Message></Message>
       <Reviews></Reviews>
-    </div>
-  );
-}
-
-function LogSignButtons() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  return (
-    <div className={styles.buttons}>
-      {loggedIn ? (
-        <Link to="/mainScreen">
-          <button className={styles.button1}>Main screen</button>
-        </Link>
-      ) : (
-        <Link to="/login">
-          <button className={styles.button1}>Log in</button>
-        </Link>
-      )}
-      {loggedIn ? (
-        <Link to="/profileSettings">
-          <button className={styles.button2}>Profile</button>
-        </Link>
-      ) : (
-        <Link to="/signup">
-          <button className={styles.button2}>Sign up</button>
-        </Link>
-      )}
     </div>
   );
 }
