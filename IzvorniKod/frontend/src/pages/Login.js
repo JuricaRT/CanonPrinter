@@ -40,10 +40,12 @@ function RightPartScreen() {
           requestPackage
         );
         const dataReceived = await dataResponse.json();
-        if (dataReceived.status === "logged") {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
+        if (dataReceived.ok) {
+          if (dataReceived.status === "logged") {
+            setLoggedIn(true);
+          } else {
+            setLoggedIn(false);
+          }
         }
       } catch (error) {}
     };
