@@ -5,6 +5,9 @@ from django.contrib.auth import views as auth_views
 from apps.users import forms
 from django.conf.urls.static import static
 from django.conf import settings
+from apps.main.admin import custom_admin_site, LoginView
+from django.contrib import admin
+from .admin import CustomAdminSite
 
 urlpatterns = [
     path("", views.MainViews.temp_func, name="Test"),
@@ -18,4 +21,8 @@ urlpatterns = [
     path('remove_admin/', views.MainViews.remove_administrator, name='remove_admin'),
     path('delete_user/', views.MainViews.delete_user, name='delete_user'),
     path('get_students/', views.MainViews.get_students, name='get_students'),
+    path('admin/', custom_admin_site.urls),
 ]
+
+admin.site = CustomAdminSite()
+admin.autodiscover()

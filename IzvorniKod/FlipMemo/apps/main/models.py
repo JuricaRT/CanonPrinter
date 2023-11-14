@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from enum import Enum
 from . import dto
+import uuid
+from djongo.models import ObjectIdField
+
+class CustomIDField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = kwargs.get('max_length', 36)
+        kwargs['unique'] = kwargs.get('unique', True)
+        kwargs['default'] = kwargs.get('default', self.generate_id)
+        super().__init__(*args, **kwargs)
+
+    def generate_id(self):
+        return str(uuid.uuid4())
 
 class PermissionLevel(models.TextChoices):
     ADMIN_LEVEL = 'ADMIN'
@@ -9,6 +21,7 @@ class PermissionLevel(models.TextChoices):
 
 class CustomUser(AbstractUser):
 
+    _id = ObjectIdField()
     username = models.CharField(max_length=32, unique=False)
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=32)

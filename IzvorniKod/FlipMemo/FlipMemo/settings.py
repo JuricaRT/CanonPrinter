@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, re
+from urllib.parse import urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,6 +79,15 @@ WSGI_APPLICATION = 'FlipMemo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+full_db_string = urlparse(os.environ["DB_CONNECTION_STRING"])
+host = full_db_string.netloc
+username = full_db_string.username
+password = full_db_string.password
+auth_source = full_db_string.path.split('/')[0]
+match = re.search(r'@([^.]*)\.', os.environ["DB_CONNECTION_STRING"])
+database_name = match.group(1)
+
+g = """
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -86,8 +96,24 @@ DATABASES = {
             'NAME': 'testDB',
         }
     }
-}
+}"""
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': "CanonPrinterDB",
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': os.environ["DB_CONNECTION_STRING"] + 'CanonPrinterDB?retryWrites=true',
+            "username": username,
+            "password": password,       
+            "authMechanism": "SCRAM-SHA-1",
+        },
+        'TEST': {
+            'NAME': 'testDB',
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -143,7 +169,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
-AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
