@@ -22,6 +22,7 @@ urlpatterns = [
     path('delete_user/', views.MainViews.delete_user, name='delete_user'),
     path('get_students/', views.MainViews.get_students, name='get_students'),
     path('admin/', custom_admin_site.urls),
+    path('admin_status/', user_views.UsersView.admin_status, name='admin_status'),
 ]
 
 admin.site = CustomAdminSite()

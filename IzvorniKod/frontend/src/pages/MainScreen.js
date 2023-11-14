@@ -2,29 +2,54 @@ import { useLocation, Link } from "react-router-dom";
 import styles from "./MainScreen.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function MainScreen() {
-  const location = useLocation();
-  const data = location.state;
   const navigate = useNavigate();
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  var isAdmin = false;
 
-  // useEffect(() => {
-  //   if (data.mail === null) {
-  //     navigate("/login");
-  //   }
-  // });
+  useEffect(() => {
+    //if (data.mail === null) {
+    //  navigate("/login");
+    //}
+    const getIsAdmin = async () => {
+      const sendingData = {
+        email: Cookies.get('email'),
+      };
+  
+      const requestOption = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sendingData),
+      };
+  
+      try {
+        const response = await fetch(
+          "http://localhost:8000/admin_status/",
+          requestOption
+        );
+        if (response.ok) {
+          const data = await response.json();
+          isAdmin = data.isAdmin
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+    
+    getIsAdmin();
+  }, []);
 
-  if (data.admin === "admin") {
-    setIsAdmin(!isAdmin);
-  }
+  //if (data.admin === "admin") {
+  //  setIsAdmin(!isAdmin);
+  //}
 
   const handleClick = async (e) => {
     e.preventDefault();
 
     const sendingData = {
-      mail: data.mail,
+      mail: Cookies.get('email'),
     };
 
     const requestOption = {
@@ -64,7 +89,11 @@ export default function MainScreen() {
 }
 
 function AdminPage() {
-  return <div></div>;
+  return <div>
+      <div class="admin-class">
+        <h1>Admin Panel</h1>
+      </div>
+    </div>;
 }
 
 function Logo() {

@@ -10,6 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django import forms
 from typing import Any
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 
 # Register your models here.
@@ -18,21 +20,23 @@ class CustomAdminSite(AdminSite):
     model = CustomUser
 
     def has_permission(self, request):
+
         if request.method == 'GET':
-            return True
+            if request.user.is_anonymous:
+                return False
 
         username = request.POST.get('username')
-
+        print(username)
         try:
             user = CustomUser.objects.get(email=username)
             if user.permission_level == PermissionLevel.ADMIN_LEVEL:
                 user.is_staff = True
                 user.is_active = True
                 user.save()
+                return True
         except Exception as e:
             print(e)
 
-        super().has_permission(request)
 
     def get_user(self, user_id):
         UserModel = get_user_model()

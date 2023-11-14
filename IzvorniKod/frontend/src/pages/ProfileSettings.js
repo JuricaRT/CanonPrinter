@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./ProfileSettings.module.css";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function ProfileSettings() {
   const location = useLocation();
@@ -35,7 +36,7 @@ export default function ProfileSettings() {
     setWantToChangePass(false);
 
     const sendingData = {
-      mail: data.mail,
+      mail: data.email,
       password: newPassword,
     };
 
@@ -183,7 +184,7 @@ export default function ProfileSettings() {
     e.preventDefault();
 
     const sendingData = {
-      mail: data.mail,
+      mail: data.email,
     };
 
     const requestOption = {
@@ -218,8 +219,40 @@ export default function ProfileSettings() {
   document.title = "PROFILE SETTINGS";
 
   function logout() {
-    sessionStorage.setItem("loginStatus", "out");
-    navigate("/");
+
+
+    const logout = async () => {
+      const sendingData = {
+        mail: data.email,
+      };
+
+      const requestOption = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sendingData),
+        credentials: 'include',
+      };
+    
+      const response = await fetch(
+        "http://localhost:8000/logout/",
+        requestOption
+      );
+      if (response.ok) {
+        const jsonData = await response.json();
+        const message = jsonData.message;
+        if (message === "ok") {
+          Cookies.set('is_authenticated', false);
+          Cookies.set('email', null);
+          Cookies.set('password', null);
+          navigate("/");
+        }
+      }
+
+      sessionStorage.setItem("loginStatus", "out");
+      navigate("/");
+    }
+
+    logout()
   }
 
   return (

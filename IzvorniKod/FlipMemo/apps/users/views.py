@@ -14,7 +14,8 @@ import random
 import string
 from apps.main.database import Database as db
 import dataclasses
-
+from django.contrib.auth.decorators import login_required
+from apps.main import dto
 
 class UsersView():
 
@@ -32,10 +33,14 @@ class UsersView():
 
             if user is not None:
                 login(request, user)
+                _pass = user.password
                 send_json_data = (
                     {
                         'has_initial_pass': user.has_initial_pass,
-                        'message': 'ok'
+                        'email': mail,
+                        'password': _pass,
+                        'is_authenticated': True, 
+                        'message': 'ok',
                     }
                 )
                 return JsonResponse(send_json_data, safe=False)
@@ -47,25 +52,23 @@ class UsersView():
     def logout_user(request):
 
         if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-            mail = json_data.get('mail')
-            password = json_data.get('password')
-
-            print(f'{mail} {password}')
-
-            user = CustomUser.objects.get(email=mail)
-
-            if user.check_password(password):
+            try:
                 logout(request)
                 send_json_data = (
                     {
                         'message': 'ok'
                     }
                 )
-                return JsonResponse(send_json_data, safe=False)
-            else:
-                print('Wrong username or password')
-                return JsonResponse({'message': 'invalid'})
+            except Exception as e:
+                print(e)
+                send_json_data = (
+                    {
+                        'message': 'logout_fail',
+                    }
+                )                
+            return JsonResponse(send_json_data, safe=False)
+
+
 
     @staticmethod
     def signup(request):
@@ -126,7 +129,7 @@ class UsersView():
 
         if request.method == 'POST':
             json_data = json.loads(request.body.decode('utf-8'))
-
+            print(json_data)
             userDTO = UserDTO(
                 username='',
                 password='',
@@ -157,6 +160,16 @@ class UsersView():
             )
 
             return JsonResponse(send_json_data, content_type='application/json')
+        
+    @staticmethod
+    def admin_status(request):
+        if request.method == 'POST':
+            json_data = json.loads(request.body.decode('utf-8'))
+            user = CustomUser.objects.get(email=json_data.get('email'))
+
+            json_return = ({'isAdmin': dto.permission_level_to_int(user.permission_level)})
+            return JsonResponse(json_return, content_type='application/json')
+
 
     @staticmethod
     def edit_profile(request):

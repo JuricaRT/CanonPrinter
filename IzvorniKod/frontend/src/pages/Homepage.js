@@ -1,21 +1,39 @@
 import { Link } from "react-router-dom";
 import styles from "./Homepage.module.css";
 import { useState, useEffect } from "react";
+import { redirect } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 function Homepage() {
   document.title = "HOME";
-  const [loggedIn, setLoggedIn] = useState(false);
+  var loggedIn = false
   useEffect(() => {
-    const loginStatus = sessionStorage.getItem("loginStatus");
-    const updateLoginStatus = () => {
-      if (loginStatus === "in") {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
+
+    const requestOption = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: 'include'
+    };
+
+    const fetchAuthStatus = async () => {
+      try {
+        let isAuthorized = Cookies.get('is_authenticated');
+        if (isAuthorized == null) isAuthorized = false
+        console.log(loggedIn)
+        loggedIn = isAuthorized
+      } catch (error) {
+        console.error('Error fetching authentication status:', error);
       }
     };
+
+    //const loginStatus = sessionStorage.getItem("loginStatus");
+    const updateLoginStatus = () => {
+      fetchAuthStatus();
+    };
+
     updateLoginStatus();
-  });
+  }, []);
+  console.log(loggedIn)
   return (
     <div className={styles.container}>
       <div className={styles.buttons}>

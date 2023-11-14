@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 function Login() {
   return (
@@ -56,9 +57,8 @@ function RightPartScreen() {
   //   fetchData();
   // });
   useEffect(() => {
-    const loginStatus = sessionStorage.getItem("loginStatus");
     const updateLoginStatus = () => {
-      if (loginStatus === "in") {
+      if (Cookies.get('is_authenticated') === true) {
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
@@ -77,6 +77,7 @@ function RightPartScreen() {
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify(dataSource),
     };
 
@@ -91,6 +92,10 @@ function RightPartScreen() {
         const message = jsonData.message;
         const userFunction = jsonData.userFunction;
         if (message === "ok") {
+          Cookies.set('email', jsonData.email, {expires: 7});
+          Cookies.set('password', jsonData.password, {expires: 7})
+          Cookies.set('is_authenticated', jsonData.is_authenticated, {expires: 7})
+
           if (initialPassword === false) {
             sessionStorage.setItem("loginStatus", "in");
             navigate("/mainScreen", {
