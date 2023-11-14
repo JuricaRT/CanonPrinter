@@ -9,8 +9,7 @@ export default function MainScreen() {
 
   const [isAdmin, setAdmin] = useState(null);
 
-  var admins = []
-  var students = []
+
 
   useEffect(() => {
     //if (data.mail === null) {
@@ -40,51 +39,8 @@ export default function MainScreen() {
         console.log("error: ", error);
       }
     }
-    
-    const getAdmins = async () => {
-  
-      const requestOption = {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      };
-  
-      try {
-        const response = await fetch(
-          "http://localhost:8000/get_admins/",
-          requestOption
-        );
-        if (response.ok) {
-          const data = await response.json();
-          admins = data
-        }
-      } catch (error) {
-        console.log("error: ", error);
-      }
-    }
-
-    const getStudents = async () => {
-      const requestOption = {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      };
-  
-      try {
-        const response = await fetch(
-          "http://localhost:8000/get_students/",
-          requestOption
-        );
-        if (response.ok) {
-          const data = await response.json();
-          students = data
-        }
-      } catch (error) {
-        console.log("error: ", error);
-      }
-    }
   
     getIsAdmin();
-    getAdmins();
-    getStudents();
 
   }, []);
 
@@ -121,7 +77,6 @@ export default function MainScreen() {
   };
 
   document.title = "MAIN PAGE";
-  console.log(isAdmin)
 
   return (
     <>
@@ -137,11 +92,133 @@ export default function MainScreen() {
 }
 
 function AdminPage() {
-  return <div>
-      <div class="admin-class">
+  const [admins, setAdmins] = useState([]);
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    const getAdmins = async () => {
+  
+      const requestOption = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      };
+  
+      try {
+        const response = await fetch(
+          "http://localhost:8000/get_admins/",
+          requestOption
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setAdmins(JSON.parse(data))
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  
+    const getStudents = async () => {
+      const requestOption = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      };
+  
+      try {
+        const response = await fetch(
+          "http://localhost:8000/get_students/",
+          requestOption
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setStudents(JSON.parse(data))
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  
+    getAdmins();
+    getStudents();
+  }, [])
+
+  return (<div>
+      <div className={styles.adminclass}>
         <h1>Admin Panel</h1>
+        <span><b>Students</b></span>
+        {
+            students.map((item) => (
+              <div key={item['email']} className={styles.adminstudentrow}>
+                <span><b>Mail:</b>{item['email']}</span>
+                <span><b>Username:</b>{item['username']}</span>
+                <span><b>First Name:</b>{item['first_name']}</span>
+                <span><b>Last Name:</b>{item['last_name']}</span>
+                <button onClick={() => DeleteUser(item['email'])}>Delete</button>
+                <button onClick={() => GrantAdmin(item['email'])}>Grant Admin</button>
+              </div>
+            ))
+        }
+        <hr style={{color: "black"}, {width: "99%"}}></hr>
+        <span><b> Admins</b></span>
+        {
+            admins.map((item) => (
+              <div key={item['email']} className={styles.adminstudentrow}>
+                <span><b>Mail:</b>{item['email']}</span>
+                <span><b>Username:</b>{item['username']}</span>
+                <span><b>First Name:</b> {item['first_name']}</span>
+                <span><b>Last Name:</b> {item['last_name']}</span>
+                {item['email'] == Cookies.get('email') ? <div></div> : <button onClick={() => RevokeAdmin(item['email'])}>Revoke Admin</button>}
+              </div>
+            ))
+        }
       </div>
-    </div>;
+    </div>);
+}
+
+async function RevokeAdmin(mail) {
+  const sendingData = {
+    mail: mail,
+  };
+  let url = "http://localhost:8000/remove_admin/";
+
+  CreatePostToDjango(sendingData, url);
+}
+
+async function GrantAdmin(mail) {
+  const sendingData = {
+    mail: mail,
+  };
+  let url = "http://localhost:8000/add_admin/";
+
+  CreatePostToDjango(sendingData, url);
+}
+
+async function DeleteUser(mail) {
+  const sendingData = {
+    mail: mail,
+  };
+  let url = "http://localhost:8000/delete_user/";
+
+  CreatePostToDjango(sendingData, url);
+}
+
+async function CreatePostToDjango(sendingData, url) {
+  const requestOption = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(sendingData),
+  };
+
+  try {
+    const response = await fetch(
+      url,
+      requestOption
+    );
+    if (response.ok) {
+      window.location.reload(false)
+    }
+  } catch (error) {
+    console.log("error: ", error);
+  }
 }
 
 function Logo() {

@@ -64,3 +64,19 @@
 }
 
 /* ADMIN */
+
+.adminclass {
+  display: flex;
+  flex-direction: column;
+}
+
+.adminstudentrow {
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+}
+
+.adminstudentrow * {
+  margin-right: 10px;
+  margin-bottom: 2px;
+}

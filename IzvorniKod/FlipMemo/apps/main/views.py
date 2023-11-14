@@ -45,10 +45,11 @@ class MainViews():
     @staticmethod
     def add_administrator(request):
         if request.method == 'POST':
-            username = request.POST.get("username")
+            json_data = json.loads(request.body.decode('utf-8'))
+            mail = json_data.get('mail')
 
             try:
-                user = CustomUser.objects.get(username=username)
+                user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(True, user)
                 return redirect('Test') #TODO change this
             except CustomUser.DoesNotExist:
@@ -56,13 +57,14 @@ class MainViews():
                 pass
             
     @staticmethod
-    @user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
+    #@user_passes_test(lambda user: user.permission_level == PermissionLevel.ADMIN_LEVEL)
     def remove_administrator(request):
         if request.method == 'POST':
-            username = request.POST.get("username")
+            json_data = json.loads(request.body.decode('utf-8'))
+            mail = json_data.get('mail')
 
             try:
-                user = CustomUser.objects.get(username=username)
+                user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(False, user)
                 return redirect('Test') #TODO change this
             except CustomUser.DoesNotExist:
