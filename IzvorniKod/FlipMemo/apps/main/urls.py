@@ -11,18 +11,23 @@ from .admin import CustomAdminSite
 
 urlpatterns = [
     path("", views.MainViews.temp_func, name="Test"),
-    path('login/', user_views.UsersView.login_user, name='login'),
-    path('logout/', user_views.UsersView.logout_user, name='logout'),
-    path('signup/', user_views.UsersView.signup, name='signup'),
-    path('profile/', user_views.UsersView.profile, name='profile'),
-    path('edit_profile/', user_views.UsersView.edit_profile, name='edit_profile'),
+    
+    path("login", user_views.LoginView.as_view()),
+    path('authenticated', user_views.CheckAuthenticatedView.as_view()),
+    path('logout', user_views.LogoutView.as_view()),
+    path('signup', user_views.SignupView.as_view()),
+    path('csrf_cookie', user_views.GetCSRFToken.as_view()),
+    path('profile', user_views.UserProfileView.as_view()),
+    path("edit_profile", user_views.EditProfileView.as_view()),
+    path("delete_user", views.DeleteUserView.as_view()),
+
     path('get_admins/', views.MainViews.get_administrators, name='get_admins'),
     path('add_admin/', views.MainViews.add_administrator, name='add_admin'),
     path('remove_admin/', views.MainViews.remove_administrator, name='remove_admin'),
-    path('delete_user/', views.MainViews.delete_user, name='delete_user'),
+    
     path('get_students/', views.MainViews.get_students, name='get_students'),
     path('admin/', custom_admin_site.urls),
-    path('admin_status/', user_views.UsersView.admin_status, name='admin_status'),
+    path("admin_status", user_views.AdminStatusView.as_view())
 ]
 
 admin.site = CustomAdminSite()

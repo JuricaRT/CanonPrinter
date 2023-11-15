@@ -10,6 +10,28 @@ import dataclasses
 import json
 from apps.main.dto import UserDTO
 
+from rest_framework.views import APIView
+from rest_framework import permissions
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.utils.decorators import method_decorator
+
+class DeleteUserView(APIView):
+    def get(self, request, format=None):
+        user_mail = self.request.data["email"]
+        try:
+            database = db()
+            
+            database.delete_user(user_mail)
+
+            CustomUser.objects.get(email=user_mail).delete()
+
+            return JsonResponse({ 'success': 'User deleted successfully' })
+        except Exception as e:
+            print(e)
+            return JsonResponse({ 'error': 'Something went wrong when trying to delete user' })
+
+
+
 class MainViews():
 
     def temp_func(request):
@@ -51,7 +73,7 @@ class MainViews():
             try:
                 user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(True, user)
-                return JsonResponse({'message': 'added'})
+                return redirect('Test') #TODO change this
             except CustomUser.DoesNotExist:
                 #TODO: handle
                 pass
@@ -66,7 +88,7 @@ class MainViews():
             try:
                 user = CustomUser.objects.get(email=mail)
                 MainViews.set_admin_rights(False, user)
-                return JsonResponse({'message': 'removed'})
+                return redirect('Test') #TODO change this
             except CustomUser.DoesNotExist:
                 #TODO: handle
                 pass
@@ -80,30 +102,3 @@ class MainViews():
         userDTO = user.to_dto()
         database = db()
         database.modify_user(old_userDTO, userDTO)
-
-    @staticmethod
-    def delete_user(request):
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-
-            userDTO = UserDTO(
-                username='',
-                password='',
-                name='',
-                last_name='',
-                email=json_data.get('mail'),
-                permission_level=None,
-                has_initial_pass=None
-            )
-
-            try:
-                user = CustomUser.objects.get(email=userDTO.email)
-                userDTO = user.to_dto()
-                database = db()
-                database.delete_user(userDTO)
-                user.delete()
-            except CustomUser.DoesNotExist:
-                #todo: handle
-                pass
-
-            return JsonResponse({'message': 'deleted'})

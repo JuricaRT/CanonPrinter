@@ -17,139 +17,124 @@ import dataclasses
 from django.contrib.auth.decorators import login_required
 from apps.main import dto
 
-class UsersView():
 
-    @staticmethod
-    def login_user(request):
 
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-            mail = json_data.get('mail')
-            password = json_data.get('password')
+from rest_framework.views import APIView
+from rest_framework import permissions
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
-            print(f'{mail} {password}')
+class GetCSRFToken(APIView):
+    permission_classes = (permissions.AllowAny, )
+    
+    @method_decorator(ensure_csrf_cookie, name='dispatch')
+    def get(self, request, format=None):
+        return JsonResponse({ 'success': 'CSRF cookie set' })
 
-            user = authenticate(email=mail, password=password)
+@method_decorator(csrf_exempt, name="dispatch")
+class CheckAuthenticatedView(APIView):
+    def get(self, request, format=None):
+        user = self.request.user
+        try:
+            isAuthenticated = user.is_authenticated
 
-            if user is not None:
-                login(request, user)
-                _pass = user.password
-                send_json_data = (
-                    {
-                        'has_initial_pass': user.has_initial_pass,
-                        'email': mail,
-                        'password': _pass,
-                        'is_authenticated': True, 
-                        'message': 'ok',
-                    }
-                )
-                return JsonResponse(send_json_data, safe=False)
+            if isAuthenticated:
+                return JsonResponse({ 'isAuthenticated': 'success' })
             else:
-                print('Wrong username or password')
-                return JsonResponse({'message': 'invalid'})
+                return JsonResponse({ 'isAuthenticated': 'error' })
+        except:
+            return JsonResponse({ 'error': 'Something went wrong when checking authentication status' })
 
-    @staticmethod
-    def logout_user(request):
+#@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
+class SignupView(APIView):
+    permission_classes = (permissions.AllowAny, )
 
-        if request.method == 'POST':
-            try:
-                logout(request)
-                send_json_data = (
-                    {
-                        'message': 'ok'
-                    }
-                )
-            except Exception as e:
-                print(e)
-                send_json_data = (
-                    {
-                        'message': 'logout_fail',
-                    }
-                )                
-            return JsonResponse(send_json_data, safe=False)
+    def post(self, request, format=None):
+        data = self.request.data
 
-
-
-    @staticmethod
-    def signup(request):
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-
-            userDTO = UserDTO(
+        userDTO = UserDTO(
                 username="DefaultUser",
                 name="John",
                 last_name="Doe",
-                email=json_data.get('mail'),
+                email=data["email"],
                 password=None,
                 permission_level=None,
                 has_initial_pass=None
-            )
+        )
 
-            print(userDTO.email)
+        if CustomUser.objects.filter(email=userDTO.email).exists():
+            # todo handle error
+            return JsonResponse({'status': 'exists'})
 
-            if CustomUser.objects.filter(email=userDTO.email).exists():
-                # todo handle error
-                return JsonResponse({'status': 'exists'})
-
-            new_user = CustomUser.objects.create_user(
+        new_user = CustomUser.objects.create_user(
                 username=userDTO.username,
                 email=userDTO.email,
                 name=userDTO.name,
                 last_name=userDTO.last_name,
+        )
+
+        rand_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
+
+        new_user.set_password(rand_pass)
+
+        userDTO.password = new_user.password
+        userDTO.permission_level = 0
+        userDTO.has_initial_pass = True
+        
+        database = db()
+        database.add_user(userDTO)
+
+        new_user.save()
+
+        try:
+            send_mail(
+                'Welcome to FlipMemo',
+                f'Thank you for registering. Your initial password is: {rand_pass}',
+                settings.EMAIL_HOST_USER,
+                [userDTO.email],
+                fail_silently=False
             )
+        except smtplib.SMTPServerDisconnected as e:
+            print(f'SMTPServerDisconnected: {e}')
 
-            rand_pass = ''.join(random.SystemRandom().choice(
-                string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
+        return JsonResponse({'message': 'ok'})
 
-            new_user.set_password(rand_pass)
+@method_decorator(csrf_exempt, name="dispatch")
+class LoginView(APIView):
+    permission_classes = (permissions.AllowAny, )
 
-            userDTO.password = new_user.password
-            userDTO.permission_level = 0
-            userDTO.has_initial_pass = True
-            database = db()
-            database.add_user(userDTO)
+    def post(self, request, format=None):
+        data = self.request.data
+        
+        email = data['email']
+        password = data['password']
+        
+        user = authenticate(email=email, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': 'User authenticated'})
+        else:
+            return JsonResponse({ 'error': 'Error Authenticating' })
+        
+class LogoutView(APIView):
+    def post(self, request, format=None):
+        try:
+            logout(request)
+            return JsonResponse({ 'success': 'Logged Out' })
+        except:
+            return JsonResponse({ 'error': 'Something went wrong when logging out' })
+        
 
-            new_user.save()
+class UserProfileView(APIView):
+    def post(self, request, format=None):
+        try:
+            user_email = self.request.data["email"]
+            user = CustomUser.objects.get(email=user_email)
 
-            try:
-                send_mail(
-                    'Welcome to FlipMemo',
-                    f'Thank you for registering. Your initial password is: {rand_pass}',
-                    settings.EMAIL_HOST_USER,
-                    [userDTO.email],
-                    fail_silently=False
-                )
-            except smtplib.SMTPServerDisconnected as e:
-                print(f'SMTPServerDisconnected: {e}')
-
-            return JsonResponse({'message': 'ok'})
-
-    @staticmethod
-    def profile(request):
-
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-            print(json_data)
-            userDTO = UserDTO(
-                username='',
-                password='',
-                name='',
-                last_name='',
-                email=json_data.get('mail'),
-                permission_level=None,
-                has_initial_pass=None
-            )
-
-            try:
-                user = CustomUser.objects.get(email=userDTO.email)
-            except:
-                user = None
-
-            if user == None:
-                # Error?
-                return
-
-            send_json_data = (
+            return JsonResponse(
                 {
                     'username': user.username,
                     'password': user.password,
@@ -158,57 +143,41 @@ class UsersView():
                     'email': user.email
                 }
             )
+        except:
+            return JsonResponse({ 'error': 'Something went wrong when retrieving profile' })
 
-            return JsonResponse(send_json_data, content_type='application/json')
-        
-    @staticmethod
-    def admin_status(request):
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
-            user = CustomUser.objects.get(email=json_data.get('email'))
+class AdminStatusView(APIView):
+    def post(self, request, format=None):
+        try:
+            user_email = self.request.data["email"]
+            user = CustomUser.objects.get(email=user_email)
 
-            json_return = ({'isAdmin': dto.permission_level_to_int(user.permission_level)})
-            return JsonResponse(json_return, content_type='application/json')
+            return JsonResponse({'isAdmin': dto.permission_level_to_int(user.permission_level)})
+        except:
+            return JsonResponse({"error": "something wrong with admin status"})
 
 
-    @staticmethod
-    def edit_profile(request):
+class EditProfileView(APIView):
+    def post(self, request, format=None):
+        try:
+            
+            ### temp
+            user_email = self.request.data["email"]
 
-        if request.method == 'POST':
-            json_data = json.loads(request.body.decode('utf-8'))
+            user = CustomUser.objects.get(email=user_email)
+            user.username="test123"
 
-            userDTO = UserDTO(
-                username=json_data.get('username') or 'DefaultUser',
-                password=json_data.get('password') or '',
-                name=json_data.get('name') or '',
-                last_name=json_data.get('last_name') or '',
-                email=json_data.get('mail'),
-                permission_level=None,
-                has_initial_pass=json_data.get('initialPass') or False
-            )
-
-            try:
-                user = CustomUser.objects.get(email=userDTO.email)
-            except:
-                user = None
-
-            if user == None:
-                # Error?
-                return
-
+            user.save()
+            
             old_userDTO = user.to_dto()
-
-            user.username = userDTO.username
-            user.name = userDTO.name
-            user.last_name = userDTO.last_name
-            user.email = userDTO.email
-            user.has_initial_pass = userDTO.has_initial_pass
-            user.set_password(userDTO.password)
-
             new_userDTO = user.to_dto()
+
+            new_userDTO.set_username("test123")
+
             database = db()
             database.modify_user(old_userDTO, new_userDTO)
 
-            user.save()
+            return JsonResponse({"message" : "ok"})
 
-            return JsonResponse({'message': 'ok'})
+        except:
+            return JsonResponse({"error": "something wrong with edit profile"})

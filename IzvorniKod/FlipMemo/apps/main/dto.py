@@ -21,6 +21,10 @@ class UserDTO:
                 field_val = getattr(self, field.name)
                 if isinstance(field_val, DefaultVal) or field_val is None:
                     setattr(self, field.name, field.default.val)
+    
+    ##### TEMP
+    def set_username(self, name):
+        self.username = name
 
 
 #Utility Functions
@@ -35,4 +39,3 @@ def int_to_permission_level(integer):
         return models.PermissionLevel.USER_LEVEL
     else:
         return models.PermissionLevel.ADMIN_LEVEL
-

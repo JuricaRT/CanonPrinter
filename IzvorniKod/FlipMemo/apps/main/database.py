@@ -2,8 +2,8 @@ from pymongo import MongoClient
 from os import environ
 from .dto import UserDTO
 from warnings import warn
-from dotenv import load_dotenv
-load_dotenv()
+#from dotenv import load_dotenv
+#load_dotenv()
 
 def singleton(class_):
     instance = [None] # Hacky
@@ -51,19 +51,19 @@ class Database:
         #     }):
         #     raise UniqueConstraintError("Cannot change username to a preexisting one.")
         
-        if oldUserDto.email != new_UserDTO.email and self.accounts_col.count_documents({ 
-                                                        "$and": [
-                                                            { "email": { "$ne": oldUserDto.email } }, 
-                                                            { "email": new_UserDTO.email }
-                                                        ]
-                                                        }):
-            raise UniqueConstraintError("Cannot change e-mail to a preexisting one.")
+        # if oldUserDto.email != new_UserDTO.email and self.accounts_col.count_documents({ 
+        #                                                 "$and": [
+        #                                                     { "email": { "$ne": oldUserDto.email } }, 
+        #                                                     { "email": new_UserDTO.email }
+        #                                                 ]
+        #                                                 }):
+        #     raise UniqueConstraintError("Cannot change e-mail to a preexisting one.")
         
         self.accounts_col.find_one_and_update(
             { "email" : oldUserDto.email },
             { "$set" : {
                 "username" : new_UserDTO.username,
-                "email" : new_UserDTO.email,
+                #"email" : new_UserDTO.email,
                 "encryptedPass" : new_UserDTO.password,
                 "first_name" : new_UserDTO.name,
                 "last_name" : new_UserDTO.last_name,
@@ -89,11 +89,11 @@ class Database:
             "hasInitialPass" : True
         })
 
-    def delete_user(self, userDTO: UserDTO) -> None:
-        delete_result = self.accounts_col.delete_one({ "email" : userDTO.email })
+    def delete_user(self, email) -> None:
+        delete_result = self.accounts_col.delete_one({ "email" : email })
 
         if delete_result.deleted_count == 0:
-            warn(f"No account with email \"{userDTO.email}\" to delete.")
+            warn(f"No account with email \"{email}\" to delete.")
 
     def set_role(self, userDto: UserDTO, role: int) -> None:
         res = self.accounts_col.find_one_and_update(
