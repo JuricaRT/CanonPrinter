@@ -2,8 +2,8 @@ from pymongo import MongoClient
 from os import environ
 from .dto import UserDTO
 from warnings import warn
-from dotenv import load_dotenv
-load_dotenv()
+#from dotenv import load_dotenv
+#load_dotenv()
 
 def singleton(class_):
     instance = [None] # Hacky
