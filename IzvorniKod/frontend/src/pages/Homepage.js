@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Homepage.module.css";
 import { useState, useEffect } from "react";
 import { redirect } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 function Homepage() {
   document.title = "HOME";
   const [loggedIn, setLogged] = useState(false)
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -16,10 +17,13 @@ function Homepage() {
       credentials: 'include'
     };
 
-    const fetchAuthStatus = async () => {
+    const fetchAuthStatus = () => {
       try {
-        const isAuthorized = Cookies.get('is_authenticated');
+        var isAuthorized = Cookies.get('is_authenticated');
         if (isAuthorized == null) isAuthorized = false
+        if (isAuthorized == 'true') {
+          navigate('/mainScreen');
+        }
         setLogged(isAuthorized)
       } catch (error) {
         console.error('Error fetching authentication status:', error);
@@ -27,11 +31,10 @@ function Homepage() {
     };
 
     //const loginStatus = sessionStorage.getItem("loginStatus");
-    const updateLoginStatus = () => {
-      fetchAuthStatus();
-    };
 
-    updateLoginStatus();
+    fetchAuthStatus();
+    console.log(loggedIn)
+
   }, []);
 
   return (
@@ -47,9 +50,7 @@ function Homepage() {
           </Link>
         }
         {loggedIn == true ? 
-          <Link to="/profileSettings">
-            <button className={styles.button2}>Profile</button>
-          </Link>
+          <div></div>
          : 
           <Link to="/signup">
             <button className={styles.button2}>Sign up</button>

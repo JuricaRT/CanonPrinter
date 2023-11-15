@@ -178,15 +178,15 @@ class UsersView():
             json_data = json.loads(request.body.decode('utf-8'))
 
             userDTO = UserDTO(
-                username=json_data.get('username') or 'DefaultUser',
-                password=json_data.get('password') or '',
-                name=json_data.get('name') or '',
-                last_name=json_data.get('last_name') or '',
+                username=json_data.get('username') or None,
+                password=json_data.get('password') or None,
+                name=json_data.get('name') or None,
+                last_name=json_data.get('last_name') or None,
                 email=json_data.get('mail'),
                 permission_level=None,
                 has_initial_pass=json_data.get('initialPass') or False
             )
-
+            print(userDTO)
             try:
                 user = CustomUser.objects.get(email=userDTO.email)
             except:
@@ -198,17 +198,21 @@ class UsersView():
 
             old_userDTO = user.to_dto()
 
-            user.username = userDTO.username
-            user.name = userDTO.name
-            user.last_name = userDTO.last_name
-            user.email = userDTO.email
+            if userDTO.username is not None:
+                user.username = userDTO.username
+            if userDTO.username is not None:
+                user.name = userDTO.name
+            if userDTO.username is not None:
+                user.last_name = userDTO.last_name
             user.has_initial_pass = userDTO.has_initial_pass
-            user.set_password(userDTO.password)
-
-            new_userDTO = user.to_dto()
-            database = db()
-            database.modify_user(old_userDTO, new_userDTO)
+            if userDTO.password is not None:
+                user.set_password(userDTO.password)
 
             user.save()
+            new_userDTO = user.to_dto()
+            print(old_userDTO)
+            print(new_userDTO)
+            database = db()
+            database.modify_user(old_userDTO, new_userDTO)
 
             return JsonResponse({'message': 'ok'})
