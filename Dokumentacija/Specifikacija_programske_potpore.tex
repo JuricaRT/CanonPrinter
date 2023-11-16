@@ -120,7 +120,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] Unos već zauzetog e-maila, unos već zauzetog korisničkog imena, unos neispravnog e-maila
+							\item[2.a] Unos već zauzetog e-maila, unos neispravnog e-maila
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava korisnika o neuspjeloj registraciji i vraća ga natrag na stranicu za registraciju
@@ -139,12 +139,12 @@
 								\item Sustav obavještava učenika da se prvo upisana lozinka i potvrda lozinke ne podudaraju
 								
 							\end{packed_enum}
-							\item[7.a] Korisnik ne sprema promjene
-							\item[] \begin{packed_enum}
+							% \item[7.a] Korisnik ne sprema promjene
+							% \item[] \begin{packed_enum}
 								
-								\item Sustav vraća korisnik na ponovni upis nove lozinke
+							% 	\item Sustav vraća korisnik na ponovni upis nove lozinke
 
-							\end{packed_enum}
+							% \end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
@@ -160,7 +160,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Unos korisničkog imena ili e-maila i lozinke
+							\item Unos e-maila i lozinke
 							\item Potvrda o ispravnosti unesenih podataka
 							\item Pristup korisničkom sučelju
 						\end{packed_enum}
@@ -169,7 +169,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] Neispravno uneseno korisničko ime, email ili lozinka
+							\item[2.a] Neispravno unesen email ili lozinka
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava učenika o neuspjeloj prijavi te ga vraća na stranicu za prijavu
@@ -191,7 +191,6 @@
 						\item[] \begin{packed_enum}
 	
 							\item Učenik odlazi na svoj profil
-							\item Učenik odabire opciju "Osobni podatci"
 							\item Aplikacije prikazuje osobne podatke učenika
 						\end{packed_enum}
 						
@@ -222,8 +221,8 @@
 							\item[4.a] Učenik mijenja svoje podatke, ali ne spremi promjene
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava učenika da nije spremio podatke
-								\item Učenik odabire želi li spremiti ili odbaciti napravljene promjene 
+								\item Učenik odabire hoće li se vratiti na glavnu stranicu bez spremanja podataka 
+								ili će spremiti podatke i vratiti se na glavnu stranicu
 								
 							\end{packed_enum}
 							
@@ -243,24 +242,24 @@
 	
 							\item Učenik odlazi na svoj profil
 							\item Učenik bira opciju obriši korisnički račun
-							\item Sustav ispituje učenika je li siguran da želi obrisati korisnički račun
-							\item Učenik potvrđuje da želi obrisati korisnički račun
+							% \item Sustav ispituje učenika je li siguran da želi obrisati korisnički račun
+							% \item Učenik potvrđuje da želi obrisati korisnički račun
 							\item Korisnički račun se briše iz baze podataka
-							\item Sustav šalje učenika na stranicu za registraciju
+							\item Sustav šalje učenika na početnu stranicu
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
+						% \item[] \begin{packed_item}
 	
-							\item[4.a] Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije
-							\item[] \begin{packed_enum}
+						% 	\item[4.a] Učenik ne potvrđuje brisanje računa, a izlazi iz aplikacije
+						% 	\item[] \begin{packed_enum}
 								
-								\item Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan
+						% 		\item Sustav ne briše korisnički račun i obavještava učenika da korisnički račun nije obrisan
 								
-							\end{packed_enum}
+						% 	\end{packed_enum}
 							
-						\end{packed_item}
+						% \end{packed_item}
 					\end{packed_item}
 
 					\noindent \underbar{\textbf{UC6 - Pregled rječnika}}
