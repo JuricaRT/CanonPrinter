@@ -194,6 +194,17 @@
 			
 		\section{Dijagram razreda}
 
+			\indent{Na slikama 4.3, 4.4 i 4.5 su prikazani razredi koji pripadaju {\textit{backend}} dijelu MVC (MTV)
+			arhitekture. Razredi prikazani na slici 4.3 pirkazuju Controller razred. Metode implementirane u tim razredima
+			manipuliraju s DTO razredima ({\textit{Data transfer object}}) koji služe za prijenos podataka između baze podataka i
+			aplikacije. Atributi koji se nalaze u DTO razredima dohvaćaju se pomoću metoda implementiranih unutra Model razreda. 
+			Metode implementirane unutar Controller razreda vraćaju JSON datoteke.}
+
+			\indent{Zbog lakše oraganizacije, razredi su podijeljeni logički po pravu pristupa metodama određenih aktora. Kako
+			bi se smanjila prenatrpanost unutar pojedinog dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju
+			istom dijelu dijagrama. Također se iz naziva i tipova atributa može zaključiti vrsta ovisnosti i povezanosti između
+			različitih razreda.}
+
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{dijagrami/classcont.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Controllers}
@@ -205,6 +216,19 @@
 				\caption{Dijagram razreda - dio Data Transfer Objects}
 				\label{fig:classdto} %label mora biti drugaciji za svaku sliku
 			\end{figure}
+
+			\indent{Model razredi zapravo preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno
+			komuniciraju s bazom podataka i vraćaju tražene podatke. Razred CustomUser predstavlja korisnika koji se može
+			registrirati u aplikaciju (ako nema već kreiran korisnički račun), ulogirati u aplikaciju, pregledavati i mijenjati
+			svoje korisničke podatke te izbrisati svoj korisnički račun. Na razred CustomUser se vežu razredi Administrator i
+			Student koji predstavljaju korisnike aplikacije. Razred CustomUser je također povezan s razredom PermissionLevel
+			u kojem je zapisano koju razinu dozvole ima korisnik te se prema tome određuje je li korisnik Student ili Administrator.
+			Razred Administrator je povezan s razredima Dictionary i Word jer administrator ima mogućnost uređivanja rječnika
+			u aplikaciji. Razred Student je povezan s razredima Dictionary (student može odabrati rječnik za učenje), LearningMode
+			(student odabire način učenja jezika) i s razredom Session. Razred Session predstavlja srž aplikacije, što je učenje
+			stranog jezika. Povezan je s razredima Answer, Question i LearningMode, a preko tih razreda i s razredima Dictionary,
+			Word itd. Taj razred služi za pohranu studentovog odgovora, pitanja, izgovora riječi, načina učenja... te u njemu
+			student prekida svoje učenje.}
 
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{dijagrami/classmodel.png} %veličina u odnosu na širinu linije
