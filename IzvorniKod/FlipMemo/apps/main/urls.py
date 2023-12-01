@@ -15,12 +15,12 @@ urlpatterns = [
     path("edit_profile", user_views.EditProfileView.as_view()),
     path("delete_user", views.DeleteUserView.as_view()),
 
-    path("get_admins/", views.GetAdministratorsView.as_view()),
-    path("add_admin/", views.AddAdministratorView.as_view()),
-    path("remove_admin/", views.RemoveAdministratorView.as_view()),
-    path("get_students/", views.GetStudentsView.as_view()),
-    path('admin/', custom_admin_site.urls),
-    path("admin_status", user_views.AdminStatusView.as_view())
+    path("get_admins", views.GetAdministratorsView.as_view()),
+    path("add_admin", views.AddAdministratorView.as_view()),
+    path("remove_admin", views.RemoveAdministratorView.as_view()),
+    path("get_students", views.GetStudentsView.as_view()),
+    path('admin', custom_admin_site.urls),
+    path("admin_status", views.AdminStatusView.as_view())
 ]
 
 admin.site = CustomAdminSite()

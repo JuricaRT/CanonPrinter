@@ -1,14 +1,11 @@
 from apps.main.models import CustomUser
-from apps.main.dto import UserDTO
 from django.core.mail import send_mail
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import JsonResponse
 from django.conf import settings
 import smtplib
 import random
 import string
-from apps.main.database import Database as db
-from apps.main import dto
 
 from rest_framework.views import APIView
 from rest_framework import permissions
@@ -45,39 +42,23 @@ class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def post(self, request, format=None):
-        data = self.request.data
+        signup_email = self.request.data["email"]
 
-        userDTO = UserDTO(
-                username="DefaultUser",
-                name="John",
-                last_name="Doe",
-                email=data["email"],
-                password=None,
-                permission_level=None,
-                has_initial_pass=None
-        )
 
-        if CustomUser.objects.filter(email=userDTO.email).exists():
+        if CustomUser.objects.filter(email=signup_email).exists():
             # todo handle error
             return JsonResponse({'status': 'exists'})
 
         new_user = CustomUser.objects.create_user(
-                username=userDTO.username,
-                email=userDTO.email,
-                name=userDTO.name,
-                last_name=userDTO.last_name,
+            email=signup_email,
+            username="DefaultUsername",
+            name="John",
+            last_name="Doe",
         )
 
         rand_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(20))
 
         new_user.set_password(rand_pass)
-
-        userDTO.password = new_user.password
-        userDTO.permission_level = 0
-        userDTO.has_initial_pass = True
-        
-        database = db()
-        database.add_user(userDTO)
 
         new_user.save()
 
@@ -86,7 +67,7 @@ class SignupView(APIView):
                 'Welcome to FlipMemo',
                 f'Thank you for registering. Your initial password is: {rand_pass}',
                 settings.EMAIL_HOST_USER,
-                [userDTO.email],
+                [signup_email],
                 fail_silently=False
             )
         except smtplib.SMTPServerDisconnected as e:
@@ -142,36 +123,24 @@ class UserProfileView(APIView):
         except:
             return JsonResponse({ 'error': 'Something went wrong when retrieving profile' })
 
-class AdminStatusView(APIView):
-    def post(self, request, format=None):
-        try:
-            user_email = self.request.data["email"]
-            user = CustomUser.objects.get(email=user_email)
-
-            return JsonResponse({'isAdmin': dto.permission_level_to_int(user.permission_level)})
-        except:
-            return JsonResponse({"error": "something wrong with admin status"})
-
-
 class EditProfileView(APIView):
     def post(self, request, format=None):
         try:
-            
-            ### temp
-            user_email = self.request.data["email"]
+            new_user_data = self.request.data
 
-            user = CustomUser.objects.get(email=user_email)
-            user.username="test123"
+            user = CustomUser.objects.get(email=new_user_data["email"])
+
+            user.username = new_user_data["username"]
+            
+            if new_user_data["password"]: 
+                user.set_password(new_user_data["password"]) # session invalidated 
+                # https://docs.djangoproject.com/en/4.2/topics/auth/default/#session-invalidation-on-password-change
+                update_session_auth_hash(request, user)
+            
+            user.name = new_user_data["name"]
+            user.last_name = new_user_data["last_name"]
 
             user.save()
-            
-            old_userDTO = user.to_dto()
-            new_userDTO = user.to_dto()
-
-            new_userDTO.set_username("test123")
-
-            database = db()
-            database.modify_user(old_userDTO, new_userDTO)
 
             return JsonResponse({"message" : "ok"})
 
