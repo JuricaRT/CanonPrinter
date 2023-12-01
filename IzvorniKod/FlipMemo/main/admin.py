@@ -1,20 +1,10 @@
 from django.contrib import admin
-from django.core.handlers.wsgi import WSGIRequest
 from django.http.request import HttpRequest
 from .models import CustomUser
 from django.contrib.admin import AdminSite
-from django.contrib.auth.admin import UserAdmin
-from apps.main.models import PermissionLevel
+from .models import PermissionLevel
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
-from django import forms
 from typing import Any
-from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-
-
-# Register your models here.
 
 class CustomAdminSite(AdminSite):
     model = CustomUser

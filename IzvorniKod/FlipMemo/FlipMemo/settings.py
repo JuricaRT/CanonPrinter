@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #Local
-    'apps.main',
+    'main',
 ]
 
 REST_FRAMEWORK = {
@@ -191,7 +191,7 @@ CORS_ALLOW_HEADERS = ['*']
 
 
 
-AUTHENTICATION_BACKENDS = ['apps.main.auth_backends.FlipMemoAuthBackend']
+AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
 CORS_ALLOW_CREDENTIALS = True
 #CSRF_COOKIE_HTTPONLY = True
 

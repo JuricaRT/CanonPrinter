@@ -1,4 +1,4 @@
-from apps.main.models import CustomUser
+from main.models import CustomUser
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import JsonResponse

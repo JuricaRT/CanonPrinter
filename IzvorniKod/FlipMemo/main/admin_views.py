@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from apps.main.models import CustomUser, PermissionLevel
+from .models import CustomUser, PermissionLevel
 import json
 
 from rest_framework.views import APIView
