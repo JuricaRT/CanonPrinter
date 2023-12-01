@@ -20,14 +20,14 @@ class GetCSRFToken(APIView):
     def get(self, request, format=None):
         return JsonResponse({ 'success': 'CSRF cookie set' })
 
+
 @method_decorator(csrf_protect, name="dispatch")
 class CheckAuthenticatedView(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def get(self, request, format=None):
-        user = self.request.user
         try:
-            isAuthenticated = user.is_authenticated
+            isAuthenticated = request.user.is_authenticated
 
             if isAuthenticated:
                 return JsonResponse({ 'isAuthenticated': 'success' })
@@ -42,8 +42,7 @@ class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def post(self, request, format=None):
-        signup_email = self.request.data["email"]
-
+        signup_email = request.data["email"]
 
         if CustomUser.objects.filter(email=signup_email).exists():
             # todo handle error
@@ -75,15 +74,14 @@ class SignupView(APIView):
 
         return JsonResponse({'message': 'ok'})
 
+
 @method_decorator(csrf_protect, name="dispatch")
 class LoginView(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def post(self, request, format=None):
-        data = self.request.data
-        
-        email = data['email']
-        password = data['password']
+        email = request.data['email']
+        password = request.data['password']
         
         user = authenticate(email=email, password=password)
         
@@ -106,43 +104,50 @@ class LogoutView(APIView):
         
 
 class UserProfileView(APIView):
-    def post(self, request, format=None):
+    def get(self, request, format=None):
         try:
-            user_email = self.request.data["email"]
-            user = CustomUser.objects.get(email=user_email)
-
             return JsonResponse(
                 {
-                    'username': user.username,
-                    'password': user.password,
-                    'name': user.name,
-                    'last_name': user.last_name,
-                    'email': user.email
+                    'username': request.user.username,
+                    'password': request.user.password,
+                    'name': request.user.name,
+                    'last_name': request.user.last_name,
+                    'email': request.user.email
                 }
             )
+        
         except:
             return JsonResponse({ 'error': 'Something went wrong when retrieving profile' })
+
 
 class EditProfileView(APIView):
     def post(self, request, format=None):
         try:
-            new_user_data = self.request.data
-
-            user = CustomUser.objects.get(email=new_user_data["email"])
-
-            user.username = new_user_data["username"]
+            request.user.username = request.data["username"]
             
-            if new_user_data["password"]: 
-                user.set_password(new_user_data["password"]) # session invalidated 
+            if request.data["password"]: 
+                request.user.set_password(request.data["password"]) # session invalidated 
                 # https://docs.djangoproject.com/en/4.2/topics/auth/default/#session-invalidation-on-password-change
-                update_session_auth_hash(request, user)
+                update_session_auth_hash(request, request.user)
             
-            user.name = new_user_data["name"]
-            user.last_name = new_user_data["last_name"]
+            request.user.name = request.data["name"]
+            request.user.last_name = request.data["last_name"]
 
-            user.save()
+            request.user.save()
 
             return JsonResponse({"message" : "ok"})
 
         except:
             return JsonResponse({"error": "something wrong with edit profile"})
+        
+
+class DeleteUserView(APIView):
+    def get(self, request, format=None):
+        try:
+            request.user.delete()
+
+            return JsonResponse({ 'success': 'User deleted successfully' })
+        
+        except Exception as e:
+            print(e)
+            return JsonResponse({ 'error': 'Something went wrong when trying to delete user' })

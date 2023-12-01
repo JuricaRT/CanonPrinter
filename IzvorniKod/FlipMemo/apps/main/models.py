@@ -14,6 +14,7 @@ class CustomIDField(models.CharField):
     def generate_id(self):
         return str(uuid.uuid4())
 
+# TODO: makni ovo
 class PermissionLevel(models.TextChoices):
     ADMIN_LEVEL = 'ADMIN'
     USER_LEVEL = 'USER'
@@ -26,6 +27,7 @@ class CustomUser(AbstractUser):
     name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.CharField(max_length=255, unique=True)
+    # TODO: makni permission_level iz modela
     permission_level = models.CharField(max_length=5, choices=PermissionLevel.choices, default=PermissionLevel.USER_LEVEL)
     has_initial_pass = models.BooleanField(default=True)
 

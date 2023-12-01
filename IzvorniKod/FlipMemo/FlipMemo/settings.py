@@ -54,18 +54,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-"""
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-"""
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -109,16 +97,6 @@ auth_source = full_db_string.path.split('/')[0]
 match = re.search(r'@([^.]*)\.', os.environ["DB_CONNECTION_STRING"])
 database_name = match.group(1)
 
-g = """
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'tempDB',
-        'TEST': {
-            'NAME': 'testDB',
-        }
-    }
-}"""
 
 DATABASES = {
     'default': {

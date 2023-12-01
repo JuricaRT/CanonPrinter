@@ -13,14 +13,14 @@ urlpatterns = [
     path('csrf_cookie', user_views.GetCSRFToken.as_view()),
     path('profile', user_views.UserProfileView.as_view()),
     path("edit_profile", user_views.EditProfileView.as_view()),
-    path("delete_user", views.DeleteUserView.as_view()),
+    path("delete_user_admin", views.DeleteUserViewAdmin.as_view()),
+    path("delete_user", user_views.DeleteUserView.as_view()),
 
     path("get_admins", views.GetAdministratorsView.as_view()),
     path("add_admin", views.AddAdministratorView.as_view()),
     path("remove_admin", views.RemoveAdministratorView.as_view()),
     path("get_students", views.GetStudentsView.as_view()),
-    path('admin', custom_admin_site.urls),
-    path("admin_status", views.AdminStatusView.as_view())
+    path('admin', custom_admin_site.urls)
 ]
 
 admin.site = CustomAdminSite()
