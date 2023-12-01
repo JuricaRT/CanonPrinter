@@ -1,39 +1,32 @@
-from django.shortcuts import render, redirect, HttpResponse
-from django.views.generic.list import ListView
 from apps.main.models import CustomUser
 from apps.main.dto import UserDTO
 from django.core.mail import send_mail
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.views import View
 from django.http import JsonResponse
 from django.conf import settings
-import json
 import smtplib
 import random
 import string
 from apps.main.database import Database as db
-import dataclasses
-from django.contrib.auth.decorators import login_required
 from apps.main import dto
-
-
 
 from rest_framework.views import APIView
 from rest_framework import permissions
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 
+
+@method_decorator(ensure_csrf_cookie, name="dispatch")
 class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny, )
     
-    @method_decorator(ensure_csrf_cookie, name='dispatch')
     def get(self, request, format=None):
         return JsonResponse({ 'success': 'CSRF cookie set' })
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(csrf_protect, name="dispatch")
 class CheckAuthenticatedView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
     def get(self, request, format=None):
         user = self.request.user
         try:
@@ -46,8 +39,8 @@ class CheckAuthenticatedView(APIView):
         except:
             return JsonResponse({ 'error': 'Something went wrong when checking authentication status' })
 
-#@method_decorator(csrf_protect, name='dispatch')
-@method_decorator(csrf_exempt, name="dispatch")
+
+@method_decorator(csrf_protect, name="dispatch")
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -101,7 +94,7 @@ class SignupView(APIView):
 
         return JsonResponse({'message': 'ok'})
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(csrf_protect, name="dispatch")
 class LoginView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -118,8 +111,11 @@ class LoginView(APIView):
             return JsonResponse({'success': 'User authenticated'})
         else:
             return JsonResponse({ 'error': 'Error Authenticating' })
-        
+
+
 class LogoutView(APIView):
+    # if you do not use permissions.AllowAny, it is automatically csrf_protected
+
     def post(self, request, format=None):
         try:
             logout(request)
