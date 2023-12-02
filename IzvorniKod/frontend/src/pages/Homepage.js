@@ -81,7 +81,7 @@ function Review({ children }) {
   return (
     <div className={styles.review}>
       <div className={styles.reviewChildren}>{children}</div>
-      <div className={styles.reviewPerson}>Anonymus ⭐⭐⭐⭐⭐</div>
+      <div className={styles.reviewPerson}>Anonymous ⭐⭐⭐⭐⭐</div>
     </div>
   );
 }

@@ -1,24 +1,31 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import PassChange from "./pages/PassChange";
-import MainScreen from "./pages/MainScreen";
-import ProfileSettings from "./pages/ProfileSettings";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./hocs/Layout"
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage />}></Route>
-        <Route path="login" element={<Login />}></Route>
-        <Route path="signup" element={<SignUp />}></Route>
-        <Route path="passChange" element={<PassChange />}></Route>
-        <Route path="mainScreen" element={<MainScreen />}></Route>
-        <Route path="profileSettings" element={<ProfileSettings />}></Route>
-      </Routes>
+import Homepage from "./containers/Homepage";
+import Login from "./containers/Login";
+import SignUp from "./containers/SignUp";
+import PassChange from "./containers/PassChange";
+import MainScreen from "./containers/MainScreen";
+import ProfileSettings from "./containers/ProfileSettings";
+
+import store from './store'
+import { Provider } from 'react-redux'
+
+const App = () => (
+  <Provider store={store}>
+    <BrowserRouter>    
+      <Layout>
+        <Routes>
+          <Route exact path="/" element={<Homepage/>}/>
+          <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/signup" element={<SignUp/>}/>
+          <Route exact path="/passChange" element={<PassChange/>}/>
+          <Route exact path="/mainScreen" element={<MainScreen/>}/>
+          <Route exact path="/profileSettings" element={<ProfileSettings/>}/>
+        </Routes>
+      </Layout>
     </BrowserRouter>
-  );
-}
+  </Provider>
+);
 
 export default App;
