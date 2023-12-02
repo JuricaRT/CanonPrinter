@@ -1,33 +1,47 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Container, ButtonLayout, Button1, Button2, GlobalStyle } from '../elements/global';
-import * as Element from '../elements/homepage';
+import { connect } from 'react-redux'
+import { ButtonLayout, Button1 } from '../elements/global';
 
-let loggedIn = false;
-
-//TODO parametrizacija
-
-const Banner = () => (
-    <ButtonLayout>
-    {loggedIn == true ? 
-        <Link to="/mainScreen">
-        <Button1>Main screen</Button1>
-        </Link>
-    : 
-        <Link to="/login">
-        <Button1>Log in</Button1>
-        </Link>
+const Banner = ({isAuthenticated, origin}) => {
+    let navigation = [['/login', "Login"], ['/signup', "Sign Up"]];
+    if (isAuthenticated) {
+        navigation[0][0] = '/mainScreen';
+        navigation[0][1] = 'Main Screen';
+        navigation[1][0] = '/profileSettings';
+        navigation[1][1] = 'Profile';
     }
-    {loggedIn == true ? 
-        <Link to="/profileSettings">
-        <Button2>Profile</Button2>
-        </Link>
-    : 
-        <Link to="/signup">
-        <Button2>Sign up</Button2>
-        </Link>
-    }
-    </ButtonLayout>
-);
 
-export default Banner;
+    switch(origin) {
+        case "MainScreen":
+            navigation.shift();
+        break;
+        case "ProfileSettings":
+            navigation.pop();
+        break;
+        case "PassChange":
+            navigation.pop();
+            navigation.pop();
+        break;
+        default:
+        break;
+    }
+
+    return (
+        <ButtonLayout>
+            {
+                navigation.map((item) => (
+                    <Link to={item[0]}>
+                    <Button1>{item[1]}</Button1>
+                    </Link>
+                ))
+            }
+        </ButtonLayout>
+    );
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+  })
+  
+  export default connect(mapStateToProps, { })(Banner);

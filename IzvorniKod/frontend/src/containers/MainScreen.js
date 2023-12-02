@@ -1,31 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, GlobalStyle } from '../elements/global';
+import { connect } from 'react-redux'
 import * as Element from '../elements/mainscreen';
 import Banner from './Banner';
 
-const MainScreen = () => (
-  <React.Fragment>
-  <GlobalStyle />
-    <Container>
-        <Banner></Banner>
-        <Element.TopDiv>
-          <Element.Logo>FLIP MEMO</Element.Logo>
-          <Element.SearchBar />
-          <form>
-            <Element.SearchBar
-              type="text"
-              placeholder="Search..."
-            ></Element.SearchBar>
-          </form>
-          <Element.ProfileSettings
-            to="/profileSettings"
-            //onClick={handleClick}            
-          > Profile </Element.ProfileSettings>
-        </Element.TopDiv>
-        <hr />
-    </Container>
-  </React.Fragment>
-);
+const MainScreen = ({isAuthenticated}) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null)
+      navigate('/');
+  });
+
+  return (
+    <React.Fragment>
+    <GlobalStyle />
+      <Container>
+          <Banner origin="MainScreen"></Banner>
+          <Element.TopDiv>
+            <Element.Logo>FLIP MEMO</Element.Logo>
+            <Element.SearchBar />
+            <form>
+              <Element.SearchBar
+                type="text"
+                placeholder="Search..."
+              ></Element.SearchBar>
+            </form>
+          </Element.TopDiv>
+          <hr />
+      </Container>
+    </React.Fragment>
+  );
+}
 
 //TODO admin stranica
     /*
@@ -76,4 +83,8 @@ const AdminPage = () => (
 );
 */
 
-export default MainScreen;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { })(MainScreen);

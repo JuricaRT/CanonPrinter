@@ -1,38 +1,75 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Container, GlobalStyle } from '../elements/global';
 import * as Element from '../elements/formpages';
 import Banner from './Banner';
 import * as PassChangeMisc from '../elements/passchange'
+import CSRFToken from '../components/CSRFToken';
+import { update_password } from '../actions/profile';
 
-let error = false;
+const PassChange = ({isAuthenticated}) => {
+  const navigate = useNavigate();
 
-const PassChange = () => (
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null)
+      navigate('/');
+  });
+
+  const [formData, setFormData] = useState({
+    password: '',
+    c_password: ''
+  });
+
+  const {password, c_password} = formData;
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (password != c_password) {
+      alert("Passwords do not match");
+      return;    
+    }
+
+    update_password(password);
+  }
+
+  return (
   <React.Fragment>
   <GlobalStyle />
     <Container>
-      <Element.LoginForm /*onSubmit={handleSubmit}*/>
-        <Banner></Banner>
+      <Element.LoginForm onSubmit={e => onSubmit(e)}>
+        <Banner origin="PassChange"></Banner>
         <Element.HorizontalSeparator>
         <Element.LeftSideImage></Element.LeftSideImage>
         <Element.LoginFormDiv>
+          <CSRFToken />
           <PassChangeMisc.ConfirmPassLabel>
             Please enter your desired password:
           </PassChangeMisc.ConfirmPassLabel>
           <Element.StandardDiv>
             <Element.Input
-              type="text"
+              type='password'
+              name='password'
+              onChange={e => onChange(e)}
+              value={password}
+              minLength='1'
+              required    
               placeholder="New Password..."
-              //value={mail}
-              //onChange={(e) => setMail(e.target.value)}
             />
           </Element.StandardDiv>
           <div>
           <Element.PasswordButtonAlignment>
             <Element.StandardDiv>
               <Element.Input
-                //type={showPassword ? "text" : "password"}
-                //value={password}
-                //onChange={(e) => setPassword(e.target.value)}
+                type='password'
+                name='c_password'
+                onChange={e => onChange(e)}
+                value={c_password}
+                minLength='1'
+                required    
                 placeholder="Confirm Password..."
               />
             </Element.StandardDiv>
@@ -44,53 +81,11 @@ const PassChange = () => (
       </Element.LoginForm>
     </Container>
   </React.Fragment>
-    /*
-    <form className={styles.form} onSubmit={handlePassword}>
-    <h1>Password change</h1>
-    <div>
-      <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        style={{ width: "250px", margin: "10px" }}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      ></input>
-      <button onClick={togglePassword}>
-        {showPassword ? "Hide" : "Show"}
-      </button>
-    </div>
-    <div>
-      <input
-        type={showRepeatedPassword ? "text" : "password"}
-        placeholder="Repeat password"
-        style={{ width: "250px", margin: "10px" }}
-        value={repeatedPassword}
-        onChange={(e) => setRepeatedPassword(e.target.value)}
-      ></input>
-      <button onClick={toggleRepeated}>
-        {showRepeatedPassword ? "Hide" : "Show"}
-      </button>
-    </div>
-    {passError === true && (
-      <p style={{ color: "red" }}>
-        Make sure you enter the same passwords!!!
-      </p>
-    )}
-    {backendError === true && (
-      <p style={{ color: "red" }}> Try again we have an error!</p>
-    )}
-    <button
-      style={{
-        backgroundColor: "beige",
-        marginLeft: "250px",
-        marginRight: "20px",
-        marginTop: "40px",
-      }}
-    >
-      OK
-    </button>
-  </form>
-  */
-);
+  );
+}
 
-export default PassChange;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { update_password })(PassChange);

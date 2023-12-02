@@ -1,22 +1,32 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import { Container, ButtonLayout, Button1, Button2, GlobalStyle } from '../elements/global';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Container, GlobalStyle } from '../elements/global';
 import * as Element from '../elements/homepage';
 import Banner from './Banner';
 
 let loggedIn = false;
 let children = null;
 
-const Homepage = () => (
+const Homepage = ({isAuthenticated}) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated)
+      navigate('/mainScreen');
+  });
+
+  return (
     <React.Fragment>
     <GlobalStyle />
       <Container>
-        <Banner></Banner>
+        <Banner origin="Homepage"></Banner>
         <Message></Message>
         <Reviews></Reviews>
       </Container>
     </React.Fragment>
-);
+  );
+}
 
 const Message = () => (
     <Element.OpeningMessage></Element.OpeningMessage>
@@ -38,4 +48,8 @@ const Review = ( {children} ) => (
     </Element.Review>
 );
 
-export default Homepage;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { })(Homepage);

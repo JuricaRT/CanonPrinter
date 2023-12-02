@@ -1,50 +1,101 @@
-import React from 'react';
-import { Container, GlobalStyle, Button1 } from '../elements/global';
+import React, {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Container, GlobalStyle } from '../elements/global';
 import * as Element from '../elements/formpages';
 import * as ProfileMisc from '../elements/profilesettings'
 import Banner from './Banner';
+import CSRFToken from '../components/CSRFToken';
+import { update_profile } from '../actions/profile';
+import { delete_account } from '../actions/auth';
 
-let error = false;
-let showPassword = false;
-let togglePasswordVisibility = false;
+const ProfileSettings = (
+  {
+    isAuthenticated,
+    update_profile,
+    username_global,
+    name_global,
+    last_name_global
+  }) => {
+  const navigate = useNavigate();
 
-const ProfileSettings = () => (
-  <React.Fragment>
-  <GlobalStyle />
-    <Container>
-      <Element.LoginForm /*onSubmit={handleSubmit}*/>
-        <Banner></Banner>
-        <Element.HorizontalSeparator>
-        <Element.LeftSideImage></Element.LeftSideImage>
-        <ProfileMisc.ProfileFormDiv>
-          <FormElement param="Username"/>
-          <FormElement param="New Password"/>
-          <FormElement param="Confirm Password"/>
-          <FormElement param="Name"/>
-          <FormElement param="Last Name"/>
-          <ProfileMisc.ButtonsDiv>
-            <Element.FlattenedButton>Delete Account</Element.FlattenedButton>
-            <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
-          </ProfileMisc.ButtonsDiv>
-        </ProfileMisc.ProfileFormDiv>
-        </Element.HorizontalSeparator>
-      </Element.LoginForm>
-    </Container>
-  </React.Fragment>
-);
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null)
+      navigate('/');
+  });
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    name: '',
+    last_name: ''
+  });
+
+  const { username, password, c_password, name, last_name } = formData;
+
+  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (password != c_password) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    let passwordSet = true;
+    if (password == "")
+      passwordSet = false;
+
+    update_profile(username, password, name, last_name, passwordSet);
+  };
+
+  const FormElement = ({param, name, val, type="text"}) => (
+    <Element.StandardDiv>
+      <ProfileMisc.InfoLabel>{`${param}:`}</ProfileMisc.InfoLabel>
+      <Element.Input
+        type={type}
+        value={val}
+        name={name}
+        onChange={(e) => onChange(e)}
+        placeholder={`${param}...`}
+      />
+    </Element.StandardDiv>
+  );
+
+  return (
+    <React.Fragment>
+    <GlobalStyle />
+      <Container>
+        <Element.LoginForm /*onSubmit={handleSubmit}*/>
+          <Banner origin="ProfileSettings"></Banner>
+          <Element.HorizontalSeparator>
+          <Element.LeftSideImage></Element.LeftSideImage>
+          <ProfileMisc.ProfileFormDiv>
+            <CSRFToken />
+            <FormElement param="Username" name="username" val={username} type="text"/>
+            <FormElement param="New Password" name="password" val={password} type="password"/>
+            <FormElement param="Confirm Password" name="c_password" val={c_password} type="password"/>
+            <FormElement param="Name" name="name" val={name} type="text"/>
+            <FormElement param="Last Name" name="last_name" val={last_name} type="text"/>
+            <ProfileMisc.ButtonsDiv>
+              <Element.FlattenedButton onClick={delete_account}>Delete Account</Element.FlattenedButton>
+              <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
+            </ProfileMisc.ButtonsDiv>
+          </ProfileMisc.ProfileFormDiv>
+          </Element.HorizontalSeparator>
+        </Element.LoginForm>
+      </Container>
+    </React.Fragment>
+  );
+}
 
 
-const FormElement = ({param}) => (
-  <Element.StandardDiv>
-    <ProfileMisc.InfoLabel>{`${param}:`}</ProfileMisc.InfoLabel>
-    <Element.Input
-      //type={showPassword ? "text" : "password"}
-      //value={password}
-      //onChange={(e) => setPassword(e.target.value)}
-      placeholder={`${param}...`}
-    />
-  </Element.StandardDiv>
-);
 
-export default ProfileSettings;
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { delete_account, update_profile })(ProfileSettings);
 
