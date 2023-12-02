@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Container, Button1, Button2, ButtonLayout, BannerTitle, GlobalStyle } from '../elements/global';
-import * as Element from '../elements/login';
+import * as Element from '../elements/formpages';
 import Banner from './Banner';
 
 let loggedIn = false;

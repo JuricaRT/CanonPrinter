@@ -1,116 +1,50 @@
 import React from 'react';
+import { Container, GlobalStyle, Button1 } from '../elements/global';
+import * as Element from '../elements/formpages';
+import * as ProfileMisc from '../elements/profilesettings'
+import Banner from './Banner';
+
+let error = false;
+let showPassword = false;
+let togglePasswordVisibility = false;
 
 const ProfileSettings = () => (
-    <div></div>
-    /*
-    <>
-      <h1 className={styles.h1}>Profile Settings</h1>
-      <div className={styles.settings}>
-        <div>
-          <Element changable={false} data={data.email}>
-            Email
-          </Element>
-        </div>
-        <div>
-          {wantToChangePass ? (
-            <Change handleChange={handleSavePass} setChange={setNewPassword}>
-              Password
-            </Change>
-          ) : (
-            <Element
-              changable={true}
-              handleClick={handlePassClick}
-              wantToChange={wantToChangePass}
-              data={data.password}
-            >
-              Password
-            </Element>
-          )}
-        </div>
-        <div>
-          {wantToChangeUsername ? (
-            <Change
-              handleChange={handleSaveUsername}
-              setChange={setNewUsername}
-            >
-              Username
-            </Change>
-          ) : (
-            <Element
-              changable={true}
-              handleClick={handleUsernameClick}
-              data={data.username}
-            >
-              Username
-            </Element>
-          )}
-        </div>
-        <div>
-          {wantToChangeName ? (
-            <Change handleChange={handleSaveName} setChange={setNewName}>
-              Name
-            </Change>
-          ) : (
-            <Element
-              changable={true}
-              handleClick={handleNameClick}
-              data={data.name}
-            >
-              Name
-            </Element>
-          )}
-        </div>
-        <div>
-          {wantToChangeLastName ? (
-            <Change
-              handleChange={handleSaveLastName}
-              setChange={setNewLastName}
-            >
-              Last name
-            </Change>
-          ) : (
-            <Element
-              changable={true}
-              handleClick={handleLastNameClick}
-              data={data.last_name}
-            >
-              Last name
-            </Element>
-          )}
-        </div>
-        <button className={styles.logout} onClick={logout}>
-          Logout
-        </button>
-        <button className={styles.delete} onClick={deleteProfile}>
-          Delete profile
-        </button>
-      </div>
-      <div className={styles.donji}>
-        <Return handleReturn={handleReturn} />
-      </div>
-    </>
-    */
-);
-/*
-const Return = () => (
-    <Link to="/mainScreen" className={styles.return} onClick={handleReturn}>
-      Return
-    </Link>
+  <React.Fragment>
+  <GlobalStyle />
+    <Container>
+      <Element.LoginForm /*onSubmit={handleSubmit}*/>
+        <Banner></Banner>
+        <Element.HorizontalSeparator>
+        <Element.LeftSideImage></Element.LeftSideImage>
+        <ProfileMisc.ProfileFormDiv>
+          <FormElement param="Username"/>
+          <FormElement param="New Password"/>
+          <FormElement param="Confirm Password"/>
+          <FormElement param="Name"/>
+          <FormElement param="Last Name"/>
+          <ProfileMisc.ButtonsDiv>
+            <Element.FlattenedButton>Delete Account</Element.FlattenedButton>
+            <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
+          </ProfileMisc.ButtonsDiv>
+        </ProfileMisc.ProfileFormDiv>
+        </Element.HorizontalSeparator>
+      </Element.LoginForm>
+    </Container>
+  </React.Fragment>
 );
 
-const Element = () => (
-    <div className={styles.element}>
-      {`${children}: ${data}`}
-      {changable && (
-        <button
-          style={{ height: "20px", margin: "10px" }}
-          onClick={handleClick}
-        >
-          Change
-        </button>
-      )}
-    </div>
+
+const FormElement = ({param}) => (
+  <Element.StandardDiv>
+    <ProfileMisc.InfoLabel>{`${param}:`}</ProfileMisc.InfoLabel>
+    <Element.Input
+      //type={showPassword ? "text" : "password"}
+      //value={password}
+      //onChange={(e) => setPassword(e.target.value)}
+      placeholder={`${param}...`}
+    />
+  </Element.StandardDiv>
 );
-*/
+
 export default ProfileSettings;
 

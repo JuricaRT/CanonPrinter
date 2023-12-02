@@ -5,6 +5,8 @@ import * as Element from '../elements/homepage';
 
 let loggedIn = false;
 
+//TODO parametrizacija
+
 const Banner = () => (
     <ButtonLayout>
     {loggedIn == true ? 

@@ -1,7 +1,49 @@
 import React from 'react';
+import { Container, GlobalStyle } from '../elements/global';
+import * as Element from '../elements/formpages';
+import Banner from './Banner';
+import * as PassChangeMisc from '../elements/passchange'
+
+let error = false;
 
 const PassChange = () => (
-    <div></div>
+  <React.Fragment>
+  <GlobalStyle />
+    <Container>
+      <Element.LoginForm /*onSubmit={handleSubmit}*/>
+        <Banner></Banner>
+        <Element.HorizontalSeparator>
+        <Element.LeftSideImage></Element.LeftSideImage>
+        <Element.LoginFormDiv>
+          <PassChangeMisc.ConfirmPassLabel>
+            Please enter your desired password:
+          </PassChangeMisc.ConfirmPassLabel>
+          <Element.StandardDiv>
+            <Element.Input
+              type="text"
+              placeholder="New Password..."
+              //value={mail}
+              //onChange={(e) => setMail(e.target.value)}
+            />
+          </Element.StandardDiv>
+          <div>
+          <Element.PasswordButtonAlignment>
+            <Element.StandardDiv>
+              <Element.Input
+                //type={showPassword ? "text" : "password"}
+                //value={password}
+                //onChange={(e) => setPassword(e.target.value)}
+                placeholder="Confirm Password..."
+              />
+            </Element.StandardDiv>
+            </Element.PasswordButtonAlignment>
+          </div>
+            <Element.FlattenedButton>OK</Element.FlattenedButton>
+        </Element.LoginFormDiv>
+        </Element.HorizontalSeparator>
+      </Element.LoginForm>
+    </Container>
+  </React.Fragment>
     /*
     <form className={styles.form} onSubmit={handlePassword}>
     <h1>Password change</h1>

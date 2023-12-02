@@ -1,7 +1,33 @@
 import React from 'react';
+import { Container, GlobalStyle } from '../elements/global';
+import * as Element from '../elements/mainscreen';
+import Banner from './Banner';
 
 const MainScreen = () => (
-    <div></div>
+  <React.Fragment>
+  <GlobalStyle />
+    <Container>
+        <Banner></Banner>
+        <Element.TopDiv>
+          <Element.Logo>FLIP MEMO</Element.Logo>
+          <Element.SearchBar />
+          <form>
+            <Element.SearchBar
+              type="text"
+              placeholder="Search..."
+            ></Element.SearchBar>
+          </form>
+          <Element.ProfileSettings
+            to="/profileSettings"
+            //onClick={handleClick}            
+          > Profile </Element.ProfileSettings>
+        </Element.TopDiv>
+        <hr />
+    </Container>
+  </React.Fragment>
+);
+
+//TODO admin stranica
     /*
     <>
       <div className={styles.div}>
@@ -13,7 +39,6 @@ const MainScreen = () => (
       {isAdmin ? <AdminPage /> : <div className={styles.picturePart}></div>}
     </>
     */
-);
 
 /*
 const AdminPage = () => (
@@ -49,31 +74,6 @@ const AdminPage = () => (
         </div>
     </div>
 );
-
-const Logo = () => (
-    <div className={styles.divLogo}>Flip Memo</div>
-);
-
-const SearchBar = () => (
-    <div>
-      <form>
-        <input
-          className={styles.inputSearch}
-          type="text"
-          placeholder="Search..."
-        ></input>
-      </form>
-    </div>
-);
-
-const Profile = () => (
-    <Link
-      to="/profileSettings"
-      onClick={handleClick}
-      className={styles.profileSettings}
-    >
-      Profile
-    </Link>
-);
 */
+
 export default MainScreen;
