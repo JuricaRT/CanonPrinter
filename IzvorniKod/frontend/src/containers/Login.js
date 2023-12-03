@@ -29,12 +29,16 @@ const Login = ({login, isAuthenticated}) => {
     login(email, password);
   }
 
+  const [passwordVisibilityText, setpasswordVisiblityText] = useState("Show Password");
+
   const togglePasswordVisibility = () => {
     var el = document.getElementById("passInput");
     if (el.type === "password") {
       el.type = "text";
+      setpasswordVisiblityText("Hide Password")
     } else {
       el.type = "password";
+      setpasswordVisiblityText("Show Password");
     }
   }
 
@@ -58,7 +62,7 @@ const Login = ({login, isAuthenticated}) => {
                 required
               />
             </Element.StandardDiv>
-            <div>
+
             <Element.PasswordButtonAlignment>
               <Element.StandardDiv>
                 <Element.Input
@@ -72,11 +76,8 @@ const Login = ({login, isAuthenticated}) => {
                   required                
                 />
               </Element.StandardDiv>
-                <Element.FlattenedButton onClick={togglePasswordVisibility} type="button">
-                  Hide/Show
-                </Element.FlattenedButton>
               </Element.PasswordButtonAlignment>
-            </div>
+            
             <Element.StandardDiv>
               <Element.ComingSoon>
                 <div className={"styles.comingSoonText"}>Coming soon!</div>
@@ -92,7 +93,12 @@ const Login = ({login, isAuthenticated}) => {
                 </Element.StandardDiv>
               </Element.ComingSoon>
             </Element.StandardDiv>
-              <Element.FlattenedButton>OK</Element.FlattenedButton>
+            <Element.StandardDiv>
+              <Element.FlattenedButton>Log in</Element.FlattenedButton>
+              <Element.FlattenedButton onClick={togglePasswordVisibility} type="button">
+                  {passwordVisibilityText}
+              </Element.FlattenedButton>
+            </Element.StandardDiv>
           </Element.LoginFormDiv>
           </Element.HorizontalSeparator>
         </Element.LoginForm>

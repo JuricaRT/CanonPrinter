@@ -64,7 +64,8 @@ export const FlattenedButton = styled.button
 `
     padding: 7px;
     margin-top: 10px;
-    width: auto;
+    margin-right: 5px;
+    width: 200px;
     border-radius: 20px;
     border: solid 2px bisque;
     display: inline-block;

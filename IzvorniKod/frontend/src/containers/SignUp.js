@@ -68,7 +68,7 @@ const SignUp = ({isAuthenticated, register}) => {
               </Element.StandardDiv>
             </Element.ComingSoon>
           </Element.StandardDiv>
-            <Element.FlattenedButton>OK</Element.FlattenedButton>
+            <Element.FlattenedButton>Sign up</Element.FlattenedButton>
             </Element.LoginFormDiv>
           </Element.HorizontalSeparator>
         </Element.LoginForm>
