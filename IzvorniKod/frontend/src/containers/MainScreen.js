@@ -11,7 +11,7 @@ const MainScreen = ({isAuthenticated}) => {
   useEffect(() => {
     if (!isAuthenticated || isAuthenticated === null)
       navigate('/');
-  });
+  }, [isAuthenticated, navigate]);
 
   return (
     <React.Fragment>

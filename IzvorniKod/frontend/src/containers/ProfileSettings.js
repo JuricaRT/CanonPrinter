@@ -12,6 +12,7 @@ import { delete_account } from '../actions/auth';
 const ProfileSettings = (
   {
     isAuthenticated,
+    delete_account,
     update_profile,
     username_global,
     name_global,
@@ -20,16 +21,17 @@ const ProfileSettings = (
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated || isAuthenticated === null)
-      navigate('/');
-    console.log(username_global);
     setFormData({
       name: name_global,
       last_name: last_name_global,
       username: username_global,
       });
+  }, [name_global, last_name_global, username_global]);
 
-  }, []);
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null)
+      navigate('/');
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -86,7 +88,7 @@ const ProfileSettings = (
             <FormElement param="Name" name="name" val={name} type="text"/>
             <FormElement param="Last Name" name="last_name" val={last_name} type="text"/>
             <ProfileMisc.ButtonsDiv>
-              <Element.FlattenedButton onClick={delete_account}>Delete Account</Element.FlattenedButton>
+              <Element.FlattenedButton onClick={delete_account} type="button">Delete Account</Element.FlattenedButton>
               <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
             </ProfileMisc.ButtonsDiv>
           </ProfileMisc.ProfileFormDiv>

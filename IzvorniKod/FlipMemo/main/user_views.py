@@ -137,14 +137,48 @@ class EditProfileView(APIView):
 
             request.user.save()
 
-            return JsonResponse({"message" : "ok"})
+            return JsonResponse(
+                {
+                    'username': request.user.username,
+                    'password': request.user.password,
+                    'name': request.user.name,
+                    'last_name': request.user.last_name,
+                    'email': request.user.email,
+                    'has_initial_pass': request.user.has_initial_pass,
+                    'is_admin': request.user.is_superuser
+                }
+            )
+        except:
+            return JsonResponse({"error": "something wrong with edit profile"})
+        
+class ChangeInitialPassView(APIView):
+    def put(self, request, format=None):
+        try:            
+            request.user.set_password(request.data["password"]) # session invalidated 
+            # https://docs.djangoproject.com/en/4.2/topics/auth/default/#session-invalidation-on-password-change
+            update_session_auth_hash(request, request.user)
 
+            request.user.has_initial_pass = False
+
+            request.user.save()
+
+            return JsonResponse(
+                {
+                    'username': request.user.username,
+                    'password': request.user.password,
+                    'name': request.user.name,
+                    'last_name': request.user.last_name,
+                    'email': request.user.email,
+                    'has_initial_pass': request.user.has_initial_pass,
+                    'is_admin': request.user.is_superuser
+                }
+            )
         except:
             return JsonResponse({"error": "something wrong with edit profile"})
         
 
 class DeleteUserView(APIView):
-    def get(self, request, format=None):
+    def delete(self, request, format=None):
         try:
             request.user.delete()
 

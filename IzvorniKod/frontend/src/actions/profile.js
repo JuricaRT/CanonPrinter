@@ -57,8 +57,7 @@ export const update_profile = (username, password, _name, last_name, passwordSet
     
     try {
         const res = await axios.put(`${baseURL}/edit_profile`, body, config); 
-
-    if (res.data.profile && res.data.email) {
+    if (res.data.email) {
         dispatch({
             type: UPDATE_USER_PROFILE_SUCCESS,
             payload: res.data
@@ -77,8 +76,8 @@ export const update_profile = (username, password, _name, last_name, passwordSet
 
 export const update_password = (password) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
-            withCredentials: true,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken')
@@ -90,9 +89,8 @@ export const update_password = (password) => async dispatch => {
     });
     
     try {
-        const res = await axios.put(`${baseURL}/TODO`, body, config); 
-
-    if (res.data.profile && res.data.email) {
+        const res = await axios.put(`${baseURL}/update_pass`, body, config); 
+    if (res.data.email) {
         dispatch({
             type: UPDATE_USER_PROFILE_SUCCESS,
             payload: res.data

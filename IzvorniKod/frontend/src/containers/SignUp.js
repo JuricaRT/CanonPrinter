@@ -13,7 +13,7 @@ const SignUp = ({isAuthenticated, register}) => {
   useEffect(() => {
     if (isAuthenticated)
       navigate('/mainScreen');
-  });
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -26,7 +26,8 @@ const SignUp = ({isAuthenticated, register}) => {
   const onSubmit = e => {
     e.preventDefault();
 
-    register(email)
+    register(email);
+    navigate('/');
   }
 
   return (
@@ -49,6 +50,9 @@ const SignUp = ({isAuthenticated, register}) => {
                 required
               />
             </Element.StandardDiv>
+            <label>After registering, you will be</label>
+            <label>redirected to the homepage and a mail</label>
+            <label>with your initial password will be sent.</label>
           <Element.StandardDiv>
             <Element.ComingSoon>
               <div className={"styles.comingSoonText"}>Coming soon!</div>

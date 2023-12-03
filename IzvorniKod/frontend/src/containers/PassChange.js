@@ -8,13 +8,18 @@ import * as PassChangeMisc from '../elements/passchange'
 import CSRFToken from '../components/CSRFToken';
 import { update_password } from '../actions/profile';
 
-const PassChange = ({isAuthenticated}) => {
+const PassChange = ({isAuthenticated, has_initial_pass, update_password}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated || isAuthenticated === null)
       navigate('/');
-  });
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (isAuthenticated && !has_initial_pass)
+      navigate('/mainScreen');
+  }, [isAuthenticated, has_initial_pass, navigate]);
 
   const [formData, setFormData] = useState({
     password: '',
@@ -27,6 +32,11 @@ const PassChange = ({isAuthenticated}) => {
 
   const onSubmit = e => {
     e.preventDefault();
+
+    if (password == "" || password == null) {
+      alert("Password is invalid");
+      return; 
+    }
 
     if (password != c_password) {
       alert("Passwords do not match");
@@ -85,7 +95,8 @@ const PassChange = ({isAuthenticated}) => {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  has_initial_pass: state.profile.has_initial_pass
 })
 
 export default connect(mapStateToProps, { update_password })(PassChange);

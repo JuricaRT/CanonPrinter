@@ -13,6 +13,7 @@ urlpatterns = [
     path('csrf_cookie', user_views.GetCSRFToken.as_view()),
     path('profile', user_views.UserProfileView.as_view()),
     path("edit_profile", user_views.EditProfileView.as_view()),
+    path("update_pass", user_views.ChangeInitialPassView.as_view()),
     path("delete_user_admin", admin_views.DeleteUserViewAdmin.as_view()),
     path("delete_user", user_views.DeleteUserView.as_view()),
 

@@ -14,7 +14,7 @@ const Homepage = ({isAuthenticated}) => {
   useEffect(() => {
     if (isAuthenticated)
       navigate('/mainScreen');
-  });
+  }, [isAuthenticated, navigate]);
 
   return (
     <React.Fragment>

@@ -13,7 +13,7 @@ const Login = ({login, isAuthenticated}) => {
   useEffect(() => {
     if (isAuthenticated)
       navigate('/mainScreen');
-  });
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     email: '',
