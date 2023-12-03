@@ -7,7 +7,7 @@ import Banner from './Banner';
 import { register } from '../actions/auth';
 import CSRFToken from '../components/CSRFToken';
 
-const SignUp = ({isAuthenticated}) => {
+const SignUp = ({isAuthenticated, register}) => {
   const navigate = useNavigate();
 
   useEffect(() => {

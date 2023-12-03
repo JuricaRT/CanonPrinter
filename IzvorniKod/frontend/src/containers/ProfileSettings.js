@@ -22,7 +22,14 @@ const ProfileSettings = (
   useEffect(() => {
     if (!isAuthenticated || isAuthenticated === null)
       navigate('/');
-  });
+    console.log(username_global);
+    setFormData({
+      name: name_global,
+      last_name: last_name_global,
+      username: username_global,
+      });
+
+  }, []);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -44,7 +51,7 @@ const ProfileSettings = (
     }
 
     let passwordSet = true;
-    if (password == "")
+    if (password == "" || password == null)
       passwordSet = false;
 
     update_profile(username, password, name, last_name, passwordSet);
@@ -67,7 +74,7 @@ const ProfileSettings = (
     <React.Fragment>
     <GlobalStyle />
       <Container>
-        <Element.LoginForm /*onSubmit={handleSubmit}*/>
+        <Element.LoginForm onSubmit={e => onSubmit(e)}>
           <Banner origin="ProfileSettings"></Banner>
           <Element.HorizontalSeparator>
           <Element.LeftSideImage></Element.LeftSideImage>
@@ -94,8 +101,11 @@ const ProfileSettings = (
 
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-})
+  isAuthenticated: state.auth.isAuthenticated,
+  name_global: state.profile.name,
+  last_name_global: state.profile.last_name,
+  username_global: state.profile.username,
+});
 
 export default connect(mapStateToProps, { delete_account, update_profile })(ProfileSettings);
 

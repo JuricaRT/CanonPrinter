@@ -86,7 +86,7 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
-export const register = (username, password, re_password) => async dispatch => {
+export const register = (email) => async dispatch => {
     const config = {
         withCredentials: true,
         headers: {
@@ -96,7 +96,7 @@ export const register = (username, password, re_password) => async dispatch => {
         }
     };
 
-    const body = JSON.stringify({ username, password, re_password });
+    const body = JSON.stringify({ email });
 
     try {
         const res = await axios.post(`${baseURL}/signup`, body, config);

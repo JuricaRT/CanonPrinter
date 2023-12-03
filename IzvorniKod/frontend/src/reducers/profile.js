@@ -24,10 +24,10 @@ export default function(state = initialState, action) {
                 ...state,
                 email: payload.email,
                 username: payload.username,
-                name: payload.profile.name,
-                last_name: payload.profile.last_name,
-                is_admin: null,
-                has_initial_pass: null,
+                name: payload.name,
+                last_name: payload.last_name,
+                is_admin: payload.is_superuser,
+                has_initial_pass: payload.has_initial_pass,
             }
         case LOAD_USER_PROFILE_FAIL:
             return {

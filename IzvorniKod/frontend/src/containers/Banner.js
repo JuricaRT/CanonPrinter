@@ -18,10 +18,11 @@ const Banner = ({isAuthenticated, origin, logout}) => {
     switch(origin) {
         case "MainScreen":
             navigation.shift();
-            _logout.push('Logout')
+            _logout.push('Logout');
         break;
         case "ProfileSettings":
             navigation.pop();
+            _logout.push('Logout');
         break;
         case "PassChange":
             navigation.pop();

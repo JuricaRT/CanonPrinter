@@ -112,7 +112,9 @@ class UserProfileView(APIView):
                     'password': request.user.password,
                     'name': request.user.name,
                     'last_name': request.user.last_name,
-                    'email': request.user.email
+                    'email': request.user.email,
+                    'has_initial_pass': request.user.has_initial_pass,
+                    'is_admin': request.user.is_superuser
                 }
             )
         
@@ -121,16 +123,16 @@ class UserProfileView(APIView):
 
 
 class EditProfileView(APIView):
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         try:
             request.user.username = request.data["username"]
             
-            if request.data["password"]: 
+            if request.data["passwordSet"] is True: 
                 request.user.set_password(request.data["password"]) # session invalidated 
                 # https://docs.djangoproject.com/en/4.2/topics/auth/default/#session-invalidation-on-password-change
                 update_session_auth_hash(request, request.user)
-            
-            request.user.name = request.data["name"]
+
+            request.user.name = request.data["_name"]
             request.user.last_name = request.data["last_name"]
 
             request.user.save()

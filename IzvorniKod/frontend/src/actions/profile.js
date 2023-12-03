@@ -37,10 +37,10 @@ export const load_user = () => async dispatch => {
     }
 };
 
-export const update_profile = (username, password, _name, lastName, passwordSet) => async dispatch => {
+export const update_profile = (username, password, _name, last_name, passwordSet) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
-            withCredentials: true,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken')
@@ -51,7 +51,7 @@ export const update_profile = (username, password, _name, lastName, passwordSet)
        username,
        password,
        _name,
-       lastName,
+       last_name,
        passwordSet,
     });
     
