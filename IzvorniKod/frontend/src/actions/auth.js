@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import axios from 'axios'
 import { load_user } from './profile';
+import baseURL from './debug';
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
@@ -16,6 +17,7 @@ import {
 
 export const checkAuthenticated = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -23,7 +25,7 @@ export const checkAuthenticated = () => async dispatch => {
     };
 
     try {
-        const res = await axios.get(`TODO`, config);
+        const res = await axios.get(`${baseURL}/authenticated`, config);
 
         if (res.data.error || res.data.isAuthenticated === 'error') {
             dispatch({
@@ -51,8 +53,9 @@ export const checkAuthenticated = () => async dispatch => {
     }
 };
 
-export const login = (username, password) => async dispatch => {
+export const login = (email, password) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -60,10 +63,10 @@ export const login = (username, password) => async dispatch => {
         }
     };
 
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify({ email, password });
 
     try {
-        const res = await axios.post(`TODO`, body, config);
+        const res = await axios.post(`${baseURL}/login`, body, config);
 
         if (res.data.success) {
             dispatch({
@@ -85,6 +88,7 @@ export const login = (username, password) => async dispatch => {
 
 export const register = (username, password, re_password) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -95,7 +99,7 @@ export const register = (username, password, re_password) => async dispatch => {
     const body = JSON.stringify({ username, password, re_password });
 
     try {
-        const res = await axios.post(`TODO`, body, config);
+        const res = await axios.post(`${baseURL}/signup`, body, config);
 
         if (res.data.error) {
             dispatch({
@@ -115,6 +119,7 @@ export const register = (username, password, re_password) => async dispatch => {
 
 export const logout = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -123,11 +128,11 @@ export const logout = () => async dispatch => {
     };
 
     const body = JSON.stringify({
-        'withCredentials': true
+
     });
 
     try {
-        const res = await axios.post(`TODO`, body, config);
+        const res = await axios.post(`${baseURL}/logout`, body, config);
 
         if (res.data.success) {
             dispatch({
@@ -147,6 +152,7 @@ export const logout = () => async dispatch => {
 
 export const delete_account = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -155,11 +161,11 @@ export const delete_account = () => async dispatch => {
     };
 
     const body = JSON.stringify({
-        'withCredentials': true
+
     });
 
     try {
-        const res = await axios.delete(`TODO`, config, body);
+        const res = await axios.delete(`${baseURL}/delete_user`, config, body);
 
         if (res.data.success) {
             dispatch({

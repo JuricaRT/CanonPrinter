@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import axios from 'axios'
+import baseURL from './debug';
 import {
     LOAD_USER_PROFILE_SUCCESS,
     LOAD_USER_PROFILE_FAIL,
@@ -9,6 +10,7 @@ import {
 
 export const load_user = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -16,7 +18,7 @@ export const load_user = () => async dispatch => {
     }
 
     try {
-        const res = await axios.get(`TODO`, config);
+        const res = await axios.get(`${baseURL}/profile`, config);
 
         if (res.data.error) {
             dispatch({
@@ -38,6 +40,7 @@ export const load_user = () => async dispatch => {
 export const update_profile = (username, password, _name, lastName, passwordSet) => async dispatch => {
     const config = {
         headers: {
+            withCredentials: true,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken')
@@ -45,7 +48,6 @@ export const update_profile = (username, password, _name, lastName, passwordSet)
     };
 
     const body = JSON.stringify({
-       'withCredentials': true,
        username,
        password,
        _name,
@@ -54,7 +56,7 @@ export const update_profile = (username, password, _name, lastName, passwordSet)
     });
     
     try {
-        const res = await axios.put(`TODO`, body, config); 
+        const res = await axios.put(`${baseURL}/edit_profile`, body, config); 
 
     if (res.data.profile && res.data.email) {
         dispatch({
@@ -76,6 +78,7 @@ export const update_profile = (username, password, _name, lastName, passwordSet)
 export const update_password = (password) => async dispatch => {
     const config = {
         headers: {
+            withCredentials: true,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken')
@@ -83,12 +86,11 @@ export const update_password = (password) => async dispatch => {
     };
 
     const body = JSON.stringify({
-       'withCredentials': true,
        password,
     });
     
     try {
-        const res = await axios.put(`TODO`, body, config); 
+        const res = await axios.put(`${baseURL}/TODO`, body, config); 
 
     if (res.data.profile && res.data.email) {
         dispatch({

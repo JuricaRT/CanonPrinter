@@ -84,7 +84,7 @@ class LoginView(APIView):
         password = request.data['password']
         
         user = authenticate(email=email, password=password)
-        
+
         if user is not None:
             login(request, user)
             return JsonResponse({'success': 'User authenticated'})

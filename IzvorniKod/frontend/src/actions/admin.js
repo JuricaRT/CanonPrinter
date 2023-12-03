@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import axios from 'axios'
+import baseURL from './debug';
 import {
     ADD_ADMIN_FAILURE,
     ADD_ADMIN_FAILURE,
@@ -16,6 +17,7 @@ import {
 
 export const delete_account = (email) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ export const delete_account = (email) => async dispatch => {
     });
 
     try {
-        const res = await axios.put(`TODO`, config, body);
+        const res = await axios.put(`${baseURL}/delete_user_admin`, config, body);
 
         if (res.data.success) {
             dispatch({
@@ -49,6 +51,7 @@ export const delete_account = (email) => async dispatch => {
 
 export const get_students = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -56,7 +59,7 @@ export const get_students = () => async dispatch => {
     }
 
     try {
-        const res = await axios.get(`TODO`, config);
+        const res = await axios.get(`${baseURL}/get_students`, config);
 
         if (res.data.error) {
             dispatch({
@@ -77,6 +80,7 @@ export const get_students = () => async dispatch => {
 
 export const get_admins = () => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -84,7 +88,7 @@ export const get_admins = () => async dispatch => {
     }
 
     try {
-        const res = await axios.get(`TODO`, config);
+        const res = await axios.get(`get_admins`, config);
 
         if (res.data.error) {
             dispatch({
@@ -105,6 +109,7 @@ export const get_admins = () => async dispatch => {
 
 export const remove_admin = (email) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -118,7 +123,7 @@ export const remove_admin = (email) => async dispatch => {
     });
     
     try {
-        const res = await axios.put(`TODO`, body, config); 
+        const res = await axios.put(`remove_admin`, body, config); 
 
     if (res.data.profile && res.data.email) {
         dispatch({
@@ -139,6 +144,7 @@ export const remove_admin = (email) => async dispatch => {
 
 export const add_admin = (email) => async dispatch => {
     const config = {
+        withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -152,7 +158,7 @@ export const add_admin = (email) => async dispatch => {
     });
     
     try {
-        const res = await axios.put(`TODO`, body, config); 
+        const res = await axios.put(`add_admin`, body, config); 
 
     if (res.data.profile && res.data.email) {
         dispatch({
