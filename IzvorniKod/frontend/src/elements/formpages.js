@@ -15,9 +15,9 @@ export const LeftSideImage = styled.div
     background-image: url(${image});
     background-position: center;
     background-size: cover;
-    height: 92.8vh;
+    height: 93vh;
     width: 100%;
-    border-right: 2px solid black;
+    border-right: 5px solid black;
 `;
 //todo: fix 92.8 vh??? moguce da je krivo zbog 97vh na global
 
@@ -62,15 +62,17 @@ export const PasswordButtonAlignment = styled.div
 
 export const FlattenedButton = styled.button
 `
+    font-family: 'Poppins', sans-serif;
     padding: 7px;
     margin-top: 10px;
     margin-right: 5px;
-    width: 200px;
+    width: 12vw;
     border-radius: 20px;
     border: solid 2px bisque;
     display: inline-block;
     background-color: bisque;
     font-size: 14px;
+    font-weight: bold;
     height: 34px;
     color: black;
     cursor: pointer;

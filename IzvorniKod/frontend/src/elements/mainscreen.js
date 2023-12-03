@@ -10,28 +10,6 @@ export const TopDiv = styled.div
     margin: 5px;
 `;
 
-export const Logo = styled.div
-`
-    width: 250px;
-    height: 50px;
-    display: flex;
-    background-color: bisque;
-    color: var(--color-dark--1);
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    font-size: 1.6rem;
-    font-weight: 600;
-    padding: 1rem 3rem;
-    border-radius: 5px;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-`;
-
 export const SearchBar = styled.div
 `
     width: 350px;

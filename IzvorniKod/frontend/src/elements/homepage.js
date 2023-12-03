@@ -41,25 +41,26 @@ export const Review = styled.div
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-align: center;
     margin-right: 10%;
     margin-left: 10%;
     align-items: center;
     height: auto;
-    border: 1px solid black;
+    border: 2px solid black;
     margin-bottom: 3%;
+    border-radius: 12px;
     width: 30%;
 `;
 
 export const ReviewPerson = styled.div
 `
     bottom: 0;
-    margin-top: 10px;
+    margin-top: 4px;
+    padding-bottom: 10px;
 `;
 
 export const ReviewChildren = styled.div
 `
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 3px;
+    padding: 10px 10px 10px 10px;
 `;
 

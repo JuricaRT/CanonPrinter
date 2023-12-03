@@ -26,7 +26,7 @@ export default function(state = initialState, action) {
                 username: payload.username,
                 name: payload.name,
                 last_name: payload.last_name,
-                is_admin: payload.is_superuser,
+                is_admin: payload.is_admin,
                 has_initial_pass: payload.has_initial_pass,
             }
         case LOAD_USER_PROFILE_FAIL:

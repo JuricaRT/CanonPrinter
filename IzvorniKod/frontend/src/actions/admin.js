@@ -3,16 +3,15 @@ import axios from 'axios'
 import baseURL from './debug';
 import {
     ADD_ADMIN_FAILURE,
-    ADD_ADMIN_FAILURE,
+    ADD_ADMIN_SUCCESS,
     GET_ADMIN_DATA_FAILURE,
     GET_ADMIN_DATA_SUCCESS,
     DELETE_USER_ADMIN_FAIL,
     DELETE_USER_ADMIN_SUCCESS,
     GET_STUDENT_DATA_FAILURE,
-    GET_ADMIN_DATA_SUCCESS,
+    GET_STUDENT_DATA_SUCCESS,
     REMOVE_ADMIN_SUCCESS,
     REMOVE_ADMIN_FAILURE,
-    ADD_ADMIN_SUCCESS
 } from './types';
 
 export const delete_account = (email) => async dispatch => {
@@ -39,12 +38,12 @@ export const delete_account = (email) => async dispatch => {
             });
         } else {
             dispatch({
-                type: DELETE_USER_ADMIN_FAILURE
+                type: DELETE_USER_ADMIN_FAIL
             });
         }
     } catch (err) {
         dispatch({
-            type: DELETE_USER_ADMIN_FAILURE
+            type: DELETE_USER_ADMIN_FAIL
         });
     }
 };

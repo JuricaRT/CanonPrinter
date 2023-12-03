@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
-import { ButtonLayout, Button1 } from '../elements/global';
+import { ButtonLayout, Button1, Logo, BannerLayout } from '../elements/global';
 import { logout } from '../actions/auth';
 
 const Banner = ({isAuthenticated, origin, logout}) => {
@@ -33,6 +33,9 @@ const Banner = ({isAuthenticated, origin, logout}) => {
     }
 
     return (
+        <React.Fragment>
+        <BannerLayout>
+        <Logo>FLIP MEMO</Logo>
         <ButtonLayout>
             {
                 navigation.map((item) => (
@@ -47,6 +50,8 @@ const Banner = ({isAuthenticated, origin, logout}) => {
                 ))
             }
         </ButtonLayout>
+        </BannerLayout>
+        </React.Fragment>
     );
 }
 
