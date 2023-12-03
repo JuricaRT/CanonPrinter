@@ -8,6 +8,7 @@ import Banner from './Banner';
 import CSRFToken from '../components/CSRFToken';
 import { update_profile } from '../actions/profile';
 import { delete_account } from '../actions/auth';
+import ProfileFormElement from '../components/ProfileFormElement';
 
 const ProfileSettings = (
   {
@@ -59,19 +60,6 @@ const ProfileSettings = (
     update_profile(username, password, name, last_name, passwordSet);
   };
 
-  const FormElement = ({param, name, val, type="text"}) => (
-    <Element.StandardDiv>
-      <ProfileMisc.InfoLabel>{`${param}:`}</ProfileMisc.InfoLabel>
-      <Element.Input
-        type={type}
-        value={val}
-        name={name}
-        onChange={(e) => onChange(e)}
-        placeholder={`${param}...`}
-      />
-    </Element.StandardDiv>
-  );
-
   return (
     <React.Fragment>
     <GlobalStyle />
@@ -82,11 +70,11 @@ const ProfileSettings = (
           <Element.LeftSideImage></Element.LeftSideImage>
           <ProfileMisc.ProfileFormDiv>
             <CSRFToken />
-            <FormElement param="Username" name="username" val={username} type="text"/>
-            <FormElement param="New Password" name="password" val={password} type="password"/>
-            <FormElement param="Confirm Password" name="c_password" val={c_password} type="password"/>
-            <FormElement param="Name" name="name" val={name} type="text"/>
-            <FormElement param="Last Name" name="last_name" val={last_name} type="text"/>
+            <ProfileFormElement param="Username" name="username" val={username} type="text" onChangeFunc={onChange}/>
+            <ProfileFormElement param="New Password" name="password" val={password} type="password" onChangeFunc={onChange}/>
+            <ProfileFormElement param="Confirm Password" name="c_password" val={c_password} type="password" onChangeFunc={onChange}/>
+            <ProfileFormElement param="Name" name="name" val={name} type="text" onChangeFunc={onChange}/>
+            <ProfileFormElement param="Last Name" name="last_name" val={last_name} type="text" onChangeFunc={onChange}/>
             <ProfileMisc.ButtonsDiv>
               <Element.FlattenedButton onClick={delete_account} type="button">Delete Account</Element.FlattenedButton>
               <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
