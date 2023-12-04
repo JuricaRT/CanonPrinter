@@ -12,37 +12,39 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    isAuthenticated: null
+    isAuthenticated: null,
+    invalidEmailOrPassword: false
 };
 
 export default function(state = initialState, action) {
-    const { type, payload } = action;
+    const { type, isAuthenticatedPayload, invalidEmailOrPasswordPayload} = action;
 
     switch(type) {
         case AUTHENTICATED_SUCCESS:
         case AUTHENTICATED_FAIL:
             return {
                 ...state,
-                isAuthenticated: payload
+                isAuthenticated: isAuthenticatedPayload,
             }
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
             }
         case LOGIN_SUCCESS:
+        case LOGIN_FAIL:
             return {
                 ...state,
-                isAuthenticated: true
+                isAuthenticated: isAuthenticatedPayload,
+                invalidEmailOrPassword: invalidEmailOrPasswordPayload
             }
         case LOGOUT_SUCCESS:
         case DELETE_USER_SUCCESS:
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
             }
         case REGISTER_FAIL:
-        case LOGIN_FAIL:
         case LOGOUT_FAIL:
         case DELETE_USER_FAIL:
             return state

@@ -7,29 +7,42 @@ import Banner from './Banner';
 import CSRFToken from '../components/CSRFToken';
 import { login } from '../actions/auth'
 
-const Login = ({login, isAuthenticated}) => {
+
+const Login = ({login, isAuthenticated, invalidEmailOrPassword}) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated)
-      navigate('/mainScreen');
-  }, [isAuthenticated, navigate]);
-
+  const [hasSubmittedLogIn, setHasSubmittedLogIn] = useState(false)
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
+  const [passwordVisibilityText, setpasswordVisiblityText] = useState("Show Password");
+
   const {email, password} = formData;
+
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/mainScreen');
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (invalidEmailOrPassword && hasSubmittedLogIn) {
+      alert("Invalid email or password");
+      setHasSubmittedLogIn(false);
+    }
+  }, [invalidEmailOrPassword, hasSubmittedLogIn]);
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
     login(email, password);
+    setHasSubmittedLogIn(true);
   }
-
-  const [passwordVisibilityText, setpasswordVisiblityText] = useState("Show Password");
 
   const togglePasswordVisibility = () => {
     var el = document.getElementById("passInput");
@@ -63,20 +76,20 @@ const Login = ({login, isAuthenticated}) => {
               />
             </Element.StandardDiv>
 
-            <Element.PasswordButtonAlignment>
-              <Element.StandardDiv>
-                <Element.Input
-                  id="passInput"
-                  type='password'
-                  placeholder='Password...'
-                  name='password'
-                  onChange={e => onChange(e)}
-                  value={password}
-                  minLength='1'
-                  required                
-                />
-              </Element.StandardDiv>
-              </Element.PasswordButtonAlignment>
+          <Element.PasswordButtonAlignment>
+            <Element.StandardDiv>
+              <Element.Input
+                id="passInput"
+                type='password'
+                placeholder='Password...'
+                name='password'
+                onChange={e => onChange(e)}
+                value={password}
+                minLength='1'
+                required                
+              />
+            </Element.StandardDiv>
+          </Element.PasswordButtonAlignment>
             
             <Element.StandardDiv>
               <Element.ComingSoon>
@@ -108,7 +121,8 @@ const Login = ({login, isAuthenticated}) => {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  invalidEmailOrPassword: state.auth.invalidEmailOrPassword
 })
 
 export default connect(mapStateToProps, { login })(Login);

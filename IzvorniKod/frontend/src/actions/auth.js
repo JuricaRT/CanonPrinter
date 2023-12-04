@@ -30,30 +30,36 @@ export const checkAuthenticated = () => async dispatch => {
         if (res.data.error || res.data.isAuthenticated === 'error') {
             dispatch({
                 type: AUTHENTICATED_FAIL,
-                payload: false
+                isAuthenticatedPayload: false
             });
         }
         else if (res.data.isAuthenticated === 'success') {
             dispatch({
                 type: AUTHENTICATED_SUCCESS,
-                payload: true
+                isAuthenticatedPayload: true
             });
         }
         else {
             dispatch({
                 type: AUTHENTICATED_FAIL,
-                payload: false
+                isAuthenticatedPayload: false
             });
         }
     } catch(err) {
         dispatch({
             type: AUTHENTICATED_FAIL,
-            payload: false
+            isAuthenticatedPayload: false
         });
     }
 };
 
 export const login = (email, password) => async dispatch => {
+    dispatch({
+        type: LOGIN_FAIL,
+        isAuthenticatedPayload: false,
+        invalidEmailOrPasswordPayload: false
+    })
+    
     const config = {
         withCredentials: true,
         headers: {
@@ -70,18 +76,24 @@ export const login = (email, password) => async dispatch => {
 
         if (res.data.success) {
             dispatch({
-                type: LOGIN_SUCCESS
+                type: LOGIN_SUCCESS,
+                isAuthenticatedPayload: true,
+                invalidEmailOrPasswordPayload: false
             });
 
             dispatch(load_user());
         } else {
             dispatch({
-                type: LOGIN_FAIL
+                type: LOGIN_FAIL,
+                isAuthenticatedPayload: false,
+                invalidEmailOrPasswordPayload: true
             });
         }
     } catch(err) {
         dispatch({
-            type: LOGIN_FAIL
+            type: LOGIN_FAIL,
+            isAuthenticatedPayload: false,
+            invalidEmailOrPasswordPayload: true
         });
     }
 };

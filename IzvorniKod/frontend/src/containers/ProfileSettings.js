@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useTimer } from 'react-timer-hook';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, GlobalStyle } from '../elements/global';
@@ -48,17 +49,55 @@ const ProfileSettings = (
   const onSubmit = e => {
     e.preventDefault();
 
-    if (password != c_password) {
+    if (password !== c_password) {
       alert("Passwords do not match");
       return;
     }
 
     let passwordSet = true;
-    if (password == "" || password == null)
+    if (password === "" || password === null)
       passwordSet = false;
 
     update_profile(username, password, name, last_name, passwordSet);
   };
+
+
+
+  const [deleteButtonText, setDeleteButtonText] = useState("Delete Account");
+  const [confirmed, setConfirmedDelete] = useState(false)
+
+  let {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({onExpire: () => {
+    setConfirmedDelete(false);  
+    setDeleteButtonText("Delete Account"); }
+  });
+
+  const handleDelete = () => {
+    if (!isRunning) {
+      setConfirmedDelete(false);
+    }
+    
+    if (confirmed === false) {
+      setConfirmedDelete(true);
+      setDeleteButtonText("Confirm");
+      let time = new Date();
+      time.setSeconds(time.getSeconds() + 3);
+      restart(time);
+    }
+    else if (confirmed === true) {
+      delete_account();
+    }
+  }
 
   return (
     <React.Fragment>
@@ -76,7 +115,7 @@ const ProfileSettings = (
             <ProfileFormElement param="Name" name="name" val={name} type="text" onChangeFunc={onChange}/>
             <ProfileFormElement param="Last Name" name="last_name" val={last_name} type="text" onChangeFunc={onChange}/>
             <ProfileMisc.ButtonsDiv>
-              <Element.FlattenedButton onClick={delete_account} type="button">Delete Account</Element.FlattenedButton>
+              <Element.FlattenedButton onClick={handleDelete} type="button">{deleteButtonText}</Element.FlattenedButton>
               <Element.FlattenedButton>Save Changes</Element.FlattenedButton>
             </ProfileMisc.ButtonsDiv>
           </ProfileMisc.ProfileFormDiv>
