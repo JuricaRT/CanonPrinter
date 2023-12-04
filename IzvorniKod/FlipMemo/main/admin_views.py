@@ -36,7 +36,7 @@ class GetStudentsView(APIView):
 
         json_data = json.dumps(students_list)
         
-        return JsonResponse(json_data, content_type='application/json', safe=False)   
+        return JsonResponse({'students': json_data}, content_type='application/json', safe=False)   
 
 
 class GetAdministratorsView(APIView):
@@ -55,7 +55,7 @@ class GetAdministratorsView(APIView):
 
         json_data = json.dumps(admins_list)
 
-        return JsonResponse(json_data, content_type='application/json', safe=False) 
+        return JsonResponse({'admins': json_data}, content_type='application/json', safe=False) 
 
 
 class AddAdministratorView(APIView):

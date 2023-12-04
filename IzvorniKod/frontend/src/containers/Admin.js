@@ -3,12 +3,14 @@ import { GlobalStyle } from '../elements/global';
 import { connect } from 'react-redux'
 import { get_students, get_admins, remove_admin, add_admin, delete_account } from '../actions/admin';
 
-const AdminPage = ({ students_global, admins_global, email }) => {
+const AdminPage = ({ students_global, admins_global, email, get_admins, get_students }) => {
     
     useEffect(() => {
         get_admins();
-        get_students();        
-    }, []);
+        get_students();  
+        setStudents(students_global);   
+        setAdmins(admins_global); 
+    }, [students_global]);
 
     const [admins, setAdmins] = useState([]);
     const [students, setStudents] = useState([]);
@@ -41,7 +43,7 @@ const AdminPage = ({ students_global, admins_global, email }) => {
                         <span><b>Username:</b>{item['username']}</span>
                         <span><b>First Name:</b> {item['first_name']}</span>
                         <span><b>Last Name:</b> {item['last_name']}</span>
-                        {item['email'] == email ? <div></div> : <button onClick={() => remove_admin(item['email'])}>Revoke Admin</button>}
+                        {item['email'] === email ? <div></div> : <button onClick={() => remove_admin(item['email'])}>Revoke Admin</button>}
                     </div>
                     ))
                 }
@@ -52,8 +54,8 @@ const AdminPage = ({ students_global, admins_global, email }) => {
 }
 
 const mapStateToProps = state => ({
-    students: state.admin.students,
-    admins: state.admin.admins,
+    students_global: state.admin.students,
+    admins_global: state.admin.admins,
     email: state.profile.email
 })
   

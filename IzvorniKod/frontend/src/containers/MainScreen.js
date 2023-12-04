@@ -20,7 +20,7 @@ const MainScreen = ({isAuthenticated, is_superuser}) => {
       <Container>
           <Banner origin="MainScreen"></Banner>
           <Element.TopDiv>
-            {is_superuser ? <></> : <></>}
+            {is_superuser ? <></> : <AdminPage></AdminPage>}
             <Element.SearchBar />
             <form>
               <Element.SearchBar

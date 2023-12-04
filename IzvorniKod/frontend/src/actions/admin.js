@@ -25,7 +25,6 @@ export const delete_account = (email) => async dispatch => {
     };
 
     const body = JSON.stringify({
-        'withCredentials': true,
         email
     });
 
@@ -87,7 +86,7 @@ export const get_admins = () => async dispatch => {
     }
 
     try {
-        const res = await axios.get(`get_admins`, config);
+        const res = await axios.get(`${baseURL}/get_admins`, config);
 
         if (res.data.error) {
             dispatch({
@@ -117,14 +116,13 @@ export const remove_admin = (email) => async dispatch => {
     };
 
     const body = JSON.stringify({
-       'withCredentials': true,
        email,
     });
     
     try {
         const res = await axios.put(`remove_admin`, body, config); 
 
-    if (res.data.profile && res.data.email) {
+    if (res.data.success) {
         dispatch({
             type: REMOVE_ADMIN_SUCCESS,
             payload: res.data
@@ -152,14 +150,13 @@ export const add_admin = (email) => async dispatch => {
     };
 
     const body = JSON.stringify({
-       'withCredentials': true,
        email,
     });
     
     try {
         const res = await axios.put(`add_admin`, body, config); 
 
-    if (res.data.profile && res.data.email) {
+    if (res.data.success) {
         dispatch({
             type: ADD_ADMIN_SUCCESS,
             payload: res.data
