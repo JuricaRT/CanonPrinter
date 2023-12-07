@@ -21,7 +21,6 @@ export default function(state = initialState, action) {
 
     switch(type) {
         case GET_ADMIN_DATA_SUCCESS:
-            console.log(payload.admins);
             return {
                 ...state,
                 admins: JSON.parse(payload.admins),

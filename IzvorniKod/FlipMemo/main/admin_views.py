@@ -10,11 +10,20 @@ from django.utils.decorators import method_decorator
 class DeleteUserViewAdmin(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         try:
             CustomUser.objects.get(email=request.data["email"]).delete()
 
-            return JsonResponse({ 'success': 'User deleted successfully' })
+            users = CustomUser.objects.all()
+            students_list = []
+
+            for user in users:
+                if (not user.__dict__["is_staff"]):
+                    students_list.append(user.to_dict())
+
+            json_data = json.dumps(students_list)
+
+            return JsonResponse({ 'success': 'User deleted successfully', 'students': json_data }, content_type='application/json', safe=False)
         except Exception as e:
             print(e)
             return JsonResponse({ 'error': 'Something went wrong when trying to delete user' })
@@ -61,14 +70,29 @@ class GetAdministratorsView(APIView):
 class AddAdministratorView(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         try:
             user = CustomUser.objects.get(email=request.data["email"])
             user.is_superuser = True
             user.is_staff = True
             user.permission_level = PermissionLevel.ADMIN_LEVEL # TODO: makni ovo
             user.save()
-            return JsonResponse({"success": "yes"})
+
+            users = CustomUser.objects.all()
+            admins = CustomUser.objects.all()
+            students_list = []
+            admins_list = []
+
+            for user in users:
+                if (not user.__dict__["is_staff"]):
+                    students_list.append(user.to_dict())
+                else:
+                    admins_list.append(user.to_dict())
+
+            json_data_students = json.dumps(students_list)
+            json_data_admins = json.dumps(admins_list)
+
+            return JsonResponse({ 'success': 'yes', 'students': json_data_students, 'admins': json_data_admins }, content_type='application/json', safe=False)
         
         except CustomUser.DoesNotExist:
             pass        
@@ -77,14 +101,29 @@ class AddAdministratorView(APIView):
 class RemoveAdministratorView(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         try:
             user = CustomUser.objects.get(email=request.data["email"])
             user.is_superuser = False
             user.is_staff = False
             user.permission_level = PermissionLevel.USER_LEVEL # TODO: makni ovo
             user.save()
-            return JsonResponse({"success": "yes"})
+            
+            users = CustomUser.objects.all()
+            admins = CustomUser.objects.all()
+            students_list = []
+            admins_list = []
+
+            for user in users:
+                if (not user.__dict__["is_staff"]):
+                    students_list.append(user.to_dict())
+                else:
+                    admins_list.append(user.to_dict())
+
+            json_data_students = json.dumps(students_list)
+            json_data_admins = json.dumps(admins_list)
+
+            return JsonResponse({ 'success': 'yes', 'students': json_data_students, 'admins': json_data_admins }, content_type='application/json', safe=False)
         
         except CustomUser.DoesNotExist:
             pass

@@ -29,11 +29,12 @@ export const delete_account = (email) => async dispatch => {
     });
 
     try {
-        const res = await axios.put(`${baseURL}/delete_user_admin`, config, body);
+        const res = await axios.put(`${baseURL}/delete_user_admin`, body, config);
 
         if (res.data.success) {
             dispatch({
-                type: DELETE_USER_ADMIN_SUCCESS
+                type: DELETE_USER_ADMIN_SUCCESS,
+                payload: res.data
             });
         } else {
             dispatch({
@@ -120,7 +121,7 @@ export const remove_admin = (email) => async dispatch => {
     });
     
     try {
-        const res = await axios.put(`remove_admin`, body, config); 
+        const res = await axios.put(`${baseURL}/remove_admin`, body, config); 
 
     if (res.data.success) {
         dispatch({
@@ -154,7 +155,7 @@ export const add_admin = (email) => async dispatch => {
     });
     
     try {
-        const res = await axios.put(`add_admin`, body, config); 
+        const res = await axios.put(`${baseURL}/add_admin`, body, config); 
 
     if (res.data.success) {
         dispatch({
