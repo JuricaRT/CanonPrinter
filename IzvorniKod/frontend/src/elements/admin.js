@@ -75,6 +75,8 @@ export const CollapsibleContent = styled.div
     justify-content: left;
     gap: 2px;
     text-align: left;
+    transform-origin: top;
+    height: auto;
 `;
 
 export const AdminAction = styled.button

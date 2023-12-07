@@ -21,12 +21,17 @@ const AdminPage = ({ students_global, admins_global, email, get_admins, get_stud
     const [students, setStudents] = useState([]);
 
     const openCollapsible = id => {
-        console.log(id);
         var content = document.getElementById(id);
         if (content.style.display === "flex") {
-          content.style.display = "none";
+          content.getAnimations().map(item => item.cancel());
+          const anim = content.animate({transform: "scaleY(0)"}, {duration: 100, iterations: 1, easing: "ease"}); 
+          anim.onfinish = () => content.style.display = "none";
         } else {
+          content.getAnimations().map(item => item.cancel());
           content.style.display = "flex";
+          content.style.transform = "scaleY(0)";
+          const anim = content.animate({transform: "scaleY(1)"}, {duration: 100, iterations: 1, easing: "ease"});
+          anim.onfinish = () => content.style.transform = "scaleY(1)"; 
         }
     };
 

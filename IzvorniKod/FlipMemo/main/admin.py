@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.http.request import HttpRequest
 from .models import CustomUser
 from django.contrib.admin import AdminSite
-from .models import PermissionLevel
 from django.contrib.auth import get_user_model
 from typing import Any
 
+#Ne koristi se?
 class CustomAdminSite(AdminSite):
     model = CustomUser
 
@@ -19,7 +19,7 @@ class CustomAdminSite(AdminSite):
         print(username)
         try:
             user = CustomUser.objects.get(email=username)
-            if user.permission_level == PermissionLevel.ADMIN_LEVEL:
+            if user.is_staff:
                 user.is_staff = True
                 user.is_active = True
                 user.save()

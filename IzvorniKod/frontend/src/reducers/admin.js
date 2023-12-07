@@ -26,17 +26,28 @@ export default function(state = initialState, action) {
                 admins: JSON.parse(payload.admins),
             }
         case DELETE_USER_ADMIN_SUCCESS:
+            return {
+                ...state,
+                students: state.students.filter((item) => item.email !== payload.email)
+            }
         case GET_STUDENT_DATA_SUCCESS:
             return {
                 ...state,
                 students: JSON.parse(payload.students),
             }
         case ADD_ADMIN_SUCCESS:
-        case REMOVE_ADMIN_SUCCESS:
+            state.admins.push(state.students[state.students.findIndex((item) => item.email === payload.email)])
             return {
                 ...state,
-                admins: JSON.parse(payload.admins),
-                students: JSON.parse(payload.students),
+                admins: state.admins,
+                students: state.students.filter((item) => item.email !== payload.email),
+            }
+        case REMOVE_ADMIN_SUCCESS:
+            state.students.push(state.admins[state.admins.findIndex((item) => item.email === payload.email)])
+            return {
+                ...state,
+                admins: state.admins.filter((item) => item.email !== payload.email),
+                students: state.students,
             }
         case GET_ADMIN_DATA_FAILURE:
             return {
