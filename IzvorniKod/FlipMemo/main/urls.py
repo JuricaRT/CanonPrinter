@@ -1,9 +1,6 @@
 from django.urls import path
 import main.user_views as user_views
 import main.admin_views as admin_views
-from .admin import custom_admin_site
-from django.contrib import admin
-from .admin import CustomAdminSite
 
 urlpatterns = [
     path("login", user_views.LoginView.as_view()),
@@ -20,9 +17,5 @@ urlpatterns = [
     path("get_admins", admin_views.GetAdministratorsView.as_view()),
     path("add_admin", admin_views.AddAdministratorView.as_view()),
     path("remove_admin", admin_views.RemoveAdministratorView.as_view()),
-    path("get_students", admin_views.GetStudentsView.as_view()),
-    path('admin', custom_admin_site.urls)
+    path("get_students", admin_views.GetStudentsView.as_view())
 ]
-
-admin.site = CustomAdminSite()
-admin.autodiscover()
