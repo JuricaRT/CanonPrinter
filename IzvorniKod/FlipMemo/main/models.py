@@ -47,12 +47,15 @@ class StudyData(models.Model):
 
 class Dictionary(models.Model):
     _id = ObjectIdField()
-    dict_name = models.CharField(max_length=64, unique=True)
+    dict_name = models.CharField(max_length=64)
     language = models.CharField(max_length=32)
+
+    class Meta:
+        unique_together = ('dict_name', 'language')
 
 class Word(models.Model):
     _id = ObjectIdField()
-    parent_dict = ForeignKey(Dictionary, on_delete=models.CASCADE)
+    parent_dict = ManyToManyField(Dictionary)
     word_str = models.TextField()
     cro_translation = models.TextField()
     definition = models.TextField()
