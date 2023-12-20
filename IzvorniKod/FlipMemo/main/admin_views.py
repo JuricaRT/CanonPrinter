@@ -1,11 +1,12 @@
 from django.http import JsonResponse
-from .models import CustomUser
+from .models import CustomUser, Dictionary, Word
 import json
 
 from rest_framework.views import APIView
 from rest_framework import permissions
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
+
 
 class DeleteUserViewAdmin(APIView):
     permission_classes = (permissions.IsAdminUser, )
@@ -14,10 +15,10 @@ class DeleteUserViewAdmin(APIView):
         try:
             CustomUser.objects.get(email=request.data["email"]).delete()
 
-            return JsonResponse({ 'success': 'User deleted successfully', 'email': request.data["email"] }, content_type='application/json', safe=False)
+            return JsonResponse({'success': 'User deleted successfully', 'email': request.data["email"]}, content_type='application/json', safe=False)
         except Exception as e:
             print(e)
-            return JsonResponse({ 'error': 'Something went wrong when trying to delete user' })
+            return JsonResponse({'error': 'Something went wrong when trying to delete user'})
 
 
 class GetStudentsView(APIView):
@@ -32,8 +33,8 @@ class GetStudentsView(APIView):
             students_list.append(student.to_dict())
 
         json_data = json.dumps(students_list)
-        
-        return JsonResponse({'students': json_data}, content_type='application/json', safe=False)   
+
+        return JsonResponse({'students': json_data}, content_type='application/json', safe=False)
 
 
 class GetAdministratorsView(APIView):
@@ -49,7 +50,7 @@ class GetAdministratorsView(APIView):
 
         json_data = json.dumps(admins_list)
 
-        return JsonResponse({'admins': json_data}, content_type='application/json', safe=False) 
+        return JsonResponse({'admins': json_data}, content_type='application/json', safe=False)
 
 
 class AddAdministratorView(APIView):
@@ -62,10 +63,10 @@ class AddAdministratorView(APIView):
             user.is_staff = True
             user.save()
 
-            return JsonResponse({ 'success': 'yes', 'email': request.data["email"] }, content_type='application/json', safe=False)
-        
+            return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
+
         except CustomUser.DoesNotExist:
-            pass        
+            pass
 
 
 class RemoveAdministratorView(APIView):
@@ -78,7 +79,46 @@ class RemoveAdministratorView(APIView):
             user.is_staff = False
             user.save()
 
-            return JsonResponse({ 'success': 'yes', 'email': request.data["email"] }, content_type='application/json', safe=False)
-        
+            return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
+
         except CustomUser.DoesNotExist:
+            pass
+
+
+class CreateDictionaryView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        try:
+            dictionary = Dictionary.objects.create(
+                dict_name="Englesko-hrvatski rječnik",
+                language="Engleski",
+            )
+
+            dictionary.save()
+
+            return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
+        except:
+            pass
+
+class AddWordView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def put(self, request, format=None):
+
+        try:
+            dictionary = Dictionary.objects.get(
+                dict_name=request.data["dict_name"])
+
+            word = Word.objects.create(
+                parent_dict=dictionary,
+                word_str="seagull",
+                cro_translation="galeb",
+                definition="vrsta ptice koja živi u morskom području/mediteranskoj klimi",
+            )
+
+            word.save()
+
+            return JsonResponse({'success': 'yes'}, content_type='applicaton/json', safe=False)
+        except Dictionary.DoesNotExist:
             pass

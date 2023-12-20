@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-import uuid
+import uuid, djongo
 from djongo.models import ObjectIdField, ManyToManyField, ForeignKey
 from django.forms.models import model_to_dict
 
