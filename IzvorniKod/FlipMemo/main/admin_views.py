@@ -86,13 +86,16 @@ class RemoveAdministratorView(APIView):
 
 
 class CreateDictionaryView(APIView):
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (permissions.IsAdminUser, )
 
     def post(self, request, format=None):
         try:
+            if Dictionary.objects.filter(dict_name=request.data["dict_name"]):
+                return JsonResponse({'status': 'exists'})
+
             dictionary = Dictionary.objects.create(
-                dict_name="Englesko-hrvatski rječnik",
-                language="Engleski",
+                dict_name=request.data["dict_name"],
+                language=request.data["language"],
             )
 
             dictionary.save()
@@ -101,24 +104,28 @@ class CreateDictionaryView(APIView):
         except:
             pass
 
+
 class AddWordView(APIView):
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (permissions.IsAdminUser, )
 
     def put(self, request, format=None):
 
         try:
+            if Word.objects.filter(word_str=request.data["word_str"]):
+                return JsonResponse({'status': 'exists'})
+
             dictionary = Dictionary.objects.get(
                 dict_name=request.data["dict_name"])
 
             word = Word.objects.create(
                 parent_dict=dictionary,
-                word_str="seagull",
-                cro_translation="galeb",
-                definition="vrsta ptice koja živi u morskom području/mediteranskoj klimi",
+                word_str=request.data["word_str"],
+                cro_translation=request.data["cro_translation"],
+                definition=request.data["definition"],
             )
 
             word.save()
 
             return JsonResponse({'success': 'yes'}, content_type='applicaton/json', safe=False)
-        except Dictionary.DoesNotExist:
+        except:
             pass
