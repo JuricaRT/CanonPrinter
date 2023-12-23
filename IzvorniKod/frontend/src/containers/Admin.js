@@ -78,7 +78,7 @@ const AdminPage = ({
                     {item["username"]}
                   </span>
                   <span>
-                    <b>First Name: </b> {item["first_name"]}
+                    <b>First Name: </b> {item["name"]}
                   </span>
                   <span>
                     <b>Last Name: </b> {item["last_name"]}
