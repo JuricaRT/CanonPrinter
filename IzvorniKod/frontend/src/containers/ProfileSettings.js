@@ -55,7 +55,7 @@ const ProfileSettings = (
     }
 
     let passwordSet = true;
-    if (password === "" || password === null)
+    if (password === "" || password === undefined)
       passwordSet = false;
 
     update_profile(username, password, name, last_name, passwordSet);
@@ -125,9 +125,6 @@ const ProfileSettings = (
     </React.Fragment>
   );
 }
-
-
-
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,

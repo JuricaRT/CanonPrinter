@@ -46,7 +46,7 @@ export const update_profile = (username, password, _name, last_name, passwordSet
             'X-CSRFToken': Cookies.get('csrftoken')
         }
     };
-
+    
     const body = JSON.stringify({
        username,
        password,

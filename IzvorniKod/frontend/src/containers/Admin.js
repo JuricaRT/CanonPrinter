@@ -49,7 +49,7 @@ const AdminPage = ({ students_global, admins_global, email, get_admins, get_stud
                         {item['email'] === email ? " <- YOU" : ""}</Element.CollapseButton>
                         <Element.CollapsibleContent id={item['email']}>
                             <span><b>Username: </b>{item['username']}</span>
-                            <span><b>First Name: </b> {item['first_name']}</span>
+                            <span><b>First Name: </b> {item['name']}</span>
                             <span><b>Last Name: </b> {item['last_name']}</span>
                             <Element.ButtonPositioning>
                                 {item['email'] === email ? <div></div> : <Element.AdminAction onClick={() => remove_admin(item['email'])}>Revoke Admin</Element.AdminAction>}
