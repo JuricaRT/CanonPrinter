@@ -56,7 +56,7 @@ export const DictionarySelect = styled.div`
   background-color: green;
 `;
 
-export const ModuleSelect = styled.div`
+export const ModeSelect = styled.div`
   display: flex;
   justify-content: center;
   width: 500px;

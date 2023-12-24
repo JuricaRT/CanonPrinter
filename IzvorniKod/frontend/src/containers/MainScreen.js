@@ -5,18 +5,28 @@ import { connect } from "react-redux";
 import * as Element from "../elements/mainscreen";
 import Banner from "./Banner";
 import AdminPage from "./Admin";
-import { get_dictionaries, get_modules } from "../actions/learningSpecs";
+import {
+  get_dictionaries,
+  get_modes,
+  select_dictionary,
+} from "../actions/learningSpecs";
+import modes from "../actions/modes";
+import List from "../components/List";
 
 const MainScreen = ({
   isAuthenticated,
   is_superuser,
   dictionaries,
-  modules,
+  selected_dictionary,
+  selected_mode,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
   const [displayDictionaries, setDisplayDictionaries] = useState(false);
-  const [displayModules, setDisplayModules] = useState(false);
+  const [displayModes, setDisplayModes] = useState(false);
+  const [selectedDictionary, setSelectedDictionary] =
+    useState(selected_dictionary);
+  const [selectedMode, setSelectedMode] = useState(selected_mode);
 
   useEffect(
     function () {
@@ -27,13 +37,32 @@ const MainScreen = ({
     [displayDictionaries]
   );
 
+  // useEffect(
+  //   function () {
+  //     if (displayModes === true) {
+  //       get_modes();
+  //     }
+  //   },
+  //   [displayModes]
+  // );
+
   useEffect(
     function () {
-      if (displayModules === true) {
-        get_modules();
+      if (selectedDictionary !== null) {
+        setDisplayDictionaries(false);
+        setDisplayModes(true);
       }
     },
-    [displayModules]
+    [selectedDictionary]
+  );
+
+  useEffect(
+    function () {
+      if (selectedMode !== null) {
+        navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
+      }
+    },
+    [selectedMode, navigate]
   );
 
   function startLearning() {
@@ -60,10 +89,16 @@ const MainScreen = ({
           </Element.LearningStart>
         )}
         {displayDictionaries && (
-          <Element.DictionarySelect>Select dictionary</Element.DictionarySelect>
+          <Element.DictionarySelect>
+            Select dictionary
+            <List elements={dictionaries} type="dict" />
+          </Element.DictionarySelect>
         )}
-        {displayModules && (
-          <Element.ModuleSelect>Select module</Element.ModuleSelect>
+        {displayModes && (
+          <Element.ModeSelect>
+            Select module
+            <List elements={modes} type="mode" />
+          </Element.ModeSelect>
         )}
       </Container>
     </React.Fragment>
@@ -74,7 +109,9 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   is_superuser: state.profile.is_admin,
   dictionaries: state.learningSpecsReducer.dictionaries,
-  modules: state.learningSpecsReducer.modules,
+  selected_dictionary: state.learningSpecsReducer.selectedDictionary,
+  selected_mode: state.learningSpecsReducer.selectedMode,
+  // modules: state.learningSpecsReducer.modes,
 });
 
 export default connect(mapStateToProps, {})(MainScreen);

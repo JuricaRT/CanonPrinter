@@ -31,9 +31,7 @@ export const ADD_ADMIN_FAILURE = "ADD_ADMIN_FAILURE";
 // Process of choosing dictionary, language and modules
 export const SELECT_DICTIONARY = "SELECT_DICTIONARY";
 export const SELECT_DICTIONARY_FAIL = "SELECT_DICTIONARY_FAIL";
-export const SELECT_MODULE = "SELECT_MODULE";
-export const SELECT_MODULE_FAIL = "SELECT_MODULE_FAIL";
+export const SELECT_MODE = "SELECT_MODE";
+export const SELECT_MODE_FAIL = "SELECT_MODE_FAIL";
 export const GET_DICTIONARIES = "GET_DICTIONARIES";
 export const GET_DICTIONARIES_FAIL = "GET_DICTIONARIES_FAIL";
-export const GET_MODULES = "GET_MODULES";
-export const GET_MODULES_FAIL = "GET_MODULES_FAIL";
