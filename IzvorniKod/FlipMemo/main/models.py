@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid, djongo
-from djongo.models import ObjectIdField, ManyToManyField, ForeignKey
+from djongo.models import ObjectIdField, ManyToManyField, ForeignKey, UniqueConstraint
 from django.forms.models import model_to_dict
 
 class CustomIDField(models.CharField): # :(
@@ -51,23 +51,34 @@ class Dictionary(models.Model):
     language = models.CharField(max_length=32)
 
     class Meta:
-        unique_together = ('dict_name', 'language')
+        unique_together = [['dict_name', 'language']]
+        #constraints = [
+        #    UniqueConstraint(fields=['dict_name', 'language'], name='unique_dictnaming')
+        #]
 
 class Word(models.Model):
     _id = ObjectIdField()
     parent_dict = ManyToManyField(Dictionary)
+    language = models.CharField(max_length=32)
     word_str = models.TextField()
     cro_translation = models.TextField()
     definition = models.TextField()
-    # Dodati dodatne atribute ovisno o api-ju
-    # Dodati audio file
+    word_type = models.CharField(max_length=32)
+    audio_bytes = models.BinaryField(null=True)
 
 class Session(TransientModel):
+    MODE_CHOICES = (
+        ("LTC", "LangToCro"),
+        ("CTL", "CroToLang"),
+        ("AUD", "AudioPrompt"),
+        ("REC", "VoiceRecording")
+    )
+
     _id = ObjectIdField()
     student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
     answers_correct = models.IntegerField()
     answers_incorrect = models.IntegerField()
-    mode = models.CharField(max_length=3) #LTC, CTL, AUD, REC
+    mode = models.CharField(max_length=16, choices=MODE_CHOICES, default="LTC")
     selected_dictionary = ForeignKey(Dictionary, on_delete=models.CASCADE)
     current_question = ForeignKey('Question', on_delete=models.SET(None)) 
 
