@@ -120,7 +120,8 @@ class AddWordView(APIView):
                 return JsonResponse({'status': 'exists'}, content_type='application/json', safe=False)
 
             if Word.objects.filter(word_str=request.data["word_str"], language=request.data["language"]):
-                word = Word.objects.get(word_str=request.data["word_str"], language=request.data["language"])
+                word = Word.objects.get(
+                    word_str=request.data["word_str"], language=request.data["language"])
                 word.parent_dict.add(dictionary)
 
                 return JsonResponse({'status': 'dictionary added to existing word'}, content_type='application/json', safe=False)
@@ -169,7 +170,7 @@ class RemoveWordView(APIView):
             )
 
             word = Word.objects.get(
-                parent_dict=dictionary, word_str=request.data["word_str"])
+                parent_dict=dictionary, word_str=request.data["word_str"], language=request.data["language"])
 
             word.parent_dict.remove(dictionary)
 
@@ -185,9 +186,33 @@ class RemoveWordView(APIView):
 
 class EditDictionaryView(APIView):
     permission_classes = (permissions.IsAdminUser, )
-    pass
+
+    def put(self, request, format=None):
+
+        try:
+            dictionary = Dictionary.objects.get(
+                dict_name=request.data["dict_name"], language=request.data["language"])
+
+            if Dictionary.objects.filter(dict_name=request.data["new_dict_name"], language=request.data["language"]):
+
+                return JsonResponse({'status': 'this dictionary name is already in use, try different one'})
+
+            dictionary.dict_name = request.data["new_dict_name"]
+
+            dictionary.save()
+
+            return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
+        except SystemError as e:
+            print(e)
 
 
 class EditWordView(APIView):
     permission_classes = (permissions.IsAdminUser, )
-    pass
+
+    # def put(self, request, format=None):
+
+    #     try:
+    #         word = Word.objects.get(
+    #             word_str=request.data["word_str"], language=request.data["language"])
+    #     except SystemError as e:
+    #         print(e)
