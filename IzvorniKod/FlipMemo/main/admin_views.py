@@ -169,17 +169,20 @@ class RemoveWordView(APIView):
                 language=request.data["language"]
             )
 
-            word = Word.objects.get(
-                parent_dict=dictionary, word_str=request.data["word_str"], language=request.data["language"])
+            if Word.objects.filter(parent_dict=dictionary, word_str=request.data["word_str"], language=request.data["language"]):
+                word = Word.objects.get(
+                    parent_dict=dictionary, word_str=request.data["word_str"], language=request.data["language"])
 
-            word.parent_dict.remove(dictionary)
+                word.parent_dict.remove(dictionary)
 
-            if word.parent_dict.count() <= 0:
-                word.delete()
+                if word.parent_dict.count() <= 0:
+                    word.delete()
 
-                return JsonResponse(({'status': 'whole word deleted'}), content_type='application/json', safe=False)
+                    return JsonResponse(({'status': 'whole word deleted'}), content_type='application/json', safe=False)
 
-            return JsonResponse({'status': 'just removed dictionary, word still has other dictionaries'}, content_type='application/json', safe=False)
+                return JsonResponse({'status': 'just removed dictionary, word still has other dictionaries'}, content_type='application/json', safe=False)
+
+            return JsonResponse({'status': 'word does not exist in particular dictionary'})
         except SystemError as e:
             print(e)
 
