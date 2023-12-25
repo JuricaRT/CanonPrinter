@@ -90,8 +90,9 @@ class CreateDictionaryView(APIView):
 
     def post(self, request, format=None):
         try:
-            if Dictionary.objects.filter(dict_name=request.data["dict_name"]):
-                return JsonResponse({'status': 'exists'})
+            if Dictionary.objects.filter(dict_name=request.data["dict_name"], language=request.data["language"]):
+
+                return JsonResponse({'status': 'exists'}, content_type='application/json', safe=False)
 
             dictionary = Dictionary.objects.create(
                 dict_name=request.data["dict_name"],
@@ -111,21 +112,23 @@ class AddWordView(APIView):
     def put(self, request, format=None):
 
         try:
-            if Word.objects.filter(word_str=request.data["word_str"]):
-                return JsonResponse({'status': 'exists'})
-
             dictionary = Dictionary.objects.get(
-                dict_name=request.data["dict_name"])
+                dict_name=request.data["dict_name"], language=request.data["language"])
+
+            if Word.objects.filter(parent_dict=dictionary, word_str=request.data["word_str"]):
+
+                return JsonResponse({'status': 'exists'}, content_type='application/json', safe=False)
 
             word = Word.objects.create(
-                parent_dict=dictionary,
                 word_str=request.data["word_str"],
                 cro_translation=request.data["cro_translation"],
                 definition=request.data["definition"],
             )
 
+            word.parent_dict.set([dictionary])
+
             word.save()
 
             return JsonResponse({'success': 'yes'}, content_type='applicaton/json', safe=False)
-        except:
-            pass
+        except SystemError as e:
+            print(e)
