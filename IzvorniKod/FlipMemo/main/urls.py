@@ -20,4 +20,8 @@ urlpatterns = [
     path("get_students", admin_views.GetStudentsView.as_view()),
     path("create_dictionary", admin_views.CreateDictionaryView.as_view()),
     path("add_word", admin_views.AddWordView.as_view()),
+    path("remove_dictionary", admin_views.RemoveDictionaryView.as_view()),
+    path("remove_word", admin_views.RemoveWordView.as_view()),
+    path("edit_dictionary", admin_views.EditDictionaryView.as_view()),
+    path("edit_word", admin_views.EditWordView.as_view()),
 ]

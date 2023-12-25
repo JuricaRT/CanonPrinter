@@ -126,9 +126,54 @@ class AddWordView(APIView):
             )
 
             word.parent_dict.set([dictionary])
-
             word.save()
 
             return JsonResponse({'success': 'yes'}, content_type='applicaton/json', safe=False)
         except SystemError as e:
             print(e)
+
+
+class RemoveDictionaryView(APIView):
+    permission_classes = (permissions.IsAdminUser, )
+
+    def post(self, request, format=None):
+
+        try:
+            dictionary = Dictionary.objects.get(
+                dict_name=request.data["dict_name"], language=request.data["language"])
+
+            dictionary.delete()
+
+            return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
+        except:
+            pass
+
+
+class RemoveWordView(APIView):
+    permission_classes = (permissions.IsAdminUser, )
+
+    def post(self, request, format=None):
+
+        try:
+            dictionary = Dictionary.objects.get(
+                dict_name=request.data["dict_name"],
+                language=request.data["language"]
+            )
+
+            word = Word.objects.get(parent_dict=dictionary, word_str=request.data["word_str"])
+
+            word.delete()
+
+            return JsonResponse(({'status': 'word deleted'}), content_type='application/json', safe=False)
+        except SystemError as e:
+            print(e)
+
+
+class EditDictionaryView(APIView):
+    permission_classes = (permissions.IsAdminUser, )
+    pass
+
+
+class EditWordView(APIView):
+    permission_classes = (permissions.IsAdminUser, )
+    pass
