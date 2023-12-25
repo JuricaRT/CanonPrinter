@@ -102,8 +102,8 @@ class CreateDictionaryView(APIView):
             dictionary.save()
 
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
-        except:
-            pass
+        except SystemError as e:
+            print(e)
 
 
 class AddWordView(APIView):
@@ -119,10 +119,18 @@ class AddWordView(APIView):
 
                 return JsonResponse({'status': 'exists'}, content_type='application/json', safe=False)
 
+            if Word.objects.filter(word_str=request.data["word_str"], language=request.data["language"]):
+                word = Word.objects.get(word_str=request.data["word_str"], language=request.data["language"])
+                word.parent_dict.add(dictionary)
+
+                return JsonResponse({'status': 'dictionary added to existing word'}, content_type='application/json', safe=False)
+
             word = Word.objects.create(
+                language=request.data["language"],
                 word_str=request.data["word_str"],
                 cro_translation=request.data["cro_translation"],
                 definition=request.data["definition"],
+                word_type=request.data["word_type"],
             )
 
             word.parent_dict.set([dictionary])
@@ -145,14 +153,14 @@ class RemoveDictionaryView(APIView):
             dictionary.delete()
 
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
-        except:
-            pass
+        except SystemError as e:
+            print(e)
 
 
 class RemoveWordView(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
 
         try:
             dictionary = Dictionary.objects.get(
@@ -160,11 +168,17 @@ class RemoveWordView(APIView):
                 language=request.data["language"]
             )
 
-            word = Word.objects.get(parent_dict=dictionary, word_str=request.data["word_str"])
+            word = Word.objects.get(
+                parent_dict=dictionary, word_str=request.data["word_str"])
 
-            word.delete()
+            word.parent_dict.remove(dictionary)
 
-            return JsonResponse(({'status': 'word deleted'}), content_type='application/json', safe=False)
+            if word.parent_dict.count() <= 0:
+                word.delete()
+
+                return JsonResponse(({'status': 'whole word deleted'}), content_type='application/json', safe=False)
+
+            return JsonResponse({'status': 'just removed dictionary, word still has other dictionaries'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
 
