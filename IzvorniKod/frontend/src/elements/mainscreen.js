@@ -63,3 +63,12 @@ export const ModeSelect = styled.div`
   height: 400px;
   margin-left: 470px;
 `;
+
+export const LanguageSelect = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 500px;
+  height: 400px;
+  margin-left: 470px;
+  background-color: green;
+`;

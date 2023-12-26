@@ -19,32 +19,53 @@ const MainScreen = ({
   dictionaries,
   selected_dictionary,
   selected_mode,
+  selected_language,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
+  const [displayLanguages, setDisplayLanguages] = useState(false);
   const [displayDictionaries, setDisplayDictionaries] = useState(false);
   const [displayModes, setDisplayModes] = useState(false);
+  const [languages, setLanguages] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(selected_language);
   const [selectedDictionary, setSelectedDictionary] =
     useState(selected_dictionary);
   const [selectedMode, setSelectedMode] = useState(selected_mode);
 
-  useEffect(
-    function () {
-      if (displayDictionaries === true) {
-        get_dictionaries();
-      }
-    },
-    [displayDictionaries]
-  );
-
   // useEffect(
   //   function () {
-  //     if (displayModes === true) {
-  //       get_modes();
+  //     if (displayDictionaries === true) {
+  //       get_dictionaries();
   //     }
   //   },
-  //   [displayModes]
+  //   [displayDictionaries]
   // );
+
+  useEffect(
+    // dodan samo da se snađem po kodu, nismo još sigurni hoće li na ovaj način biti implementirano
+    function () {
+      if (displayLanguages === true) {
+        const uniqueLang = dictionaries
+          .map((dict) => dict.language)
+          .filter(
+            (language, index, languages) =>
+              languages.indexOf(language) === index
+          );
+        setLanguages(uniqueLang);
+      }
+    },
+    [displayLanguages, dictionaries]
+  );
+
+  useEffect(
+    function () {
+      if (selectedLanguage !== null) {
+        setDisplayLanguages(false);
+        setDisplayDictionaries(true);
+      }
+    },
+    [selectedLanguage]
+  );
 
   useEffect(
     function () {
@@ -65,9 +86,21 @@ const MainScreen = ({
     [selectedMode, navigate]
   );
 
+  useEffect(function () {
+    get_dictionaries();
+  }, []);
+
   function startLearning() {
     setDisplayLearning(false);
-    setDisplayDictionaries(true);
+
+    const uniqueLang = dictionaries
+      .map((dict) => dict.language)
+      .filter(
+        (language, index, languages) => languages.indexOf(language) === index
+      );
+    setLanguages(uniqueLang);
+
+    setDisplayLanguages(true);
   }
 
   useEffect(() => {
@@ -85,8 +118,14 @@ const MainScreen = ({
         <hr />
         {displayLearning && (
           <Element.LearningStart onClick={startLearning}>
-            Start learning
+            Customize learning
           </Element.LearningStart>
+        )}
+        {displayLanguages && (
+          <Element.LanguageSelect>
+            Select language
+            <List elements={languages} type="lang" />
+          </Element.LanguageSelect>
         )}
         {displayDictionaries && (
           <Element.DictionarySelect>
@@ -96,7 +135,7 @@ const MainScreen = ({
         )}
         {displayModes && (
           <Element.ModeSelect>
-            Select module
+            Select mode
             <List elements={modes} type="mode" />
           </Element.ModeSelect>
         )}
@@ -111,7 +150,7 @@ const mapStateToProps = (state) => ({
   dictionaries: state.learningSpecsReducer.dictionaries,
   selected_dictionary: state.learningSpecsReducer.selectedDictionary,
   selected_mode: state.learningSpecsReducer.selectedMode,
-  // modules: state.learningSpecsReducer.modes,
+  selected_language: state.learningSpecsReducer.language,
 });
 
 export default connect(mapStateToProps, {})(MainScreen);
