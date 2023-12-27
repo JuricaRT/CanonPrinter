@@ -4,7 +4,7 @@ import { Container, GlobalStyle } from "../elements/global";
 import { connect } from "react-redux";
 import * as Element from "../elements/mainscreen";
 import Banner from "./Banner";
-import AdminPage from "./Admin";
+
 import {
   get_dictionaries,
   get_modes,
@@ -114,15 +114,6 @@ const MainScreen = ({
       <GlobalStyle />
       <Container>
         <Banner origin="MainScreen"></Banner>
-        <Element.TopDiv>
-          {is_superuser ? (
-            <Element.ModifyUsersButton onClick={() => navigate("/modifyUsers")}>
-              Modify users
-            </Element.ModifyUsersButton>
-          ) : (
-            <></>
-          )}
-        </Element.TopDiv>
         <hr />
         {displayLearning && (
           <Element.LearningStart onClick={startLearning}>
