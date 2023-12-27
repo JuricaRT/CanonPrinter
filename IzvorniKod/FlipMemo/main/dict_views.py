@@ -2,12 +2,9 @@ from django.http import JsonResponse
 from .models import Dictionary, Word
 from itertools import groupby
 from operator import itemgetter
-from collections import defaultdict
 
 from rest_framework.views import APIView
 from rest_framework import permissions
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.utils.decorators import method_decorator
 
 class CreateDictionaryView(APIView):
     permission_classes = (permissions.IsAdminUser, )
@@ -152,10 +149,8 @@ class GetDictionariesView(APIView):
         dictionary_dict = [dict.to_dict() for dict in dicts]
         dictionary_dict = sorted(dictionary_dict, key=itemgetter('language'))
 
-        json_dict = defaultdict(list)
-
-        for key, values in groupby(dictionary_dict, key=itemgetter('language')):
-            [json_dict[key].append(val['dict_name']) for val in values]
+        json_dict = {dict_name : [dict["dict_name"] for dict in dicts_in_group] 
+                     for dict_name, dicts_in_group in groupby(dictionary_dict, key=itemgetter("language"))}
 
         return JsonResponse({'dicts': json_dict}, content_type='application/json', safe=False)
 
@@ -165,7 +160,6 @@ class GetWordsFromDictView(APIView):
 
     def get(self, request, format=None):
         words = Word.objects.filter(parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
-        words_dict = []
-        [words_dict.append(word.to_dict()) for word in words]
+        words_dict = [word.to_dict() for word in words]
 
         return JsonResponse({'words': words_dict}, content_type='application/json', safe=False)
