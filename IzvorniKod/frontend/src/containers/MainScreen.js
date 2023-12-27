@@ -33,6 +33,7 @@ const MainScreen = ({
   const [selectedDictionary, setSelectedDictionary] =
     useState(selected_dictionary);
   const [selectedMode, setSelectedMode] = useState(selected_mode);
+  const [addDictionaries, setAddDictionaries] = useState(false);
 
   // useEffect(
   //   function () {
@@ -105,6 +106,10 @@ const MainScreen = ({
     setDisplayLanguages(true);
   }
 
+  function createDictionary() {
+    setAddDictionaries(!addDictionaries);
+  }
+
   useEffect(() => {
     if (!isAuthenticated || isAuthenticated === null) navigate("/");
   }, [isAuthenticated, navigate]);
@@ -137,6 +142,12 @@ const MainScreen = ({
             Select mode
             <List elements={modes} type="mode" />
           </Element.ModeSelect>
+        )}
+        <Element.AddDictionary onClick={createDictionary}>
+          Add Dictionary
+        </Element.AddDictionary>
+        {addDictionaries && (
+          <Element.AddDictionaryName></Element.AddDictionaryName>
         )}
       </Container>
     </React.Fragment>

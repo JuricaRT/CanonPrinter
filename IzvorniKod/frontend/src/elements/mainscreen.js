@@ -80,3 +80,17 @@ export const ModifyUsersButton = styled.button`
   align-items: center;
   margin-left: 46.5%;
 `;
+export const AddDictionary = styled.button`
+  margin: 10px;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 46.5%;
+`;
+
+export const AddDictionaryName = styled.input`
+  width: 30%;
+  margin-left: 35%;
+  font-size: 16px;
+`;
