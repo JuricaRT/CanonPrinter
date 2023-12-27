@@ -17,7 +17,6 @@ import ModifyUsers from "./ModifyUsers";
 
 const MainScreen = ({
   isAuthenticated,
-  is_superuser,
   dictionaries,
   selected_dictionary,
   selected_mode,
@@ -34,64 +33,44 @@ const MainScreen = ({
   const [selectedDictionary, setSelectedDictionary] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
 
-  useEffect(
-    function () {
-      setSelectedLanguage(selected_language);
-    },
-    [selected_language]
-  );
+  useEffect(() => {
 
-  useEffect(
-    function () {
-      setSelectedDictionary(selected_dictionary);
-    },
-    [selected_dictionary]
-  );
+    get_dictionaries()
 
-  useEffect(
-    function () {
-      setSelectedMode(selected_mode);
-    },
-    [selected_mode]
-  );
+    if (!isAuthenticated || isAuthenticated === null) {
+      navigate("/");
+    }
 
-  useEffect(
-    function () {
-      if (selectedLanguage !== null) {
-        setDisplayLanguages(false);
-        setDisplayDictionaries(true);
-      }
-    },
-    [selectedLanguage]
-  );
+    if (selectedMode !== null) {
+      navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
+    }    
 
-  useEffect(
-    function () {
-      if (selectedDictionary !== null) {
-        setDisplayDictionaries(false);
-        setDisplayModes(true);
-      }
-    },
-    [selectedDictionary]
-  );
+  }, [isAuthenticated, navigate, selectedMode, get_dictionaries]);
 
-  useEffect(
-    function () {
-      if (selectedMode !== null) {
-        navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
-      }
-    },
-    [selectedMode, navigate]
-  );
+  // set values from states
+  useEffect(() => {
+    setSelectedLanguage(selected_language)
+    setSelectedDictionary(selected_dictionary)
+    setSelectedMode(selected_mode)
+  },[selected_language, selected_dictionary, selected_mode]);
 
-  useEffect(
-    function () {
-      get_dictionaries();
-    },
-    [get_dictionaries]
-  );
 
-  function startLearning() {
+  useEffect(() => {
+    
+    if (selectedLanguage !== null) {
+      setDisplayLanguages(false);
+      setDisplayDictionaries(true);
+    }
+
+    if (selectedDictionary !== null) {
+      setDisplayDictionaries(false);
+      setDisplayModes(true);
+    }
+
+
+  }, [selectedLanguage, selectedDictionary]);
+
+  function customizeLearning() {
     setDisplayLearning(false);
 
     const uniqueLang = [
@@ -107,10 +86,6 @@ const MainScreen = ({
     setDisplayLanguages(true);
   }
 
-  useEffect(() => {
-    if (!isAuthenticated || isAuthenticated === null) navigate("/");
-  }, [isAuthenticated, navigate]);
-
   return (
     <React.Fragment>
       <GlobalStyle />
@@ -118,7 +93,7 @@ const MainScreen = ({
         <Banner origin="MainScreen"></Banner>
         <hr />
         {displayLearning && (
-          <Element.LearningStart onClick={startLearning}>
+          <Element.LearningStart onClick={customizeLearning}>
             Customize learning
           </Element.LearningStart>
         )}
