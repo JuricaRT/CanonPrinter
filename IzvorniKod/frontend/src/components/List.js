@@ -1,13 +1,26 @@
-import { select_dictionary, start_learning } from "../actions/learningSpecs";
+import { connect } from "react-redux";
+import {
+  select_dictionary,
+  start_learning,
+  select_language,
+} from "../actions/learningSpecs";
 
-function List({ elements, type }) {
+const List = ({
+  elements,
+  type,
+  select_dictionary,
+  select_language,
+  start_learning,
+  dict,
+  lang,
+}) => {
   function handleClick(elem) {
     if (type === "dict") {
       select_dictionary(elem);
     } else if (type === "lang") {
-      // select_language(elem); ne znam hoće li to biti tako, kasnije ću doraditi
+      select_language(elem);
     } else {
-      start_learning(elem);
+      start_learning(elem, dict, lang);
     }
   }
 
@@ -20,6 +33,15 @@ function List({ elements, type }) {
       ))}
     </div>
   );
-}
+};
 
-export default List;
+const mapStateToProps = (state) => ({
+  dict: state.learningSpecsReducer.selectedDictionary,
+  lang: state.learningSpecsReducer.selectedLanguage,
+});
+
+export default connect(mapStateToProps, {
+  select_dictionary,
+  start_learning,
+  select_language,
+})(List);

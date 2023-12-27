@@ -7,6 +7,7 @@ import SignUp from "./containers/SignUp";
 import PassChange from "./containers/PassChange";
 import MainScreen from "./containers/MainScreen";
 import ProfileSettings from "./containers/ProfileSettings";
+import LearningSite from "./containers/LearningSite";
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -24,6 +25,7 @@ const App = () => (
           <Route exact path="/mainScreen" element={<MainScreen />} />
           <Route exact path="/modifyUsers" element={<ModifyUsers />} />
           <Route exact path="/profileSettings" element={<ProfileSettings />} />
+          <Route exact path="/learning" element={<LearningSite />} />
         </Routes>
       </Layout>
     </BrowserRouter>
