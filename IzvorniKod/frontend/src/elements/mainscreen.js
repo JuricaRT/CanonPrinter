@@ -47,6 +47,18 @@ export const LearningStart = styled.button`
   margin-left: 46.5%;
 `;
 
+export const DictionaryBack = styled.button`
+  margin-right: 90%;
+  margin-top: 5%;
+  border-radius: 25px;
+`;
+
+export const ModeBack = styled.button`
+  margin-right: 90%;
+  margin-top: 5%;
+  border-radius: 25px;
+`;
+
 export const DictionarySelect = styled.div`
   display: flex;
   flex-direction: column;
