@@ -44,7 +44,7 @@ export const LearningStart = styled.button`
   height: 30px;
   display: flex;
   align-items: center;
-  margin-left: 670px;
+  margin-left: 46.5%;
 `;
 
 export const DictionarySelect = styled.div`
@@ -71,4 +71,12 @@ export const LanguageSelect = styled.div`
   height: 400px;
   margin-left: 470px;
   background-color: green;
+`;
+
+export const ModifyUsersButton = styled.button`
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 46.5%;
 `;

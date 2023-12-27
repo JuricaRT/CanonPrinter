@@ -12,6 +12,8 @@ import {
 } from "../actions/learningSpecs";
 import modes from "../actions/modes";
 import List from "../components/List";
+import Admin from "../reducers/admin";
+import ModifyUsers from "./ModifyUsers";
 
 const MainScreen = ({
   isAuthenticated,
@@ -113,7 +115,13 @@ const MainScreen = ({
       <Container>
         <Banner origin="MainScreen"></Banner>
         <Element.TopDiv>
-          {is_superuser ? <AdminPage></AdminPage> : <></>}
+          {is_superuser ? (
+            <Element.ModifyUsersButton onClick={() => navigate("/modifyUsers")}>
+              Modify users
+            </Element.ModifyUsersButton>
+          ) : (
+            <></>
+          )}
         </Element.TopDiv>
         <hr />
         {displayLearning && (
