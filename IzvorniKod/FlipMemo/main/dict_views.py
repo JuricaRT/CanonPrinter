@@ -1,5 +1,8 @@
 from django.http import JsonResponse
 from .models import Dictionary, Word
+from itertools import groupby
+from operator import itemgetter
+from collections import defaultdict
 
 from rest_framework.views import APIView
 from rest_framework import permissions
@@ -140,3 +143,29 @@ class EditWordView(APIView):
     #             word_str=request.data["word_str"], language=request.data["language"])
     #     except SystemError as e:
     #         print(e)
+
+class GetDictionariesView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, format=None):
+        dicts = Dictionary.objects.all()
+        dictionary_dict = [dict.to_dict() for dict in dicts]
+        dictionary_dict = sorted(dictionary_dict, key=itemgetter('language'))
+
+        json_dict = defaultdict(list)
+
+        for key, values in groupby(dictionary_dict, key=itemgetter('language')):
+            [json_dict[key].append(val['dict_name']) for val in values]
+
+        return JsonResponse({'dicts': json_dict}, content_type='application/json', safe=False)
+
+
+class GetWordsFromDictView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, format=None):
+        words = Word.objects.filter(parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
+        words_dict = []
+        [words_dict.append(word.to_dict()) for word in words]
+
+        return JsonResponse({'words': words_dict}, content_type='application/json', safe=False)

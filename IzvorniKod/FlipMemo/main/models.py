@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid, djongo
-from djongo.models import ObjectIdField, ManyToManyField, ForeignKey, UniqueConstraint
+from djongo.models import ObjectIdField, ManyToManyField, ForeignKey
 from django.forms.models import model_to_dict
 
 class CustomIDField(models.CharField): # :(
@@ -50,11 +50,8 @@ class Dictionary(models.Model):
     dict_name = models.CharField(max_length=64)
     language = models.CharField(max_length=32)
 
-    class Meta:
-        unique_together = [['dict_name', 'language']]
-        #constraints = [
-        #    UniqueConstraint(fields=['dict_name', 'language'], name='unique_dictnaming')
-        #]
+    def to_dict(self):
+        return model_to_dict(self, fields=["dict_name", "language"])
 
 class Word(models.Model):
     _id = ObjectIdField()
@@ -65,6 +62,9 @@ class Word(models.Model):
     definition = models.TextField()
     word_type = models.CharField(max_length=32)
     audio_bytes = models.BinaryField(null=True)
+
+    def to_dict(self):
+        return model_to_dict(self, fields=["language", "word_str", "cro_translation", "definition", "word_type", "audio_bytes"])
 
 class Session(TransientModel):
     MODE_CHOICES = (

@@ -25,4 +25,7 @@ urlpatterns = [
     path("remove_word", dict_views.RemoveWordView.as_view()),
     path("edit_dictionary", dict_views.EditDictionaryView.as_view()),
     path("edit_word", dict_views.EditWordView.as_view()),
+    
+    path("get_dictionaries", dict_views.GetDictionariesView.as_view()),
+    path("get_words_from_dict", dict_views.GetWordsFromDictView.as_view()),
 ]
