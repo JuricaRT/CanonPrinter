@@ -20,6 +20,8 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
 
   let _logout = [];
 
+  let modifyOpen = true;
+
   switch (origin) {
     case "MainScreen":
       navigation.shift();
@@ -34,6 +36,7 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
       navigation.pop();
       break;
     case "ModifyUsers":
+      modifyOpen = false;
       _logout.push("Logout");
       break;
     default:
@@ -52,9 +55,13 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
           ))}
           {isAuthenticated ? (
             is_superuser ? (
-              <Link to={adminModify[0][0]} key={adminModify[0][0]}>
-                <Button1>{adminModify[0][1]}</Button1>
-              </Link>
+              modifyOpen ? (
+                <Link to={adminModify[0][0]} key={adminModify[0][0]}>
+                  <Button1>{adminModify[0][1]}</Button1>
+                </Link>
+              ) : (
+                <></>
+              )
             ) : (
               <></>
             )
