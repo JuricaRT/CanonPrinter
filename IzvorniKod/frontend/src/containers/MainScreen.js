@@ -17,7 +17,6 @@ import ModifyUsers from "./ModifyUsers";
 
 const MainScreen = ({
   isAuthenticated,
-  is_superuser,
   dictionaries,
   selected_dictionary,
   selected_mode,
@@ -45,57 +44,38 @@ const MainScreen = ({
     [selected_language]
   );
 
-  useEffect(
-    function () {
-      setSelectedDictionary(selected_dictionary);
-    },
-    [selected_dictionary]
-  );
+  useEffect(() => {
+    get_dictionaries();
 
-  useEffect(
-    function () {
-      setSelectedMode(selected_mode);
-    },
-    [selected_mode]
-  );
+    if (!isAuthenticated || isAuthenticated === null) {
+      navigate("/");
+    }
 
-  useEffect(
-    function () {
-      if (selectedLanguage !== null) {
-        setDisplayLanguages(false);
-        setDisplayDictionaries(true);
-      }
-    },
-    [selectedLanguage]
-  );
+    if (selectedMode !== null) {
+      navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
+    }
+  }, [isAuthenticated, navigate, selectedMode, get_dictionaries]);
 
-  useEffect(
-    function () {
-      if (selectedDictionary !== null) {
-        setDisplayDictionaries(false);
-        setDisplayModes(true);
-      }
-    },
-    [selectedDictionary]
-  );
+  // set values from states
+  useEffect(() => {
+    setSelectedLanguage(selected_language);
+    setSelectedDictionary(selected_dictionary);
+    setSelectedMode(selected_mode);
+  }, [selected_language, selected_dictionary, selected_mode]);
 
-  useEffect(
-    function () {
-      if (selectedMode !== null) {
-        navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
-      }
-    },
-    [selectedMode, navigate]
-  );
+  useEffect(() => {
+    if (selectedLanguage !== null) {
+      setDisplayLanguages(false);
+      setDisplayDictionaries(true);
+    }
 
-  useEffect(
-    function () {
-      get_dictionaries();
-    },
-    [get_dictionaries]
-  );
+    if (selectedDictionary !== null) {
+      setDisplayDictionaries(false);
+      setDisplayModes(true);
+    }
+  }, [selectedLanguage, selectedDictionary]);
 
-  function startLearning() {
+  function customizeLearning() {
     setDisplayLearning(false);
 
     const uniqueLang = [
@@ -136,7 +116,7 @@ const MainScreen = ({
         <Banner origin="MainScreen"></Banner>
         <hr />
         {displayLearning && (
-          <Element.LearningStart onClick={startLearning}>
+          <Element.LearningStart onClick={customizeLearning}>
             Customize learning
           </Element.LearningStart>
         )}
