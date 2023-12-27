@@ -9,6 +9,7 @@ import {
   get_dictionaries,
   get_modes,
   select_dictionary,
+  select_language,
 } from "../actions/learningSpecs";
 import modes from "../actions/modes";
 import List from "../components/List";
@@ -22,6 +23,8 @@ const MainScreen = ({
   selected_mode,
   selected_language,
   get_dictionaries,
+  select_language,
+  select_dictionary,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
@@ -109,6 +112,18 @@ const MainScreen = ({
     if (!isAuthenticated || isAuthenticated === null) navigate("/");
   }, [isAuthenticated, navigate]);
 
+  function dictionaryBack() {
+    setDisplayDictionaries(false);
+    setDisplayLanguages(true);
+    select_language(null);
+  }
+
+  function modeBack() {
+    setDisplayModes(false);
+    setDisplayDictionaries(true);
+    select_dictionary(null);
+  }
+
   return (
     <React.Fragment>
       <GlobalStyle />
@@ -130,12 +145,16 @@ const MainScreen = ({
           <Element.DictionarySelect>
             Select dictionary
             <List elements={dictionaries[selectedLanguage]} type="dict" />
+            <Element.DictionaryBack onClick={dictionaryBack}>
+              &larr;
+            </Element.DictionaryBack>
           </Element.DictionarySelect>
         )}
         {displayModes && (
           <Element.ModeSelect>
             Select mode
             <List elements={Object.values(modes)} type="mode" />
+            <Element.ModeBack onClick={modeBack}>&larr;</Element.ModeBack>
           </Element.ModeSelect>
         )}
         <Element.AddDictionary onClick={createDictionary}>
@@ -184,4 +203,8 @@ const mapStateToProps = (state) => ({
   selected_language: state.learningSpecsReducer.language,
 });
 
-export default connect(mapStateToProps, { get_dictionaries })(MainScreen);
+export default connect(mapStateToProps, {
+  get_dictionaries,
+  select_dictionary,
+  select_language,
+})(MainScreen);
