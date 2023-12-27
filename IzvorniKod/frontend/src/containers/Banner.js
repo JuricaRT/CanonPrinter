@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { ButtonLayout, Button1, Logo, BannerLayout } from "../elements/global";
 import { logout } from "../actions/auth";
 
-const Banner = ({ isAuthenticated, origin, logout }) => {
+const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
   let navigation = [
     ["/login", "Login"],
     ["/signup", "Sign Up"],
@@ -16,7 +16,11 @@ const Banner = ({ isAuthenticated, origin, logout }) => {
     navigation[1][1] = "Profile";
   }
 
+  let adminModify = [["/modifyUsers", "Modify users"]];
+
   let _logout = [];
+
+  let modifyOpen = true;
 
   switch (origin) {
     case "MainScreen":
@@ -31,6 +35,10 @@ const Banner = ({ isAuthenticated, origin, logout }) => {
       navigation.pop();
       navigation.pop();
       break;
+    case "ModifyUsers":
+      modifyOpen = false;
+      _logout.push("Logout");
+      break;
     default:
       break;
   }
@@ -41,10 +49,25 @@ const Banner = ({ isAuthenticated, origin, logout }) => {
         <Logo>FLIP MEMO</Logo>
         <ButtonLayout>
           {navigation.map((item) => (
-            <Link to={item[0]}>
+            <Link to={item[0]} key={item[0]}>
               <Button1>{item[1]}</Button1>
             </Link>
           ))}
+          {isAuthenticated ? (
+            is_superuser ? (
+              modifyOpen ? (
+                <Link to={adminModify[0][0]} key={adminModify[0][0]}>
+                  <Button1>{adminModify[0][1]}</Button1>
+                </Link>
+              ) : (
+                <></>
+              )
+            ) : (
+              <></>
+            )
+          ) : (
+            <></>
+          )}
           {_logout.map((item) => (
             <Button1 onClick={logout}>{item}</Button1>
           ))}
@@ -56,6 +79,7 @@ const Banner = ({ isAuthenticated, origin, logout }) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  is_superuser: state.profile.is_admin,
 });
 
 export default connect(mapStateToProps, { logout })(Banner);

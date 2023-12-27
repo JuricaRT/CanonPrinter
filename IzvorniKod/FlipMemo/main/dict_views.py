@@ -133,13 +133,33 @@ class EditDictionaryView(APIView):
 class EditWordView(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    # def put(self, request, format=None):
+    def put(self, request, format=None):
 
-    #     try:
-    #         word = Word.objects.get(
-    #             word_str=request.data["word_str"], language=request.data["language"])
-    #     except SystemError as e:
-    #         print(e)
+        try:
+            word = Word.objects.get(
+                word_str=request.data["word_str"], language=request.data["language"])
+
+            if request.data["new_word_str"] is not None:
+                if Word.objects.filter(word_str=request.data["new_word_str"], language=request.data["language"]):
+
+                    return JsonResponse({'status': 'this word already exists, try different one'}, content_type='application/json', safe=False)
+                    
+                word.word_str = request.data["new_word_str"]
+            
+            if request.data["new_cro_translation"] is not None:
+                word.cro_translation = request.data["new_cro_translation"]
+
+            if request.data["new_definition"] is not None:
+                word.definition = request.data["new_definition"]
+            
+            if request.data["new_word_type"] is not None:
+                word.word_type = request.data["new_word_type"]
+
+            word.save()
+
+            return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)            
+        except SystemError as e:
+            print(e)
 
 class GetDictionariesView(APIView):
     permission_classes = (permissions.AllowAny, )
