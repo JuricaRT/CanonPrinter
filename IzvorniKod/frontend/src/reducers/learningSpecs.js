@@ -7,6 +7,7 @@ import {
   GET_DICTIONARIES_FAIL,
   SELECT_MODE,
   SELECT_MODE_FAIL,
+  SELECT_LANGUAGE,
 } from "../actions/types";
 
 const initialState = {
@@ -31,9 +32,11 @@ export default function learningSpecsReducer(state = initialState, action) {
     case SELECT_MODE_FAIL:
       return state;
     case START_LEARNING:
-      return { ...state }; // ovdje ce trebati dodati nešto kasnije
+      return state; // ovdje ce trebati dodati nešto kasnije
     case START_LEARNING_FAIL:
       return state;
+    case SELECT_LANGUAGE:
+      return { ...state, language: action.payload };
     default:
       return state;
   }

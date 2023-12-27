@@ -49,26 +49,34 @@ export const LearningStart = styled.button`
 
 export const DictionarySelect = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 500px;
-  height: 400px;
+  height: 100px;
   margin-left: 470px;
   background-color: green;
 `;
 
 export const ModeSelect = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  // align-content: center;
   width: 500px;
-  height: 400px;
+  height: 200px;
   margin-left: 470px;
+  background-color: green;
 `;
 
 export const LanguageSelect = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 500px;
-  height: 400px;
+  height: 100px;
   margin-left: 470px;
   background-color: green;
 `;
