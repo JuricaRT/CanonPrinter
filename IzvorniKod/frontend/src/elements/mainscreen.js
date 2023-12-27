@@ -101,4 +101,19 @@ export const AddDictionaryName = styled.input`
   width: 30%;
   margin-left: 35%;
   font-size: 16px;
+  for: textInput;
+`;
+export const LanguageSelectionForDictionary = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+`;
+
+export const SelectedLanguageForDictionary = styled.button`
+  color: red;
+  font-size: 13px;
+`;
+
+export const NotSelectedLanguageForDictionary = styled.button`
+  font-size: 13px;
 `;

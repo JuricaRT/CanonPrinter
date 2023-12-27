@@ -36,6 +36,8 @@ const MainScreen = ({
   const [selectedDictionary, setSelectedDictionary] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
 
+  const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
+
   useEffect(
     function () {
       setSelectedLanguage(selected_language);
@@ -111,6 +113,16 @@ const MainScreen = ({
 
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
+    setSelectedLanguageButton("");
+    const uniqueLang = [
+      ...new Set(
+        Object.keys(dictionaries)
+          .filter((key) => Array.isArray(dictionaries[key]))
+          .map((key) => key.toLowerCase())
+      ),
+    ];
+
+    setLanguages(uniqueLang);
   }
 
   useEffect(() => {
@@ -150,7 +162,33 @@ const MainScreen = ({
           Add Dictionary
         </Element.AddDictionary>
         {addDictionaries && (
-          <Element.AddDictionaryName></Element.AddDictionaryName>
+          <>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Dictionary name..."
+            ></Element.AddDictionaryName>
+            <Element.LanguageSelectionForDictionary>
+              {languages.map((name) =>
+                selectedLanguageButton === name ? (
+                  <Element.SelectedLanguageForDictionary
+                    onClick={() => {
+                      setSelectedLanguageButton(name);
+                    }}
+                  >
+                    {name}
+                  </Element.SelectedLanguageForDictionary>
+                ) : (
+                  <Element.NotSelectedLanguageForDictionary
+                    onClick={() => {
+                      setSelectedLanguageButton(name);
+                    }}
+                  >
+                    {name}
+                  </Element.NotSelectedLanguageForDictionary>
+                )
+              )}
+            </Element.LanguageSelectionForDictionary>
+          </>
         )}
       </Container>
     </React.Fragment>
