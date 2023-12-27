@@ -99,7 +99,7 @@ class RemoveWordView(APIView):
                 if word.parent_dict.count() <= 0:
                     word.delete()
 
-                    return JsonResponse(({'status': 'whole word deleted'}), content_type='application/json', safe=False)
+                    return JsonResponse({'status': 'whole word deleted'}, content_type='application/json', safe=False)
 
                 return JsonResponse({'status': 'just removed dictionary, word still has other dictionaries'}, content_type='application/json', safe=False)
 

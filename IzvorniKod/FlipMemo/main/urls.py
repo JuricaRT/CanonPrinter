@@ -2,6 +2,7 @@ from django.urls import path
 import main.user_views as user_views
 import main.admin_views as admin_views
 import main.dict_views as dict_views
+import main.session_views as session_views
 
 urlpatterns = [
     path("login", user_views.LoginView.as_view()),
@@ -19,13 +20,15 @@ urlpatterns = [
     path("add_admin", admin_views.AddAdministratorView.as_view()),
     path("remove_admin", admin_views.RemoveAdministratorView.as_view()),
     path("get_students", admin_views.GetStudentsView.as_view()),
+
     path("create_dictionary", dict_views.CreateDictionaryView.as_view()),
     path("add_word", dict_views.AddWordView.as_view()),
     path("remove_dictionary", dict_views.RemoveDictionaryView.as_view()),
     path("remove_word", dict_views.RemoveWordView.as_view()),
     path("edit_dictionary", dict_views.EditDictionaryView.as_view()),
     path("edit_word", dict_views.EditWordView.as_view()),
-    
     path("get_dictionaries", dict_views.GetDictionariesView.as_view()),
     path("get_words_from_dict", dict_views.GetWordsFromDictView.as_view()),
+
+    path("initialize_session", session_views.InitializeSessionView.as_view()),
 ]
