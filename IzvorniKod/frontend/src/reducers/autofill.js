@@ -4,13 +4,14 @@ import {
     AUTOFILL_SUGGESTIONS_FROM_CACHE
 } from '../actions/types';
 
+
 const initialState = {
     cachedPrefix: "", // The prefix for which "cachedCall" is valid
     cachedCall: [], // Cached autofill suggestions for the word "cachedPrefix"
     autofillSuggestions: [] // Current autofill suggestions
 };
 
-export default function(state = initialState, action) {
+export default function autofillReducer(state = initialState, action) {
     switch (action.type) {
         case AUTOFILL_SUGGESTIONS_FROM_API:
             return {
@@ -33,7 +34,7 @@ export default function(state = initialState, action) {
                                         .filter((suggestion) => {
                                                 return suggestion.slice(0, word.length) === word;
                                         })
-                                        .slice(0, 7)
+                                        .slice(0, action.numOfSuggestionsPayload)
             };
         default:
             return state;

@@ -4,6 +4,10 @@ import {
         AUTOFILL_SUGGESTIONS_FROM_CACHE
 } from '../actions/types';
 
+
+const MIN_PREFIX_LENGTH = 3
+const NUMBER_OF_SUGGESTIONS = 7
+
 function autofillApi(word, num) {
         return fetch(`https://api.datamuse.com/sug?s=${word}&max=${num}`)
                 .then(response => {
@@ -31,9 +35,9 @@ export const updateAutofillSuggestions = (word) => async (dispatch, getState) =>
                 return;
         }
 
-        const prefix = word.slice(0, 3);
+        const prefix = word.slice(0, MIN_PREFIX_LENGTH);
 
-        if (word.length >= 3) {
+        if (word.length >= MIN_PREFIX_LENGTH) {
                 if (prefix !== getState().autofillReducer.cachedPrefix) {
                         dispatch({
                                 type: CACHE_AUTOFILL_SUGGESTIONS,
@@ -44,12 +48,13 @@ export const updateAutofillSuggestions = (word) => async (dispatch, getState) =>
 
                 dispatch({
                         type: AUTOFILL_SUGGESTIONS_FROM_CACHE,
-                        wordPayload: word
+                        wordPayload: word,
+                        numOfSuggestionsPayload: NUMBER_OF_SUGGESTIONS
                 })
         } else {
                 dispatch({
                         type: AUTOFILL_SUGGESTIONS_FROM_API,
-                        suggestionsPayload: await autofillApi(word, 7)
+                        suggestionsPayload: await autofillApi(word, NUMBER_OF_SUGGESTIONS)
                 });
         }
 };
