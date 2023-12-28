@@ -41,7 +41,7 @@ class AnswerQuestionView(APIView):
             session_data = runtime_session.session_data[request.user._id]
             answer_correct = ''
 
-            if session_data.mode == '0' or session_data.mode == '1':
+            if session_data.mode == 0 or session_data.mode == 1:
                 if session_data.current_question.word_correct == request.data["answer"]:
                     session_data.answers_correct += 1
                     answer_correct = 'yes'
