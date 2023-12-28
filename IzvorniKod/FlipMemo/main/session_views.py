@@ -1,6 +1,6 @@
 from .models import Dictionary
 from django.http import JsonResponse
-from .runtime_models import RuntimeSession
+from .runtime_models import RuntimeSession, Mode
 
 from rest_framework.views import APIView
 from rest_framework import permissions
@@ -20,7 +20,7 @@ class InitializeSessionView(APIView):
             runtime_session = RuntimeSession()
             runtime_session.create_session(
                 request.user._id,
-                mode=request.data["mode"],
+                mode=Mode(int(request.data["mode"])),
                 selected_dictionary=dict_id
             )
 
