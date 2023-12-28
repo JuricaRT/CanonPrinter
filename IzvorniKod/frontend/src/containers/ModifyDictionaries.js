@@ -34,6 +34,9 @@ const ModifyDictionaries = ({
   const [definition, setDefinition] = useState("");
   const [wordType, setWordType] = useState("");
   const [wordLanguage, setWordLanguage] = useState("");
+  const [selectedAddition, setSelectedAddition] = useState(false);
+  const [selectedRemove, setSelectedRemove] = useState(false);
+  const [currentAddWordButtonAction, setCurrentWordButtonAction] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,6 +58,44 @@ const ModifyDictionaries = ({
   function submitDictionary() {
     setAddDictionaries(false);
     create_dictionary(dictionaryName, language);
+  }
+
+  function changeDictionaryChanges() {
+    setDictionaryChanges(!dictionaryChanges);
+    setSelectedRemove(false);
+    setSelectedAddition(false);
+  }
+
+  function changeToAdd() {
+    setSelectedAddition(true);
+    setSelectedRemove(false);
+    setCurrentWordButtonAction("Add");
+  }
+
+  function changeToRemove() {
+    setSelectedRemove(true);
+    setSelectedAddition(false);
+    setCurrentWordButtonAction("Remove");
+  }
+
+  function changeWord(change) {
+    setWord(change.target.value);
+  }
+
+  function changeTranslation(change) {
+    setTranslation(change.target.value);
+  }
+
+  function changeDefinition(change) {
+    setDefinition(change.target.value);
+  }
+
+  function changeWordType(change) {
+    setWordType(change.target.value);
+  }
+
+  function changeWordLanguage(change) {
+    setWordLanguage(change.target.value);
   }
 
   return (
@@ -83,36 +124,58 @@ const ModifyDictionaries = ({
             </Element.SubmitButtonForAddingDictionary>
           </>
         )}
-        <Element.ChangeDictionaryButton>
+        <Element.ChangeDictionaryButton onClick={changeDictionaryChanges}>
           Add/remove words
         </Element.ChangeDictionaryButton>
         {dictionaryChanges && (
           <>
-            <Element.AddDictionaryName
+            <Element.WordAdditionInput
               type="text"
               placeholder="Word..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
-            <Element.AddDictionaryName
+              onChange={(change) => changeWord(change)}
+            ></Element.WordAdditionInput>
+            <Element.WordAdditionInput
               type="text"
               placeholder="Translation..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
-            <Element.AddDictionaryName
+              onChange={(change) => changeTranslation(change)}
+            ></Element.WordAdditionInput>
+            <Element.WordAdditionInput
               type="text"
               placeholder="Definition..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
-            <Element.AddDictionaryName
+              onChange={(change) => changeDefinition(change)}
+            ></Element.WordAdditionInput>
+            <Element.WordAdditionInput
               type="text"
               placeholder="Word type..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
-            <Element.AddDictionaryName
+              onChange={(change) => changeWordType(change)}
+            ></Element.WordAdditionInput>
+            <Element.WordAdditionInput
               type="text"
               placeholder="Language..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
+              onChange={(change) => changeWordLanguage(change)}
+            ></Element.WordAdditionInput>
+            <Element.WordChangesDiv>
+              {selectedRemove ? (
+                <Element.SelectedWordAdditionButton>
+                  Remove
+                </Element.SelectedWordAdditionButton>
+              ) : (
+                <Element.WordAdditionButton onClick={changeToRemove}>
+                  Remove
+                </Element.WordAdditionButton>
+              )}
+              {selectedAddition ? (
+                <Element.SelectedWordAdditionButton>
+                  Add
+                </Element.SelectedWordAdditionButton>
+              ) : (
+                <Element.WordAdditionButton onClick={changeToAdd}>
+                  Add
+                </Element.WordAdditionButton>
+              )}
+
+              <Element.WordAdditionButton>Submit</Element.WordAdditionButton>
+            </Element.WordChangesDiv>
           </>
         )}
       </Container>
