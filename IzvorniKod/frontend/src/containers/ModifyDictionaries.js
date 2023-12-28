@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { Container, GlobalStyle } from "../elements/global";
 import { connect } from "react-redux";
-import * as Element from "../elements/mainscreen";
 import Banner from "./Banner";
 import { useNavigate } from "react-router-dom";
+import * as Element from "../elements/modifyDictionaries";
 
 import {
   get_dictionaries,
@@ -27,6 +27,13 @@ const ModifyDictionaries = ({
   const [dictionaryName, setDictionaryName] = useState("");
   const [addDictionaries, setAddDictionaries] = useState(false);
   const [language, setLanguage] = useState("");
+  const [dictionaryChanges, setDictionaryChanges] = useState(false);
+
+  const [word, setWord] = useState("");
+  const [translation, setTranslation] = useState("");
+  const [definition, setDefinition] = useState("");
+  const [wordType, setWordType] = useState("");
+  const [wordLanguage, setWordLanguage] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -74,6 +81,38 @@ const ModifyDictionaries = ({
             <Element.SubmitButtonForAddingDictionary onClick={submitDictionary}>
               Submit
             </Element.SubmitButtonForAddingDictionary>
+          </>
+        )}
+        <Element.ChangeDictionaryButton>
+          Add/remove words
+        </Element.ChangeDictionaryButton>
+        {dictionaryChanges && (
+          <>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Word..."
+              onChange={(change) => changeDictionaryName(change)}
+            ></Element.AddDictionaryName>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Translation..."
+              onChange={(change) => changeDictionaryName(change)}
+            ></Element.AddDictionaryName>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Definition..."
+              onChange={(change) => changeDictionaryName(change)}
+            ></Element.AddDictionaryName>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Word type..."
+              onChange={(change) => changeDictionaryName(change)}
+            ></Element.AddDictionaryName>
+            <Element.AddDictionaryName
+              type="text"
+              placeholder="Language..."
+              onChange={(change) => changeDictionaryName(change)}
+            ></Element.AddDictionaryName>
           </>
         )}
       </Container>
