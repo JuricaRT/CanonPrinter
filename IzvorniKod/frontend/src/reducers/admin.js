@@ -9,6 +9,8 @@ import {
   GET_STUDENT_DATA_SUCCESS,
   REMOVE_ADMIN_SUCCESS,
   REMOVE_ADMIN_FAILURE,
+  ADD_DICTIONARY_SUCCESS,
+  ADD_DICTIONARY_FAILURE,
 } from "../actions/types";
 
 const initialState = {
@@ -73,6 +75,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
       };
+    case ADD_DICTIONARY_SUCCESS:
+    case ADD_DICTIONARY_FAILURE:
     default:
       return state;
   }

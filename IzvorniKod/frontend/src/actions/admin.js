@@ -12,7 +12,10 @@ import {
   GET_STUDENT_DATA_SUCCESS,
   REMOVE_ADMIN_SUCCESS,
   REMOVE_ADMIN_FAILURE,
+  ADD_DICTIONARY_SUCCESS,
+  ADD_DICTIONARY_FAILURE,
 } from "./types";
+import { json } from "react-router-dom";
 
 export const delete_account = (email) => async (dispatch) => {
   const config = {
@@ -173,3 +176,38 @@ export const add_admin = (email) => async (dispatch) => {
     });
   }
 };
+
+export const create_dictionary =
+  (dictionaryName, language) => async (dispatch) => {
+    const config = {
+      withCredentials: true,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+
+    const body = JSON.stringify({
+      dict_name: dictionaryName,
+      language: language,
+      word_list: [],
+    });
+    try {
+      const res = await axios.put(`${baseURL}/create_dictionary`, body, config);
+      if (res.data.success) {
+        dispatch({
+          type: ADD_DICTIONARY_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        dispatch({
+          type: ADD_DICTIONARY_FAILURE,
+        });
+      }
+    } catch (err) {
+      dispatch({
+        type: ADD_DICTIONARY_FAILURE,
+      });
+    }
+  };

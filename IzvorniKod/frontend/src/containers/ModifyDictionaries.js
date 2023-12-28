@@ -10,6 +10,7 @@ import {
   select_dictionary,
   select_language,
 } from "../actions/learningSpecs";
+import { create_dictionary } from "../actions/admin";
 
 const ModifyDictionaries = ({
   isAuthenticated,
@@ -21,6 +22,7 @@ const ModifyDictionaries = ({
   get_dictionaries,
   select_language,
   select_dictionary,
+  create_dictionary,
 }) => {
   const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
   const [dictionaryName, setDictionaryName] = useState("");
@@ -44,6 +46,7 @@ const ModifyDictionaries = ({
 
   function submitDictionary() {
     setAddDictionaries(false);
+    create_dictionary(dictionaryName, languages);
   }
 
   return (
@@ -107,4 +110,5 @@ export default connect(mapStateToProps, {
   get_dictionaries,
   select_dictionary,
   select_language,
+  create_dictionary,
 })(ModifyDictionaries);
