@@ -39,18 +39,21 @@ class AnswerQuestionView(APIView):
             runtime_session = RuntimeSession()
 
             session_data = runtime_session.session_data[request.user._id]
+            answer_correct = ''
 
-            if session_data.mode == 0 or session_data.mode == 1:
+            if session_data.mode == '0' or session_data.mode == '1':
                 if session_data.current_question.word_correct == request.data["answer"]:
                     session_data.answers_correct += 1
+                    answer_correct = 'yes'
                 else:
                     session_data.answers_incorrect += 1
+                    answer_correct = 'no'
             
 
             runtime_session.generate_question(request.user._id)
 
-            return JsonResponse({'success': 'yes'}, content_type='application/json')
-        except Exception as e:
+            return JsonResponse({'success': 'yes', 'answer_correct': answer_correct}, content_type='application/json')
+        except SystemError as e:
             print(e)
 
 class GetSessionView(APIView):
@@ -70,6 +73,7 @@ class GetSessionView(APIView):
                     'correct': session_data.current_question.word_correct,
                     'correct_answers': session_data.answers_correct,
                     'incorrect_answers': session_data.answers_incorrect,
+                    'mode': session_data.mode,
                 }
             )
         except Exception as e:
