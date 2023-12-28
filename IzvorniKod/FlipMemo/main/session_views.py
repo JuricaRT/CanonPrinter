@@ -78,4 +78,13 @@ class GetSessionView(APIView):
 class DestroySessionView(APIView):
     permission_classes = (permissions.AllowAny, )
 
+    def post(self, request, format=None):
+
+        try:
+            runtime_session = RuntimeSession()
+
+            runtime_session.destroy_session(request.user._id)
+        except Exception as e:
+            print(e)
+
 
