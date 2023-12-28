@@ -43,33 +43,36 @@ export const select_dictionary = (dictionary) => async (dispatch) => {
 };
 
 export const start_learning = (mode, dict, lang) => async (dispatch) => {
-  const config = {
-    withCredentials: true,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "X-CSRFToken": Cookies.get("csrftoken"),
-    },
-  };
+  dispatch({ type: SELECT_MODE, payload: mode });
+  dispatch({ type: START_LEARNING });
 
-  const body = JSON.stringify({
-    dict,
-    lang,
-    mode,
-  });
+  // const config = {
+  //   withCredentials: true,
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     "X-CSRFToken": Cookies.get("csrftoken"),
+  //   },
+  // };
 
-  try {
-    const res = await axios.get(`${baseURL}/start_learning`, body, config);
+  // const body = JSON.stringify({
+  //   dict_name: dict,
+  //   language: lang,
+  //   mode: 1,
+  // });
 
-    if (res.data.error) {
-      dispatch({ type: START_LEARNING_FAIL });
-      dispatch({ type: SELECT_MODE_FAIL, payload: mode });
-    } else {
-      dispatch({ type: SELECT_MODE, payload: mode });
-      dispatch({ type: START_LEARNING, payload: res.data });
-    }
-  } catch (error) {
-    dispatch({ type: START_LEARNING_FAIL });
-    dispatch({ type: SELECT_MODE_FAIL, payload: mode });
-  }
+  // try {
+  //   const res = await axios.post(`${baseURL}/initialize_session`, body, config);
+
+  //   if (res.data.error) {
+  //     dispatch({ type: START_LEARNING_FAIL });
+  //     dispatch({ type: SELECT_MODE_FAIL, payload: mode });
+  //   } else {
+  //     dispatch({ type: SELECT_MODE, payload: mode });
+  //     dispatch({ type: START_LEARNING, payload: res.data });
+  //   }
+  // } catch (error) {
+  //   dispatch({ type: START_LEARNING_FAIL });
+  //   dispatch({ type: SELECT_MODE_FAIL, payload: mode });
+  // }
 };

@@ -46,7 +46,7 @@ const MainScreen = ({
     }
 
     if (selectedMode !== null) {
-      navigate("/learning"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
+      navigate("/mode12Screen"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
     }
   }, [isAuthenticated, navigate, selectedMode, get_dictionaries]);
 

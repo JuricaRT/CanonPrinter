@@ -28,7 +28,7 @@ export default function learningSpecsReducer(state = initialState, action) {
           ...new Set(
             Object.keys(action.payload)
               .filter((key) => Array.isArray(action.payload[key]))
-              .map((key) => key.toLowerCase())
+              .map((key) => key) //.toLowerCase()
           ),
         ],
       };

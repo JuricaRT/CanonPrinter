@@ -18,6 +18,7 @@ const List = ({
     if (type === "dict") {
       select_dictionary(elem);
     } else if (type === "lang") {
+      console.log(elem);
       select_language(elem);
     } else {
       start_learning(elem, dict, lang);
@@ -37,7 +38,7 @@ const List = ({
 
 const mapStateToProps = (state) => ({
   dict: state.learningSpecsReducer.selectedDictionary,
-  lang: state.learningSpecsReducer.selectedLanguage,
+  lang: state.learningSpecsReducer.language,
 });
 
 export default connect(mapStateToProps, {
