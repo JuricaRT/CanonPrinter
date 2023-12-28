@@ -14,7 +14,7 @@ class CustomIDField(models.CharField): # :(
     def generate_id(self):
         return str(uuid.uuid4())
     
-class TransientModel(models.Model):
+class TransientModel(models.Model): # :( 
     def save(*args, **kwargs):
         pass
 
@@ -66,28 +66,28 @@ class Word(models.Model):
     def to_dict(self):
         return model_to_dict(self, fields=["language", "word_str", "cro_translation", "definition", "word_type", "audio_bytes"])
 
-class Session(TransientModel):
-    MODE_CHOICES = (
-        ("LTC", "LangToCro"),
-        ("CTL", "CroToLang"),
-        ("AUD", "AudioPrompt"),
-        ("REC", "VoiceRecording")
-    )
+# class Session(models.Model):
+#     MODE_CHOICES = (
+#         ("LTC", "LangToCro"),
+#         ("CTL", "CroToLang"),
+#         ("AUD", "AudioPrompt"),
+#         ("REC", "VoiceRecording")
+#     )
 
-    _id = ObjectIdField()
-    student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
-    answers_correct = models.IntegerField()
-    answers_incorrect = models.IntegerField()
-    mode = models.CharField(max_length=16, choices=MODE_CHOICES, default="LTC")
-    selected_dictionary = ForeignKey(Dictionary, on_delete=models.CASCADE)
-    current_question = ForeignKey('Question', on_delete=models.SET(None)) 
+#     _id = ObjectIdField()
+#     student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     answers_correct = models.IntegerField()
+#     answers_incorrect = models.IntegerField()
+#     mode = models.CharField(max_length=16, choices=MODE_CHOICES, default="LTC")
+#     selected_dictionary = ForeignKey(Dictionary, on_delete=models.CASCADE)
+#     current_question = ForeignKey('Question', on_delete=models.SET(None)) 
 
-class Question(TransientModel):
-    _id = ObjectIdField()
-    session_id = ForeignKey(Session, on_delete=models.CASCADE)
-    word_question = ForeignKey(Word, related_name='word_question', on_delete=models.CASCADE)
-    word_answers = ManyToManyField(Word, related_name='word_answers')
-    word_correct = ForeignKey(Word, related_name='word_correct', on_delete=models.CASCADE)
+# class Question(models.Model):
+#     _id = ObjectIdField()
+#     session_id = ForeignKey(Session, on_delete=models.CASCADE)
+#     word_question = ForeignKey(Word, related_name='word_question', on_delete=models.CASCADE)
+#     word_answers = ManyToManyField(Word, related_name='word_answers')
+#     word_correct = ForeignKey(Word, related_name='word_correct', on_delete=models.CASCADE)
 
 
 

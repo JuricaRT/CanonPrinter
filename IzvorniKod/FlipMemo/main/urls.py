@@ -32,4 +32,6 @@ urlpatterns = [
     path("add_word_list", dict_views.AddWordListView.as_view()),
 
     path("initialize_session", session_views.InitializeSessionView.as_view()),
+    path("get_session", session_views.GetSessionView.as_view()),
+    path("answer_question", session_views.AnswerQuestionView.as_view()),
 ]
