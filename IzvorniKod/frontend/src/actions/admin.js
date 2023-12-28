@@ -194,7 +194,11 @@ export const create_dictionary =
       word_list: [],
     });
     try {
-      const res = await axios.put(`${baseURL}/create_dictionary`, body, config);
+      const res = await axios.post(
+        `${baseURL}/create_dictionary`,
+        body,
+        config
+      );
       if (res.data.success) {
         dispatch({
           type: ADD_DICTIONARY_SUCCESS,
