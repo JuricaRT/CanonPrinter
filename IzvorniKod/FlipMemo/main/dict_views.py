@@ -213,7 +213,7 @@ class AddWordListView(APIView):
 
 def add_word_list(dictionary, word_list):
     for word in word_list:
-        if Word.objects.filter(parent_dict=dictionary, word_str=word["word_str"]):
+        if Word.objects.filter(parent_dict=dictionary, word_str=word["word_str"]) or word['language'] != dictionary.language:
             continue
 
         if Word.objects.filter(word_str=word["word_str"], language=dictionary.language):
