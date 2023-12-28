@@ -9,7 +9,6 @@ import {
   get_dictionaries,
   get_modes,
   select_dictionary,
-  select_language,
 } from "../actions/learningSpecs";
 import modes from "../actions/modes";
 import List from "../components/List";
@@ -19,13 +18,10 @@ import ModifyUsers from "./ModifyUsers";
 const MainScreen = ({
   isAuthenticated,
   dictionaries,
-  uniqueLang,
   selected_dictionary,
   selected_mode,
   selected_language,
   get_dictionaries,
-  select_language,
-  select_dictionary,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
@@ -40,6 +36,13 @@ const MainScreen = ({
   const [selectedMode, setSelectedMode] = useState(null);
 
   const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
+
+  useEffect(
+    function () {
+      setSelectedLanguage(selected_language);
+    },
+    [selected_language]
+  );
 
   useEffect(() => {
     get_dictionaries();
@@ -74,27 +77,37 @@ const MainScreen = ({
 
   function customizeLearning() {
     setDisplayLearning(false);
+
+    const uniqueLang = [
+      ...new Set(
+        Object.keys(dictionaries)
+          .filter((key) => Array.isArray(dictionaries[key]))
+          .map((key) => key.toLowerCase())
+      ),
+    ];
+
     setLanguages(uniqueLang);
+
     setDisplayLanguages(true);
   }
 
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
     setSelectedLanguageButton("");
+    const uniqueLang = [
+      ...new Set(
+        Object.keys(dictionaries)
+          .filter((key) => Array.isArray(dictionaries[key]))
+          .map((key) => key.toLowerCase())
+      ),
+    ];
+
     setLanguages(uniqueLang);
   }
-  
-  function dictionaryBack() {
-    setDisplayDictionaries(false);
-    setDisplayLanguages(true);
-    select_language(null);
-  }
 
-  function modeBack() {
-    setDisplayModes(false);
-    setDisplayDictionaries(true);
-    select_dictionary(null);
-  }
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null) navigate("/");
+  }, [isAuthenticated, navigate]);
 
   return (
     <React.Fragment>
@@ -117,16 +130,12 @@ const MainScreen = ({
           <Element.DictionarySelect>
             Select dictionary
             <List elements={dictionaries[selectedLanguage]} type="dict" />
-            <Element.DictionaryBack onClick={dictionaryBack}>
-              &larr;
-            </Element.DictionaryBack>
           </Element.DictionarySelect>
         )}
         {displayModes && (
           <Element.ModeSelect>
             Select mode
             <List elements={Object.values(modes)} type="mode" />
-            <Element.ModeBack onClick={modeBack}>&larr;</Element.ModeBack>
           </Element.ModeSelect>
         )}
         <Element.AddDictionary onClick={createDictionary}>
@@ -170,14 +179,9 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   is_superuser: state.profile.is_admin,
   dictionaries: state.learningSpecsReducer.dictionaries,
-  uniqueLang: state.learningSpecsReducer.uniqueLang,
   selected_dictionary: state.learningSpecsReducer.selectedDictionary,
   selected_mode: state.learningSpecsReducer.selectedMode,
   selected_language: state.learningSpecsReducer.language,
 });
 
-export default connect(mapStateToProps, {
-  get_dictionaries,
-  select_dictionary,
-  select_language,
-})(MainScreen);
+export default connect(mapStateToProps, { get_dictionaries })(MainScreen);
