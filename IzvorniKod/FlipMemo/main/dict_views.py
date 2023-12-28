@@ -183,3 +183,31 @@ class GetWordsFromDictView(APIView):
         words_dict = [word.to_dict() for word in words]
 
         return JsonResponse({'words': words_dict}, content_type='application/json', safe=False)
+
+class AddWordListView(APIView):
+    permission_classes = (permissions.IsAdminUser, )
+
+    def put(self, request, format=None):
+
+        try:
+            dictionary = Dictionary.objects.get(dict_name=request.data["dict_name"], language=request.data["language"])
+
+            word_list = request.data["word_list"]
+            for word in word_list:
+                if Word.objects.filter(parent_dict=dictionary, word_str=word["word_str"]):
+                    continue
+
+                if Word.objects.filter(word_str=word["word_str"], language=request.data["language"]):
+                    word = Word.objects.get(word_str=word["word_str"], language=request.data["language"])
+                    word.parent_dict.add(dictionary)
+                    continue
+
+                Word.objects.create(**word)
+
+                word = Word.objects.get(word_str=word["word_str"], language=request.data["language"])
+                word.parent_dict.set([dictionary])
+                word.save()
+
+            return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
+        except SystemError as e:
+            print(e)
