@@ -46,7 +46,7 @@ const ModifyDictionaries = ({
 
   function submitDictionary() {
     setAddDictionaries(false);
-    create_dictionary(dictionaryName, languages);
+    create_dictionary(dictionaryName, selectedLanguageButton);
   }
 
   return (
