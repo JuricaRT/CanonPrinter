@@ -12,6 +12,7 @@ import {
 
 const initialState = {
   dictionaries: [],
+  uniqueLang: null,
   language: null,
   selectedDictionary: null,
   selectedMode: null,
@@ -20,7 +21,13 @@ const initialState = {
 export default function learningSpecsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_DICTIONARIES:
-      return { ...state, dictionaries: action.payload };
+      return { ...state, dictionaries: action.payload, 
+                    uniqueLang: [...new Set(
+                      Object.keys(action.payload)
+                        .filter((key) => Array.isArray(action.payload[key]))
+                        .map((key) => key.toLowerCase()))
+                    ],
+              };
     case GET_DICTIONARIES_FAIL:
       return state;
     case SELECT_DICTIONARY:

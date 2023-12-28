@@ -19,6 +19,7 @@ import ModifyUsers from "./ModifyUsers";
 const MainScreen = ({
   isAuthenticated,
   dictionaries,
+  uniqueLang,
   selected_dictionary,
   selected_mode,
   selected_language,
@@ -39,13 +40,6 @@ const MainScreen = ({
   const [selectedMode, setSelectedMode] = useState(null);
 
   const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
-
-  useEffect(
-    function () {
-      setSelectedLanguage(selected_language);
-    },
-    [selected_language]
-  );
 
   useEffect(() => {
     get_dictionaries();
@@ -80,38 +74,16 @@ const MainScreen = ({
 
   function customizeLearning() {
     setDisplayLearning(false);
-
-    const uniqueLang = [
-      ...new Set(
-        Object.keys(dictionaries)
-          .filter((key) => Array.isArray(dictionaries[key]))
-          .map((key) => key.toLowerCase())
-      ),
-    ];
-
     setLanguages(uniqueLang);
-
     setDisplayLanguages(true);
   }
 
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
     setSelectedLanguageButton("");
-    const uniqueLang = [
-      ...new Set(
-        Object.keys(dictionaries)
-          .filter((key) => Array.isArray(dictionaries[key]))
-          .map((key) => key.toLowerCase())
-      ),
-    ];
-
     setLanguages(uniqueLang);
   }
-
-  useEffect(() => {
-    if (!isAuthenticated || isAuthenticated === null) navigate("/");
-  }, [isAuthenticated, navigate]);
-
+  
   function dictionaryBack() {
     setDisplayDictionaries(false);
     setDisplayLanguages(true);
@@ -198,6 +170,7 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   is_superuser: state.profile.is_admin,
   dictionaries: state.learningSpecsReducer.dictionaries,
+  uniqueLang: state.learningSpecsReducer.uniqueLang,
   selected_dictionary: state.learningSpecsReducer.selectedDictionary,
   selected_mode: state.learningSpecsReducer.selectedMode,
   selected_language: state.learningSpecsReducer.language,
