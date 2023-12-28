@@ -83,7 +83,7 @@ const MainScreen = ({
     setSelectedLanguageButton("");
     setLanguages(uniqueLang);
   }
-  
+
   function dictionaryBack() {
     setDisplayDictionaries(false);
     setDisplayLanguages(true);
