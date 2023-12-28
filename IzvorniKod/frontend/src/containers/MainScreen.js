@@ -33,13 +33,10 @@ const MainScreen = ({
   const [displayDictionaries, setDisplayDictionaries] = useState(false);
   const [displayModes, setDisplayModes] = useState(false);
   const [languages, setLanguages] = useState(null);
-  const [addDictionaries, setAddDictionaries] = useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedDictionary, setSelectedDictionary] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
-
-  const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
 
   useEffect(() => {
     get_dictionaries();
@@ -76,12 +73,6 @@ const MainScreen = ({
     setDisplayLearning(false);
     setLanguages(uniqueLang);
     setDisplayLanguages(true);
-  }
-
-  function createDictionary() {
-    setAddDictionaries(!addDictionaries);
-    setSelectedLanguageButton("");
-    setLanguages(uniqueLang);
   }
 
   function dictionaryBack() {
@@ -128,38 +119,6 @@ const MainScreen = ({
             <List elements={Object.values(modes)} type="mode" />
             <Element.ModeBack onClick={modeBack}>&larr;</Element.ModeBack>
           </Element.ModeSelect>
-        )}
-        <Element.AddDictionary onClick={createDictionary}>
-          Add Dictionary
-        </Element.AddDictionary>
-        {addDictionaries && (
-          <>
-            <Element.AddDictionaryName
-              type="text"
-              placeholder="Dictionary name..."
-            ></Element.AddDictionaryName>
-            <Element.LanguageSelectionForDictionary>
-              {languages.map((name) =>
-                selectedLanguageButton === name ? (
-                  <Element.SelectedLanguageForDictionary
-                    onClick={() => {
-                      setSelectedLanguageButton(name);
-                    }}
-                  >
-                    {name}
-                  </Element.SelectedLanguageForDictionary>
-                ) : (
-                  <Element.NotSelectedLanguageForDictionary
-                    onClick={() => {
-                      setSelectedLanguageButton(name);
-                    }}
-                  >
-                    {name}
-                  </Element.NotSelectedLanguageForDictionary>
-                )
-              )}
-            </Element.LanguageSelectionForDictionary>
-          </>
         )}
       </Container>
     </React.Fragment>

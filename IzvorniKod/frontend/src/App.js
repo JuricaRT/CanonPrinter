@@ -12,6 +12,7 @@ import LearningSite from "./containers/LearningSite";
 import store from "./store";
 import { Provider } from "react-redux";
 import ModifyUsers from "./containers/ModifyUsers";
+import ModifyDictionaries from "./containers/ModifyDictionaries";
 
 const App = () => (
   <Provider store={store}>
@@ -26,6 +27,11 @@ const App = () => (
           <Route exact path="/modifyUsers" element={<ModifyUsers />} />
           <Route exact path="/profileSettings" element={<ProfileSettings />} />
           <Route exact path="/learning" element={<LearningSite />} />
+          <Route
+            exact
+            path="/modifyDictionaries"
+            element={<ModifyDictionaries />}
+          />
         </Routes>
       </Layout>
     </BrowserRouter>

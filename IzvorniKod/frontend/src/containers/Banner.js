@@ -16,11 +16,16 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
     navigation[1][1] = "Profile";
   }
 
-  let adminModify = [["/modifyUsers", "Modify users"]];
+  let adminModify = [
+    ["/modifyUsers", "Modify users"],
+    ["/modifyDictionaries", "Modify dictionaries"],
+  ];
 
   let _logout = [];
 
   let modifyOpen = true;
+
+  let modifyDictionaries = true;
 
   switch (origin) {
     case "MainScreen":
@@ -37,6 +42,10 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
       break;
     case "ModifyUsers":
       modifyOpen = false;
+      _logout.push("Logout");
+      break;
+    case "ModifyDictionaries":
+      modifyDictionaries = false;
       _logout.push("Logout");
       break;
     default:
@@ -56,9 +65,28 @@ const Banner = ({ isAuthenticated, origin, logout, is_superuser }) => {
           {isAuthenticated ? (
             is_superuser ? (
               modifyOpen ? (
-                <Link to={adminModify[0][0]} key={adminModify[0][0]}>
-                  <Button1>{adminModify[0][1]}</Button1>
-                </Link>
+                <>
+                  <Link to={adminModify[0][0]} key={adminModify[0][0]}>
+                    <Button1>{adminModify[0][1]}</Button1>
+                  </Link>
+                </>
+              ) : (
+                <></>
+              )
+            ) : (
+              <></>
+            )
+          ) : (
+            <></>
+          )}
+          {isAuthenticated ? (
+            is_superuser ? (
+              modifyDictionaries ? (
+                <>
+                  <Link to={adminModify[1][0]} key={adminModify[1][0]}>
+                    <Button1>{adminModify[1][1]}</Button1>
+                  </Link>
+                </>
               ) : (
                 <></>
               )
@@ -83,3 +111,14 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { logout })(Banner);
+
+// modifyDictionaries ? (
+//   <Link to={adminModify[1][0]} key={adminModify[1][0]}>
+//     <Button1>{adminModify[1][1]}</Button1>
+//   </Link> : (
+//   <></>
+// )
+
+// ) : (
+// <></>
+// )
