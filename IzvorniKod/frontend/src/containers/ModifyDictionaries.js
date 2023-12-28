@@ -24,10 +24,9 @@ const ModifyDictionaries = ({
   select_dictionary,
   create_dictionary,
 }) => {
-  const [selectedLanguageButton, setSelectedLanguageButton] = useState(null);
   const [dictionaryName, setDictionaryName] = useState("");
   const [addDictionaries, setAddDictionaries] = useState(false);
-  const [languages, setLanguages] = useState(null);
+  const [language, setLanguage] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,17 +35,19 @@ const ModifyDictionaries = ({
 
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
-    setSelectedLanguageButton("");
-    setLanguages(uniqueLang);
   }
 
   function changeDictionaryName(change) {
     setDictionaryName(change.target.value);
   }
 
+  function changeLanguageName(change) {
+    setLanguage(change.target.value);
+  }
+
   function submitDictionary() {
     setAddDictionaries(false);
-    create_dictionary(dictionaryName, selectedLanguageButton);
+    create_dictionary(dictionaryName, language);
   }
 
   return (
@@ -65,27 +66,11 @@ const ModifyDictionaries = ({
               placeholder="Dictionary name..."
               onChange={(change) => changeDictionaryName(change)}
             ></Element.AddDictionaryName>
-            <Element.LanguageSelectionForDictionary>
-              {languages.map((name) =>
-                selectedLanguageButton === name ? (
-                  <Element.SelectedLanguageForDictionary
-                    onClick={() => {
-                      setSelectedLanguageButton(name);
-                    }}
-                  >
-                    {name}
-                  </Element.SelectedLanguageForDictionary>
-                ) : (
-                  <Element.NotSelectedLanguageForDictionary
-                    onClick={() => {
-                      setSelectedLanguageButton(name);
-                    }}
-                  >
-                    {name}
-                  </Element.NotSelectedLanguageForDictionary>
-                )
-              )}
-            </Element.LanguageSelectionForDictionary>
+            <Element.LanguageSelectionForDictionary
+              type="text"
+              placeholder="Language..."
+              onChange={(change) => changeLanguageName(change)}
+            ></Element.LanguageSelectionForDictionary>
             <Element.SubmitButtonForAddingDictionary onClick={submitDictionary}>
               Submit
             </Element.SubmitButtonForAddingDictionary>

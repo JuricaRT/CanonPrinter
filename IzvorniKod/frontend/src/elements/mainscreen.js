@@ -115,21 +115,12 @@ export const AddDictionaryName = styled.input`
   font-size: 22px;
   for: textInput;
 `;
-export const LanguageSelectionForDictionary = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-`;
-
-export const SelectedLanguageForDictionary = styled.button`
-  color: red;
-  font-size: 15px;
-  margin-right: 3px;
-`;
-
-export const NotSelectedLanguageForDictionary = styled.button`
-  font-size: 15px;
-  margin-right: 5px;
+export const LanguageSelectionForDictionary = styled.input`
+  width: 30%;
+  margin-left: 35%;
+  font-size: 22px;
+  for: textInput;
+  margin-top: 15px;
 `;
 
 export const SubmitButtonForAddingDictionary = styled.button`
