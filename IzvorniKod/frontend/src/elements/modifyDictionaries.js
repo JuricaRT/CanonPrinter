@@ -6,10 +6,10 @@ export const LanguageSelect = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 500px;
-  height: 100px;
-  margin-left: 470px;
-  background-color: green;
+  width: 30.4%;
+  height: auto;
+  margin-left: 35%;
+  background-color: grey;
 `;
 
 export const ModifyUsersButton = styled.button`
@@ -83,4 +83,32 @@ export const SelectedWordAdditionButton = styled.button`
   margin-top: 10px;
   margin-right: 7px;
   color: red;
+`;
+
+export const DictionaryBack = styled.button`
+  margin-right: 90%;
+  margin-top: 5%;
+  border-radius: 25px;
+`;
+
+export const ModeBack = styled.button`
+  margin-right: 90%;
+  margin-top: 5%;
+  border-radius: 25px;
+`;
+
+export const DictionarySelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30.4%;
+  height: auto;
+  margin-left: 35%;
+  background-color: grey;
+`;
+
+export const SelectedDictionaryDisplay = styled.span`
+  margin-left: 44.7%;
+  font-size: 22px;
 `;

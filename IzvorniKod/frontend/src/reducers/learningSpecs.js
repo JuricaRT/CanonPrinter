@@ -8,6 +8,7 @@ import {
   SELECT_MODE,
   SELECT_MODE_FAIL,
   SELECT_LANGUAGE,
+  CLOSE_ADDING_WORD,
 } from "../actions/types";
 
 const initialState = {
@@ -48,6 +49,8 @@ export default function learningSpecsReducer(state = initialState, action) {
       return state;
     case SELECT_LANGUAGE:
       return { ...state, language: action.payload };
+    case CLOSE_ADDING_WORD:
+      return { ...state, selectedDictionary: null, language: null };
     default:
       return state;
   }

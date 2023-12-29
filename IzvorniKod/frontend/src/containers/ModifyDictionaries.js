@@ -4,13 +4,33 @@ import { connect } from "react-redux";
 import Banner from "./Banner";
 import { useNavigate } from "react-router-dom";
 import * as Element from "../elements/modifyDictionaries";
-import { add_word_to_dictionary } from "../actions/admin";
+import {
+  add_word_to_dictionary,
+  remove_word_from_dictionary,
+} from "../actions/admin";
 import { create_dictionary } from "../actions/admin";
+import List from "../components/List";
+import {
+  get_dictionaries,
+  select_dictionary,
+  select_language,
+  close_adding,
+} from "../actions/learningSpecs";
 
 const ModifyDictionaries = ({
   isAuthenticated,
+  close_adding,
   create_dictionary,
-  add_word_to_dictionary
+  add_word_to_dictionary,
+  remove_word_from_dictionary,
+  dictionaries,
+  uniqueLang,
+  selected_dictionary,
+  selected_mode,
+  selected_language,
+  get_dictionaries,
+  select_language,
+  select_dictionary,
 }) => {
   const [dictionaryName, setDictionaryName] = useState("");
   const [addDictionaries, setAddDictionaries] = useState(false);
@@ -25,12 +45,60 @@ const ModifyDictionaries = ({
   const [selectedAddition, setSelectedAddition] = useState(false);
   const [selectedRemove, setSelectedRemove] = useState(false);
   const [currentAddWordButtonAction, setCurrentWordButtonAction] = useState("");
+  const [displayCurrentDictionary, setDisplayCurrentDictionary] =
+    useState(false);
+
+  //----------------------------------------
+  //const [displayLearning, setDisplayLearning] = useState(true);
+  const [displayLanguages, setDisplayLanguages] = useState(false);
+  const [displayDictionaries, setDisplayDictionaries] = useState(false);
+  const [languages, setLanguages] = useState(null);
+
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [selectedDictionary, setSelectedDictionary] = useState(null);
 
   const navigate = useNavigate();
   useEffect(() => {
+    get_dictionaries();
     if (!isAuthenticated || isAuthenticated === null) navigate("/");
-  }, [isAuthenticated, navigate]);
-  
+  }, [isAuthenticated, navigate, get_dictionaries]);
+
+  useEffect(() => {
+    setSelectedLanguage(selected_language);
+    setSelectedDictionary(selected_dictionary);
+    if (selected_dictionary !== null) {
+      setDisplayCurrentDictionary(true);
+    }
+  }, [selected_language, selected_dictionary, selected_mode]);
+
+  useEffect(() => {
+    if (selectedLanguage !== null) {
+      setDisplayLanguages(false);
+      setDisplayDictionaries(true);
+    }
+
+    if (selectedDictionary !== null) {
+      setDisplayDictionaries(false);
+    }
+  }, [selectedLanguage, selectedDictionary]);
+
+  // function customizeLearning() {
+  //   setDisplayLearning(false);
+  //   setLanguages(uniqueLang);
+  //   setDisplayLanguages(true);
+  // }
+
+  function dictionaryBack() {
+    setDisplayDictionaries(false);
+    setDisplayLanguages(true);
+    select_language(null);
+  }
+
+  function modeBack() {
+    setDisplayDictionaries(true);
+    select_dictionary(null);
+  }
+  //-----------------------------------------------------
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
   }
@@ -45,8 +113,12 @@ const ModifyDictionaries = ({
 
   function changeDictionaryChanges() {
     setDictionaryChanges(!dictionaryChanges);
+    setDisplayCurrentDictionary(false);
     setSelectedRemove(false);
     setSelectedAddition(false);
+    setLanguages(uniqueLang);
+    setDisplayLanguages(true);
+    close_adding();
   }
 
   function changeToAdd() {
@@ -82,18 +154,42 @@ const ModifyDictionaries = ({
   }
 
   function submitWord() {
-    if (currentAddWordButtonAction === "Add") {
-      setDictionaryChanges(false)
-      /*
+    var variables = [
+      selectedDictionary,
+      word,
+      wordLanguage,
+      translation,
+      wordType,
+      definition,
+    ];
+    if (
+      currentAddWordButtonAction === "Add" &&
+      variables.every((variable) => variable !== "")
+    ) {
+      setDictionaryChanges(false);
+      setDisplayCurrentDictionary(false);
       add_word_to_dictionary(
-        "temp",
-        //selectedDictionary,
+        selectedDictionary,
         word,
         wordLanguage,
         translation,
         wordType,
         definition
-      );*/
+      );
+    } else if (
+      currentAddWordButtonAction === "Remove" &&
+      variables.every((variable) => variable !== "")
+    ) {
+      setDictionaryChanges(false);
+      setDisplayCurrentDictionary(false);
+      remove_word_from_dictionary(
+        selectedDictionary,
+        word,
+        wordLanguage,
+        translation,
+        wordType,
+        definition
+      );
     }
   }
 
@@ -133,8 +229,28 @@ const ModifyDictionaries = ({
           Add/remove words
         </Element.ChangeDictionaryButton>
 
-        { dictionaryChanges && (
+        {dictionaryChanges && (
           <>
+            {displayLanguages && (
+              <Element.LanguageSelect>
+                Select language
+                <List elements={languages} type="lang" />
+              </Element.LanguageSelect>
+            )}
+            {displayDictionaries && (
+              <Element.DictionarySelect>
+                Select dictionary
+                <List elements={dictionaries[selectedLanguage]} type="dict" />
+                <Element.DictionaryBack onClick={dictionaryBack}>
+                  &larr;
+                </Element.DictionaryBack>
+              </Element.DictionarySelect>
+            )}
+            {displayCurrentDictionary && (
+              <Element.SelectedDictionaryDisplay>
+                {selectedDictionary}
+              </Element.SelectedDictionaryDisplay>
+            )}
             <Element.WordAdditionInput
               type="text"
               placeholder="Word..."
@@ -185,7 +301,7 @@ const ModifyDictionaries = ({
               </Element.WordAdditionButton>
             </Element.WordChangesDiv>
           </>
-          )}
+        )}
       </Container>
     </React.Fragment>
   );
@@ -194,9 +310,19 @@ const ModifyDictionaries = ({
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   is_superuser: state.profile.is_admin,
+  dictionaries: state.learningSpecsReducer.dictionaries,
+  uniqueLang: state.learningSpecsReducer.uniqueLang,
+  selected_dictionary: state.learningSpecsReducer.selectedDictionary,
+  selected_mode: state.learningSpecsReducer.selectedMode,
+  selected_language: state.learningSpecsReducer.language,
 });
 
 export default connect(mapStateToProps, {
   create_dictionary,
   add_word_to_dictionary,
+  get_dictionaries,
+  select_dictionary,
+  select_language,
+  remove_word_from_dictionary,
+  close_adding,
 })(ModifyDictionaries);

@@ -16,6 +16,8 @@ import {
   ADD_DICTIONARY_FAILURE,
   ADD_WORD_FAILURE,
   ADD_WORD_SUCCESS,
+  REMOVE_WORD_SUCCESS,
+  REMOVE_WORD_FAILURE,
 } from "./types";
 import { json } from "react-router-dom";
 
@@ -222,6 +224,7 @@ export const add_word_to_dictionary =
   (dictionaryName, word, language, translation, wordType, definition) =>
   async (dispatch) => {
     const config = {
+      withCredentials: true,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -251,6 +254,44 @@ export const add_word_to_dictionary =
     } catch (err) {
       dispatch({
         type: ADD_WORD_FAILURE,
+      });
+    }
+  };
+
+export const remove_word_from_dictionary =
+  (dictionaryName, word, language, translation, wordType, definition) =>
+  async (dispatch) => {
+    const config = {
+      withCredentials: true,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const body = JSON.stringify({
+      dict_name: dictionaryName,
+      language: language,
+      cro_translation: translation,
+      definition: definition,
+      word_type: wordType,
+      word_str: word,
+    });
+    try {
+      const res = await axios.put(`${baseURL}/remove_word`, body, config);
+      if (res.data.success) {
+        dispatch({
+          type: REMOVE_WORD_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        dispatch({
+          type: REMOVE_WORD_FAILURE,
+        });
+      }
+    } catch (err) {
+      dispatch({
+        type: REMOVE_WORD_FAILURE,
       });
     }
   };

@@ -93,13 +93,6 @@ export const LanguageSelect = styled.div`
   background-color: green;
 `;
 
-export const ModifyUsersButton = styled.button`
-  width: 100px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  margin-left: 46.5%;
-`;
 export const AddDictionary = styled.button`
   margin: 10px;
   width: 100px;

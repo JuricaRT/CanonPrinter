@@ -13,6 +13,8 @@ import {
   ADD_DICTIONARY_FAILURE,
   ADD_WORD_SUCCESS,
   ADD_WORD_FAILURE,
+  REMOVE_WORD_SUCCESS,
+  REMOVE_WORD_FAILURE,
 } from "../actions/types";
 
 const initialState = {
@@ -83,6 +85,8 @@ export default function (state = initialState, action) {
       return state;
     case ADD_WORD_FAILURE:
       return state;
+    case REMOVE_WORD_SUCCESS:
+    case REMOVE_WORD_FAILURE:
     default:
       return state;
   }

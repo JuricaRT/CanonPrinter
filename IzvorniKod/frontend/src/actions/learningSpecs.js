@@ -10,6 +10,7 @@ import {
   START_LEARNING_FAIL,
   START_LEARNING,
   SELECT_LANGUAGE,
+  CLOSE_ADDING_WORD,
 } from "./types";
 
 export const get_dictionaries = () => async (dispatch) => {
@@ -36,6 +37,10 @@ export const get_dictionaries = () => async (dispatch) => {
 
 export const select_language = (language) => async (dispatch) => {
   dispatch({ type: SELECT_LANGUAGE, payload: language });
+};
+
+export const close_adding = () => async (dispatch) => {
+  dispatch({ type: CLOSE_ADDING_WORD });
 };
 
 export const select_dictionary = (dictionary) => async (dispatch) => {
