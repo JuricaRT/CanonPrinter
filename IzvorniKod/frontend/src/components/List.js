@@ -18,7 +18,6 @@ const List = ({
     if (type === "dict") {
       select_dictionary(elem);
     } else if (type === "lang") {
-      console.log(elem);
       select_language(elem);
     } else {
       start_learning(elem, dict, lang);
