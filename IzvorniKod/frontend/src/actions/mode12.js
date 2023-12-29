@@ -7,6 +7,8 @@ import {
   GET_SESSION_FAIL,
   INITIALIZE_SESSION,
   INITIALIZE_SESSION_FAIL,
+  ANSWER_QUESTION,
+  ANSWER_QUESTION_FAIL,
 } from "./types";
 
 export const initializeSession = (dict, lang, mode) => async (dispatch) => {
@@ -58,5 +60,36 @@ export const getSession = () => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: GET_SESSION_FAIL });
+  }
+};
+
+export const answerQuestion = (answer) => async (dispatch) => {
+  const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+
+  const body = JSON.stringify({
+    answer: answer,
+  });
+
+  try {
+    const res = await axios.post(`${baseURL}/answer_question`, body, config);
+
+    if (res.data.error) {
+      dispatch({ type: ANSWER_QUESTION_FAIL });
+    } else {
+      if (res.data.anser_correct === "yes") {
+        dispatch({ type: ANSWER_QUESTION, payload: "yes" });
+      } else {
+        dispatch({ type: ANSWER_QUESTION, payload: "no" });
+      }
+    }
+  } catch (error) {
+    dispatch({ type: ANSWER_QUESTION_FAIL });
   }
 };

@@ -3,6 +3,8 @@ import {
   GET_SESSION_FAIL,
   INITIALIZE_SESSION,
   INITIALIZE_SESSION_FAIL,
+  ANSWER_QUESTION,
+  ANSWER_QUESTION_FAIL,
 } from "../actions/types";
 
 const initalState = {
@@ -11,6 +13,7 @@ const initalState = {
   correct: "",
   correct_answers: 0,
   wrong_answers: 0,
+  answer: "",
 };
 
 export default function mode12Reducer(state = initalState, action) {
@@ -29,6 +32,10 @@ export default function mode12Reducer(state = initalState, action) {
         wrong_answers: action.payload.wrong_answers,
       };
     case GET_SESSION_FAIL:
+      return state;
+    case ANSWER_QUESTION:
+      return { ...state, answer: action.payload };
+    case ANSWER_QUESTION_FAIL:
       return state;
     default:
       return state;
