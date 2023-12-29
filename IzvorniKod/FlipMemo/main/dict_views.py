@@ -169,8 +169,6 @@ class EditWordView(APIView):
 
 
 class GetDictionariesView(APIView):
-    permission_classes = (permissions.AllowAny, )
-
     def get(self, request, format=None):
         dicts = Dictionary.objects.all()
         dictionary_dict = [dict.to_dict() for dict in dicts]
@@ -183,8 +181,6 @@ class GetDictionariesView(APIView):
 
 
 class GetWordsFromDictView(APIView):
-    permission_classes = (permissions.AllowAny, )
-
     def get(self, request, format=None):
         words = Word.objects.filter(
             parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
