@@ -14,6 +14,8 @@ import {
   REMOVE_ADMIN_FAILURE,
   ADD_DICTIONARY_SUCCESS,
   ADD_DICTIONARY_FAILURE,
+  ADD_WORD_FAILURE,
+  ADD_WORD_SUCCESS,
 } from "./types";
 import { json } from "react-router-dom";
 
@@ -212,6 +214,43 @@ export const create_dictionary =
     } catch (err) {
       dispatch({
         type: ADD_DICTIONARY_FAILURE,
+      });
+    }
+  };
+
+export const add_word_to_dictionary =
+  (dictionaryName, word, language, translation, wordType, definition) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const body = JSON.stringify({
+      dict_name: dictionaryName,
+      language: language,
+      cro_translation: translation,
+      definition: definition,
+      word_type: wordType,
+      word_str: word,
+    });
+    try {
+      const res = await axios.put(`${baseURL}/add_word`, body, config);
+      if (res.data.success) {
+        dispatch({
+          type: ADD_WORD_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        dispatch({
+          type: ADD_WORD_FAILURE,
+        });
+      }
+    } catch (err) {
+      dispatch({
+        type: ADD_WORD_FAILURE,
       });
     }
   };

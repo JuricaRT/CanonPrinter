@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import Banner from "./Banner";
 import { useNavigate } from "react-router-dom";
 import * as Element from "../elements/modifyDictionaries";
-
+import List from "../components/List";
+import { add_word_to_dictionary } from "../actions/admin";
 import {
   get_dictionaries,
   select_dictionary,
@@ -24,6 +25,17 @@ const ModifyDictionaries = ({
   select_dictionary,
   create_dictionary,
 }) => {
+  //matejev dio
+  const [displayLearning, setDisplayLearning] = useState(true);
+  const [displayLanguages, setDisplayLanguages] = useState(false);
+  const [displayDictionaries, setDisplayDictionaries] = useState(false);
+  const [displayModes, setDisplayModes] = useState(false);
+  const [languages, setLanguages] = useState(null);
+
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [selectedDictionary, setSelectedDictionary] = useState(null);
+
+  //moj dio
   const [dictionaryName, setDictionaryName] = useState("");
   const [addDictionaries, setAddDictionaries] = useState(false);
   const [language, setLanguage] = useState("");
@@ -40,9 +52,11 @@ const ModifyDictionaries = ({
 
   const navigate = useNavigate();
   useEffect(() => {
+    get_dictionaries();
     if (!isAuthenticated || isAuthenticated === null) navigate("/");
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, get_dictionaries]);
 
+  //moj dio
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
   }
@@ -98,6 +112,57 @@ const ModifyDictionaries = ({
     setWordLanguage(change.target.value);
   }
 
+  //matejev dio
+
+  useEffect(() => {
+    setSelectedLanguage(selected_language);
+    setSelectedDictionary(selected_dictionary);
+  }, [selected_language, selected_dictionary, selected_mode]);
+
+  useEffect(() => {
+    if (selectedLanguage !== null) {
+      setDisplayLanguages(false);
+      setDisplayDictionaries(true);
+    }
+
+    if (selectedDictionary !== null) {
+      setDisplayDictionaries(false);
+      setDisplayModes(true);
+    }
+  }, [selectedLanguage, selectedDictionary]);
+
+  function customizeLearning() {
+    setDisplayLearning(false);
+    setLanguages(uniqueLang);
+    setDisplayLanguages(true);
+  }
+
+  function dictionaryBack() {
+    setDisplayDictionaries(false);
+    setDisplayLanguages(true);
+    select_language(null);
+  }
+
+  function modeBack() {
+    setDisplayModes(false);
+    setDisplayDictionaries(true);
+    select_dictionary(null);
+  }
+
+  function submitWord() {
+    if (currentAddWordButtonAction === "Add") {
+      //setDictionaryChanges(false)
+      add_word_to_dictionary(
+        selectedDictionary,
+        word,
+        wordLanguage,
+        translation,
+        wordType,
+        definition
+      );
+    }
+  }
+
   return (
     <React.Fragment>
       <GlobalStyle />
@@ -129,6 +194,33 @@ const ModifyDictionaries = ({
         </Element.ChangeDictionaryButton>
         {dictionaryChanges && (
           <>
+            {/* matejev dio */}
+            {displayLearning && (
+              <Element.LearningStart onClick={customizeLearning}>
+                Customize learning
+              </Element.LearningStart>
+            )}
+            {displayLanguages && (
+              <Element.LanguageSelect>
+                Select language
+                <List elements={languages} type="lang" />
+              </Element.LanguageSelect>
+            )}
+            {displayDictionaries && (
+              <Element.DictionarySelect>
+                Select dictionary
+                <List elements={dictionaries[selectedLanguage]} type="dict" />
+                <Element.DictionaryBack onClick={dictionaryBack}>
+                  &larr;
+                </Element.DictionaryBack>
+              </Element.DictionarySelect>
+            )}
+            {displayModes && (
+              <Element.ModeSelect>
+                <Element.ModeBack onClick={modeBack}>&larr;</Element.ModeBack>
+              </Element.ModeSelect>
+            )}
+            {/* moj dio */}
             <Element.WordAdditionInput
               type="text"
               placeholder="Word..."
@@ -174,7 +266,9 @@ const ModifyDictionaries = ({
                 </Element.WordAdditionButton>
               )}
 
-              <Element.WordAdditionButton>Submit</Element.WordAdditionButton>
+              <Element.WordAdditionButton onClick={submitWord}>
+                Submit
+              </Element.WordAdditionButton>
             </Element.WordChangesDiv>
           </>
         )}
@@ -198,4 +292,5 @@ export default connect(mapStateToProps, {
   select_dictionary,
   select_language,
   create_dictionary,
+  add_word_to_dictionary,
 })(ModifyDictionaries);

@@ -11,6 +11,8 @@ import {
   REMOVE_ADMIN_FAILURE,
   ADD_DICTIONARY_SUCCESS,
   ADD_DICTIONARY_FAILURE,
+  ADD_WORD_SUCCESS,
+  ADD_WORD_FAILURE,
 } from "../actions/types";
 
 const initialState = {
@@ -77,6 +79,10 @@ export default function (state = initialState, action) {
       };
     case ADD_DICTIONARY_SUCCESS:
     case ADD_DICTIONARY_FAILURE:
+    case ADD_WORD_SUCCESS:
+      return state;
+    case ADD_WORD_FAILURE:
+      return state;
     default:
       return state;
   }
