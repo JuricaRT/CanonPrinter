@@ -13,7 +13,8 @@ const initalState = {
   correct: "",
   correct_answers: 0,
   wrong_answers: 0,
-  answer: "",
+  answer: null,
+  selectedAnswer: null,
 };
 
 export default function mode12Reducer(state = initalState, action) {
@@ -23,6 +24,7 @@ export default function mode12Reducer(state = initalState, action) {
     case INITIALIZE_SESSION_FAIL:
       return state;
     case GET_SESSION:
+      console.log(action.payload);
       return {
         ...state,
         question: action.payload.question,
@@ -30,6 +32,7 @@ export default function mode12Reducer(state = initalState, action) {
         correct: action.payload.correct,
         correct_answers: action.payload.correct_answers,
         wrong_answers: action.payload.wrong_answers,
+        selectedAnswer: null,
       };
     case GET_SESSION_FAIL:
       return state;

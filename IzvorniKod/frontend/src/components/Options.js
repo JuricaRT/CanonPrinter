@@ -1,22 +1,54 @@
 import { connect } from "react-redux";
+import { useEffect, useState } from "react";
+import * as Element from "../elements/options";
 import { answerQuestion } from "../actions/mode12";
 
-const Options = ({ answers, answerQuestion }) => {
-  function handleClick(ans) {
+const Options = ({
+  answers,
+  correctAnswer,
+  answerQuestion,
+  selected_Answer,
+}) => {
+  const [selectedAnswer, setselectedAnswer] = useState(null);
+  console.log(selectedAnswer);
+
+  // useEffect(
+  //   function () {
+  //     setselectedAnswer(selected_Answer);
+  //   },
+  //   [selected_Answer]
+  // );
+
+  function handleAnswerClick(ans) {
     answerQuestion(ans);
+    setselectedAnswer(ans);
   }
 
   return (
-    <div>
+    <Element.OptionsDiv>
       {answers.map((ans) => (
-        <button onClick={() => handleClick(ans)} key={ans}>
+        <Element.OptionButton
+          style={{
+            backgroundColor:
+              ans === selectedAnswer
+                ? ans === correctAnswer
+                  ? "green"
+                  : "red"
+                : "",
+          }}
+          onClick={() => handleAnswerClick(ans)}
+          key={ans}
+        >
           {ans}
-        </button>
+        </Element.OptionButton>
       ))}
-    </div>
+    </Element.OptionsDiv>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  correctAnswer: state.mode12Reducer.correct,
+  selected_Answer: state.mode12Reducer.selectedAnswer,
+});
 
 export default connect(mapStateToProps, { answerQuestion })(Options);

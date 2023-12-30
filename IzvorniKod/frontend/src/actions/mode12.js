@@ -83,7 +83,7 @@ export const answerQuestion = (answer) => async (dispatch) => {
     if (res.data.error) {
       dispatch({ type: ANSWER_QUESTION_FAIL });
     } else {
-      if (res.data.anser_correct === "yes") {
+      if (res.data.answer_correct === "yes") {
         dispatch({ type: ANSWER_QUESTION, payload: "yes" });
       } else {
         dispatch({ type: ANSWER_QUESTION, payload: "no" });
