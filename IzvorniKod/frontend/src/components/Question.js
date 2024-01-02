@@ -2,7 +2,13 @@
 import { GlobalStyle } from "../elements/global";
 import Options from "./Options";
 
-function Question({ question, answers, correct }) {
+function Question({
+  question,
+  answers,
+  correct,
+  selectedAnswer,
+  setselectedAnswer,
+}) {
   const newArray = [correct, ...answers];
   //   const [shuffledArray, setShuffledArray] = useState(newArray.slice());
 
@@ -22,7 +28,11 @@ function Question({ question, answers, correct }) {
     <div>
       <GlobalStyle />
       <h2>{question}</h2>
-      <Options answers={newArray}></Options>
+      <Options
+        answers={newArray}
+        selectedAnswer={selectedAnswer}
+        setselectedAnswer={setselectedAnswer}
+      ></Options>
     </div>
   );
 }

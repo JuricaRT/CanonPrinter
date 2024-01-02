@@ -18,6 +18,7 @@ const Mode12Screen = ({
   initializeSession,
 }) => {
   const [start, setStart] = useState(false);
+  const [selectedAnswer, setselectedAnswer] = useState(null);
 
   useEffect(function () {
     initializeSession(dict, lang, mode);
@@ -32,6 +33,7 @@ const Mode12Screen = ({
 
   function handleNextClick() {
     getSession();
+    setselectedAnswer(null);
   }
 
   // function handleNewAnswer(ans) {
@@ -53,6 +55,8 @@ const Mode12Screen = ({
                 question={question}
                 answers={answers}
                 correct={correct}
+                selectedAnswer={selectedAnswer}
+                setselectedAnswer={setselectedAnswer}
                 // newAnswer={handleNewAnswer}
               ></Question>
             </>

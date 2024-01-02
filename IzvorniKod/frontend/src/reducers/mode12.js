@@ -24,7 +24,6 @@ export default function mode12Reducer(state = initalState, action) {
     case INITIALIZE_SESSION_FAIL:
       return state;
     case GET_SESSION:
-      console.log(action.payload);
       return {
         ...state,
         question: action.payload.question,

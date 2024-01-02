@@ -7,16 +7,17 @@ const Options = ({
   answers,
   correctAnswer,
   answerQuestion,
-  selected_Answer,
+  question,
+  selectedAnswer,
+  setselectedAnswer,
 }) => {
-  const [selectedAnswer, setselectedAnswer] = useState(null);
-  console.log(selectedAnswer);
+  // const [selectedAnswer, setselectedAnswer] = useState(null);
 
   // useEffect(
   //   function () {
-  //     setselectedAnswer(selected_Answer);
+  //     setselectedAnswer(null);
   //   },
-  //   [selected_Answer]
+  //   [question]
   // );
 
   function handleAnswerClick(ans) {
@@ -48,7 +49,7 @@ const Options = ({
 
 const mapStateToProps = (state) => ({
   correctAnswer: state.mode12Reducer.correct,
-  selected_Answer: state.mode12Reducer.selectedAnswer,
+  question: state.mode12Reducer.question,
 });
 
 export default connect(mapStateToProps, { answerQuestion })(Options);
