@@ -2,8 +2,7 @@ import {
         AUTOFILL_SUGGESTIONS_FROM_API,
         CACHE_AUTOFILL_SUGGESTIONS,
         AUTOFILL_SUGGESTIONS_FROM_CACHE
-} from '../actions/types';
-
+} from './types';
 
 const MIN_PREFIX_LENGTH = 3
 const NUMBER_OF_SUGGESTIONS = 7
