@@ -19,7 +19,6 @@ import {
   REMOVE_WORD_SUCCESS,
   REMOVE_WORD_FAILURE,
 } from "./types";
-import { json } from "react-router-dom";
 
 export const delete_account = (email) => async (dispatch) => {
   const config = {
@@ -36,7 +35,7 @@ export const delete_account = (email) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.put(`${baseURL}/delete_user_admin`, body, config);
+    const res = await axios.post(`${baseURL}/delete_user_admin`, body, config);
 
     if (res.data.success) {
       dispatch({
@@ -162,7 +161,7 @@ export const add_admin = (email) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.put(`${baseURL}/add_admin`, body, config);
+    const res = await axios.post(`${baseURL}/add_admin`, body, config);
 
     if (res.data.success) {
       dispatch({
@@ -239,8 +238,9 @@ export const add_word_to_dictionary =
       word_type: wordType,
       word_str: word,
     });
+    console.log(body);
     try {
-      const res = await axios.put(`${baseURL}/add_word`, body, config);
+      const res = await axios.post(`${baseURL}/add_word`, body, config);
       if (res.data.success) {
         dispatch({
           type: ADD_WORD_SUCCESS,

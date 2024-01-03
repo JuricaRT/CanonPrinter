@@ -123,13 +123,13 @@ class UserProfileView(APIView):
 
 
 class EditProfileView(APIView):
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         try:
             request.user.username = request.data["username"]
             request.user.name = request.data["_name"]
             request.user.last_name = request.data["last_name"]
-            
-            if request.data["passwordSet"] is True: 
+
+            if "passwordSet" in request.data and request.data["passwordSet"] == True: 
                 request.user.set_password(request.data["password"]) # session invalidated 
                 # https://docs.djangoproject.com/en/4.2/topics/auth/default/#session-invalidation-on-password-change
                 update_session_auth_hash(request, request.user)
@@ -147,7 +147,7 @@ class EditProfileView(APIView):
                     'is_admin': request.user.is_superuser
                 }
             )
-        except:
+        except Exception as e:
             return JsonResponse({"error": "something wrong with edit profile"}) 
         
 class ChangeInitialPassView(APIView):
