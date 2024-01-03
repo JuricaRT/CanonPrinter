@@ -122,3 +122,12 @@ export const SubmitButtonForAddingDictionary = styled.button`
   margin-left: 55.5%;
   margin-top: 10px;
 `;
+
+export const ViewDictionary = styled.button`
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 46.5%;
+`;

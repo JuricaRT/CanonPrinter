@@ -11,6 +11,8 @@ import {
   START_LEARNING,
   SELECT_LANGUAGE,
   CLOSE_ADDING_WORD,
+  SELECT_LANGUAGE_VIEW,
+  SELECT_DICTIONARY_VIEW,
 } from "./types";
 
 export const get_dictionaries = () => async (dispatch) => {
@@ -33,6 +35,14 @@ export const get_dictionaries = () => async (dispatch) => {
   } catch (error) {
     dispatch({ type: GET_DICTIONARIES_FAIL });
   }
+};
+
+export const select_language_view = (language) => async (dispatch) => {
+  dispatch({ type: SELECT_LANGUAGE_VIEW, payload: language });
+};
+
+export const select_dictionary_view = (dictionary) => async (dispatch) => {
+  dispatch({ type: SELECT_DICTIONARY_VIEW, payload: dictionary });
 };
 
 export const select_language = (language) => async (dispatch) => {

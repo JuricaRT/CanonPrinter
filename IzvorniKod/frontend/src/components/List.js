@@ -3,6 +3,8 @@ import {
   select_dictionary,
   start_learning,
   select_language,
+  select_language_view,
+  select_dictionary_view,
 } from "../actions/learningSpecs";
 
 const List = ({
@@ -19,6 +21,10 @@ const List = ({
       select_dictionary(elem);
     } else if (type === "lang") {
       select_language(elem);
+    } else if (type === "lang view") {
+      select_language_view(elem);
+    } else if (type === "dict view") {
+      select_dictionary_view(elem);
     } else {
       start_learning(elem, dict, lang);
     }
@@ -44,4 +50,6 @@ export default connect(mapStateToProps, {
   select_dictionary,
   start_learning,
   select_language,
+  select_dictionary_view,
+  select_language_view,
 })(List);
