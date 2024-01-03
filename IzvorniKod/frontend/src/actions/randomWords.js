@@ -11,7 +11,7 @@ function randomChar() {
 function defForPartOfSpeech(defs, partOfSpeech) {
         for (const def of defs) {
                 if (def.indexOf(partOfSpeech) == 0) {
-                        return def;
+                        return def.substring(def.indexOf("\t") + 1);
                 }
         }
 }
@@ -69,7 +69,7 @@ export const updateRandomWords = () => async (dispatch) => {
                                                 continue;
                                         }
 
-                                        newWord.definition = def.substring(def.indexOf("\t") + 1);
+                                        newWord.definition = def;
 
                                         if (wordCat.length < MAX_RANDOM_WORDS_PER_TYPE) {
                                                 wordCat.push(newWord);

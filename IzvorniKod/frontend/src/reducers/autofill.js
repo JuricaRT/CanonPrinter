@@ -1,14 +1,16 @@
 import {
     AUTOFILL_SUGGESTIONS_FROM_API,
     CACHE_AUTOFILL_SUGGESTIONS,
-    AUTOFILL_SUGGESTIONS_FROM_CACHE
+    AUTOFILL_SUGGESTIONS_FROM_CACHE,
+    UPDATE_AUTOFILL_DESCRIPTION
 } from '../actions/types';
 
 
 const initialState = {
     cachedPrefix: "", // The prefix for which "cachedCall" is valid
     cachedCall: [], // Cached autofill suggestions for the word "cachedPrefix"
-    autofillSuggestions: [] // Current autofill suggestions
+    autofillSuggestions: [], // Current autofill suggestions
+    autofillDescription: "" // Current word description suggestion 
 };
 
 export default function autofillReducer(state = initialState, action) {
@@ -36,6 +38,11 @@ export default function autofillReducer(state = initialState, action) {
                                         })
                                         .slice(0, action.numOfSuggestionsPayload)
             };
+        case UPDATE_AUTOFILL_DESCRIPTION:
+            return {
+                ...state,
+                autofillDescription: action.payload
+            }
         default:
             return state;
     }
