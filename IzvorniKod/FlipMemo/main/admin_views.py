@@ -66,7 +66,7 @@ class AddAdministratorView(APIView):
             return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
 
         except CustomUser.DoesNotExist:
-            pass
+            return JsonResponse({'error': 'Something went wrong when trying to add administrator'})
 
 
 class RemoveAdministratorView(APIView):
@@ -82,4 +82,4 @@ class RemoveAdministratorView(APIView):
             return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
 
         except CustomUser.DoesNotExist:
-            pass
+            return JsonResponse({'error': 'Something went wrong when trying to remove administrator'})

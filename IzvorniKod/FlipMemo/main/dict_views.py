@@ -31,6 +31,7 @@ class CreateDictionaryView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to create dictionary'})
 
 
 class AddWordView(APIView):
@@ -67,6 +68,7 @@ class AddWordView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='applicaton/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to add word to dictionary'})
 
 
 class RemoveDictionaryView(APIView):
@@ -83,6 +85,7 @@ class RemoveDictionaryView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to remove dictionary'})
 
 
 class RemoveWordView(APIView):
@@ -109,9 +112,10 @@ class RemoveWordView(APIView):
 
                 return JsonResponse({'status': 'just removed dictionary, word still has other dictionaries'}, content_type='application/json', safe=False)
 
-            return JsonResponse({'status': 'word does not exist in particular dictionary'})
+            return JsonResponse({'status': 'word does not exist in particular dictionary'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to remove word from dictionary'})
 
 
 class EditDictionaryView(APIView):
@@ -125,7 +129,7 @@ class EditDictionaryView(APIView):
 
             if Dictionary.objects.filter(dict_name=request.data["new_dict_name"], language=request.data["language"]):
 
-                return JsonResponse({'status': 'this dictionary name is already in use, try different one'})
+                return JsonResponse({'status': 'this dictionary name is already in use, try different one'}, content_type='application/json', safe=False)
 
             dictionary.dict_name = request.data["new_dict_name"]
 
@@ -134,6 +138,7 @@ class EditDictionaryView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to edit dictionary'})
 
 
 class EditWordView(APIView):
@@ -166,6 +171,7 @@ class EditWordView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to edit word'})
 
 
 class GetDictionariesView(APIView):
@@ -205,6 +211,7 @@ class AddWordListView(APIView):
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except SystemError as e:
             print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to add list of words to dictionary'})
 
 
 def add_word_list(dictionary, word_list):
