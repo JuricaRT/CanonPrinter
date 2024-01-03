@@ -11,6 +11,7 @@ import {
   CLOSE_ADDING_WORD,
   SELECT_LANGUAGE_VIEW,
   SELECT_DICTIONARY_VIEW,
+  CLOSE_VIEW_DICTIONARY,
 } from "../actions/types";
 
 const initialState = {
@@ -59,6 +60,8 @@ export default function learningSpecsReducer(state = initialState, action) {
       return { ...state, languageView: action.payload };
     case SELECT_DICTIONARY_VIEW:
       return { ...state, selectedDictionaryView: action.payload };
+    case CLOSE_VIEW_DICTIONARY:
+      return { ...state, selectedDictionaryView: null, languageView: null };
     default:
       return state;
   }

@@ -13,6 +13,8 @@ const List = ({
   select_dictionary,
   select_language,
   start_learning,
+  select_language_view,
+  select_dictionary_view,
   dict,
   lang,
 }) => {
@@ -20,10 +22,12 @@ const List = ({
     if (type === "dict") {
       select_dictionary(elem);
     } else if (type === "lang") {
+      console.log(elem);
       select_language(elem);
-    } else if (type === "lang view") {
+    } else if (type === "langView") {
+      console.log(elem);
       select_language_view(elem);
-    } else if (type === "dict view") {
+    } else if (type === "dictView") {
       select_dictionary_view(elem);
     } else {
       start_learning(elem, dict, lang);

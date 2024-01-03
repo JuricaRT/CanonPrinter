@@ -12,6 +12,7 @@ import {
   select_language,
   select_dictionary_view,
   select_language_view,
+  close_view_dictionary,
 } from "../actions/learningSpecs";
 import modes from "../actions/modes";
 import List from "../components/List";
@@ -28,8 +29,11 @@ const MainScreen = ({
   get_dictionaries,
   select_language,
   select_dictionary,
+  select_dictionary_view,
   selected_dictionary_view,
   selected_language_view,
+  select_language_view,
+  close_view_dictionary,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
@@ -70,14 +74,18 @@ const MainScreen = ({
     setSelectedLanguage(selected_language);
     setSelectedDictionary(selected_dictionary);
     setSelectedMode(selected_mode);
+    setViewLanguages(uniqueLang);
   }, [
+    selected_language_view,
+    selected_dictionary_view,
     selected_language,
     selected_dictionary,
     selected_mode,
-    selected_dictionary_view,
-    selected_language_view,
+    uniqueLang,
   ]);
 
+  console.log(viewSelectedDictionary);
+  console.log(viewSelectedLanguage);
   useEffect(() => {
     if (selectedLanguage !== null) {
       setDisplayLanguages(false);
@@ -117,7 +125,7 @@ const MainScreen = ({
   function viewDictionaryBack() {
     setViewDisplayDictionaries(false);
     setViewDisplayLanguages(true);
-    select_language(null);
+    select_language_view(null);
   }
 
   function modeBack() {
@@ -128,7 +136,9 @@ const MainScreen = ({
 
   function customizeViewDictionary() {
     setViewDictionary(!viewDictionary);
-    setViewLanguages(uniqueLang);
+    close_view_dictionary();
+    setViewDisplayDictionaries(false);
+    setViewDisplayLanguages(true);
   }
 
   return (
@@ -172,7 +182,7 @@ const MainScreen = ({
             {viewDisplayLanguages && (
               <Element.LanguageSelect>
                 Select language
-                <List elements={viewLanguages} type="lang view" />
+                <List elements={viewLanguages} type="langView" />
               </Element.LanguageSelect>
             )}
             {viewDisplayDictionaries && (
@@ -180,7 +190,7 @@ const MainScreen = ({
                 Select dictionary
                 <List
                   elements={dictionaries[viewSelectedLanguage]}
-                  type="dict view"
+                  type="dictView"
                 />
                 <Element.DictionaryBack onClick={viewDictionaryBack}>
                   &larr;
@@ -213,4 +223,5 @@ export default connect(mapStateToProps, {
   select_language,
   select_dictionary_view,
   select_language_view,
+  close_view_dictionary,
 })(MainScreen);
