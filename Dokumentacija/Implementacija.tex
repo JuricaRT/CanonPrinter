@@ -39,9 +39,19 @@
 		
 		\section{Dijagram razmještaja}
 			
-			\textbf{\textit{dio 2. revizije}}
+			\noindent{Na dijagramu razmještaja je prikazana topologija sustava i odnos programskih artefakata.}
 			
-			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
+			\indent{Web aplikacija se kao programski artefakt izvršava u Heroku Dyno spremniku koji je vrsta Linux spremnika proširen sa raznim mogućnostima upravljanja koje nudi Heroku platforma.}
+			
+			\indent{Aplikacija ovisi o bazi podataka koja se nalazi na MongoDB Atlas poslužitelju. Pristup i rad s bazom podataka omogućuje usluga MongoDB Atlas Cluster. Za potrebe dohvata podataka o riječima aplikacija koristi Datamuse API.}
+			
+			\indent{Korisnici (učenici i administratori riječi) koriste web preglednik kako bi pristupili web aplikaciji. Arhitektura sustava bazira se na arhitekturi "klijent - poslužitelj". Komunikacija između korisničkog računala i poslužitelja odvija se preko HTTPS veze.}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{dijagrami/dijagram_razmjestaja.png} %veličina u odnosu na širinu linije
+				\caption{Dijagram razmještaja}
+				\label{fig:Dijagram_razmjestaja} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 			
 			\eject 
 		
