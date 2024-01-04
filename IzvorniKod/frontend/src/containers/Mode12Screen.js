@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getSession, initializeSession } from "../actions/mode12";
+import { useNavigate } from "react-router-dom";
+import {
+  getSession,
+  initializeSession,
+  answerQuestion,
+  destroySession,
+} from "../actions/mode12";
 import * as Element from "../elements/mode12Screen";
 import Banner from "./Banner";
 import Question from "../components/Question";
 import { GlobalStyle } from "../elements/global";
-import { answerQuestion } from "../actions/mode12";
 
 const Mode12Screen = ({
   question,
@@ -16,9 +21,12 @@ const Mode12Screen = ({
   mode,
   getSession,
   initializeSession,
+  destroySession,
 }) => {
   const [start, setStart] = useState(false);
   const [selectedAnswer, setselectedAnswer] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(function () {
     initializeSession(dict, lang, mode);
@@ -34,6 +42,11 @@ const Mode12Screen = ({
   function handleNextClick() {
     getSession();
     setselectedAnswer(null);
+  }
+
+  function handleFinishClick() {
+    destroySession();
+    navigate("/mainScreen");
   }
 
   // function handleNewAnswer(ans) {
@@ -64,9 +77,14 @@ const Mode12Screen = ({
         </Element.QuestionDiv>
         <Element.FooterDiv>
           {start && (
-            <Element.ButtonNext onClick={handleNextClick}>
-              &rarr;
-            </Element.ButtonNext>
+            <>
+              <Element.ButtonFinish onClick={handleFinishClick}>
+                FINISH
+              </Element.ButtonFinish>
+              <Element.ButtonNext onClick={handleNextClick}>
+                &rarr;
+              </Element.ButtonNext>
+            </>
           )}
         </Element.FooterDiv>
       </Element.MainDiv>
@@ -87,4 +105,5 @@ export default connect(mapStateToProps, {
   getSession,
   initializeSession,
   answerQuestion,
+  destroySession,
 })(Mode12Screen);

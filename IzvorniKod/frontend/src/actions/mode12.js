@@ -9,6 +9,8 @@ import {
   INITIALIZE_SESSION_FAIL,
   ANSWER_QUESTION,
   ANSWER_QUESTION_FAIL,
+  DESTROY_SESSION,
+  DESTROY_SESSION_FAIL,
 } from "./types";
 
 export const initializeSession = (dict, lang, mode) => async (dispatch) => {
@@ -91,5 +93,28 @@ export const answerQuestion = (answer) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: ANSWER_QUESTION_FAIL });
+  }
+};
+
+export const destroySession = () => async (dispatch) => {
+  const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+
+  try {
+    const res = await axios.post(`${baseURL}/destroy_session`, config);
+
+    if (res.data.error) {
+      dispatch({ type: DESTROY_SESSION_FAIL });
+    } else {
+      dispatch({ type: DESTROY_SESSION });
+    }
+  } catch (error) {
+    dispatch({ type: DESTROY_SESSION_FAIL });
   }
 };
