@@ -2,7 +2,7 @@ from collections import defaultdict
 from enum import IntEnum
 import random
 
-from .models import Dictionary, Word
+from .models import Dictionary, Word, StudyData, StudyDataDictionary, StudyDataWords, CustomUser
 
 class Singleton:
     _instance = None
@@ -32,7 +32,20 @@ class RuntimeSession(Singleton):
         session_data = self.session_data[student_id]
 
         words = Word.objects.filter(parent_dict=dictionary)
+
+        student = CustomUser.objects.get(_id=student_id)
+        study_data = StudyData.objects.get(student_id=student)
+        study_data_dictionary = StudyDataDictionary.objects.get(study_data=study_data, _dict=dictionary)
+        study_data_words = StudyDataWords.objects.filter(study_data_dictionary=study_data_dictionary)
+        
+        for word in words:
+            matching_word = study_data_words.filter(_word=word).first()
+            if matching_word is not None:
+                words = words.exclude(_id=word._id)
+
         random_word = random.choice(words)
+
+        session_data.current_question.word = random_word
 
         match mode:
             case Mode.LTC:
@@ -48,6 +61,25 @@ class RuntimeSession(Singleton):
                     other_word = random.choice(other_words_dict)
                     other_words_dict.remove(other_word)
                     self.session_data[student_id].current_question.word_answers[i] = other_word["cro_translation"]
+            case Mode.CTL:
+                self.session_data[student_id].current_question.word_question = random_word.cro_translation
+                self.session_data[student_id].current_question.word_correct = random_word.word_str
+
+                type = random_word.word_type
+                other_words = words.filter(word_type=type)
+                other_words_dict = [other_word.to_dict() for other_word in other_words]
+                other_words_dict.remove(random_word.to_dict())
+
+                for i in range(3):
+                    other_word = random.choice(other_words_dict)
+                    other_words_dict.remove(other_word)
+                    self.session_data[student_id].current_question.word_answers[i] = other_word["word_str"]
+            case Mode.AUD:
+                self.session_data[student_id].current_question.word_correct = random_word.word_str
+                self.session_data[student_id].current_question.word_question = random_word.word_str                
+            case Mode.REC:
+                self.session_data[student_id].current_question.word_correct = random_word.word_str
+                self.session_data[student_id].current_question.word_question = random_word.word_str
             case _:
                 session_data.current_question.set_question("", "", "")
 
@@ -64,11 +96,13 @@ class SessionData:
 
 class Question:
     def __init__(self):
+        self.word = None
         self.word_question = ""
         self.word_answers = ["", "", ""]
         self.word_correct = ""
 
     def set_question(self, question, answers, correct):
+        self.word = None
         self.word_question = question
         self.word_answers = answers
         self.word_correct = correct

@@ -45,6 +45,17 @@ class StudyData(models.Model):
     _id = ObjectIdField()
     student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
 
+class StudyDataDictionary(models.Model):
+    _id = ObjectIdField()
+    study_data = ForeignKey(StudyData, on_delete=models.CASCADE)
+    _dict = ForeignKey('Dictionary', on_delete=models.CASCADE)
+
+class StudyDataWords(models.Model):
+    _id = ObjectIdField()
+    study_data_dictionary = ForeignKey(StudyDataDictionary, on_delete=models.CASCADE)
+    _word = ForeignKey('Word', on_delete=models.CASCADE)
+    hidden_for = models.IntegerField()
+
 class Dictionary(models.Model):
     _id = ObjectIdField()
     dict_name = models.CharField(max_length=64)
