@@ -56,9 +56,8 @@ const MainScreen = ({
   const [viewSelectedLanguage, setViewSelectedLanguage] = useState(null);
   const [viewSelectedDictionary, setViewSelectedDictionary] = useState(null);
   const [viewDictionary, setViewDictionary] = useState(false);
-  const [viewWords, setViewWords] = useState(false);
-
-  console.log(all_dictionary_words);
+  const [viewWords, setViewWords] = useState([]);
+  const [viewAllWords, setViewAllWords] = useState(false);
 
   useEffect(() => {
     get_dictionaries();
@@ -80,6 +79,7 @@ const MainScreen = ({
     setSelectedDictionary(selected_dictionary);
     setSelectedMode(selected_mode);
     setViewLanguages(uniqueLang);
+    setViewWords(all_dictionary_words);
   }, [
     selected_language_view,
     selected_dictionary_view,
@@ -87,6 +87,7 @@ const MainScreen = ({
     selected_dictionary,
     selected_mode,
     uniqueLang,
+    all_dictionary_words,
   ]);
 
   useEffect(() => {
@@ -102,12 +103,9 @@ const MainScreen = ({
       setViewDisplayLanguages(false);
       setViewDisplayDictionaries(true);
     }
-    if (viewSelectedDictionary !== null) {
-      setViewWords(true);
+    if (viewWords.length !== 0) {
+      setViewAllWords(true);
       setViewDisplayDictionaries(false);
-      if (viewSelectedDictionary !== null && viewSelectedLanguage !== null) {
-        get_dictionary_words(viewSelectedLanguage, viewSelectedDictionary);
-      }
     }
   }, [
     selectedLanguage,
@@ -115,6 +113,7 @@ const MainScreen = ({
     viewSelectedLanguage,
     viewSelectedDictionary,
     get_dictionary_words,
+    viewWords,
   ]);
 
   function customizeLearning() {
@@ -146,7 +145,7 @@ const MainScreen = ({
     close_view_dictionary();
     setViewDisplayDictionaries(false);
     setViewDisplayLanguages(true);
-    setViewWords(false);
+    setViewAllWords(false);
   }
 
   return (
@@ -205,7 +204,13 @@ const MainScreen = ({
                 </Element.DictionaryBack>
               </Element.DictionarySelect>
             )}
-            {viewWords && <button>Jeeeej</button>}
+            {viewAllWords && (
+              <Element.LanguageSelect>
+                {viewWords.map((word, index) => (
+                  <button key={index}> {word.word_str}</button>
+                ))}
+              </Element.LanguageSelect>
+            )}
           </>
         )}
       </Container>
