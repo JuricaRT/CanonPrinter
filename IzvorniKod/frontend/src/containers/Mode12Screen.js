@@ -45,10 +45,10 @@ const Mode12Screen = ({
       <Banner origin="MainScreen"></Banner>
       <GlobalStyle />
       <Element.MainDiv>
-        <Element.TopDiv>KVIZ!!!</Element.TopDiv>
+        <Element.TopDiv>QUIZ!!!</Element.TopDiv>
         <Element.QuestionDiv>
           {start === false ? (
-            <button onClick={handleClick}>ZAPOČNI</button>
+            <button onClick={handleClick}>START</button>
           ) : (
             <>
               <Question
