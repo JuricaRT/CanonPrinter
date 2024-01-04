@@ -182,7 +182,7 @@ class GetDictionariesView(APIView):
 
 
 class GetWordsFromDictView(APIView):
-    def get(self, request, format=None):
+    def put(self, request, format=None):
         words = Word.objects.filter(
             parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
         words_dict = [word.to_dict() for word in words]

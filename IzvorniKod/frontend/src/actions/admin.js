@@ -314,7 +314,7 @@ export const get_dictionary_words =
     });
     console.log(body);
     try {
-      const res = await axios.get(
+      const res = await axios.put(
         `${baseURL}/get_words_from_dict`,
         body,
         config

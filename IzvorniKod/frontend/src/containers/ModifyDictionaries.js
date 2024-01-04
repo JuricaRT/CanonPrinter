@@ -41,7 +41,6 @@ const ModifyDictionaries = ({
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
   const [wordType, setWordType] = useState("");
-  const [wordLanguage, setWordLanguage] = useState("");
   const [selectedAddition, setSelectedAddition] = useState(false);
   const [selectedRemove, setSelectedRemove] = useState(false);
   const [currentAddWordButtonAction, setCurrentWordButtonAction] = useState("");
@@ -148,16 +147,11 @@ const ModifyDictionaries = ({
   function changeWordType(change) {
     setWordType(change.target.value);
   }
-
-  function changeWordLanguage(change) {
-    setWordLanguage(change.target.value);
-  }
-
   function submitWord() {
     var variables = [
       selectedDictionary,
       word,
-      wordLanguage,
+      selectedLanguage,
       translation,
       wordType,
       definition,
@@ -171,7 +165,7 @@ const ModifyDictionaries = ({
       add_word_to_dictionary(
         selectedDictionary,
         word,
-        wordLanguage,
+        selectedLanguage,
         translation,
         wordType,
         definition
@@ -185,7 +179,7 @@ const ModifyDictionaries = ({
       remove_word_from_dictionary(
         selectedDictionary,
         word,
-        wordLanguage,
+        selectedLanguage,
         translation,
         wordType,
         definition
@@ -271,11 +265,13 @@ const ModifyDictionaries = ({
               placeholder="Word type..."
               onChange={(change) => changeWordType(change)}
             ></Element.WordAdditionInput>
-            <Element.WordAdditionInput
-              type="text"
-              placeholder="Language..."
-              onChange={(change) => changeWordLanguage(change)}
-            ></Element.WordAdditionInput>
+            {selectedLanguage && (
+              <Element.WordAdditionInput
+                type="text"
+                value={selectedLanguage}
+                readOnly={true}
+              ></Element.WordAdditionInput>
+            )}
             <Element.WordChangesDiv>
               {selectedRemove ? (
                 <Element.SelectedWordAdditionButton>
