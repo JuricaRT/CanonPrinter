@@ -57,7 +57,7 @@ export const update_profile =
     });
 
     try {
-      const res = await axios.put(`${baseURL}/edit_profile`, body, config);
+      const res = await axios.post(`${baseURL}/edit_profile`, body, config);
       if (res.data.email) {
         dispatch({
           type: UPDATE_USER_PROFILE_SUCCESS,

@@ -22,16 +22,15 @@ class RuntimeSession(Singleton):
     def __init__(self):
         self.session_data = defaultdict(SessionData)
 
-    def create_session(self, student_id, mode="", selected_dictionary=""):
+    def create_session(self, student_id, mode, selected_dictionary):
         self.session_data[student_id] = SessionData(mode, selected_dictionary)
 
     def generate_question(self, student_id):
         
-        dict_id = self.session_data[student_id].selected_dictionary
+        dictionary = self.session_data[student_id].selected_dictionary
         mode = self.session_data[student_id].mode
         session_data = self.session_data[student_id]
 
-        dictionary = Dictionary.objects.filter(_id=dict_id).last()
         words = Word.objects.filter(parent_dict=dictionary)
         random_word = random.choice(words)
 

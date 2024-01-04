@@ -1,23 +1,18 @@
 from django.http import JsonResponse
 from .models import CustomUser
 import json
-
 from rest_framework.views import APIView
 from rest_framework import permissions
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.utils.decorators import method_decorator
-
 
 class DeleteUserViewAdmin(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         try:
             CustomUser.objects.get(email=request.data["email"]).delete()
 
             return JsonResponse({'success': 'User deleted successfully', 'email': request.data["email"]}, content_type='application/json', safe=False)
-        except Exception as e:
-            print(e)
+        except:
             return JsonResponse({'error': 'Something went wrong when trying to delete user'})
 
 
@@ -56,7 +51,7 @@ class GetAdministratorsView(APIView):
 class AddAdministratorView(APIView):
     permission_classes = (permissions.IsAdminUser, )
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         try:
             user = CustomUser.objects.get(email=request.data["email"])
             user.is_superuser = True
@@ -66,7 +61,7 @@ class AddAdministratorView(APIView):
             return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
 
         except CustomUser.DoesNotExist:
-            pass
+            return JsonResponse({'error': 'Something went wrong when trying to add administrator'})
 
 
 class RemoveAdministratorView(APIView):
@@ -82,4 +77,4 @@ class RemoveAdministratorView(APIView):
             return JsonResponse({'success': 'yes', 'email': request.data["email"]}, content_type='application/json', safe=False)
 
         except CustomUser.DoesNotExist:
-            pass
+            return JsonResponse({'error': 'Something went wrong when trying to remove administrator'})

@@ -15,14 +15,14 @@ class InitializeSessionView(APIView):
             runtime_session.create_session(
                 request.user._id,
                 mode=Mode(request.data["mode"]),
-                selected_dictionary=dictionary._id
+                selected_dictionary=dictionary
             )
 
             runtime_session.generate_question(request.user._id)
 
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
-        except SystemError as e:
-            print(e)
+        except:
+            return JsonResponse({'error': 'Something went wrong when trying to initialize session for particular user'})
 
 
 class AnswerQuestionView(APIView):
@@ -43,7 +43,7 @@ class AnswerQuestionView(APIView):
 
             return JsonResponse({'success': 'yes', 'answer_correct': answer_correct}, content_type='application/json')
         except SystemError as e:
-            print(e)
+            return JsonResponse({'error': 'Something went wrong when trying answer question'})
 
 class GetSessionView(APIView):
     def get(self, request, format=None):
@@ -61,7 +61,7 @@ class GetSessionView(APIView):
                 }
             )
         except Exception as e:
-            print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to get session for particular user'})
 
 class DestroySessionView(APIView):
     def post(self, request, format=None):
@@ -69,4 +69,4 @@ class DestroySessionView(APIView):
         try:
             runtime_session.destroy_session(request.user._id)
         except Exception as e:
-            print(e)
+            return JsonResponse({'error': 'Something went wrong when trying to destroy session for particular user'})
