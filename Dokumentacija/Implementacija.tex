@@ -56,13 +56,84 @@
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
+			
+			\noindent{\textbf{Konfiguracija poslužitelja baze podataka}}\\
+			
+			\noindent{\textbf{Konfiguracija baze podataka}}\\
+			
+			\noindent{\textbf{Konfiguracija Heroku poslužitelja}}\\
+			\noindent{Nakon što se uspješno izradi Heroku korisnički račun, potrebno je stvoriti novu aplikaciju u "Dashboardu" klikom na "Create new app". Potrebno je upisati ime aplikacije, odabrati regiju i završiti stvaranje aplikacije klikom na "Create app". Forma za izradu aplikacije je prikazana na slici \ref{fig:StvaranjeAplikacije}}.
+			
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/stvaranjeAplikacije.png} %veličina u odnosu na širinu linije
+				\caption{Stvaranje nove aplikacije}
+				\label{fig:StvaranjeAplikacije} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 		
-			\textbf{\textit{dio 2. revizije}}\\
+			
+			\indent{Nakon izrade aplikacije potrebno je podesiti konfiguraciju u "Settings" dijelu aplikacije kao što je prikazano na slikama \ref{fig:podesi1} i \ref{fig:podesi2}. "DB CONNECTION STRING" se dobije prilikom konfiguracije baze podataka i služi aplikaciji za pristup bazi podataka, a "SECRET KEY" je tajni ključ čija će vrijednost ovisiti o konkretnom projektu, Django ga interno koristi za potrebe hashiranja. Moguće je i podesiti ostale parametre po potrebi.}\\
+			\indent{Potrebno je i dodati "Buildpack" za Node.js i Python s obzirom da aplikacija koristi programski jezik Python za backend, a React za frontend. "Buildpackovi" služe za instaliranje svega onoga što je potrebno da bi se aplikacija mogla pokrenuti na Heroku poslužitelju.}
+			
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/podesi1.png} %veličina u odnosu na širinu linije
+				\caption{Konfiguracija konfiguracijski varijabli}
+				\label{fig:podesi1} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/podesi2.png} %veličina u odnosu na širinu linije
+				\caption{Konfiguracija "Buildpackova"}
+				\label{fig:podesi2} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			\noindent{\textbf{Organizacija strukture projekta za puštanje u pogon}}\\
+			\noindent{Za potrebe puštanje aplikacije u pogon pomoću Heroku usluge, potrebno je organizirati strukturu projekta odnosno izvornog koda u onakvu strukturu kakvu Heroku očekuje prilikom prijenosa izvornog koda na Heroku poslužitelj. Reorganizacija strukture projekta većim dijelom uključuje reorganizaciju postojeće hijerarhije direktorija, no potrebno je dodati i neke konfiguracijske datoteke što je opisano u nastavku.}\\
+			\indent{Na slici \ref{fig:organizacijaKoda} je prikazan primjer strukture projekta kakvu očekuje Heroku. "FlipMemo", "main" i "users" su mape iz Django dijela aplikacije, a "src", "public" iz React dijela aplikacije. Bitno je da sve te mape budu na istoj razini u glavnom direktoriju "CanonPrinter". "staticfiles" mapa je trenutno prazna, no u nju se prilikom puštanja u pogon spremaju razne datoteke nakon što se odradi "build" na Heroku poslužitelju.}
 			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/organizacijaKoda.png} %veličina u odnosu na širinu linije
+				\caption{Struktura projekta za puštanje aplikacije u pogon}
+				\label{fig:organizacijaKoda} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			\noindent{"manage.py", "package.json" i "package-lock.json" su datoteke koje postoje i prije reorganizacije strukture projekta, a vezanu su uz Django i React dok su "Procfile", "requirements.txt" i "runtime.txt" konfiguracijske datoteke koje Heroku očekuje da postoje u projektu i moraju se dodati prije puštanja aplikacije u pogon. Sadržaj konfiguracijskih datoteke prikazan je na slikama \ref{fig:konf1}, \ref{fig:konf2}, \ref{fig:konf3}. 
 			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/konf1.png} %veličina u odnosu na širinu linije
+				\caption{Procfile}
+				\label{fig:konf1} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/konf2.png} 	%veličina u odnosu na širinu linije
+				\caption{requirements.txt}
+				\label{fig:konf2} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			Svaka konfiguracijska datoteka sadrži konfiguracijske parametre koji su potrebni prilikom puštanja aplikacije u pogon, npr. verzije svih potrebnih biblioteka koje je potrebno instalirati, verziju programskog jezika Python i sl. Za detalje o tome kako Heroku koristi te konfiguracijske datoteke upućujemo na službenu dokumentaciju\footnote{\url{https://devcenter.heroku.com/categories/reference}}.}
+	
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/konf3.png} %veličina u odnosu na širinu linije
+				\caption{runtime.txt}
+				\label{fig:konf3} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			\noindent{\textbf{Puštanje aplikacije u pogon korištenjem Heroku Git}}\\
+			\noindent{Nakon provedenih svih potrebnih prethodno opisanih koraka, aplikacije se može pustiti u pogon na Heroku poslužitelj na više načina. Ovdje prikazujemo način puštanja aplikacije u pogon korištenjem Heroku Gita. Potrebno je instalirati Heroku CLI koji omogućuje rad sa Heroku korištenjem komandne linije \footnote{\url{https://devcenter.heroku.com/articles/heroku-cli}}.}\\
+			\indent{Nakon što je Heroku CLI uspješno instaliran za odgovarajuću platformu, potrebno je provesti postupak prijenosa izvornog koda projekta na Heroku poslužitelj kojim se automatski pokreće i proces izgradnje i puštanja aplikacije u pogon. Slika \ref{fig:herokucli} prikazuje sve potrebne korake kod rada sa Heroku CLI. Aplikacija je nakon provedenih koraka dostupna na poveznici koju je izgenerirao proces puštanja aplikacije u pogon. Moguće je i zadati svoju vlastitu domenu na kojoj će aplikacija biti dostupna što je prikazano na slici \ref{fig:customDomena}}.
 			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/herokucli.png} %veličina u odnosu na širinu linije
+				\caption{Puštanje aplikacije u u pogon korištenjem Heroku CLI}
+				\label{fig:herokucli} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/customDomena.png} %veličina u odnosu na širinu linije
+				\caption{Dio postavka za podešavanje domene aplikacije}
+				\label{fig:customDomena} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 			
 			\eject 
