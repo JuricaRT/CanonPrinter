@@ -15,11 +15,14 @@ import {
   ADD_WORD_FAILURE,
   REMOVE_WORD_SUCCESS,
   REMOVE_WORD_FAILURE,
+  GET_DICTIONARY_WORDS_FAIL,
+  GET_DICTIONARY_WORDS_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
   students: [],
   admins: [],
+  words: [],
 };
 
 export default function (state = initialState, action) {
@@ -87,6 +90,10 @@ export default function (state = initialState, action) {
       return state;
     case REMOVE_WORD_SUCCESS:
     case REMOVE_WORD_FAILURE:
+    case GET_DICTIONARY_WORDS_SUCCESS:
+      return { ...state, words: payload };
+    case GET_DICTIONARY_WORDS_FAIL:
+      return state;
     default:
       return state;
   }

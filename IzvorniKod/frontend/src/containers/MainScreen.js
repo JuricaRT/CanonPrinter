@@ -4,6 +4,7 @@ import { Container, GlobalStyle } from "../elements/global";
 import { connect } from "react-redux";
 import * as Element from "../elements/mainscreen";
 import Banner from "./Banner";
+import { get_dictionary_words } from "../actions/admin";
 
 import {
   get_dictionaries,
@@ -34,6 +35,8 @@ const MainScreen = ({
   selected_language_view,
   select_language_view,
   close_view_dictionary,
+  get_dictionary_words,
+  all_dictionary_words,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
@@ -54,6 +57,8 @@ const MainScreen = ({
   const [viewSelectedDictionary, setViewSelectedDictionary] = useState(null);
   const [viewDictionary, setViewDictionary] = useState(false);
   const [viewWords, setViewWords] = useState(false);
+
+  console.log(all_dictionary_words);
 
   useEffect(() => {
     get_dictionaries();
@@ -84,8 +89,6 @@ const MainScreen = ({
     uniqueLang,
   ]);
 
-  console.log(viewSelectedDictionary);
-  console.log(viewSelectedLanguage);
   useEffect(() => {
     if (selectedLanguage !== null) {
       setDisplayLanguages(false);
@@ -102,12 +105,16 @@ const MainScreen = ({
     if (viewSelectedDictionary !== null) {
       setViewWords(true);
       setViewDisplayDictionaries(false);
+      if (viewSelectedDictionary !== null && viewSelectedLanguage !== null) {
+        get_dictionary_words(viewSelectedLanguage, viewSelectedDictionary);
+      }
     }
   }, [
     selectedLanguage,
     selectedDictionary,
     viewSelectedLanguage,
     viewSelectedDictionary,
+    get_dictionary_words,
   ]);
 
   function customizeLearning() {
@@ -139,6 +146,7 @@ const MainScreen = ({
     close_view_dictionary();
     setViewDisplayDictionaries(false);
     setViewDisplayLanguages(true);
+    setViewWords(false);
   }
 
   return (
@@ -215,6 +223,7 @@ const mapStateToProps = (state) => ({
   selected_language: state.learningSpecsReducer.language,
   selected_language_view: state.learningSpecsReducer.languageView,
   selected_dictionary_view: state.learningSpecsReducer.selectedDictionaryView,
+  all_dictionary_words: state.admin.words,
 });
 
 export default connect(mapStateToProps, {
@@ -224,4 +233,5 @@ export default connect(mapStateToProps, {
   select_dictionary_view,
   select_language_view,
   close_view_dictionary,
+  get_dictionary_words,
 })(MainScreen);

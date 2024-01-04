@@ -18,6 +18,8 @@ import {
   ADD_WORD_SUCCESS,
   REMOVE_WORD_SUCCESS,
   REMOVE_WORD_FAILURE,
+  GET_DICTIONARY_WORDS_SUCCESS,
+  GET_DICTIONARY_WORDS_FAIL,
 } from "./types";
 
 export const delete_account = (email) => async (dispatch) => {
@@ -293,5 +295,34 @@ export const remove_word_from_dictionary =
       dispatch({
         type: REMOVE_WORD_FAILURE,
       });
+    }
+  };
+
+export const get_dictionary_words =
+  (language, dictionaryName) => async (dispatch) => {
+    const config = {
+      withCredentials: true,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const body = JSON.stringify({
+      language: language,
+      dict_name: dictionaryName,
+    });
+    console.log(body);
+    try {
+      const res = await axios.get(
+        `${baseURL}/get_words_from_dict`,
+        body,
+        config
+      );
+      console.log(res);
+      dispatch({ type: GET_DICTIONARY_WORDS_SUCCESS, payload: res.data.words });
+    } catch (err) {
+      dispatch({ type: GET_DICTIONARY_WORDS_FAIL });
+      console.log(err);
     }
   };
