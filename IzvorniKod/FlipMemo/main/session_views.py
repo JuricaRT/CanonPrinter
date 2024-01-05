@@ -38,7 +38,7 @@ class InitializeSessionView(APIView):
                 selected_dictionary=dictionary
             )
 
-            runtime_session.generate_question(request.user._id)
+            runtime_session.generate_question(request.user._id, study_data_dictionary, None)
 
             return JsonResponse({'success': 'yes'}, content_type='application/json', safe=False)
         except Exception as e:
@@ -88,7 +88,7 @@ class AnswerQuestionView(APIView):
                 if word.hidden_for <= 0:
                     word.delete()
 
-            runtime_session.generate_question(request.user._id)
+            runtime_session.generate_question(request.user._id, study_data_dictionary, study_data_words_all)
 
             return JsonResponse({'success': 'yes', 'answer_correct': answer_correct}, content_type='application/json')
         except SystemError as e:

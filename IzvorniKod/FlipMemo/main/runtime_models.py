@@ -25,7 +25,7 @@ class RuntimeSession(Singleton):
     def create_session(self, student_id, mode, selected_dictionary):
         self.session_data[student_id] = SessionData(mode, selected_dictionary)
 
-    def generate_question(self, student_id):
+    def generate_question(self, student_id, study_data_dictionary, study_data_words):
         
         dictionary = self.session_data[student_id].selected_dictionary
         mode = self.session_data[student_id].mode
@@ -33,10 +33,8 @@ class RuntimeSession(Singleton):
 
         words = Word.objects.filter(parent_dict=dictionary)
 
-        student = CustomUser.objects.get(_id=student_id)
-        study_data = StudyData.objects.get(student_id=student)
-        study_data_dictionary = StudyDataDictionary.objects.get(study_data=study_data, _dict=dictionary)
-        study_data_words = StudyDataWords.objects.filter(study_data_dictionary=study_data_dictionary)
+        if study_data_words is None:
+            study_data_words = StudyDataWords.objects.filter(study_data_dictionary=study_data_dictionary)
 
         words_dict = [word.to_dict() for word in words]
         study_data_words_dict = [word.to_dict() for word in study_data_words]
