@@ -28,11 +28,14 @@ const Mode12Screen = ({
 
   const navigate = useNavigate();
 
-  useEffect(function () {
-    initializeSession(dict, lang, mode);
-    setTimeout(() => {
-      getSession();
-    }, 500);
+  useEffect(() => {
+    async function fetchData() {
+      await initializeSession(dict, lang, mode);
+      setTimeout(() => {
+        getSession();
+      }, 1000);
+    }
+    fetchData();
   }, []);
 
   function handleClick() {
