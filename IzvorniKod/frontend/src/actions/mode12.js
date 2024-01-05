@@ -107,7 +107,7 @@ export const destroySession = () => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post(`${baseURL}/destroy_session`, config);
+    const res = await axios.get(`${baseURL}/destroy_session`, config);
 
     if (res.data.error) {
       dispatch({ type: DESTROY_SESSION_FAIL });

@@ -114,9 +114,10 @@ class GetSessionView(APIView):
             return JsonResponse({'error': 'Something went wrong when trying to get session for particular user'})
 
 class DestroySessionView(APIView):
-    def post(self, request, format=None):
+    def get(self, request, format=None):
 
         try:
             runtime_session.destroy_session(request.user._id)
+            return JsonResponse({'success' : 'yes'})
         except Exception as e:
             return JsonResponse({'error': 'Something went wrong when trying to destroy session for particular user'})
