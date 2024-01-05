@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getSession, initializeSession } from "../actions/mode12";
+import { useNavigate } from "react-router-dom";
+import {
+  getSession,
+  initializeSession,
+  answerQuestion,
+  destroySession,
+} from "../actions/mode12";
 import * as Element from "../elements/mode12Screen";
 import Banner from "./Banner";
 import Question from "../components/Question";
 import { GlobalStyle } from "../elements/global";
-import { answerQuestion } from "../actions/mode12";
 
 const Mode12Screen = ({
   question,
@@ -16,15 +21,21 @@ const Mode12Screen = ({
   mode,
   getSession,
   initializeSession,
+  destroySession,
 }) => {
   const [start, setStart] = useState(false);
   const [selectedAnswer, setselectedAnswer] = useState(null);
 
-  useEffect(function () {
-    initializeSession(dict, lang, mode);
-    setTimeout(() => {
-      getSession();
-    }, 500);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      await initializeSession(dict, lang, mode);
+      setTimeout(() => {
+        getSession();
+      }, 1000);
+    }
+    fetchData();
   }, []);
 
   function handleClick() {
@@ -36,6 +47,11 @@ const Mode12Screen = ({
     setselectedAnswer(null);
   }
 
+  function handleFinishClick() {
+    destroySession();
+    navigate("/mainScreen");
+  }
+
   // function handleNewAnswer(ans) {
   //   answerQuestion(ans);
   // }
@@ -45,10 +61,10 @@ const Mode12Screen = ({
       <Banner origin="MainScreen"></Banner>
       <GlobalStyle />
       <Element.MainDiv>
-        <Element.TopDiv>KVIZ!!!</Element.TopDiv>
+        <Element.TopDiv>QUIZ!!!</Element.TopDiv>
         <Element.QuestionDiv>
           {start === false ? (
-            <button onClick={handleClick}>ZAPOČNI</button>
+            <button onClick={handleClick}>START</button>
           ) : (
             <>
               <Question
@@ -64,9 +80,14 @@ const Mode12Screen = ({
         </Element.QuestionDiv>
         <Element.FooterDiv>
           {start && (
-            <Element.ButtonNext onClick={handleNextClick}>
-              &rarr;
-            </Element.ButtonNext>
+            <>
+              <Element.ButtonFinish onClick={handleFinishClick}>
+                FINISH
+              </Element.ButtonFinish>
+              <Element.ButtonNext onClick={handleNextClick}>
+                &rarr;
+              </Element.ButtonNext>
+            </>
           )}
         </Element.FooterDiv>
       </Element.MainDiv>
@@ -87,4 +108,5 @@ export default connect(mapStateToProps, {
   getSession,
   initializeSession,
   answerQuestion,
+  destroySession,
 })(Mode12Screen);

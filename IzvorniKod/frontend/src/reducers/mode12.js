@@ -5,6 +5,8 @@ import {
   INITIALIZE_SESSION_FAIL,
   ANSWER_QUESTION,
   ANSWER_QUESTION_FAIL,
+  DESTROY_SESSION,
+  DESTROY_SESSION_FAIL,
 } from "../actions/types";
 
 const initalState = {
@@ -38,6 +40,10 @@ export default function mode12Reducer(state = initalState, action) {
     case ANSWER_QUESTION:
       return { ...state, answer: action.payload };
     case ANSWER_QUESTION_FAIL:
+      return state;
+    case DESTROY_SESSION:
+      return initalState;
+    case DESTROY_SESSION_FAIL:
       return state;
     default:
       return state;
