@@ -56,6 +56,9 @@ class StudyDataWords(models.Model):
     _word = ForeignKey('Word', on_delete=models.CASCADE)
     hidden_for = models.IntegerField()
 
+    def to_dict(self):
+        return model_to_dict(self, fields=["_id", "study_data_dictionary", "_word", "hidden_for"])
+
 class Dictionary(models.Model):
     _id = ObjectIdField()
     dict_name = models.CharField(max_length=64)
@@ -75,7 +78,7 @@ class Word(models.Model):
     audio_bytes = models.BinaryField(null=True)
 
     def to_dict(self):
-        return model_to_dict(self, fields=["language", "word_str", "cro_translation", "definition", "word_type", "audio_bytes"])
+        return model_to_dict(self, fields=["_id", "language", "word_str", "cro_translation", "definition", "word_type", "audio_bytes"])
 
 # class Session(models.Model):
 #     MODE_CHOICES = (

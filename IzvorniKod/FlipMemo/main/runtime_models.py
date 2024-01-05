@@ -37,13 +37,14 @@ class RuntimeSession(Singleton):
         study_data = StudyData.objects.get(student_id=student)
         study_data_dictionary = StudyDataDictionary.objects.get(study_data=study_data, _dict=dictionary)
         study_data_words = StudyDataWords.objects.filter(study_data_dictionary=study_data_dictionary)
-        
-        for word in words:
-            matching_word = study_data_words.filter(_word=word).first()
-            if matching_word is not None:
-                words = words.exclude(_id=word._id)
 
-        random_word = random.choice(words)
+        words_dict = [word.to_dict() for word in words]
+        study_data_words_dict = [word.to_dict() for word in study_data_words]
+        for study_word in study_data_words_dict:
+            words_dict = [item for item in words_dict if item['_id'] != study_word['_word']]
+
+        random_word_id = random.choice(words_dict)
+        random_word = Word.objects.get(_id=random_word_id['_id'])
 
         session_data.current_question.word = random_word
 
