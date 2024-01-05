@@ -286,6 +286,7 @@ export const remove_word_from_dictionary =
           type: REMOVE_WORD_SUCCESS,
           payload: res.data,
         });
+        dispatch({});
       } else {
         dispatch({
           type: REMOVE_WORD_FAILURE,
@@ -312,17 +313,14 @@ export const get_dictionary_words =
       language: language,
       dict_name: dictionaryName,
     });
-    console.log(body);
     try {
       const res = await axios.put(
         `${baseURL}/get_words_from_dict`,
         body,
         config
       );
-      console.log(res);
       dispatch({ type: GET_DICTIONARY_WORDS_SUCCESS, payload: res.data.words });
     } catch (err) {
       dispatch({ type: GET_DICTIONARY_WORDS_FAIL });
-      console.log(err);
     }
   };

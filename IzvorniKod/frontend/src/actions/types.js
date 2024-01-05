@@ -35,6 +35,7 @@ export const ADD_WORD_SUCCESS = "ADD_WORD_SUCCESS";
 export const ADD_WORD_FAILURE = "ADD_WORD_FAILURE";
 export const REMOVE_WORD_FAILURE = "REMOVE_WORD_FAILURE";
 export const REMOVE_WORD_SUCCESS = "REMOVE_WORD_SUCCESS";
+export const CLOSE_VIEW_DICTIONARY_ADMIN = "CLOSE_VIEW_DICTIONARY_ADMIN";
 
 // Process of choosing dictionary, language and modules
 export const SELECT_DICTIONARY = "SELECT_DICTIONARY";

@@ -17,6 +17,7 @@ import {
   REMOVE_WORD_FAILURE,
   GET_DICTIONARY_WORDS_FAIL,
   GET_DICTIONARY_WORDS_SUCCESS,
+  CLOSE_VIEW_DICTIONARY_ADMIN,
 } from "../actions/types";
 
 const initialState = {
@@ -94,6 +95,8 @@ export default function (state = initialState, action) {
       return { ...state, words: payload };
     case GET_DICTIONARY_WORDS_FAIL:
       return state;
+    case CLOSE_VIEW_DICTIONARY_ADMIN:
+      return { ...state, words: [] };
     default:
       return state;
   }

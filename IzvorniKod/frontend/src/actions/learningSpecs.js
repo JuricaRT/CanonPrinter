@@ -14,6 +14,7 @@ import {
   SELECT_LANGUAGE_VIEW,
   SELECT_DICTIONARY_VIEW,
   CLOSE_VIEW_DICTIONARY,
+  CLOSE_VIEW_DICTIONARY_ADMIN,
 } from "./types";
 
 export const get_dictionaries = () => async (dispatch) => {
@@ -60,6 +61,7 @@ export const select_dictionary = (dictionary) => async (dispatch) => {
 
 export const close_view_dictionary = () => async (dispatch) => {
   dispatch({ type: CLOSE_VIEW_DICTIONARY });
+  dispatch({ type: CLOSE_VIEW_DICTIONARY_ADMIN });
 };
 
 export const start_learning = (mode, dict, lang) => async (dispatch) => {

@@ -131,3 +131,49 @@ export const ViewDictionary = styled.button`
   align-items: center;
   margin-left: 46.5%;
 `;
+
+export const WordSelection = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 500px;
+  height: auto;
+  margin-left: 470px;
+  background-color: green;
+  gap: 5px;
+
+  button {
+    font-size: 14px;
+  }
+
+  span {
+    border: 1px solid black;
+    background-color: white;
+    padding: 2px;
+  }
+`;
+
+export const DictionaryChanges = styled.div`
+  margin-left: 58.3%;
+  margin-top: 5px;
+`;
+
+export const DeleteWord = styled.button`
+  font-size: 15px;
+  margin-right: 5px;
+  color: red;
+`;
+
+export const SubmitChanges = styled.button`
+  font-size: 15px;
+`;
+
+export const DeleteWordNot = styled.button`
+  font-size: 15px;
+  margin-right: 5px;
+`;
+
+export const CustomButtonWord = styled.button`
+  color: red;
+`;

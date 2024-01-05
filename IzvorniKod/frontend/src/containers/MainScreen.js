@@ -4,7 +4,11 @@ import { Container, GlobalStyle } from "../elements/global";
 import { connect } from "react-redux";
 import * as Element from "../elements/mainscreen";
 import Banner from "./Banner";
-import { get_dictionary_words } from "../actions/admin";
+import {
+  get_dictionary_words,
+  remove_word_from_dictionary,
+} from "../actions/admin";
+import * as SecondElement from "../elements/modifyDictionaries";
 
 import {
   get_dictionaries,
@@ -21,7 +25,9 @@ import Admin from "../reducers/admin";
 import ModifyUsers from "./ModifyUsers";
 
 const MainScreen = ({
+  remove_word_from_dictionary,
   isAuthenticated,
+  is_superuser,
   dictionaries,
   uniqueLang,
   selected_dictionary,
@@ -58,6 +64,8 @@ const MainScreen = ({
   const [viewDictionary, setViewDictionary] = useState(false);
   const [viewWords, setViewWords] = useState([]);
   const [viewAllWords, setViewAllWords] = useState(false);
+  const [deleteWord, setDeleteWord] = useState(false);
+  const [wordClicked, setWordClicked] = useState("");
 
   useEffect(() => {
     get_dictionaries();
@@ -79,7 +87,9 @@ const MainScreen = ({
     setSelectedDictionary(selected_dictionary);
     setSelectedMode(selected_mode);
     setViewLanguages(uniqueLang);
-    setViewWords(all_dictionary_words);
+    if (all_dictionary_words) {
+      setViewWords(all_dictionary_words);
+    }
   }, [
     selected_language_view,
     selected_dictionary_view,
@@ -146,6 +156,37 @@ const MainScreen = ({
     setViewDisplayDictionaries(false);
     setViewDisplayLanguages(true);
     setViewAllWords(false);
+    setDeleteWord(false);
+  }
+
+  function deleteClicked() {
+    setDeleteWord(!deleteWord);
+  }
+
+  function buttonClicked(word) {
+    setWordClicked(word);
+  }
+
+  function buttonSelectedClicked() {
+    setWordClicked("");
+  }
+
+  function submitFunction() {
+    if (wordClicked !== "" && deleteWord === true) {
+      viewWords.map((word) =>
+        wordClicked === word.word_str
+          ? remove_word_from_dictionary(
+              viewSelectedDictionary,
+              word.word_str,
+              word.language,
+              word.cro_translation,
+              word.word_type,
+              word.definition
+            )
+          : null
+      );
+    }
+    customizeViewDictionary();
   }
 
   return (
@@ -204,12 +245,51 @@ const MainScreen = ({
                 </Element.DictionaryBack>
               </Element.DictionarySelect>
             )}
-            {viewAllWords && (
-              <Element.LanguageSelect>
-                {viewWords.map((word, index) => (
-                  <button key={index}> {word.word_str}</button>
-                ))}
-              </Element.LanguageSelect>
+            {viewAllWords && viewWords && viewWords.length !== 0 && (
+              <>
+                {is_superuser ? (
+                  <>
+                    <Element.WordSelection>
+                      {viewWords.map((word, index) =>
+                        wordClicked === word.word_str ? (
+                          <Element.CustomButtonWord
+                            onClick={buttonSelectedClicked}
+                          >
+                            {word.word_str}
+                          </Element.CustomButtonWord>
+                        ) : (
+                          <button
+                            key={index}
+                            onClick={() => buttonClicked(word.word_str)}
+                          >
+                            {word.word_str}
+                          </button>
+                        )
+                      )}
+                    </Element.WordSelection>
+                    <Element.DictionaryChanges>
+                      {deleteWord ? (
+                        <Element.DeleteWord onClick={deleteClicked}>
+                          Delete
+                        </Element.DeleteWord>
+                      ) : (
+                        <Element.DeleteWordNot onClick={deleteClicked}>
+                          Delete
+                        </Element.DeleteWordNot>
+                      )}
+                      <Element.SubmitChanges onClick={submitFunction}>
+                        Submit
+                      </Element.SubmitChanges>
+                    </Element.DictionaryChanges>
+                  </>
+                ) : (
+                  <Element.WordSelection>
+                    {viewWords.map((word, index) => (
+                      <span>{word.word_str}</span>
+                    ))}
+                  </Element.WordSelection>
+                )}
+              </>
             )}
           </>
         )}
@@ -239,4 +319,5 @@ export default connect(mapStateToProps, {
   select_language_view,
   close_view_dictionary,
   get_dictionary_words,
+  remove_word_from_dictionary,
 })(MainScreen);
