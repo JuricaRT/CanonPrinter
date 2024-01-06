@@ -108,6 +108,29 @@ export const answerQuestion = (answer) => async (dispatch) => {
   }
 };
 
+export const answerQuestion2 = () => async (dispatch) => {
+  const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+
+  try {
+    const res = await axios.post(`${baseURL}/answer_question`, config);
+
+    if (res.data.error) {
+      dispatch({ type: ANSWER_QUESTION_FAIL });
+    } else {
+      dispatch({ type: ANSWER_QUESTION, payload: res.data });
+    }
+  } catch (error) {
+    dispatch({ type: ANSWER_QUESTION_FAIL });
+  }
+};
+
 export const destroySession = () => async (dispatch) => {
   const config = {
     withCredentials: true,

@@ -17,6 +17,7 @@ const initalState = {
   wrong_answers: 0,
   answer: null,
   selectedAnswer: null,
+  randomGrade: null,
 };
 
 export default function mode12Reducer(state = initalState, action) {

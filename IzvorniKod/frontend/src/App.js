@@ -8,6 +8,7 @@ import PassChange from "./containers/PassChange";
 import MainScreen from "./containers/MainScreen";
 import ProfileSettings from "./containers/ProfileSettings";
 import Mode12Screen from "./containers/Mode12Screen";
+import Mode4Screen from "./containers/Mode4Screen";
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -27,6 +28,7 @@ const App = () => (
           <Route exact path="/modifyUsers" element={<ModifyUsers />} />
           <Route exact path="/profileSettings" element={<ProfileSettings />} />
           <Route exact path="/mode12Screen" element={<Mode12Screen />} />
+          <Route exact path="/mode4Screen" element={<Mode4Screen />} />
           <Route
             exact
             path="/modifyDictionaries"

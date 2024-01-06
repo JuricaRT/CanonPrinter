@@ -74,8 +74,16 @@ const MainScreen = ({
       navigate("/");
     }
 
-    if (selectedMode !== null) {
+    // if (selectedMode !== null) {
+    //   navigate("/mode12Screen");
+    // }
+
+    if (selectedMode === modes["mode1"] || selectedMode === modes["mode2"]) {
       navigate("/mode12Screen"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
+    } else if (selectedMode === modes["mode3"]) {
+      navigate("/mode3Screen");
+    } else if (selectedMode === modes["mode4"]) {
+      navigate("/mode4Screen");
     }
   }, [isAuthenticated, navigate, selectedMode, get_dictionaries]);
 
