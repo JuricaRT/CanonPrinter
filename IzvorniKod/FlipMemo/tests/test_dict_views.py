@@ -89,6 +89,7 @@ class TestAddWordView(TestCase):
 
         word = Word.objects.get(parent_dict__dict_name=self.TEST_DICT_NAME, parent_dict__language=self.TEST_DICT_LANG).to_dict()
         word["dict_name"] = self.TEST_DICT_NAME
+        del word["_id"]
 
         self.assertDictEqual(self.new_word_params, word)
 
