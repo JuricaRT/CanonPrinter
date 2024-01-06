@@ -177,7 +177,7 @@ class GetDictionariesView(APIView):
 
         json_dict = {dict_name: [dict["dict_name"] for dict in dicts_in_group]
                      for dict_name, dicts_in_group in groupby(dictionary_dict, key=itemgetter("language"))}
-
+        
         return JsonResponse({'dicts': json_dict}, content_type='application/json', safe=False)
 
 
@@ -186,7 +186,7 @@ class GetWordsFromDictView(APIView):
         words = Word.objects.filter(
             parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
         words_dict = [word.to_dict() for word in words]
-
+        for word in words_dict: del word["_id"]
         return JsonResponse({'words': words_dict}, content_type='application/json', safe=False)
 
 

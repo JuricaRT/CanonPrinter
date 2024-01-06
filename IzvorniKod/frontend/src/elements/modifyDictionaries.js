@@ -67,7 +67,7 @@ export const WordAdditionInput = styled.input`
 
 export const WordChangesDiv = styled.div`
   display: flex;
-  margin-left: 41%;
+  margin-left: 44.7%;
 `;
 
 export const WordAdditionButton = styled.button`
@@ -111,4 +111,14 @@ export const DictionarySelect = styled.div`
 export const SelectedDictionaryDisplay = styled.span`
   margin-left: 44.7%;
   font-size: 22px;
+`;
+
+export const WordTypeButtons = styled.div`
+  margin-left: 43%;
+`;
+
+export const WordTypeButton = styled.button``;
+
+export const WordTypeButtonChosen = styled.button`
+  color: red;
 `;

@@ -40,12 +40,11 @@ const ModifyDictionaries = ({
   const [word, setWord] = useState("");
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
-  const [wordType, setWordType] = useState("");
   const [selectedAddition, setSelectedAddition] = useState(false);
-  const [selectedRemove, setSelectedRemove] = useState(false);
   const [currentAddWordButtonAction, setCurrentWordButtonAction] = useState("");
   const [displayCurrentDictionary, setDisplayCurrentDictionary] =
     useState(false);
+  const [wordTypeChosen, setWordTypeChosen] = useState("");
 
   //----------------------------------------
   //const [displayLearning, setDisplayLearning] = useState(true);
@@ -93,10 +92,6 @@ const ModifyDictionaries = ({
     select_language(null);
   }
 
-  function modeBack() {
-    setDisplayDictionaries(true);
-    select_dictionary(null);
-  }
   //-----------------------------------------------------
   function createDictionary() {
     setAddDictionaries(!addDictionaries);
@@ -113,23 +108,16 @@ const ModifyDictionaries = ({
   function changeDictionaryChanges() {
     setDictionaryChanges(!dictionaryChanges);
     setDisplayCurrentDictionary(false);
-    setSelectedRemove(false);
     setSelectedAddition(false);
     setLanguages(uniqueLang);
     setDisplayLanguages(true);
+    setWordTypeChosen(false);
     close_adding();
   }
 
   function changeToAdd() {
     setSelectedAddition(true);
-    setSelectedRemove(false);
     setCurrentWordButtonAction("Add");
-  }
-
-  function changeToRemove() {
-    setSelectedRemove(true);
-    setSelectedAddition(false);
-    setCurrentWordButtonAction("Remove");
   }
 
   function changeWord(change) {
@@ -144,44 +132,26 @@ const ModifyDictionaries = ({
     setDefinition(change.target.value);
   }
 
-  function changeWordType(change) {
-    setWordType(change.target.value);
-  }
   function submitWord() {
     var variables = [
       selectedDictionary,
       word,
       selectedLanguage,
       translation,
-      wordType,
+      wordTypeChosen,
       definition,
     ];
     if (
       currentAddWordButtonAction === "Add" &&
       variables.every((variable) => variable !== "")
     ) {
-      setDictionaryChanges(false);
-      setDisplayCurrentDictionary(false);
+      changeDictionaryChanges();
       add_word_to_dictionary(
         selectedDictionary,
         word,
         selectedLanguage,
         translation,
-        wordType,
-        definition
-      );
-    } else if (
-      currentAddWordButtonAction === "Remove" &&
-      variables.every((variable) => variable !== "")
-    ) {
-      setDictionaryChanges(false);
-      setDisplayCurrentDictionary(false);
-      remove_word_from_dictionary(
-        selectedDictionary,
-        word,
-        selectedLanguage,
-        translation,
-        wordType,
+        wordTypeChosen,
         definition
       );
     }
@@ -192,6 +162,10 @@ const ModifyDictionaries = ({
     create_dictionary(dictionaryName, language);
   }
 
+  function wordTypeButtonClicked(type) {
+    setWordTypeChosen(type);
+  }
+
   return (
     <React.Fragment>
       <GlobalStyle />
@@ -199,7 +173,7 @@ const ModifyDictionaries = ({
         <Banner origin="ModifyDictionaries"></Banner>
         <hr />
         <Element.AddDictionary onClick={createDictionary}>
-          Add Dictionary
+          Add dictionary
         </Element.AddDictionary>
         {addDictionaries && (
           <>
@@ -220,7 +194,7 @@ const ModifyDictionaries = ({
         )}
 
         <Element.ChangeDictionaryButton onClick={changeDictionaryChanges}>
-          Add/remove words
+          Add word
         </Element.ChangeDictionaryButton>
 
         {dictionaryChanges && (
@@ -260,11 +234,6 @@ const ModifyDictionaries = ({
               placeholder="Definition..."
               onChange={(change) => changeDefinition(change)}
             ></Element.WordAdditionInput>
-            <Element.WordAdditionInput
-              type="text"
-              placeholder="Word type..."
-              onChange={(change) => changeWordType(change)}
-            ></Element.WordAdditionInput>
             {selectedLanguage && (
               <Element.WordAdditionInput
                 type="text"
@@ -272,16 +241,53 @@ const ModifyDictionaries = ({
                 readOnly={true}
               ></Element.WordAdditionInput>
             )}
-            <Element.WordChangesDiv>
-              {selectedRemove ? (
-                <Element.SelectedWordAdditionButton>
-                  Remove
-                </Element.SelectedWordAdditionButton>
+            <Element.WordTypeButtons>
+              {wordTypeChosen === "imenica" ? (
+                <Element.WordTypeButtonChosen>
+                  imenica
+                </Element.WordTypeButtonChosen>
               ) : (
-                <Element.WordAdditionButton onClick={changeToRemove}>
-                  Remove
-                </Element.WordAdditionButton>
+                <Element.WordTypeButton
+                  onClick={() => wordTypeButtonClicked("imenica")}
+                >
+                  imenica
+                </Element.WordTypeButton>
               )}
+              {wordTypeChosen === "pridjev" ? (
+                <Element.WordTypeButtonChosen>
+                  pridjev
+                </Element.WordTypeButtonChosen>
+              ) : (
+                <Element.WordTypeButton
+                  onClick={() => wordTypeButtonClicked("pridjev")}
+                >
+                  pridjev
+                </Element.WordTypeButton>
+              )}
+              {wordTypeChosen === "glagol" ? (
+                <Element.WordTypeButtonChosen>
+                  glagol
+                </Element.WordTypeButtonChosen>
+              ) : (
+                <Element.WordTypeButton
+                  onClick={() => wordTypeButtonClicked("glagol")}
+                >
+                  glagol
+                </Element.WordTypeButton>
+              )}
+              {wordTypeChosen === "prijedlog" ? (
+                <Element.WordTypeButtonChosen>
+                  prijedlog
+                </Element.WordTypeButtonChosen>
+              ) : (
+                <Element.WordTypeButton
+                  onClick={() => wordTypeButtonClicked("prijedlog")}
+                >
+                  prijedlog
+                </Element.WordTypeButton>
+              )}
+            </Element.WordTypeButtons>
+            <Element.WordChangesDiv>
               {selectedAddition ? (
                 <Element.SelectedWordAdditionButton>
                   Add
