@@ -11,6 +11,7 @@ import * as Element from "../elements/mode12Screen";
 import Banner from "./Banner";
 import Question from "../components/Question";
 import { GlobalStyle } from "../elements/global";
+import { finishLearning } from "../actions/learningSpecs";
 
 const Mode12Screen = ({
   question,
@@ -36,7 +37,7 @@ const Mode12Screen = ({
       }, 1000);
     }
     fetchData();
-  }, []);
+  }, [dict, getSession, initializeSession, lang, mode]);
 
   function handleClick() {
     setStart(true);
@@ -48,7 +49,10 @@ const Mode12Screen = ({
   }
 
   function handleFinishClick() {
+    finishLearning();
+
     destroySession();
+
     navigate("/mainScreen");
   }
 
@@ -109,4 +113,5 @@ export default connect(mapStateToProps, {
   initializeSession,
   answerQuestion,
   destroySession,
+  finishLearning,
 })(Mode12Screen);

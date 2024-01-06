@@ -31,7 +31,7 @@ const List = ({
     } else if (type === "dictView") {
       select_dictionary_view(elem);
       get_dictionary_words(languageView, elem);
-    } else {
+    } else if (type === "mode") {
       start_learning(elem, dict, lang);
     }
   }
