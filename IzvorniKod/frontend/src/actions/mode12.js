@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import baseURL from "./debug";
+import modes from "./modes";
 
 import {
   GET_SESSION,
@@ -23,10 +24,21 @@ export const initializeSession = (dict, lang, mode) => async (dispatch) => {
     },
   };
 
+  let modeNum = null;
+  if (mode === modes["mode1"]) {
+    modeNum = 0;
+  } else if (mode === modes["mode2"]) {
+    modeNum = 1;
+  } else if (mode === modes["mode3"]) {
+    modeNum = 2;
+  } else if (mode === modes["mode4"]) {
+    modeNum = 3;
+  }
+
   const body = JSON.stringify({
     dict_name: dict,
     language: lang,
-    mode: 0,
+    mode: modeNum,
   });
 
   try {
