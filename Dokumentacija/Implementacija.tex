@@ -10,32 +10,121 @@
 			 Za potrebe testiranja aplikacije osim ugrađene potpore za testiranje koju nudi Django korišten je i Selenium WebDriver\footnote{\url{https://www.selenium.dev/documentation/webdriver/}} koji omogućuje pisanje i automatizaciju testova za web aplikacije.}
 			 
 			
-			
 			\eject 
 		
 	
 		\section{Ispitivanje programskog rješenja}
-			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
-	
-			
+						
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
+			\noindent{Ispitivanje komponenti provedeno je korištenjem alata koje pruža radni okvir Django\footnote{\url{https://docs.djangoproject.com/en/5.0/topics/testing/tools/}}. U nastavku se za svaki ispitni slučaj definira ulaz, očekivani izlaz te kratak opis što je ispitano ispitnim slučajem. Rezultati izvođenja ispitnih slučajeva prikazani su na slici \ref{fig:test_results}.}\\
+			\indent{S obzirom na to kako se koriste alati za ispitivanje u radnom okviru Django i način na koji funkcioniraju komponente koje se ispituju, za svaki ispitni slučaj vezana je metoda "setUp" koja će osigurati da prije izvođenja konkretnog ispitnog slučaja bude prisutno sve ono što je potrebno da se ispitni slučaj provede. Na sličan način, metoda "tearDown" osigurava da se nakon svakog provedenog ispitnog slučaja, obnovi stanje okoline prije njegovog izvršavanja. Zbog potpunosti i jasnoće, uz ispitne slučajeve priložene su metode "setUp" i "tearDown".}
+				
+			\indent{Nadalje, kao ulaz u ispitni slučaj, navode se samo podaci koji se smatraju relevantnima za dani ispitni slučaj. Npr., korisničko ime i lozinka testnog korisnika ne smatraju se relevantnima za ispitni slučaj koji ispituje ispravnost dodavanja riječi u rječnik, no njihovo postojanje je vidljivo u priloženom izvornom kodu.}
 			
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_results.png}
+				\caption{Rezultati izvođenja ispitnih slučajeva}
+				\label{fig:test_results}
+			\end{figure}
+			
+			\eject
+			
+			\noindent{\textbf{Ispitivanje funkcionalnosti uređivanja profila}}\\
+			\noindent{\textbf{Ulaz}: novo korisničko ime, novo ime i novo prezime\\\textbf{Očekivani izlaz:} novo korisničko ime, novo ime i novo prezime\\\textbf{Opis ispitnog slučaja:} ispituje se ispravno pohranjivanje novih podataka o profilu korisnika
+			}
+			
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_successful_edit_profile.png}
+				\caption{Ispitivanje funkcionalnosti uređivanja profila}
+				\label{fig:test_successful_edit_profile1}
+			\end{figure}
+			
+			\eject
+			
+			\noindent{\textbf{Ispitivanje dodavanja postojećeg korisnika kao novog administratora}}\\
+			\noindent{\textbf{Ulaz}: email korisnika kojeg se želi dodati kao administratora\\\textbf{Očekivani izlaz:} korisnik nakon dodavanja ima privilegije administratora\\\textbf{Opis ispitnog slučaja:} ispituje se ispravnost funkcionalnosti dodavanja postojećeg korisnika kao administratora, uz pretpostavku da postojeći korisnik nije administrator
+			}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_add_admin_user_exists.png}
+				\caption{Ispitivanje dodavanja postojećeg korisnika kao novog administratora}
+				\label{fig:test_add_admin_user_exists}
+			\end{figure}
+		
+		
+			\eject
+			
+			\noindent{\textbf{Ispitivanje dodavanja nove riječi u rječnik}}\\
+			\noindent{\textbf{Ulaz}: podaci o novoj riječi koja se želi dodati u rječnik, rječnik u koji se riječ dodaje\\\textbf{Očekivani izlaz:} riječ nakon dodavanja postoji i nalazi se u odabranom rječniku\\\textbf{Opis ispitnog slučaja:} ispituje se ispravnost funkcionalnosti dodavanja nove riječi u postojeći rječnik
+			}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_add_word_successful.png}
+				\caption{Ispitivanje dodavanja nove riječi u rječnik}
+				\label{fig:test_add_word_successful}
+			\end{figure}
+		
+		
+			\eject
+			
+			\noindent{\textbf{Ispitivanje dodavanja nove riječi u nepostojeći rječnik}}\\
+			\noindent{\textbf{Ulaz}: podaci o novoj riječi koja se želi dodati u rječnik, rječnik u koji se riječ dodaje\\\textbf{Očekivani izlaz:} greška koja opisuje da rječnik u koji se želi dodati nova riječ ne postoji\\\textbf{Opis ispitnog slučaja:} ispituje se ispravnost odgovora funkcionalnosti dodavanja riječi na situaciju u kojoj se riječ želi dodati u nepostojeći rječnik
+			}
+		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_add_word_dictionary_doesnt_exist.png}
+				\caption{Ispitivanje dodavanja nove riječi u nepostojeći rječnik}
+				\label{fig:test_add_word_dictionary_doesnt_exist}
+			\end{figure}
+		
+			
+			\eject
+			
+			
+			\noindent{\textbf{Ispitivanje generiranja pitanja za način učenja odabirom točnog prijevoda}}\\
+			\noindent{\textbf{Ulaz}: -\\\textbf{Očekivani izlaz:} generirano pitanje za način učenja odabirom točnog prijevoda\\\textbf{Opis ispitnog slučaja:} ispituje se generiranje pitanja za način učenja odabirom točnog prijevoda. Potrebno je izgenerirati pitanje, točan odgovor i netočne odgovore.
+			}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_generate_question_not_empty.png}
+				\caption{Ispitivanje generiranja pitanja za način učenja odabirom točnog prijevoda}
+				\label{fig:test_generate_question_not_empty}
+			\end{figure}
+			
+			
+			\eject
+		
+
+			\noindent{\textbf{Ispitivanje prijave korisnika u sustav}}\\
+			\noindent{\textit{prvi dio ispitnog slučaja}}\\
+			\noindent{\textbf{Ulaz}: ispravni email korisnika koji se želi prijaviti, ispravna lozinka\\\textbf{Očekivani izlaz:} uspješna prijava\\\textbf{Opis ispitnog slučaja:} ispituje se ispravnost odgovora funkcionalnosti prijave korisnika u sustav na situaciju u kojoj su uneseni ispravni podaci korisnika
+			}\\
+		
+			\noindent{\textit{drugi dio ispitnog slučaja}}\\
+			\noindent{\textbf{Ulaz}: ispravni email korisnika koji se želi prijaviti, neispravna lozinka korisnika\\\textbf{Očekivani izlaz:} neuspješna prijava\\\textbf{Opis ispitnog slučaja:} ispituje se ispravnost odgovora funkcionalnosti prijave korisnika u sustav na situaciju u kojoj je korisnik unio pogrešnu lozinku
+			}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/test_login_view.png}
+				\caption{Ispitivanje prijave korisnika u sustav}
+				\label{fig:test_login_view}
+			\end{figure}
+			
+			
+			\eject
 			
 			
 			\subsection{Ispitivanje sustava}
-			
-			 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
-			 
-			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
-			 \begin{itemize}
-			 	\item \textit{dodatak za preglednik \textbf{Selenium IDE} - snimanje korisnikovih akcija radi automatskog ponavljanja ispita	}
-			 	\item \textit{\textbf{Selenium WebDriver} - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.}
-			 \end{itemize}
-		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
+		
 			
 			\eject 
 		
