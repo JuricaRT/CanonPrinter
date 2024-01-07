@@ -74,6 +74,8 @@ const MainScreen = ({
   const [definition, setDefinition] = useState("");
   const [wordTypeChosen, setWordTypeChosen] = useState("");
 
+  console.log(all_dictionary_words);
+
   useEffect(() => {
     get_dictionaries();
   }, [get_dictionaries]);
@@ -177,7 +179,7 @@ const MainScreen = ({
     setViewAllWords(false);
     setDeleteWord(false);
     setEditWordButton(false);
-    setWordClicked(false);
+    setWordClicked("");
   }
 
   function deleteClicked() {
@@ -186,11 +188,19 @@ const MainScreen = ({
   }
 
   function buttonClicked(word) {
-    setWordClicked(word);
+    setWordClicked(word.word_str);
+    setTranslation(word.cro_translation);
+    setDefinition(word.definition);
+    setWordTypeChosen(word.word_type);
+    setWord(word.word_str);
   }
 
   function buttonSelectedClicked() {
     setWordClicked("");
+    setTranslation("");
+    setDefinition("");
+    setWordTypeChosen("");
+    setWord("");
   }
 
   function editClicked() {
@@ -239,6 +249,7 @@ const MainScreen = ({
       );
     }
     customizeViewDictionary();
+    buttonSelectedClicked();
   }
 
   function changeWord(change) {
@@ -328,7 +339,7 @@ const MainScreen = ({
                         ) : (
                           <button
                             key={index}
-                            onClick={() => buttonClicked(word.word_str)}
+                            onClick={() => buttonClicked(word)}
                           >
                             {word.word_str}
                           </button>
@@ -363,16 +374,19 @@ const MainScreen = ({
                         <SecondElement.WordAdditionInput
                           type="text"
                           placeholder="Word..."
+                          value={word}
                           onChange={(change) => changeWord(change)}
                         ></SecondElement.WordAdditionInput>
                         <SecondElement.WordAdditionInput
                           type="text"
                           placeholder="Translation..."
+                          value={translation}
                           onChange={(change) => changeTranslation(change)}
                         ></SecondElement.WordAdditionInput>
                         <SecondElement.WordAdditionInput
                           type="text"
                           placeholder="Definition..."
+                          value={definition}
                           onChange={(change) => changeDefinition(change)}
                         ></SecondElement.WordAdditionInput>
                         <SecondElement.WordTypeButtons>
