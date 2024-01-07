@@ -155,7 +155,7 @@ export const WordSelection = styled.div`
 `;
 
 export const DictionaryChanges = styled.div`
-  margin-left: 58.3%;
+  margin-left: 55.1%;
   margin-top: 5px;
 `;
 
@@ -177,3 +177,16 @@ export const DeleteWordNot = styled.button`
 export const CustomButtonWord = styled.button`
   color: red;
 `;
+
+export const EditWordNot = styled.button`
+  font-size: 15px;
+  margin-right: 5px;
+`;
+
+export const EditWord = styled.button`
+  font-size: 15px;
+  margin-right: 5px;
+  color: red;
+`;
+
+export const EditWordClickedDiv = styled.div``;
