@@ -60,12 +60,12 @@ class AnswerQuestionView(APIView):
                     session_data.answers_incorrect += 1
                     answer_correct = 'no'
             elif session_data.mode == Mode.REC:
-                if random.randint(1, 10) == 10:
+                rand_res = random.randint(1, 10)
+                answer_correct = str(rand_res)
+                if rand_res < 6:
                     session_data.answers_incorrect += 1
-                    answer_correct = 'no'
                 else:
                     session_data.answers_correct += 1
-                    answer_correct = 'yes'
 
             
             study_data = StudyData.objects.get(student_id=request.user)
