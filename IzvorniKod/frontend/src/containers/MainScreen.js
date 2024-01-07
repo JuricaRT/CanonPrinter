@@ -7,6 +7,7 @@ import Banner from "./Banner";
 import {
   get_dictionary_words,
   remove_word_from_dictionary,
+  edit_word,
 } from "../actions/admin";
 import * as SecondElement from "../elements/modifyDictionaries";
 
@@ -43,6 +44,7 @@ const MainScreen = ({
   close_view_dictionary,
   get_dictionary_words,
   all_dictionary_words,
+  edit_word,
 }) => {
   const navigate = useNavigate();
   const [displayLearning, setDisplayLearning] = useState(true);
@@ -66,6 +68,11 @@ const MainScreen = ({
   const [viewAllWords, setViewAllWords] = useState(false);
   const [deleteWord, setDeleteWord] = useState(false);
   const [wordClicked, setWordClicked] = useState("");
+  const [editWordButton, setEditWordButton] = useState(false);
+  const [word, setWord] = useState("");
+  const [translation, setTranslation] = useState("");
+  const [definition, setDefinition] = useState("");
+  const [wordTypeChosen, setWordTypeChosen] = useState("");
 
   useEffect(() => {
     get_dictionaries();
@@ -165,10 +172,13 @@ const MainScreen = ({
     setViewDisplayLanguages(true);
     setViewAllWords(false);
     setDeleteWord(false);
+    setEditWordButton(false);
+    setWordClicked(false);
   }
 
   function deleteClicked() {
     setDeleteWord(!deleteWord);
+    setEditWordButton(false);
   }
 
   function buttonClicked(word) {
@@ -177,6 +187,11 @@ const MainScreen = ({
 
   function buttonSelectedClicked() {
     setWordClicked("");
+  }
+
+  function editClicked() {
+    setEditWordButton(!editWordButton);
+    setDeleteWord(false);
   }
 
   function submitFunction() {
@@ -194,7 +209,48 @@ const MainScreen = ({
           : null
       );
     }
+    var variables = [
+      viewSelectedLanguage,
+      word,
+      translation,
+      wordTypeChosen,
+      definition,
+    ];
+    if (
+      wordClicked !== "" &&
+      editWordButton &&
+      variables.every((variable) => variable !== "")
+    ) {
+      viewWords.map((oldWord) =>
+        wordClicked === oldWord.word_str
+          ? edit_word(
+              oldWord.word_str,
+              word,
+              viewSelectedLanguage,
+              translation,
+              definition,
+              wordTypeChosen
+            )
+          : null
+      );
+    }
     customizeViewDictionary();
+  }
+
+  function changeWord(change) {
+    setWord(change.target.value);
+  }
+
+  function changeTranslation(change) {
+    setTranslation(change.target.value);
+  }
+
+  function changeDefinition(change) {
+    setDefinition(change.target.value);
+  }
+
+  function wordTypeButtonClicked(type) {
+    setWordTypeChosen(type);
   }
 
   return (
@@ -285,10 +341,84 @@ const MainScreen = ({
                           Delete
                         </Element.DeleteWordNot>
                       )}
+                      {editWordButton ? (
+                        <Element.EditWord onClick={editClicked}>
+                          Edit
+                        </Element.EditWord>
+                      ) : (
+                        <Element.EditWordNot onClick={editClicked}>
+                          Edit
+                        </Element.EditWordNot>
+                      )}
                       <Element.SubmitChanges onClick={submitFunction}>
                         Submit
                       </Element.SubmitChanges>
                     </Element.DictionaryChanges>
+                    {editWordButton ? (
+                      <Element.EditWordClickedDiv>
+                        <SecondElement.WordAdditionInput
+                          type="text"
+                          placeholder="Word..."
+                          onChange={(change) => changeWord(change)}
+                        ></SecondElement.WordAdditionInput>
+                        <SecondElement.WordAdditionInput
+                          type="text"
+                          placeholder="Translation..."
+                          onChange={(change) => changeTranslation(change)}
+                        ></SecondElement.WordAdditionInput>
+                        <SecondElement.WordAdditionInput
+                          type="text"
+                          placeholder="Definition..."
+                          onChange={(change) => changeDefinition(change)}
+                        ></SecondElement.WordAdditionInput>
+                        <SecondElement.WordTypeButtons>
+                          {wordTypeChosen === "imenica" ? (
+                            <SecondElement.WordTypeButtonChosen>
+                              imenica
+                            </SecondElement.WordTypeButtonChosen>
+                          ) : (
+                            <SecondElement.WordTypeButton
+                              onClick={() => wordTypeButtonClicked("imenica")}
+                            >
+                              imenica
+                            </SecondElement.WordTypeButton>
+                          )}
+                          {wordTypeChosen === "pridjev" ? (
+                            <SecondElement.WordTypeButtonChosen>
+                              pridjev
+                            </SecondElement.WordTypeButtonChosen>
+                          ) : (
+                            <SecondElement.WordTypeButton
+                              onClick={() => wordTypeButtonClicked("pridjev")}
+                            >
+                              pridjev
+                            </SecondElement.WordTypeButton>
+                          )}
+                          {wordTypeChosen === "glagol" ? (
+                            <SecondElement.WordTypeButtonChosen>
+                              glagol
+                            </SecondElement.WordTypeButtonChosen>
+                          ) : (
+                            <SecondElement.WordTypeButton
+                              onClick={() => wordTypeButtonClicked("glagol")}
+                            >
+                              glagol
+                            </SecondElement.WordTypeButton>
+                          )}
+                          {wordTypeChosen === "prijedlog" ? (
+                            <SecondElement.WordTypeButtonChosen>
+                              prijedlog
+                            </SecondElement.WordTypeButtonChosen>
+                          ) : (
+                            <SecondElement.WordTypeButton
+                              onClick={() => wordTypeButtonClicked("prijedlog")}
+                            >
+                              prijedlog
+                            </SecondElement.WordTypeButton>
+                          )}
+                        </SecondElement.WordTypeButtons>
+                      </Element.EditWordClickedDiv>
+                    ) : null}
                   </>
                 ) : (
                   <Element.WordSelection>
@@ -328,4 +458,5 @@ export default connect(mapStateToProps, {
   close_view_dictionary,
   get_dictionary_words,
   remove_word_from_dictionary,
+  edit_word,
 })(MainScreen);

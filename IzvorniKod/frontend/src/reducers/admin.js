@@ -18,6 +18,8 @@ import {
   GET_DICTIONARY_WORDS_FAIL,
   GET_DICTIONARY_WORDS_SUCCESS,
   CLOSE_VIEW_DICTIONARY_ADMIN,
+  EDIT_WORD_FAIL,
+  EDIT_WORD_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -97,6 +99,8 @@ export default function (state = initialState, action) {
       return state;
     case CLOSE_VIEW_DICTIONARY_ADMIN:
       return { ...state, words: [] };
+    case EDIT_WORD_SUCCESS:
+    case EDIT_WORD_FAIL:
     default:
       return state;
   }
