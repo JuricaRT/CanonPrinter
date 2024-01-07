@@ -340,9 +340,9 @@ export const edit_word =
     };
     const body = JSON.stringify({
       language: language,
-      cro_translation: newTranslation,
-      definition: newDefinition,
-      word_type: newType,
+      new_cro_translation: newTranslation,
+      new_definition: newDefinition,
+      new_word_type: newType,
       word_str: word,
       new_word_str: newWord,
     });
