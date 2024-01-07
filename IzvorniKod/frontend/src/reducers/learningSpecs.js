@@ -29,7 +29,7 @@ export default function learningSpecsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_DICTIONARIES:
       return {
-        ...initialState,
+        ...state,
         dictionaries: action.payload,
         uniqueLang: [
           ...new Set(
@@ -66,8 +66,8 @@ export default function learningSpecsReducer(state = initialState, action) {
     case FINISH_LEARNING:
       return {
         ...initialState,
-        dictionaries: state.dictionaries,
-        uniqueLang: state.uniqueLang,
+        // dictionaries: state.dictionaries,
+        // uniqueLang: state.uniqueLang,
       };
     default:
       return state;

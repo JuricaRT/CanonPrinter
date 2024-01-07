@@ -69,23 +69,27 @@ const MainScreen = ({
 
   useEffect(() => {
     get_dictionaries();
+  }, [get_dictionaries]);
+
+  useEffect(() => {
+    // get_dictionaries();
 
     if (!isAuthenticated || isAuthenticated === null) {
       navigate("/");
     }
 
-    // if (selectedMode !== null) {
-    //   navigate("/mode12Screen");
-    // }
-
-    if (selectedMode === modes["mode1"] || selectedMode === modes["mode2"]) {
-      navigate("/mode12Screen"); // napisano samo ovako na prvu, nema još putanje do toga kasnije ću dodati
-    } else if (selectedMode === modes["mode3"]) {
-      navigate("/mode3Screen");
-    } else if (selectedMode === modes["mode4"]) {
-      navigate("/mode4Screen");
+    if (selectedMode !== null) {
+      navigate("/mode12Screen");
     }
-  }, [isAuthenticated, navigate, selectedMode, get_dictionaries]);
+
+    // if (selectedMode === modes["mode1"] || selectedMode === modes["mode2"]) {
+    //   navigate("/mode12Screen", { state: selectedMode });
+    // } else if (selectedMode === modes["mode3"]) {
+    //   navigate("/mode3Screen");
+    // } else if (selectedMode === modes["mode4"]) {
+    //   navigate("/mode12Screen", { state: selectedMode });
+    // }
+  }, [isAuthenticated, navigate, selectedMode]);
 
   // set values from states
   useEffect(() => {

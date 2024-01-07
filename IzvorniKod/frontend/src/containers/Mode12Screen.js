@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   getSession,
   initializeSession,
@@ -25,9 +25,13 @@ const Mode12Screen = ({
   getSession,
   initializeSession,
   destroySession,
+  finishLearning,
 }) => {
   const [start, setStart] = useState(false);
   const [selectedAnswer, setselectedAnswer] = useState(null);
+
+  // const location = useLocation();
+  // const selectedMode = location.state || {};
 
   const navigate = useNavigate();
 
@@ -62,36 +66,38 @@ const Mode12Screen = ({
   //   answerQuestion(ans);
   // }
 
-  // function renderComponent() {
-  //   switch (mode) {
-  //     case modes.mode1:
-  //       return (
-  //         <Question
-  //           question={question}
-  //           answers={answers}
-  //           correct={correct}
-  //           selectedAnswer={selectedAnswer}
-  //           setselectedAnswer={setselectedAnswer}
-  //           // newAnswer={handleNewAnswer}
-  //         ></Question>
-  //       );
-  //     case modes.mode2:
-  //       return (
-  //         <Question
-  //           question={question}
-  //           answers={answers}
-  //           correct={correct}
-  //           selectedAnswer={selectedAnswer}
-  //           setselectedAnswer={setselectedAnswer}
-  //           // newAnswer={handleNewAnswer}
-  //         ></Question>
-  //       );
-  //     case modes.mode4:
-  //       return <VoiceRecorder question={question} />;
-  //     default:
-  //       return <></>;
-  //   }
-  // }
+  function renderComponent() {
+    switch (mode) {
+      case modes.mode1:
+        return (
+          <Question
+            question={question}
+            answers={answers}
+            correct={correct}
+            selectedAnswer={selectedAnswer}
+            setselectedAnswer={setselectedAnswer}
+            // newAnswer={handleNewAnswer}
+          ></Question>
+        );
+      case modes.mode2:
+        return (
+          <Question
+            question={question}
+            answers={answers}
+            correct={correct}
+            selectedAnswer={selectedAnswer}
+            setselectedAnswer={setselectedAnswer}
+            // newAnswer={handleNewAnswer}
+          ></Question>
+        );
+      case modes.mode3:
+        return <></>;
+      case modes.mode4:
+        return <VoiceRecorder question={question} />;
+      default:
+        return <></>;
+    }
+  }
 
   return (
     <>
@@ -103,18 +109,7 @@ const Mode12Screen = ({
           {start === false ? (
             <button onClick={handleClick}>START</button>
           ) : (
-            // <>{renderComponent()}</>
-
-            <>
-              <Question
-                question={question}
-                answers={answers}
-                correct={correct}
-                selectedAnswer={selectedAnswer}
-                setselectedAnswer={setselectedAnswer}
-                // newAnswer={handleNewAnswer}
-              ></Question>
-            </>
+            <>{renderComponent()}</>
           )}
         </Element.QuestionDiv>
         <Element.FooterDiv>

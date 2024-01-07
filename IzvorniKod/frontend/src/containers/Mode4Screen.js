@@ -41,7 +41,7 @@ const Mode4Screen = ({
   }
 
   function handleNextClick() {
-    console.log(getSession());
+    getSession();
   }
 
   function handleFinishClick() {
