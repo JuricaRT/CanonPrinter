@@ -147,10 +147,6 @@ class EditWordView(APIView):
                 word_str=request.data["word_str"], language=request.data["language"])
 
             if request.data["new_word_str"] is not None:
-                if Word.objects.filter(word_str=request.data["new_word_str"], language=request.data["language"]):
-
-                    return JsonResponse({'status': 'this word already exists, try different one'}, content_type='application/json', safe=False)
-
                 word.word_str = request.data["new_word_str"]
 
             if request.data["new_cro_translation"] is not None:
