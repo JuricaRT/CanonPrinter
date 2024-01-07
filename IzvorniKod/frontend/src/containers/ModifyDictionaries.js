@@ -221,16 +221,19 @@ const ModifyDictionaries = ({
             )}
             <Element.WordAdditionInput
               type="text"
+              name="word"
               placeholder="Word..."
               onChange={(change) => changeWord(change)}
             ></Element.WordAdditionInput>
             <Element.WordAdditionInput
               type="text"
+              name="translation"
               placeholder="Translation..."
               onChange={(change) => changeTranslation(change)}
             ></Element.WordAdditionInput>
             <Element.WordAdditionInput
               type="text"
+              name="definition"
               placeholder="Definition..."
               onChange={(change) => changeDefinition(change)}
             ></Element.WordAdditionInput>

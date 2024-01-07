@@ -14,7 +14,7 @@ class TestRuntimeSession(TestCase):
     TEST_USER_EMAIL = "testuser@test.com"
     TEST_USER_PASSWORD = "testpassword123"
 
-    words = json.load(open(os.path.join(os.path.abspath("."), "tests", "test_words.json")))
+    words = json.load(open(os.path.join(os.path.abspath("."), "tests", "unit_tests", "test_words.json")))
 
     def setUp(self):
         self.client = Client(headers={"Accept": "application/json", "Content-Type": "application/json"})
