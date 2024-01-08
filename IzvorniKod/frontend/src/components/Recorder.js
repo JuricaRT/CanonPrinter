@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as Element from "../elements/recorder";
-import { answerQuestion2 } from "../actions/mode12";
+import { answerQuestion2, answerQuestion } from "../actions/mode12";
 import { connect } from "react-redux";
 
-const Recorder = ({ answerQuestion2 }) => {
+const Recorder = ({ answerQuestion2, answerQuestion, random_grade }) => {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioChunks, setAudioChunks] = useState([]);
@@ -43,7 +43,7 @@ const Recorder = ({ answerQuestion2 }) => {
   };
 
   function handleClick() {
-    answerQuestion2();
+    answerQuestion(audioChunks);
     setcannotSubmit(true);
   }
 
@@ -59,10 +59,15 @@ const Recorder = ({ answerQuestion2 }) => {
       <button onClick={handleClick} disabled={cannotSubmit}>
         Submit
       </button>
+      {random_grade !== null ? <p>Your score is {random_grade}</p> : <></>}
     </Element.Recorder>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  random_grade: state.mode12Reducer.randomGrade,
+});
 
-export default connect(mapStateToProps, { answerQuestion2 })(Recorder);
+export default connect(mapStateToProps, { answerQuestion2, answerQuestion })(
+  Recorder
+);
