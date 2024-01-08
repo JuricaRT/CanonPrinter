@@ -99,8 +99,10 @@ export const answerQuestion = (answer) => async (dispatch) => {
     } else {
       if (res.data.answer_correct === "yes") {
         dispatch({ type: ANSWER_QUESTION, payload: "yes" });
-      } else {
+      } else if (res.data.answer_correct === "yes") {
         dispatch({ type: ANSWER_QUESTION, payload: "no" });
+      } else {
+        dispatch({ type: ANSWER_QUESTION, payload: res.data.answer_correct });
       }
     }
   } catch (error) {

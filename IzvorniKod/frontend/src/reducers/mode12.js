@@ -35,11 +35,12 @@ export default function mode12Reducer(state = initalState, action) {
         correct_answers: action.payload.correct_answers,
         wrong_answers: action.payload.wrong_answers,
         selectedAnswer: null,
+        randomGrade: null,
       };
     case GET_SESSION_FAIL:
       return state;
     case ANSWER_QUESTION:
-      return { ...state, answer: action.payload };
+      return { ...state, randomGrade: action.payload };
     case ANSWER_QUESTION_FAIL:
       return state;
     case DESTROY_SESSION:

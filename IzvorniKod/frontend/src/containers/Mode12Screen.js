@@ -27,6 +27,7 @@ const Mode12Screen = ({
   initializeSession,
   destroySession,
   finishLearning,
+  randomGrade,
 }) => {
   const [start, setStart] = useState(false);
   const [selectedAnswer, setselectedAnswer] = useState(null);
@@ -137,6 +138,7 @@ const mapStateToProps = (state) => ({
   dict: state.learningSpecsReducer.selectedDictionary,
   lang: state.learningSpecsReducer.language,
   mode: state.learningSpecsReducer.selectedMode,
+  randomGrade: state.mode12Reducer.randomGrade,
 });
 
 export default connect(mapStateToProps, {

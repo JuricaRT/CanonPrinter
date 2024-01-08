@@ -4,7 +4,7 @@ export const Recorder = styled.div`
   display: flex;
   flex-direction: column;
   width: 250px;
-  height: 125px;
+  height: 165px;
   justify-content: flex-start;
   background-color: gray;
   border-radius: 5px;
