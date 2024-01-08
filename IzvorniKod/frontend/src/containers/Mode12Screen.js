@@ -14,6 +14,7 @@ import { GlobalStyle } from "../elements/global";
 import { finishLearning } from "../actions/learningSpecs";
 import modes from "../actions/modes";
 import VoiceRecorder from "../components/VoiceRecorder";
+import VoiceToTextAnalyzer from "../components/VoiceToTextAnalyzer";
 
 const Mode12Screen = ({
   question,
@@ -91,7 +92,7 @@ const Mode12Screen = ({
           ></Question>
         );
       case modes.mode3:
-        return <></>;
+        return <VoiceToTextAnalyzer question={question}></VoiceToTextAnalyzer>;
       case modes.mode4:
         return <VoiceRecorder question={question} />;
       default:
