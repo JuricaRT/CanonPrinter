@@ -187,6 +187,7 @@ const ModifyDictionaries = ({
               </Box>
 
               <Autocomplete
+                freeSolo
                 onChange={(change, newValue) => {
                   setDefinition("")
                   updateAutofillDescription(newValue, wordType)
