@@ -30,6 +30,7 @@ urlpatterns = [
     path("get_dictionaries", dict_views.GetDictionariesView.as_view()),
     path("get_words_from_dict", dict_views.GetWordsFromDictView.as_view()),
     path("add_word_list", dict_views.AddWordListView.as_view()),
+    path("get_word_audio", dict_views.GetWordAudioView.as_view()),
 
     path("initialize_session", session_views.InitializeSessionView.as_view()),
     path("get_session", session_views.GetSessionView.as_view()),

@@ -1,11 +1,15 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Dictionary, Word
 from itertools import groupby
 from operator import itemgetter
+from django.conf import settings
+import encodings
 
 from rest_framework.views import APIView
 from rest_framework import permissions
 
+from google.cloud import texttospeech
+from google.oauth2 import service_account
 
 class CreateDictionaryView(APIView):
     permission_classes = (permissions.IsAdminUser, )
@@ -218,3 +222,31 @@ def add_word_list(dictionary, word_list):
         new_word = Word.objects.create(**word)
         new_word.parent_dict.set([dictionary])
         new_word.save()
+
+class GetWordAudioView(APIView):
+    def put(self, request, format=None):
+        try:
+            client = texttospeech.TextToSpeechClient(credentials=service_account.Credentials.from_service_account_file(settings.GOOGLE_SERVICE_ACCOUNT_PATH))
+
+            synthesis_input = texttospeech.SynthesisInput(text=request.data["word"])
+
+            voice = texttospeech.VoiceSelectionParams(
+                language_code=settings.GOOGLE_LANGUAGE_CODE,
+                name=settings.GOOGLE_VOICE_NAME,
+                ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+            )
+
+            audio_config = texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding.LINEAR16
+            )
+
+            response = client.synthesize_speech(
+                input=synthesis_input,
+                voice=voice,
+                audio_config=audio_config
+            )
+
+            return HttpResponse(response.audio_content, content_type='application/octet-stream')
+        except Exception as e:
+            print(e)
+            return HttpResponse(bytes(bytearray(0)), content_type='application/octet-stream')
