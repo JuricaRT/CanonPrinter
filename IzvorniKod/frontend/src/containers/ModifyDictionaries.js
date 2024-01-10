@@ -127,7 +127,10 @@ const ModifyDictionaries = ({
                   setDisplayAddDictionaries(false);
                   resetUIAddDictionary()
                   create_dictionary(dictionaryName, language)
-                  //get_dictionaries(); TODO: not refreshing dictionary list
+                  // TODO: nac manje seosko rjesnje
+                  setTimeout(() => {
+                    get_dictionaries();
+                  }, 250);
                 }
               }} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Create dictionary</Button>
             </>
@@ -172,7 +175,7 @@ const ModifyDictionaries = ({
               <Box sx={{ width: "30%", marginBottom: "1em" }}>
                 <FormControl fullWidth>
                   <InputLabel>Dictionary</InputLabel>
-                  {selectedLanguage !== "" ? (
+                  {selectedLanguage !== "" ? get_dictionaries() && (
                       <Select>
                         {dictionaries[selectedLanguage].map((elem) => (
                           <MenuItem onClick={() => setSelectedDictionary(elem)} value={elem}>{elem}</MenuItem>
