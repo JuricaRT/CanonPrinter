@@ -7,6 +7,8 @@ import {
   ANSWER_QUESTION_FAIL,
   DESTROY_SESSION,
   DESTROY_SESSION_FAIL,
+  GET_AUDIO_FILE_FAIL,
+  GET_AUDIO_FILE_SUCCESS,
 } from "../actions/types";
 
 const initalState = {
@@ -18,6 +20,7 @@ const initalState = {
   answer: null,
   selectedAnswer: null,
   randomGrade: null,
+  audioFile: null,
 };
 
 export default function mode12Reducer(state = initalState, action) {
@@ -46,6 +49,10 @@ export default function mode12Reducer(state = initalState, action) {
     case DESTROY_SESSION:
       return initalState;
     case DESTROY_SESSION_FAIL:
+      return state;
+    case GET_AUDIO_FILE_SUCCESS:
+      return { ...state, audioFile: action.payload };
+    case GET_AUDIO_FILE_FAIL:
       return state;
     default:
       return state;

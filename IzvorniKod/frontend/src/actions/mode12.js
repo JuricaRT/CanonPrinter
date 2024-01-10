@@ -12,6 +12,8 @@ import {
   ANSWER_QUESTION_FAIL,
   DESTROY_SESSION,
   DESTROY_SESSION_FAIL,
+  GET_AUDIO_FILE_FAIL,
+  GET_AUDIO_FILE_SUCCESS,
 } from "./types";
 
 export const initializeSession = (dict, lang, mode) => async (dispatch) => {
@@ -153,5 +155,26 @@ export const destroySession = () => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: DESTROY_SESSION_FAIL });
+  }
+};
+
+export const getAudioFile = (word) => async (dispatch) => {
+  const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+  const body = JSON.stringify({ word: word });
+  try {
+    const res = await axios.put(`${baseURL}/get_word_audio`, body, config);
+    dispatch({
+      type: GET_AUDIO_FILE_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({ type: GET_AUDIO_FILE_FAIL });
   }
 };
