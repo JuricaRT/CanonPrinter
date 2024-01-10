@@ -16,8 +16,8 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  dictionaries: [],
-  uniqueLang: null,
+  dictionaries: [], // used by: ModifyDictionaries.js
+  uniqueLang: null, // used by: ModifyDictionaries.js
   language: null,
   selectedDictionary: null,
   selectedMode: null,

@@ -2,7 +2,8 @@ import {
     AUTOFILL_SUGGESTIONS_FROM_API,
     CACHE_AUTOFILL_SUGGESTIONS,
     AUTOFILL_SUGGESTIONS_FROM_CACHE,
-    UPDATE_AUTOFILL_DESCRIPTION
+    UPDATE_AUTOFILL_DESCRIPTION,
+    RESET_AUTOFILL
 } from '../actions/types';
 
 
@@ -42,7 +43,9 @@ export default function autofillReducer(state = initialState, action) {
             return {
                 ...state,
                 autofillDescription: action.payload
-            }
+            };
+        case RESET_AUTOFILL:
+            return initialState;
         default:
             return state;
     }

@@ -1,135 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, GlobalStyle } from "../elements/global";
 import { connect } from "react-redux";
 import Banner from "./Banner";
 import { useNavigate } from "react-router-dom";
-import * as Element from "../elements/modifyDictionaries";
+import { create_dictionary, add_word_to_dictionary } from "../actions/admin";
+import { get_dictionaries } from "../actions/learningSpecs";
+import { updateAutofillSuggestions, updateAutofillDescription, resetAutofill } from "../actions/autofill";
 import {
-  add_word_to_dictionary,
-  remove_word_from_dictionary,
-} from "../actions/admin";
-import { create_dictionary } from "../actions/admin";
-import List from "../components/List";
-import {
-  get_dictionaries,
-  select_dictionary,
-  select_language,
-  close_adding,
-} from "../actions/learningSpecs";
+  Autocomplete, TextField, Radio, RadioGroup,
+  FormControlLabel, FormControl, FormLabel,
+  Button, Box, InputLabel, MenuItem, Select
+} from "@mui/material"
 
 const ModifyDictionaries = ({
   isAuthenticated,
-  close_adding,
-  create_dictionary,
-  add_word_to_dictionary,
-  remove_word_from_dictionary,
   dictionaries,
   uniqueLang,
-  selected_dictionary,
-  selected_mode,
-  selected_language,
-  get_dictionaries,
-  select_language,
-  select_dictionary,
-}) => {
-  const [dictionaryName, setDictionaryName] = useState("");
-  const [addDictionaries, setAddDictionaries] = useState(false);
-  const [language, setLanguage] = useState("");
-  const [dictionaryChanges, setDictionaryChanges] = useState(false);
+  autofillSuggestions,
+  autofillDescription,
 
+  create_dictionary,
+  add_word_to_dictionary,
+  get_dictionaries,
+  updateAutofillSuggestions,
+  updateAutofillDescription,
+  resetAutofill
+}) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === null) {
+      navigate("/");
+    }
+    get_dictionaries();
+  }, [isAuthenticated, navigate, get_dictionaries]);
+
+
+  /* ------------------------------------------------------------------------------------ */
+
+  // for Add Dictionary
+  const [dictionaryName, setDictionaryName] = useState("");
+  const [language, setLanguage] = useState("");
+
+
+  // for display control
+  const [displayAddDictionaries, setDisplayAddDictionaries] = useState(false);
+  const [displayAddWordForm, setDisplayAddWordForm] = useState(false);
+
+
+  // for Add Word
   const [word, setWord] = useState("");
   const [translation, setTranslation] = useState("");
   const [definition, setDefinition] = useState("");
-  const [selectedAddition, setSelectedAddition] = useState(false);
-  const [currentAddWordButtonAction, setCurrentWordButtonAction] = useState("");
-  const [displayCurrentDictionary, setDisplayCurrentDictionary] =
-    useState(false);
-  const [wordTypeChosen, setWordTypeChosen] = useState("");
+  const [wordType, setWordType] = useState("imenica");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedDictionary, setSelectedDictionary] = useState("");
 
-  //----------------------------------------
-  //const [displayLearning, setDisplayLearning] = useState(true);
-  const [displayLanguages, setDisplayLanguages] = useState(false);
-  const [displayDictionaries, setDisplayDictionaries] = useState(false);
-  const [languages, setLanguages] = useState(null);
+  /* ------------------------------------------------------------------------------------ */
 
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
-  const [selectedDictionary, setSelectedDictionary] = useState(null);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    get_dictionaries();
-    if (!isAuthenticated || isAuthenticated === null) navigate("/");
-  }, [isAuthenticated, navigate, get_dictionaries]);
-
-  useEffect(() => {
-    setSelectedLanguage(selected_language);
-    setSelectedDictionary(selected_dictionary);
-    if (selected_dictionary !== null) {
-      setDisplayCurrentDictionary(true);
-    }
-  }, [selected_language, selected_dictionary, selected_mode]);
-
-  useEffect(() => {
-    if (selectedLanguage !== null) {
-      setDisplayLanguages(false);
-      setDisplayDictionaries(true);
-    }
-
-    if (selectedDictionary !== null) {
-      setDisplayDictionaries(false);
-    }
-  }, [selectedLanguage, selectedDictionary]);
-
-  // function customizeLearning() {
-  //   setDisplayLearning(false);
-  //   setLanguages(uniqueLang);
-  //   setDisplayLanguages(true);
-  // }
-
-  function dictionaryBack() {
-    setDisplayDictionaries(false);
-    setDisplayLanguages(true);
-    select_language(null);
+  function resetUIAddDictionary() {
+    setDictionaryName("")
+    setLanguage("")
   }
 
-  //-----------------------------------------------------
-  function createDictionary() {
-    setAddDictionaries(!addDictionaries);
-  }
+  function resetUIAddWord() {
+    resetAutofill()
 
-  function changeDictionaryName(change) {
-    setDictionaryName(change.target.value);
-  }
-
-  function changeLanguageName(change) {
-    setLanguage(change.target.value);
-  }
-
-  function changeDictionaryChanges() {
-    setDictionaryChanges(!dictionaryChanges);
-    setDisplayCurrentDictionary(false);
-    setSelectedAddition(false);
-    setLanguages(uniqueLang);
-    setDisplayLanguages(true);
-    setWordTypeChosen(false);
-    close_adding();
-  }
-
-  function changeToAdd() {
-    setSelectedAddition(true);
-    setCurrentWordButtonAction("Add");
-  }
-
-  function changeWord(change) {
-    setWord(change.target.value);
-  }
-
-  function changeTranslation(change) {
-    setTranslation(change.target.value);
-  }
-
-  function changeDefinition(change) {
-    setDefinition(change.target.value);
+    setWord("")
+    setTranslation("")
+    setDefinition("")
+    setWordType("imenica")
+    setSelectedLanguage("")
+    setSelectedDictionary("")
   }
 
   function submitWord() {
@@ -138,32 +81,21 @@ const ModifyDictionaries = ({
       word,
       selectedLanguage,
       translation,
-      wordTypeChosen,
+      wordType,
       definition,
     ];
-    if (
-      currentAddWordButtonAction === "Add" &&
-      variables.every((variable) => variable !== "")
-    ) {
-      changeDictionaryChanges();
+    if (variables.every((variable) => variable !== "")) {
+      setDisplayAddWordForm(false);
+      resetUIAddWord()
       add_word_to_dictionary(
         selectedDictionary,
         word,
         selectedLanguage,
         translation,
-        wordTypeChosen,
+        wordType,
         definition
       );
     }
-  }
-
-  function submitDictionary() {
-    setAddDictionaries(false);
-    create_dictionary(dictionaryName, language);
-  }
-
-  function wordTypeButtonClicked(type) {
-    setWordTypeChosen(type);
   }
 
   return (
@@ -172,141 +104,111 @@ const ModifyDictionaries = ({
       <Container>
         <Banner origin="ModifyDictionaries"></Banner>
         <hr />
-        <Element.AddDictionary onClick={createDictionary}>
-          Add dictionary
-        </Element.AddDictionary>
-        {addDictionaries && (
-          <>
-            <Element.AddDictionaryName
-              type="text"
-              placeholder="Dictionary name..."
-              onChange={(change) => changeDictionaryName(change)}
-            ></Element.AddDictionaryName>
-            <Element.LanguageSelectionForDictionary
-              type="text"
-              placeholder="Language..."
-              onChange={(change) => changeLanguageName(change)}
-            ></Element.LanguageSelectionForDictionary>
-            <Element.SubmitButtonForAddingDictionary onClick={submitDictionary}>
-              Submit
-            </Element.SubmitButtonForAddingDictionary>
-          </>
-        )}
+        
 
-        <Element.ChangeDictionaryButton onClick={changeDictionaryChanges}>
-          Add word
-        </Element.ChangeDictionaryButton>
+        {/* Add Dictionary */}
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <Button onClick={() => {
+            setDisplayAddDictionaries(!displayAddDictionaries)
+            resetUIAddDictionary()
+          }} sx={{ width: "10%", marginBottom: "1em" }} variant="contained">Add dictionary</Button>
 
-        {dictionaryChanges && (
-          <>
-            {displayLanguages && (
-              <Element.LanguageSelect>
-                Select language
-                <List elements={languages} type="lang" />
-              </Element.LanguageSelect>
-            )}
-            {displayDictionaries && (
-              <Element.DictionarySelect>
-                Select dictionary
-                <List elements={dictionaries[selectedLanguage]} type="dict" />
-                <Element.DictionaryBack onClick={dictionaryBack}>
-                  &larr;
-                </Element.DictionaryBack>
-              </Element.DictionarySelect>
-            )}
-            {displayCurrentDictionary && (
-              <Element.SelectedDictionaryDisplay>
-                {selectedDictionary}
-              </Element.SelectedDictionaryDisplay>
-            )}
-            <Element.WordAdditionInput
-              type="text"
-              name="word"
-              placeholder="Word..."
-              onChange={(change) => changeWord(change)}
-            ></Element.WordAdditionInput>
-            <Element.WordAdditionInput
-              type="text"
-              name="translation"
-              placeholder="Translation..."
-              onChange={(change) => changeTranslation(change)}
-            ></Element.WordAdditionInput>
-            <Element.WordAdditionInput
-              type="text"
-              name="definition"
-              placeholder="Definition..."
-              onChange={(change) => changeDefinition(change)}
-            ></Element.WordAdditionInput>
-            {selectedLanguage && (
-              <Element.WordAdditionInput
-                type="text"
-                value={selectedLanguage}
-                readOnly={true}
-              ></Element.WordAdditionInput>
-            )}
-            <Element.WordTypeButtons>
-              {wordTypeChosen === "imenica" ? (
-                <Element.WordTypeButtonChosen>
-                  imenica
-                </Element.WordTypeButtonChosen>
-              ) : (
-                <Element.WordTypeButton
-                  onClick={() => wordTypeButtonClicked("imenica")}
-                >
-                  imenica
-                </Element.WordTypeButton>
-              )}
-              {wordTypeChosen === "pridjev" ? (
-                <Element.WordTypeButtonChosen>
-                  pridjev
-                </Element.WordTypeButtonChosen>
-              ) : (
-                <Element.WordTypeButton
-                  onClick={() => wordTypeButtonClicked("pridjev")}
-                >
-                  pridjev
-                </Element.WordTypeButton>
-              )}
-              {wordTypeChosen === "glagol" ? (
-                <Element.WordTypeButtonChosen>
-                  glagol
-                </Element.WordTypeButtonChosen>
-              ) : (
-                <Element.WordTypeButton
-                  onClick={() => wordTypeButtonClicked("glagol")}
-                >
-                  glagol
-                </Element.WordTypeButton>
-              )}
-              {wordTypeChosen === "prijedlog" ? (
-                <Element.WordTypeButtonChosen>
-                  prijedlog
-                </Element.WordTypeButtonChosen>
-              ) : (
-                <Element.WordTypeButton
-                  onClick={() => wordTypeButtonClicked("prijedlog")}
-                >
-                  prijedlog
-                </Element.WordTypeButton>
-              )}
-            </Element.WordTypeButtons>
-            <Element.WordChangesDiv>
-              {selectedAddition ? (
-                <Element.SelectedWordAdditionButton>
-                  Add
-                </Element.SelectedWordAdditionButton>
-              ) : (
-                <Element.WordAdditionButton onClick={changeToAdd}>
-                  Add
-                </Element.WordAdditionButton>
-              )}
 
-              <Element.WordAdditionButton onClick={submitWord}>
-                Submit
-              </Element.WordAdditionButton>
-            </Element.WordChangesDiv>
-          </>
-        )}
+          {displayAddDictionaries && (
+            <>
+              <TextField type="text" name="dictionaryName" label="Dictionary name..." sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change) => setDictionaryName(change.target.value)} />
+
+              <TextField type="text" name="dictionaryLanguage" label="Language..." sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change) => setLanguage(change.target.value)} />
+
+              <Button onClick={() => {
+                if (dictionaryName !== "" && language !== "") {
+                  setDisplayAddDictionaries(false);
+                  resetUIAddDictionary()
+                  create_dictionary(dictionaryName, language)
+                  //get_dictionaries(); TODO: not refreshing dictionary list
+                }
+              }} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Create dictionary</Button>
+            </>
+          )}
+        </div>
+
+
+        {/* Add Word */}
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <Button onClick={() => {
+            setDisplayAddWordForm(!displayAddWordForm);
+            resetUIAddWord()
+          }} sx={{ width: "10%", marginBottom: "1em" }} variant="contained">Add word</Button>
+
+
+          {displayAddWordForm && (
+            <>
+              <FormControl sx={{ width: "30%" }}>
+                <FormLabel>Word type</FormLabel>
+                <RadioGroup
+                  row
+                  defaultValue={wordType}
+                  onChange={(change) => setWordType(change.target.value)}>
+                  <FormControlLabel value="imenica" control={<Radio />} label="Imenica" />
+                  <FormControlLabel value="pridjev" control={<Radio />} label="Pridjev" />
+                  <FormControlLabel value="glagol" control={<Radio />} label="Glagol" />
+                  <FormControlLabel value="prijedlog" control={<Radio />} label="Prijedlog" />
+                </RadioGroup>
+              </FormControl>
+
+              <Box sx={{ width: "30%", marginBottom: "1em" }}>
+                <FormControl fullWidth>
+                  <InputLabel>Language</InputLabel>
+                  <Select>
+                    {uniqueLang.map((elem) => (
+                      <MenuItem onClick={() => setSelectedLanguage(elem)} value={elem}>{elem}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <Box sx={{ width: "30%", marginBottom: "1em" }}>
+                <FormControl fullWidth>
+                  <InputLabel>Dictionary</InputLabel>
+                  {selectedLanguage !== "" ? (
+                      <Select>
+                        {dictionaries[selectedLanguage].map((elem) => (
+                          <MenuItem onClick={() => setSelectedDictionary(elem)} value={elem}>{elem}</MenuItem>
+                        ))}
+                      </Select>
+                    ) : (<Select disabled></Select>)
+                  }
+                </FormControl>
+              </Box>
+
+              <Autocomplete
+                onChange={(change, newValue) => {
+                  setDefinition("")
+                  updateAutofillDescription(newValue, wordType)
+                  setWord(newValue)
+                }}
+                options={autofillSuggestions}
+                sx={{ width: "30%", marginBottom: "1em" }}
+                renderInput={(params) =>
+                  <TextField {...params} label="Word..." onChange={(change) => {
+                    updateAutofillSuggestions(change.target.value)
+                    setWord(change.target.value);
+                  }}/>}
+              />
+
+              <TextField value={definition} type="text" name="definition" label="Definition..." sx={{ width: "30%", marginBottom: "1em" }}
+                onClick={() =>  setDefinition(autofillDescription)} onChange={(change) => setDefinition(change.target.value)} />
+              
+              <TextField type="text" name="translation" label="Translation..." sx={{ width: "30%", marginBottom: "1em" }} 
+                onChange={(change) => setTranslation(change.target.value)} />
+
+
+              <Button onClick={submitWord} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Add word</Button>
+            </>
+          )}
+        </div>
       </Container>
     </React.Fragment>
   );
@@ -314,20 +216,17 @@ const ModifyDictionaries = ({
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  is_superuser: state.profile.is_admin,
   dictionaries: state.learningSpecsReducer.dictionaries,
   uniqueLang: state.learningSpecsReducer.uniqueLang,
-  selected_dictionary: state.learningSpecsReducer.selectedDictionary,
-  selected_mode: state.learningSpecsReducer.selectedMode,
-  selected_language: state.learningSpecsReducer.language,
+  autofillSuggestions: state.autofillReducer.autofillSuggestions,
+  autofillDescription: state.autofillReducer.autofillDescription
 });
 
 export default connect(mapStateToProps, {
   create_dictionary,
   add_word_to_dictionary,
   get_dictionaries,
-  select_dictionary,
-  select_language,
-  remove_word_from_dictionary,
-  close_adding,
+  updateAutofillSuggestions,
+  updateAutofillDescription,
+  resetAutofill
 })(ModifyDictionaries);
