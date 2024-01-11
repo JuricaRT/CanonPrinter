@@ -16,13 +16,13 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  dictionaries: [], // used by: ModifyDictionaries.js
-  uniqueLang: null, // used by: ModifyDictionaries.js
+  dictionaries: [], // used by: ModifyDictionaries.js, MainScreen.js
+  uniqueLang: null, // used by: ModifyDictionaries.js, MainScreen.js
   language: null,
   selectedDictionary: null,
-  selectedMode: null,
-  languageView: null,
-  selectedDictionaryView: null,
+  selectedMode: null, // used by: MainScreen.js
+  languageView: null, // not used
+  selectedDictionaryView: null, // not used
 };
 
 export default function learningSpecsReducer(state = initialState, action) {

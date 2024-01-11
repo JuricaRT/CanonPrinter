@@ -92,7 +92,9 @@ export default function (state = initialState, action) {
     case ADD_WORD_FAILURE:
       return state;
     case REMOVE_WORD_SUCCESS:
+      return state
     case REMOVE_WORD_FAILURE:
+      return state
     case GET_DICTIONARY_WORDS_SUCCESS:
       return { ...state, words: payload };
     case GET_DICTIONARY_WORDS_FAIL:

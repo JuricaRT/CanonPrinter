@@ -263,8 +263,7 @@ export const add_word_to_dictionary =
   };
 
 export const remove_word_from_dictionary =
-  (dictionaryName, word, language, translation, wordType, definition) =>
-  async (dispatch) => {
+  (dictionaryName, word, language) => async (dispatch) => {
     const config = {
       withCredentials: true,
       headers: {
@@ -276,9 +275,6 @@ export const remove_word_from_dictionary =
     const body = JSON.stringify({
       dict_name: dictionaryName,
       language: language,
-      cro_translation: translation,
-      definition: definition,
-      word_type: wordType,
       word_str: word,
     });
     try {
@@ -286,9 +282,7 @@ export const remove_word_from_dictionary =
       if (res.data.success) {
         dispatch({
           type: REMOVE_WORD_SUCCESS,
-          payload: res.data,
         });
-        dispatch({});
       } else {
         dispatch({
           type: REMOVE_WORD_FAILURE,

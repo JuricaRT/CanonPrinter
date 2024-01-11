@@ -38,7 +38,7 @@ const List = ({
 
   return (
     <div>
-      {elements.map((elem) => (
+      {elements && elements.map((elem) => (
         <button onClick={() => handleClick(elem)} key={elem}>
           {elem}
         </button>
