@@ -222,8 +222,26 @@
 		\section{Upute za puštanje u pogon}
 			
 			\noindent{\textbf{Konfiguracija poslužitelja baze podataka}}\\
+			\noindent{MongoDB Atlas nudi mogućnosti korištenja MongoDB baze podataka na udaljenom poslužitelju, za što je potreban MongoDB korisnički račun. S uspješno stvorenim računom moguće je napraviti novi "Deployment" koji će sadržavati sve baze podataka (eng. cluster). Prilikom stvaranja novog deploymenta odabire se pružatelj usluge poslužitelja i fizička lokacija samog poslužitelja na kojem će se cluster nalaziti (slika \ref{fig:Odabir poslužitelja BP-a}).}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.5\textwidth]{slike/bp1.png}
+				\caption{Odabir poslužitelja baze podataka}
+				\label{fig:Odabir poslužitelja BP-a}
+			\end{figure}
 			
 			\noindent{\textbf{Konfiguracija baze podataka}}\\
+			\noindent{Na novostvorenom poslužitelju možemo pokrenuti novu bazu podataka, ali prvo je potrebno spojiti se na cluster. Na cluster se spajamo s nekim korisnikom koji ima određene priviligije. Budući da smo cluster tek stvorili, MongoDB će nas prvi prvom povezivanju na cluster tražiti ime i lozinku novog korisnika koji će imati "atlasAdmin" privilegije. Atlas, kao razinu sigurnosti, dopušta spajanje na cluster samo preko potvrđenih IP-adresa, zato je nužno dodati IP-adresu poslužitelja aplikacije kao potvrđenu. Na Security $\rightarrow$ Network Access $\rightarrow$ + ADD IP ADDRESS (slika \ref{fig:Dodavanje IP}) upisujemo IP-adresu poslužitelja aplikacije.}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{slike/dodavanje_ip.png}
+				\caption{Postupak dodavanja IP-adrese u listu potvrđenih}
+				\label{fig:Dodavanje IP}
+			\end{figure}
+			
+			\noindent{Aplikacija sada može pristupiti bazi podataka. Odlaskom na Deployment $\rightarrow$ Database $\rightarrow$ Collections $\rightarrow$ + Create Database stvaramo novu bazu podataka.} \\
 			
 			\noindent{\textbf{Konfiguracija Heroku poslužitelja}}\\
 			\noindent{Nakon što se uspješno izradi Heroku korisnički račun, potrebno je stvoriti novu aplikaciju u "Dashboardu" klikom na "Create new app". Potrebno je upisati ime aplikacije, odabrati regiju i završiti stvaranje aplikacije klikom na "Create app". Forma za izradu aplikacije je prikazana na slici \ref{fig:StvaranjeAplikacije}}.
