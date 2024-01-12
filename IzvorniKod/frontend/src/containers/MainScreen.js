@@ -32,6 +32,8 @@ const MainScreen = ({
   isAuthenticated,
   is_superuser,
   dictionaries,
+  learnableDictionaries,
+  learnableLanguages,
   uniqueLang,
   selected_mode,
   words,
@@ -160,7 +162,7 @@ const MainScreen = ({
                 <FormControl fullWidth>
                   <InputLabel>Language</InputLabel>
                   <Select>
-                    {uniqueLang.map((elem) => (
+                    {learnableLanguages.map((elem) => (
                       <MenuItem onClick={() => {
                         setSelectedLanguage(elem)
                         select_language(elem)
@@ -176,7 +178,7 @@ const MainScreen = ({
                   <InputLabel>Dictionary</InputLabel>
                   {selectedLanguage !== "" ? (
                     <Select>
-                      {dictionaries[selectedLanguage].map((elem) => (
+                      {learnableDictionaries[selectedLanguage].map((elem) => (
                         <MenuItem onClick={() => {
                           setSelectedDictionary(elem)
                           select_dictionary(elem)
@@ -399,6 +401,8 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   is_superuser: state.profile.is_admin,
   dictionaries: state.learningSpecsReducer.dictionaries,
+  learnableDictionaries: state.learningSpecsReducer.learnableDictionaries,
+  learnableLanguages: state.learningSpecsReducer.learnableLanguages,
   uniqueLang: state.learningSpecsReducer.uniqueLang,
   selected_mode: state.learningSpecsReducer.selectedMode,
   words: state.admin.words,

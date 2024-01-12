@@ -171,12 +171,36 @@ class EditWordView(APIView):
 
 class GetDictionariesView(APIView):
     def get(self, request, format=None):
+        MIN_WORDS_PER_CAT = 4
+        
         dicts = Dictionary.objects.all()
         dictionary_dict = [dict.to_dict() for dict in dicts]
         dictionary_dict = sorted(dictionary_dict, key=itemgetter('language'))
 
-        json_dict = {dict_name: [dict["dict_name"] for dict in dicts_in_group]
-                     for dict_name, dicts_in_group in groupby(dictionary_dict, key=itemgetter("language"))}
+        json_dict = {}
+
+        for lang_name, dicts_in_group in groupby(dictionary_dict, key=itemgetter("language")):
+            dicts_for_lang = []
+            for dict in dicts_in_group:
+                isLearnable = False
+                nounCount, verbCount, adjectiveCount, adverbCount = 0, 0, 0, 0
+                words_in_dict = Word.objects.filter(parent_dict__language=lang_name,
+                                                    parent_dict__dict_name=dict["dict_name"])
+                for word in words_in_dict:
+                    word_type = word.to_dict()["word_type"]
+                    if word_type == "imenica": nounCount += 1
+                    elif word_type == "glagol": verbCount += 1
+                    elif word_type == "pridjev": adjectiveCount += 1
+                    elif word_type == "prijedlog": adverbCount += 1 # TODO: nije prijedlog nego prilog
+
+                if (nounCount >= MIN_WORDS_PER_CAT and 
+                    verbCount >= MIN_WORDS_PER_CAT and 
+                    adjectiveCount >= MIN_WORDS_PER_CAT and 
+                    adverbCount >= MIN_WORDS_PER_CAT): isLearnable = True
+
+                dicts_for_lang.append({"dict_name" : dict["dict_name"], "isLearnable" : isLearnable})
+                
+            json_dict[lang_name] = dicts_for_lang
         
         return JsonResponse({'dicts': json_dict}, content_type='application/json', safe=False)
 

@@ -16,8 +16,10 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  dictionaries: [], // used by: ModifyDictionaries.js, MainScreen.js
+  dictionaries: null, // used by: ModifyDictionaries.js, MainScreen.js
+  learnableDictionaries: null, // used by: MainScreen.js
   uniqueLang: null, // used by: ModifyDictionaries.js, MainScreen.js
+  learnableLanguages: null, // used by: MainScreen.js
   language: null,
   selectedDictionary: null,
   selectedMode: null, // used by: MainScreen.js
@@ -28,16 +30,30 @@ const initialState = {
 export default function learningSpecsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_DICTIONARIES:
+      let learnable = {}
+      let all = {}
+      
+      for (const [lang, dictsInLang] of Object.entries(action.payload)) {
+        let currentLangLearnable = []
+        let currentLangAll = []
+
+         for (const dict of dictsInLang) {
+          if (dict.isLearnable) {
+            currentLangLearnable.push(dict.dict_name)
+          }
+          currentLangAll.push(dict.dict_name)
+        }
+        
+        if (currentLangLearnable.length > 0) learnable[lang] = currentLangLearnable
+        all[lang] = currentLangAll
+      }
+
       return {
         ...state,
-        dictionaries: action.payload,
-        uniqueLang: [
-          ...new Set(
-            Object.keys(action.payload)
-              .filter((key) => Array.isArray(action.payload[key]))
-              .map((key) => key) //.toLowerCase()
-          ),
-        ],
+        dictionaries: all,
+        learnableDictionaries: learnable,
+        uniqueLang: Object.keys(all),
+        learnableLanguages: Object.keys(learnable)
       };
     case GET_DICTIONARIES_FAIL:
       return state;
