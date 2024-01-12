@@ -19,6 +19,7 @@ import {
 import modes from "../actions/modes";
 
 import {
+  Autocomplete,
   TextField, Radio, RadioGroup,
   FormControlLabel, FormControl, FormLabel,
   Button, Box, InputLabel, MenuItem, Select,
@@ -168,54 +169,41 @@ const MainScreen = ({
               </Box>
 
 
-              <Box sx={{ width: "30%", marginBottom: "1em" }}>
-                <FormControl fullWidth>
-                  <InputLabel>Language</InputLabel>
-                  <Select>
-                    {learnableLanguages.map((elem) => (
-                      <MenuItem onClick={() => {
-                        setSelectedLanguage(elem)
-                        select_language(elem)
-                      }} value={elem}>{elem}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
+              <Autocomplete
+                sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change, language) => {
+                  setSelectedLanguage(language)
+                  select_language(language)
+                }}
+                options={learnableLanguages}
+                renderInput={(params) =>
+                  <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Language" />}
+              />
 
 
-              <Box sx={{ width: "30%", marginBottom: "1em" }}>
-                <FormControl fullWidth>
-                  <InputLabel>Dictionary</InputLabel>
-                  {selectedLanguage !== "" ? (
-                    <Select>
-                      {learnableDictionaries[selectedLanguage].map((elem) => (
-                        <MenuItem onClick={() => {
-                          setSelectedDictionary(elem)
-                          select_dictionary(elem)
-                        }} value={elem}>{elem}</MenuItem>
-                      ))}
-                    </Select>
-                  ) : (<Select disabled></Select>)
-                  }
-                </FormControl>
-              </Box>
+              <Autocomplete
+                disabled={selectedLanguage === ""}
+                sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change, dictionary) => {
+                  setSelectedDictionary(dictionary)
+                  select_dictionary(dictionary)
+                }}
+                options={learnableDictionaries[selectedLanguage] ? learnableDictionaries[selectedLanguage] : []}
+                renderInput={(params) =>
+                  <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Dictionary" />}
+              />
 
 
-              <Box sx={{ width: "30%", marginBottom: "1em" }}>
-                <FormControl fullWidth>
-                  <InputLabel>Learning mode</InputLabel>
-                  {selectedDictionary !== "" ? (
-                    <Select>
-                      {Object.values(modes).map((elem) => (
-                        <MenuItem onClick={() => {
-                          setSelectedMode(elem)
-                        }} value={elem}>{elem}</MenuItem>
-                      ))}
-                    </Select>
-                  ) : (<Select disabled></Select>)
-                  }
-                </FormControl>
-              </Box>
+              <Autocomplete
+                disabled={selectedDictionary === ""}
+                sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change, mode) => {
+                  setSelectedMode(mode)
+                }}
+                options={Object.values(modes)}
+                renderInput={(params) =>
+                  <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Mode" />}
+              />
 
 
               <Button onClick={() => {
@@ -255,42 +243,37 @@ const MainScreen = ({
 
                   {activeStep === 0 && (
                     <>
-                      <Box sx={{ marginBottom: "1em" }}>
-                        <FormControl fullWidth>
-                          <InputLabel>Language</InputLabel>
-                          <Select value={selectedDictionaryLanguage}>
-                            {uniqueLang.map((elem) => (
-                              <MenuItem onClick={() => {
-                                setSelectedDictionaryLanguage(elem)
-                              }} value={elem}>{elem}</MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Box>
+                      <Autocomplete
+                        value={selectedDictionaryLanguage}
+                        sx={{ marginBottom: "1em" }}
+                        onChange={(change, language) => {
+                          setSelectedDictionaryLanguage(language)
+                        }}
+                        options={uniqueLang}
+                        renderInput={(params) =>
+                          <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Language" />}
+                      />
 
-
-                      <Box sx={{ marginBottom: "1em" }}>
-                        <FormControl fullWidth>
-                          <InputLabel>Dictionary</InputLabel>
-                          {selectedDictionaryLanguage !== "" ? (
-                            <Select value={selectedDictionaryName}>
-                              {dictionaries[selectedDictionaryLanguage].map((elem) => (
-                                <MenuItem onClick={() => {
-                                  setSelectedDictionaryName(elem)
-                                  get_dictionary_words(selectedDictionaryLanguage, elem);
-                                }} value={elem}>{elem}</MenuItem>
-                              ))}
-                            </Select>
-                          ) : (<Select disabled></Select>)
-                          }
-                        </FormControl>
-                      </Box>
                       
+                      <Autocomplete
+                        value={selectedDictionaryName}
+                        disabled={selectedDictionaryLanguage === ""}
+                        sx={{ marginBottom: "1em" }}
+                        onChange={(change, dictionary) => {
+                          setSelectedDictionaryName(dictionary)
+                          get_dictionary_words(selectedDictionaryLanguage, dictionary);
+                        }}
+                        options={dictionaries[selectedDictionaryLanguage] ? dictionaries[selectedDictionaryLanguage] : []}
+                        renderInput={(params) =>
+                          <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Dictionary" />}
+                      />
+
+
                     </>)}
 
                   {activeStep === 1 && (
                     <>
-                      <TableContainer sx={{ marginBottom: "2em"}}>
+                      <TableContainer sx={{ marginBottom: "2em" }}>
                         <Table sx={{ maxWidth: "100%" }}>
                           <TableHead>
                             <TableRow>

@@ -159,7 +159,7 @@ const ModifyDictionaries = ({
                 <FormLabel>Word type</FormLabel>
                 <RadioGroup
                   row
-                  defaultValue={wordType}
+                  value={wordType}
                   onChange={(change) => setWordType(change.target.value)}>
                   <FormControlLabel value="imenica" control={<Radio />} label="Imenica" />
                   <FormControlLabel value="pridjev" control={<Radio />} label="Pridjev" />
@@ -168,30 +168,29 @@ const ModifyDictionaries = ({
                 </RadioGroup>
               </FormControl>
 
-              <Box sx={{ width: "30%", marginBottom: "1em" }}>
-                <FormControl fullWidth>
-                  <InputLabel>Language</InputLabel>
-                  <Select>
-                    {uniqueLang.map((elem) => (
-                      <MenuItem onClick={() => setSelectedLanguage(elem)} value={elem}>{elem}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
 
-              <Box sx={{ width: "30%", marginBottom: "1em" }}>
-                <FormControl fullWidth>
-                  <InputLabel>Dictionary</InputLabel>
-                  {selectedLanguage !== "" ? get_dictionaries() && (
-                      <Select>
-                        {dictionaries[selectedLanguage].map((elem) => (
-                          <MenuItem onClick={() => setSelectedDictionary(elem)} value={elem}>{elem}</MenuItem>
-                        ))}
-                      </Select>
-                    ) : (<Select disabled></Select>)
-                  }
-                </FormControl>
-              </Box>
+              <Autocomplete
+                sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change, language) => {
+                  setSelectedLanguage(language)
+                }}
+                options={uniqueLang}
+                renderInput={(params) =>
+                  <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Language" />}
+              />
+
+
+              <Autocomplete
+                disabled={selectedLanguage === ""}
+                sx={{ width: "30%", marginBottom: "1em" }}
+                onChange={(change, dictionary) => {
+                  setSelectedDictionary(dictionary)
+                }}
+                options={dictionaries[selectedLanguage] ? dictionaries[selectedLanguage] : []}
+                renderInput={(params) =>
+                  <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Dictionary" />}
+              />
+
 
               <Autocomplete
                 value={word}
@@ -209,6 +208,7 @@ const ModifyDictionaries = ({
                     setWord(change.target.value);
                   }}/>}
               />
+              
 
               <TextField value={definition} type="text" name="definition" label="Definition..." sx={{ width: "30%", marginBottom: "1em" }}
                 onClick={() =>  setDefinition(autofillDescription)} onChange={(change) => setDefinition(change.target.value)} />
