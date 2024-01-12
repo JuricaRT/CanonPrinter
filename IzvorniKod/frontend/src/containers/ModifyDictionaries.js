@@ -9,7 +9,8 @@ import { updateAutofillSuggestions, updateAutofillDescription, resetAutofill } f
 import {
   Autocomplete, TextField, Radio, RadioGroup,
   FormControlLabel, FormControl, FormLabel,
-  Button, Box, InputLabel, MenuItem, Select
+  Button, Box, InputLabel, MenuItem, Select,
+  Alert, Fade
 } from "@mui/material"
 
 const ModifyDictionaries = ({
@@ -46,6 +47,7 @@ const ModifyDictionaries = ({
   // for display control
   const [displayAddDictionaries, setDisplayAddDictionaries] = useState(false);
   const [displayAddWordForm, setDisplayAddWordForm] = useState(false);
+  const [displaySuccessAlert, setDisplaySuccessAlert] = useState(false);
 
 
   // for Add Word
@@ -71,8 +73,6 @@ const ModifyDictionaries = ({
     setTranslation("")
     setDefinition("")
     setWordType("imenica")
-    setSelectedLanguage("")
-    setSelectedDictionary("")
   }
 
   function submitWord() {
@@ -85,8 +85,13 @@ const ModifyDictionaries = ({
       definition,
     ];
     if (variables.every((variable) => variable !== "")) {
-      setDisplayAddWordForm(false);
       resetUIAddWord()
+      setDisplaySuccessAlert(true)
+
+      setTimeout(() => {
+        setDisplaySuccessAlert(false)
+      }, 2000);
+      
       add_word_to_dictionary(
         selectedDictionary,
         word,
@@ -142,6 +147,8 @@ const ModifyDictionaries = ({
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           <Button onClick={() => {
             setDisplayAddWordForm(!displayAddWordForm);
+            setSelectedLanguage("")
+            setSelectedDictionary("")
             resetUIAddWord()
           }} sx={{ width: "10%", marginBottom: "1em" }} variant="contained">Add word</Button>
 
@@ -187,6 +194,7 @@ const ModifyDictionaries = ({
               </Box>
 
               <Autocomplete
+                value={word}
                 freeSolo
                 onChange={(change, newValue) => {
                   setDefinition("")
@@ -205,11 +213,20 @@ const ModifyDictionaries = ({
               <TextField value={definition} type="text" name="definition" label="Definition..." sx={{ width: "30%", marginBottom: "1em" }}
                 onClick={() =>  setDefinition(autofillDescription)} onChange={(change) => setDefinition(change.target.value)} />
               
-              <TextField type="text" name="translation" label="Translation..." sx={{ width: "30%", marginBottom: "1em" }} 
+              <TextField value={translation} type="text" name="translation" label="Translation..." sx={{ width: "30%", marginBottom: "1em" }} 
                 onChange={(change) => setTranslation(change.target.value)} />
-
-
-              <Button onClick={submitWord} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Add word</Button>
+              
+              {displaySuccessAlert ? (
+                <div style={{ width: "30%" }}>
+                <Fade in={displaySuccessAlert}>
+                  <Alert severity="success" sx={{ display: "flex", justifyContent: "center" }}>Word was successfuly added to dictionary.</Alert>
+                </Fade>
+                </div>
+              ) : (
+              <Fade in={!displaySuccessAlert}>
+                <Button onClick={submitWord} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Add word</Button>
+              </Fade>
+              )}
             </>
           )}
         </div>
