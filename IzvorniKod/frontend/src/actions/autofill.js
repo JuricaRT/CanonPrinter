@@ -103,7 +103,7 @@ export const updateAutofillDescription = (word, wordType) => async (dispatch) =>
                 return;
         }
 
-        if (wordType !== "imenica" && wordType !== "glagol" && wordType !== "pridjev" && wordType !== "prijedlog") {
+        if (wordType !== "imenica" && wordType !== "glagol" && wordType !== "pridjev" && wordType !== "prilog") {
                 return;
         }
 
@@ -115,7 +115,7 @@ export const updateAutofillDescription = (word, wordType) => async (dispatch) =>
                 partOfSpeech = "v";
         } else if (wordType === "pridjev") {
                 partOfSpeech = "adj";
-        } else if (wordType === "prijedlog") {
+        } else if (wordType === "prilog") {
                 partOfSpeech = "adv";
         }
 

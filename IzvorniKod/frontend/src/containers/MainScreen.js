@@ -23,7 +23,8 @@ import {
   FormControlLabel, FormControl, FormLabel,
   Button, Box, InputLabel, MenuItem, Select,
   Dialog, DialogActions, DialogContent, DialogContentText,
-  DialogTitle, Stepper, Step, StepLabel
+  DialogTitle, Stepper, Step, StepLabel, Alert,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from "@mui/material"
 
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -37,6 +38,7 @@ const MainScreen = ({
   uniqueLang,
   selected_mode,
   words,
+  wordsStats,
 
   get_dictionaries,
   select_dictionary,
@@ -76,7 +78,7 @@ const MainScreen = ({
   // for display control
   const [displayViewDictionaryForm, setDisplayViewDictionaryForm] = useState(false);
   const [activeStep, setActiveStep] = useState(0)
-  const [steps, setSteps] = useState(["Select word", "View word"])
+  const [steps, setSteps] = useState(["Select dictionary", "View words", "View word"])
 
   // Select word form variables
   const [selectedDictionaryLanguage, setSelectedDictionaryLanguage] = useState("")
@@ -136,7 +138,7 @@ const MainScreen = ({
     }
 
     if (is_superuser) {
-      steps[1] = "View or edit word"
+      steps[2] = "View or edit word"
     }
 
   }, [isAuthenticated, navigate, selectedMode, steps]);
@@ -158,6 +160,14 @@ const MainScreen = ({
 
           {displayCustomizeLearningForm && (
             <>
+              <Box sx={{ width: "30%", marginBottom: "1em" }}>
+                <Alert severity="info">
+                  In order to be able to select dictionary for learning, it has to have at least 4 words of each type.
+                  Check View Dictionary for more details.
+                </Alert>
+              </Box>
+
+
               <Box sx={{ width: "30%", marginBottom: "1em" }}>
                 <FormControl fullWidth>
                   <InputLabel>Language</InputLabel>
@@ -275,6 +285,33 @@ const MainScreen = ({
                           }
                         </FormControl>
                       </Box>
+                      
+                    </>)}
+
+                  {activeStep === 1 && (
+                    <>
+                      <TableContainer sx={{ marginBottom: "2em"}}>
+                        <Table sx={{ maxWidth: "100%" }}>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>Word type</TableCell>
+                              <TableCell align="center">Imenica</TableCell>
+                              <TableCell align="center">Pridjev</TableCell>
+                              <TableCell align="center">Glagol</TableCell>
+                              <TableCell align="center">Prilog</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell component="th" scope="row">Count</TableCell>
+                              <TableCell align="center">{wordsStats.nounCount}</TableCell>
+                              <TableCell align="center">{wordsStats.adjectiveCount}</TableCell>
+                              <TableCell align="center">{wordsStats.verbCount}</TableCell>
+                              <TableCell align="center">{wordsStats.adverbCount}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
 
 
                       <Box sx={{ marginBottom: "1em" }}>
@@ -303,7 +340,7 @@ const MainScreen = ({
                   )}
 
 
-                  {activeStep === 1 && (
+                  {activeStep === 2 && (
                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }}>
                       <FormControl disabled={!is_superuser} sx={{ alignSelf: "flex-start", marginBottom: "1em" }}>
                         <FormLabel>Word type</FormLabel>
@@ -314,7 +351,7 @@ const MainScreen = ({
                           <FormControlLabel value="imenica" control={<Radio />} label="Imenica" />
                           <FormControlLabel value="pridjev" control={<Radio />} label="Pridjev" />
                           <FormControlLabel value="glagol" control={<Radio />} label="Glagol" />
-                          <FormControlLabel value="prijedlog" control={<Radio />} label="Prijedlog" />
+                          <FormControlLabel value="prilog" control={<Radio />} label="Prilog" />
                         </RadioGroup>
                       </FormControl>
 
@@ -323,11 +360,11 @@ const MainScreen = ({
                         onChange={(change) => setSelectedWord(change.target.value)} />
 
                       <TextField disabled={!is_superuser} value={selectedWordDefinition} type="text" name="definition" label="Definition..."
-                        sx={{ width: "100%", marginBottom: "1em" }} 
+                        sx={{ width: "100%", marginBottom: "1em" }}
                         onChange={(change) => setSelectedWordDefinition(change.target.value)} />
 
                       <TextField disabled={!is_superuser} value={selectedWordTranslation} type="text" name="translation" label="Translation..."
-                        sx={{ width: "100%", marginBottom: "1em" }} 
+                        sx={{ width: "100%", marginBottom: "1em" }}
                         onChange={(change) => setSelectedWordTranslation(change.target.value)} />
 
 
@@ -379,13 +416,17 @@ const MainScreen = ({
 
                     {activeStep === 0 &&
                       selectedDictionaryLanguage !== "" &&
-                      selectedDictionaryName !== "" &&
-                      selectedWord !== "" && (
-
+                      selectedDictionaryName !== "" && (
                         <Button onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}>
                           Next
                         </Button>
                       )}
+
+                    {activeStep === 1 && selectedWord !== "" && (
+                      <Button onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}>
+                        Next
+                      </Button>
+                    )}
                   </Box>
 
                 </Box>
@@ -406,6 +447,7 @@ const mapStateToProps = (state) => ({
   uniqueLang: state.learningSpecsReducer.uniqueLang,
   selected_mode: state.learningSpecsReducer.selectedMode,
   words: state.admin.words,
+  wordsStats: state.admin.wordsStats
 });
 
 export default connect(mapStateToProps, {

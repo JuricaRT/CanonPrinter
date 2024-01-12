@@ -191,7 +191,7 @@ class GetDictionariesView(APIView):
                     if word_type == "imenica": nounCount += 1
                     elif word_type == "glagol": verbCount += 1
                     elif word_type == "pridjev": adjectiveCount += 1
-                    elif word_type == "prijedlog": adverbCount += 1 # TODO: nije prijedlog nego prilog
+                    elif word_type == "prilog": adverbCount += 1
 
                 if (nounCount >= MIN_WORDS_PER_CAT and 
                     verbCount >= MIN_WORDS_PER_CAT and 
@@ -209,8 +209,19 @@ class GetWordsFromDictView(APIView):
     def put(self, request, format=None):
         words = Word.objects.filter(
             parent_dict__language=request.data["language"], parent_dict__dict_name=request.data["dict_name"])
-        words_dict = [word.to_dict() for word in words]
-        for word in words_dict: del word["_id"]
+        words = [word.to_dict() for word in words]
+        for word in words: del word["_id"]
+
+        # nastavljamo u seoskom stilu
+        words_stats = {"nounCount" : 0, "adjectiveCount" : 0, "verbCount" : 0, "adverbCount" : 0}
+        for word in words:
+            if word["word_type"] == "imenica": words_stats["nounCount"] += 1
+            elif word["word_type"] == "pridjev": words_stats["adjectiveCount"] += 1
+            elif word["word_type"] == "glagol": words_stats["verbCount"] += 1
+            elif word["word_type"] == "prilog": words_stats["adverbCount"] += 1
+        
+        words_dict = {"words" : words, "words_stats" : words_stats}
+
         return JsonResponse({'words': words_dict}, content_type='application/json', safe=False)
 
 

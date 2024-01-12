@@ -26,6 +26,7 @@ const initialState = {
   students: [],
   admins: [],
   words: [],
+  wordsStats: {}
 };
 
 export default function (state = initialState, action) {
@@ -96,7 +97,7 @@ export default function (state = initialState, action) {
     case REMOVE_WORD_FAILURE:
       return state
     case GET_DICTIONARY_WORDS_SUCCESS:
-      return { ...state, words: payload };
+      return { ...state, words: payload.words, wordsStats: payload.words_stats };
     case GET_DICTIONARY_WORDS_FAIL:
       return state;
     case CLOSE_VIEW_DICTIONARY_ADMIN:

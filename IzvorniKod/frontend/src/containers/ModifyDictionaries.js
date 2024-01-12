@@ -164,7 +164,7 @@ const ModifyDictionaries = ({
                   <FormControlLabel value="imenica" control={<Radio />} label="Imenica" />
                   <FormControlLabel value="pridjev" control={<Radio />} label="Pridjev" />
                   <FormControlLabel value="glagol" control={<Radio />} label="Glagol" />
-                  <FormControlLabel value="prijedlog" control={<Radio />} label="Prijedlog" />
+                  <FormControlLabel value="prilog" control={<Radio />} label="Prilog" />
                 </RadioGroup>
               </FormControl>
 
