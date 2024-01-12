@@ -16,10 +16,10 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  dictionaries: null, // used by: ModifyDictionaries.js, MainScreen.js
-  learnableDictionaries: null, // used by: MainScreen.js
-  uniqueLang: null, // used by: ModifyDictionaries.js, MainScreen.js
-  learnableLanguages: null, // used by: MainScreen.js
+  dictionaries: {}, // used by: ModifyDictionaries.js, MainScreen.js
+  learnableDictionaries: {}, // used by: MainScreen.js
+  uniqueLang: [], // used by: ModifyDictionaries.js, MainScreen.js
+  learnableLanguages: [], // used by: MainScreen.js
   language: null,
   selectedDictionary: null,
   selectedMode: null, // used by: MainScreen.js
