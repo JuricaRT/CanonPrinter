@@ -205,10 +205,14 @@
 			istom dijelu dijagrama. Također se iz naziva i tipova atributa može zaključiti vrsta ovisnosti i povezanosti između
 			različitih razreda.}
 
+			\indent{Controller je povezan sa 4 klase. To su klase AdminViews, UserViews, DictViews i SessionViews. Sve 4 klase u
+			sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer, klasa DictViews u sebi sadrži
+			metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
+
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classcont.png} %veličina u odnosu na širinu linije
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_controller.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Controllers}
-				\label{fig:classcont} %label mora biti drugaciji za svaku sliku
+				\label{fig:Dijagram_razreda_controller} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 
 			\begin{figure}[H]
