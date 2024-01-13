@@ -28,7 +28,9 @@ import {
   FormControlLabel, FormControl, FormLabel,
   Button, Box, Dialog, DialogActions, DialogContent, DialogContentText,
   DialogTitle, Stepper, Step, StepLabel, Alert,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Backdrop, CircularProgress, Typography
+
 } from "@mui/material"
 
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -64,6 +66,7 @@ const MainScreen = ({
   // for display control
   const [displayCustomizeLearningForm, setDisplayCustomizeLearningForm] = useState(false);
   const [displayConfirmDeleteDialog, setDisplayConfirmDeleteDialog] = useState(false);
+  const [displayLoading, setDisplayLoading] = useState(false);
 
   // form variables
   const [selectedLanguage, setSelectedLanguage] = useState("");
@@ -155,6 +158,7 @@ const MainScreen = ({
 
   useEffect(() => {
     if (sessionExists) {
+      setDisplayLoading(false);
       navigate("/mode12Screen");
     }
   }, [sessionExists]);
@@ -169,6 +173,26 @@ const MainScreen = ({
 
         {/* Customize Learning */}
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={displayLoading}>
+            <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+              <Box sx={{
+                display: 'flex',
+                flexDirection: "column",
+                alignItems: 'center',
+                justifyContent: 'center',
+
+              }}>
+                <CircularProgress />
+                <Typography align="center" variant="h6" component="div" color="#FFFFFF">
+                  Loading...
+                </Typography>
+              </Box>
+            </Box>
+          </Backdrop>
+
+
           <Button onClick={() => {
             setDisplayCustomizeLearningForm(!displayCustomizeLearningForm);
             resetUICustomizeLearning();
@@ -223,7 +247,7 @@ const MainScreen = ({
                       case modes.mode3:
                         return 2;
                       case modes.mode4:
-                        return 3;                        
+                        return 3;
                     }
                   }
                   setSelectedMode(modeToInt(mode));
@@ -239,6 +263,7 @@ const MainScreen = ({
                   setDisplayCustomizeLearningForm(false);
                   resetUICustomizeLearning();
                   start_learning(selectedMode, selectedDictionary, selectedLanguage);
+                  setDisplayLoading(true);
                 }
               }} sx={{ width: "30%", marginBottom: "2em" }} variant="outlined">Start quiz</Button>
 
@@ -282,7 +307,7 @@ const MainScreen = ({
                           <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Language" />}
                       />
 
-                      
+
                       <Autocomplete
                         value={selectedDictionaryName}
                         disabled={selectedDictionaryLanguage === ""}
@@ -344,9 +369,9 @@ const MainScreen = ({
                         }}
                         options={words ? words.map((word) => word.word_str) : []}
                         renderInput={(params) =>
-                          <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Word"/>}
+                          <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Word" />}
                       />
-                      
+
 
                     </>
                   )}
@@ -408,7 +433,7 @@ const MainScreen = ({
                             remove_word_from_reducer_state(savedOldWordValue)
                             remove_word_from_dictionary(selectedDictionaryName, savedOldWordValue, selectedDictionaryLanguage);
                             setSelectedWord("")
-                            setActiveStep((prevActiveStep) => prevActiveStep -1)
+                            setActiveStep((prevActiveStep) => prevActiveStep - 1)
                           }} autoFocus>
                             Confirm
                           </Button>
