@@ -3,9 +3,25 @@ import { styled } from "styled-components";
 export const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: blue;
-  height: 780px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
+
+export const AnswerLayout = styled.div`
+  margin: 20px auto;
+  width:400px;
+  height:400px;
+  background-color:#fff;
+  display:grid;
+  grid-template-columns: 200px 200px;
+  grid-row: auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  justify-content: center;
+  text-align: center;
+`
 
 export const TopDiv = styled.div`
   display: flex;
@@ -22,9 +38,12 @@ export const QuestionDiv = styled.div`
 
 export const FooterDiv = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: center;
   // margin-left: 200px;
   padding: 20px;
+  align-items: center;
+  gap: 20px;
 `;
 
 export const ButtonNext = styled.button`
@@ -33,7 +52,6 @@ export const ButtonNext = styled.button`
   border: 2px solid black;
   padding: 5px 10px;
   cursor: pointer;
-  margin-right: 450px;
 `;
 
 export const ButtonFinish = styled.button`
@@ -42,5 +60,4 @@ export const ButtonFinish = styled.button`
   border: 2px solid black;
   padding: 5px 10px;
   cursor: pointer;
-  margin-left: 450px;
 `;

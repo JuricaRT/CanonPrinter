@@ -16,6 +16,8 @@ import {
   CLOSE_VIEW_DICTIONARY,
   CLOSE_VIEW_DICTIONARY_ADMIN,
   FINISH_LEARNING,
+  INITIALIZE_SESSION,
+  INITIALIZE_SESSION_FAIL,
 } from "./types";
 
 export const get_dictionaries = () => async (dispatch) => {
@@ -70,36 +72,32 @@ export const finishLearning = () => async (dispatch) => {
 };
 
 export const start_learning = (mode, dict, lang) => async (dispatch) => {
-  dispatch({ type: SELECT_MODE, payload: mode });
-  dispatch({ type: START_LEARNING });
+    const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
 
-  // const config = {
-  //   withCredentials: true,
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //     "X-CSRFToken": Cookies.get("csrftoken"),
-  //   },
-  // };
+  const body = JSON.stringify({
+    dict_name: dict,
+    language: lang,
+    mode: mode,
+  });
 
-  // const body = JSON.stringify({
-  //   dict_name: dict,
-  //   language: lang,
-  //   mode: 1,
-  // });
+  console.log(mode);
 
-  // try {
-  //   const res = await axios.post(`${baseURL}/initialize_session`, body, config);
+  try {
+    const res = await axios.post(`${baseURL}/initialize_session`, body, config);
 
-  //   if (res.data.error) {
-  //     dispatch({ type: START_LEARNING_FAIL });
-  //     dispatch({ type: SELECT_MODE_FAIL, payload: mode });
-  //   } else {
-  //     dispatch({ type: SELECT_MODE, payload: mode });
-  //     dispatch({ type: START_LEARNING, payload: res.data });
-  //   }
-  // } catch (error) {
-  //   dispatch({ type: START_LEARNING_FAIL });
-  //   dispatch({ type: SELECT_MODE_FAIL, payload: mode });
-  // }
+    if (res.data.error) {
+      dispatch({ type: INITIALIZE_SESSION_FAIL });
+    } else {
+      dispatch({ type: INITIALIZE_SESSION });
+    }
+  } catch (error) {
+    dispatch({ type: INITIALIZE_SESSION_FAIL });
+  }
 };

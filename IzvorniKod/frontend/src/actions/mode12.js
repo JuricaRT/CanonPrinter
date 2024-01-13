@@ -49,6 +49,7 @@ export const initializeSession = (dict, lang, mode) => async (dispatch) => {
     if (res.data.error) {
       dispatch({ type: INITIALIZE_SESSION_FAIL });
     } else {
+      console.log('il ovdje?');
       dispatch({ type: INITIALIZE_SESSION, payload: res.data });
     }
   } catch (error) {
@@ -161,6 +162,7 @@ export const destroySession = () => async (dispatch) => {
 export const getAudioFile = (word) => async (dispatch) => {
   const config = {
     withCredentials: true,
+    responseType: 'blob',
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

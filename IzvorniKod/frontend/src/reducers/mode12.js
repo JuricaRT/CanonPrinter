@@ -12,6 +12,7 @@ import {
 } from "../actions/types";
 
 const initalState = {
+  sessionExists: false,
   question: "",
   answers: "",
   correct: "",
@@ -26,12 +27,19 @@ const initalState = {
 export default function mode12Reducer(state = initalState, action) {
   switch (action.type) {
     case INITIALIZE_SESSION:
-      return state;
+      return { 
+        ...state,
+        sessionExists: true,
+      };
     case INITIALIZE_SESSION_FAIL:
-      return state;
+      return { 
+        ...state,
+        sessionExists: false,
+      };
     case GET_SESSION:
       return {
         ...state,
+        sessionExists: true,
         question: action.payload.question,
         answers: action.payload.answers,
         correct: action.payload.correct,
@@ -39,9 +47,13 @@ export default function mode12Reducer(state = initalState, action) {
         wrong_answers: action.payload.wrong_answers,
         selectedAnswer: null,
         randomGrade: null,
+        mode: action.payload.mode,
       };
     case GET_SESSION_FAIL:
-      return state;
+      return { 
+        ...state, 
+        sessionExists: false 
+      };
     case ANSWER_QUESTION:
       return { ...state, randomGrade: action.payload };
     case ANSWER_QUESTION_FAIL:

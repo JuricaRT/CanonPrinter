@@ -262,7 +262,6 @@ class GetWordAudioView(APIView):
     def put(self, request, format=None):
         try:
             client = texttospeech.TextToSpeechClient(credentials=service_account.Credentials.from_service_account_file(settings.GOOGLE_SERVICE_ACCOUNT_PATH))
-
             synthesis_input = texttospeech.SynthesisInput(text=request.data["word"])
 
             voice = texttospeech.VoiceSelectionParams(
@@ -281,7 +280,7 @@ class GetWordAudioView(APIView):
                 audio_config=audio_config
             )
 
-            return HttpResponse(response.audio_content, content_type='application/octet-stream')
+            return HttpResponse(response.audio_content, content_type='audio/wav')
         except Exception as e:
             print(e)
-            return HttpResponse(bytes(bytearray(0)), content_type='application/octet-stream')
+            return HttpResponse(bytes(bytearray(0)), content_type='audio/wav')

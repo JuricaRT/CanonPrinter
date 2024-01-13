@@ -20,6 +20,8 @@ import {
 
 import modes from "../actions/modes";
 
+import { getSession } from "../actions/mode12"
+
 import {
   Autocomplete,
   TextField, Radio, RadioGroup,
@@ -32,6 +34,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const MainScreen = ({
+  sessionExists,
   isAuthenticated,
   is_superuser,
   dictionaries,
@@ -50,7 +53,8 @@ const MainScreen = ({
   remove_word_from_dictionary,
   edit_word,
   remove_word_from_reducer_state,
-  update_word_in_reducer_state
+  update_word_in_reducer_state,
+  getSession
 }) => {
   const navigate = useNavigate();
 
@@ -137,6 +141,7 @@ const MainScreen = ({
     }
 
     get_dictionaries();
+    getSession();
 
     if (selected_mode !== null) {
       navigate("/mode12Screen");
@@ -147,6 +152,12 @@ const MainScreen = ({
     }
 
   }, [isAuthenticated, navigate, selectedMode, steps]);
+
+  useEffect(() => {
+    if (sessionExists) {
+      navigate("/mode12Screen");
+    }
+  }, [sessionExists]);
 
 
   return (
@@ -202,7 +213,20 @@ const MainScreen = ({
                 disabled={selectedDictionary === ""}
                 sx={{ width: "30%", marginBottom: "1em" }}
                 onChange={(change, mode) => {
-                  setSelectedMode(mode)
+                  const modeToInt = (mode) => {
+                    // divine intellect?
+                    switch (mode) {
+                      case modes.mode1:
+                        return 0;
+                      case modes.mode2:
+                        return 1;
+                      case modes.mode3:
+                        return 2;
+                      case modes.mode4:
+                        return 3;                        
+                    }
+                  }
+                  setSelectedMode(modeToInt(mode));
                 }}
                 options={Object.values(modes)}
                 renderInput={(params) =>
@@ -436,7 +460,8 @@ const mapStateToProps = (state) => ({
   uniqueLang: state.learningSpecsReducer.uniqueLang,
   selected_mode: state.learningSpecsReducer.selectedMode,
   words: state.admin.words,
-  wordsStats: state.admin.wordsStats
+  wordsStats: state.admin.wordsStats,
+  sessionExists: state.mode12Reducer.sessionExists
 });
 
 export default connect(mapStateToProps, {
@@ -448,5 +473,6 @@ export default connect(mapStateToProps, {
   remove_word_from_dictionary,
   edit_word,
   remove_word_from_reducer_state,
-  update_word_in_reducer_state
+  update_word_in_reducer_state,
+  getSession,
 })(MainScreen);

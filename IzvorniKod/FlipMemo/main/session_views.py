@@ -107,6 +107,7 @@ class GetSessionView(APIView):
                     'correct': session_data.current_question.word_correct,
                     'correct_answers': session_data.answers_correct,
                     'incorrect_answers': session_data.answers_incorrect,
+                    'mode': session_data.mode,
                 }
             )
         except Exception as e:

@@ -28,8 +28,8 @@ const Mode12Screen = ({
   destroySession,
   finishLearning,
   randomGrade,
+  sessionExists
 }) => {
-  const [start, setStart] = useState(false);
   const [selectedAnswer, setselectedAnswer] = useState(null);
 
   // const location = useLocation();
@@ -38,18 +38,14 @@ const Mode12Screen = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
-      await initializeSession(dict, lang, mode);
-      setTimeout(() => {
-        getSession();
-      }, 1000);
-    }
-    fetchData();
-  }, [dict, getSession, initializeSession, lang, mode]);
+    getSession();
+  }, [getSession, sessionExists]);
 
-  function handleClick() {
-    setStart(true);
-  }
+  useEffect(() => {
+    if (!sessionExists) {
+      navigate("/");
+    }
+  }, [sessionExists])
 
   function handleNextClick() {
     getSession();
@@ -71,6 +67,7 @@ const Mode12Screen = ({
   function renderComponent() {
     switch (mode) {
       case modes.mode1:
+      case 0:
         return (
           <Question
             question={question}
@@ -82,6 +79,7 @@ const Mode12Screen = ({
           ></Question>
         );
       case modes.mode2:
+      case 1:
         return (
           <Question
             question={question}
@@ -93,8 +91,10 @@ const Mode12Screen = ({
           ></Question>
         );
       case modes.mode3:
+      case 2:
         return <VoiceToTextAnalyzer question={question}></VoiceToTextAnalyzer>;
       case modes.mode4:
+      case 3:
         return <VoiceRecorder question={question} />;
       default:
         return <></>;
@@ -106,25 +106,16 @@ const Mode12Screen = ({
       <Banner origin="MainScreen"></Banner>
       <GlobalStyle />
       <Element.MainDiv>
-        <Element.TopDiv>QUIZ!!!</Element.TopDiv>
-        <Element.QuestionDiv>
-          {start === false ? (
-            <button onClick={handleClick}>START</button>
-          ) : (
-            <>{renderComponent()}</>
-          )}
-        </Element.QuestionDiv>
+        <>{renderComponent()}</>
         <Element.FooterDiv>
-          {start && (
-            <>
-              <Element.ButtonFinish onClick={handleFinishClick}>
-                FINISH
+              {//<Element.ButtonNext onClick={handleNextClick}>
+               // Submit Answer
+              //</Element.ButtonNext>
+            }
+              <Element.ButtonFinish onClick={handleFinishClick} id="finish-learning-button">
+                Quit
               </Element.ButtonFinish>
-              <Element.ButtonNext onClick={handleNextClick}>
-                &rarr;
-              </Element.ButtonNext>
-            </>
-          )}
+
         </Element.FooterDiv>
       </Element.MainDiv>
     </>
@@ -132,12 +123,13 @@ const Mode12Screen = ({
 };
 
 const mapStateToProps = (state) => ({
+  sessionExists: state.mode12Reducer.sessionExists,
   question: state.mode12Reducer.question,
   answers: state.mode12Reducer.answers,
   correct: state.mode12Reducer.correct,
   dict: state.learningSpecsReducer.selectedDictionary,
   lang: state.learningSpecsReducer.language,
-  mode: state.learningSpecsReducer.selectedMode,
+  mode: state.mode12Reducer.mode,
   randomGrade: state.mode12Reducer.randomGrade,
 });
 
