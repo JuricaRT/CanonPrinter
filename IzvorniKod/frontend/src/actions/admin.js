@@ -22,6 +22,8 @@ import {
   GET_DICTIONARY_WORDS_FAIL,
   EDIT_WORD_SUCCESS,
   EDIT_WORD_FAIL,
+  REMOVE_WORD_FROM_REDUCER_STATE,
+  UPDATE_WORD_IN_REDUCER_STATE
 } from "./types";
 
 export const delete_account = (email) => async (dispatch) => {
@@ -349,3 +351,19 @@ export const edit_word =
       dispatch({ type: EDIT_WORD_FAIL });
     }
   };
+
+export const remove_word_from_reducer_state = (word_str) => async (dispatch) => {
+    dispatch({type : REMOVE_WORD_FROM_REDUCER_STATE, payload: word_str})
+};
+
+export const update_word_in_reducer_state = 
+(word, newWord, newTranslation, newDefinition, newWordType) => async (dispatch) => {
+  dispatch({type : UPDATE_WORD_IN_REDUCER_STATE, payload : {
+    word: word,
+    newWord: newWord,
+    newTranslation: newTranslation,
+    newDefinition: newDefinition,
+    newWordType: newWordType
+  }})
+}
+  

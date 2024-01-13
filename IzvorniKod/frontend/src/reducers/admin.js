@@ -20,6 +20,8 @@ import {
   CLOSE_VIEW_DICTIONARY_ADMIN,
   EDIT_WORD_FAIL,
   EDIT_WORD_SUCCESS,
+  REMOVE_WORD_FROM_REDUCER_STATE,
+  UPDATE_WORD_IN_REDUCER_STATE
 } from "../actions/types";
 
 const initialState = {
@@ -28,6 +30,14 @@ const initialState = {
   words: [],
   wordsStats: {}
 };
+
+
+function getWordCat(wordType) {
+  if (wordType === "imenica") return "nounCount"
+  else if (wordType === "pridjev") return "adjectiveCount"
+  else if (wordType === "glagol") return "verbCount"
+  else if (wordType === "prilog") return "adverbCount"
+}
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -51,7 +61,7 @@ export default function (state = initialState, action) {
     case ADD_ADMIN_SUCCESS:
       state.admins.push(
         state.students[
-          state.students.findIndex((item) => item.email === payload.email)
+        state.students.findIndex((item) => item.email === payload.email)
         ]
       );
       return {
@@ -62,7 +72,7 @@ export default function (state = initialState, action) {
     case REMOVE_ADMIN_SUCCESS:
       state.students.push(
         state.admins[
-          state.admins.findIndex((item) => item.email === payload.email)
+        state.admins.findIndex((item) => item.email === payload.email)
         ]
       );
       return {
@@ -103,7 +113,31 @@ export default function (state = initialState, action) {
     case CLOSE_VIEW_DICTIONARY_ADMIN:
       return { ...state, words: [] };
     case EDIT_WORD_SUCCESS:
+      return state;
     case EDIT_WORD_FAIL:
+      return state;
+    case REMOVE_WORD_FROM_REDUCER_STATE:
+      let wordType = state.words.filter((word) => (word.word_str === payload))[0].word_type
+
+      state.wordsStats[getWordCat(wordType)] -= 1
+
+      return { ...state, words: state.words.filter((word) => !(word.word_str === payload)) }
+    case UPDATE_WORD_IN_REDUCER_STATE:
+      const new_words = state.words.map((word) => {
+        if (word.word_str !== payload.word) return word
+        else {
+          state.wordsStats[getWordCat(word.word_type)] -= 1
+          state.wordsStats[getWordCat(payload.newWordType)] += 1
+          return {
+            word_str: payload.newWord,
+            cro_translation: payload.newTranslation,
+            definition: payload.newDefinition,
+            word_type: payload.newWordType
+          }
+        }
+      })
+
+      return {... state, words: new_words};
     default:
       return state;
   }

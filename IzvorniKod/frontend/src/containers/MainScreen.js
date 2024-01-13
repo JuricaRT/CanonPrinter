@@ -7,6 +7,8 @@ import {
   get_dictionary_words,
   remove_word_from_dictionary,
   edit_word,
+  remove_word_from_reducer_state,
+  update_word_in_reducer_state
 } from "../actions/admin";
 
 import {
@@ -22,8 +24,7 @@ import {
   Autocomplete,
   TextField, Radio, RadioGroup,
   FormControlLabel, FormControl, FormLabel,
-  Button, Box, InputLabel, MenuItem, Select,
-  Dialog, DialogActions, DialogContent, DialogContentText,
+  Button, Box, Dialog, DialogActions, DialogContent, DialogContentText,
   DialogTitle, Stepper, Step, StepLabel, Alert,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from "@mui/material"
@@ -48,6 +49,8 @@ const MainScreen = ({
   get_dictionary_words,
   remove_word_from_dictionary,
   edit_word,
+  remove_word_from_reducer_state,
+  update_word_in_reducer_state
 }) => {
   const navigate = useNavigate();
 
@@ -118,9 +121,10 @@ const MainScreen = ({
       selectedWordType]
 
     if (variables.every((variable) => variable !== "")) {
-      setDisplayViewDictionaryForm(false);
-      resetUIViewDictionary();
       edit_word(...variables)
+      update_word_in_reducer_state(savedOldWordValue, selectedWord, selectedWordTranslation,
+        selectedWordDefinition, selectedWordType)
+      setSavedOldWordValue(selectedWord)
     }
   }
 
@@ -297,27 +301,28 @@ const MainScreen = ({
                       </TableContainer>
 
 
-                      <Box sx={{ marginBottom: "1em" }}>
-                        <FormControl fullWidth>
-                          <InputLabel>Word</InputLabel>
-                          {selectedDictionaryName !== "" ? (
-                            <Select value={selectedWord}>
-                              {words.map((elem) => (
-                                <MenuItem onClick={() => {
-                                  setSelectedWord(elem.word_str)
-                                  setSelectedWordType(elem.word_type)
-                                  setSelectedWordDefinition(elem.definition)
-                                  setSelectedWordTranslation(elem.cro_translation)
-                                  setSavedOldWordValue(elem.word_str)
-
-                                }} value={elem.word_str}>{elem.word_str}</MenuItem>
-                              ))}
-                            </Select>
-                          ) : (<Select disabled></Select>)
+                      <Autocomplete
+                        defaultValue=""
+                        value={selectedWord}
+                        disabled={selectedDictionaryName === ""}
+                        sx={{ marginBottom: "1em" }}
+                        onChange={(change, word_str) => {
+                          const word_params = words.filter((w) => w.word_str === word_str)[0]
+                          if (word_params !== undefined) {
+                            setSelectedWord(word_str)
+                            setSelectedWordType(word_params.word_type)
+                            setSelectedWordDefinition(word_params.definition)
+                            setSelectedWordTranslation(word_params.cro_translation)
+                            setSavedOldWordValue(word_str)
+                          } else {
+                            setSelectedWord("")
                           }
-                        </FormControl>
-                      </Box>
-
+                        }}
+                        options={words ? words.map((word) => word.word_str) : []}
+                        renderInput={(params) =>
+                          <TextField {...params} sx={{ input: { cursor: 'pointer' } }} label="Word"/>}
+                      />
+                      
 
                     </>
                   )}
@@ -376,9 +381,10 @@ const MainScreen = ({
                           <Button onClick={() => setDisplayConfirmDeleteDialog(false)}>Cancel</Button>
                           <Button onClick={() => {
                             setDisplayConfirmDeleteDialog(false);
-                            setDisplayViewDictionaryForm(false);
-                            resetUIViewDictionary();
+                            remove_word_from_reducer_state(savedOldWordValue)
                             remove_word_from_dictionary(selectedDictionaryName, savedOldWordValue, selectedDictionaryLanguage);
+                            setSelectedWord("")
+                            setActiveStep((prevActiveStep) => prevActiveStep -1)
                           }} autoFocus>
                             Confirm
                           </Button>
@@ -441,4 +447,6 @@ export default connect(mapStateToProps, {
   get_dictionary_words,
   remove_word_from_dictionary,
   edit_word,
+  remove_word_from_reducer_state,
+  update_word_in_reducer_state
 })(MainScreen);
