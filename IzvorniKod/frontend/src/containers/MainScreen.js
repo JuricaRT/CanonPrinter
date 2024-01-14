@@ -154,7 +154,7 @@ const MainScreen = ({
   useEffect(() => {
     if (sessionExists) {
       setDisplayLoading(false);
-      navigate("/mode12Screen");
+      navigate("/quiz");
     }
   }, [sessionExists]);
 

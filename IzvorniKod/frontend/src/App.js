@@ -27,7 +27,7 @@ const App = () => (
           <Route exact path="/mainScreen" element={<MainScreen />} />
           <Route exact path="/modifyUsers" element={<ModifyUsers />} />
           <Route exact path="/profileSettings" element={<ProfileSettings />} />
-          <Route exact path="/mode12Screen" element={<Mode12Screen />} />
+          <Route exact path="/quiz" element={<Mode12Screen />} />
           <Route exact path="/mode4Screen" element={<Mode4Screen />} />
           <Route
             exact

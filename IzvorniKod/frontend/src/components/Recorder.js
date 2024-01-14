@@ -2,27 +2,16 @@ import { useState } from "react";
 import * as Element from "../elements/recorder";
 import { answerQuestion2, answerQuestion } from "../actions/mode12";
 import { connect } from "react-redux";
+import { Fragment } from "react";
+import { useEffect } from "react";
+import { getSession } from "../actions/mode12";
 
-const Recorder = ({ answerQuestion2, answerQuestion, random_grade }) => {
+const Recorder = ({ answerQuestion2, answerQuestion, random_grade, question, getSession }) => {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioChunks, setAudioChunks] = useState([]);
   const [cannotSubmit, setcannotSubmit] = useState(true);
-  const [audioUrlGlobal, setAudioUrl] = useState("");
-
- /* const addAudioElement = (blob) => {
-    const url = URL.createObjectURL(blob);
-
-    const audio = document.getElementById('audio');
-    const source = document.getElementById('source');
-    console.log('here');
-
-    if (source != null) {
-      console.log('here');
-      source.src = url;
-      audio.load();        
-    }
-  };*/
+  const [disableButtons, setDisableButtons] = useState(false);
 
   const startRecording = async () => {
     try {
@@ -30,23 +19,34 @@ const Recorder = ({ answerQuestion2, answerQuestion, random_grade }) => {
       const recorder = new MediaRecorder(stream);
 
       recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          setAudioChunks((prevChunks) => [...prevChunks, e.data]);
+        audioChunks.push(e.data)
 
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
 
-        }
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        const audio = document.getElementById('audio');
+        const source = document.getElementById('source');
+        source.src = audioUrl;
+        audio.load();
       };
 
       recorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-        console.log(audioBlob);
-        const audioUrl = URL.createObjectURL(audioBlob);
-        setAudioUrl(audioUrl);
 
+      };
+
+      recorder.onstart = () => {
+        setAudioChunks([]);
+
+        const audio = document.getElementById('audio');
+        const source = document.getElementById('source');
+        source.src = "";
+        audio.load();
       };
 
       recorder.start();
       setRecording(true);
+      setcannotSubmit(true);
       setMediaRecorder(recorder);
     } catch (error) {
       console.error("Error accessing microphone:", error);
@@ -61,59 +61,88 @@ const Recorder = ({ answerQuestion2, answerQuestion, random_grade }) => {
     }
   };
 
+  useEffect(() => {
+    const buttons = document.getElementsByTagName("button");
+    for (const button of buttons) {
+      button.disabled = false;
+    }
+
+    setcannotSubmit(false);
+    setDisableButtons(false);
+
+    const resultLabel = document.getElementById("result-label");
+    resultLabel.innerHTML = "&#8203;";
+
+    const buttonFinish = document.getElementById("finish-learning-button");
+    buttonFinish.disabled = false;
+  }, [question])
+
+  useEffect(() => {
+    if (random_grade != null) {
+      const resultLabel = document.getElementById("result-label");
+      resultLabel.innerHTML = "Your score is " + random_grade;
+    }
+  }, [random_grade])
+
   function handleClick() {
     answerQuestion(audioChunks);
+
     setcannotSubmit(true);
+    setDisableButtons(true);
+
+    const buttons = document.getElementsByTagName("button");
+    for (const button of buttons) {
+      button.disabled = true;
+    }
+
+    const audio = document.getElementById('audio');
+    const source = document.getElementById('source');
+    source.src = "";
+    audio.load();
+
+    setTimeout(() => {
+      getSession();
+    }, 3001);
   }
 
   return (
+    <Fragment>
     <Element.Recorder>
       <h4>RECORDER</h4>
 
 
 
 
-      <button onClick={startRecording} disabled={recording}>
+      <button onClick={startRecording} disabled={recording || disableButtons}>
         Start Recording
       </button>
-      <button onClick={stopRecording} disabled={!recording}>
+      <button onClick={stopRecording} disabled={!recording || disableButtons}>
         Stop Recording
       </button>
 
-      <button onClick={handleClick} disabled={cannotSubmit}>
+      <button onClick={handleClick} disabled={cannotSubmit || disableButtons}>
         Submit
       </button>
-      {random_grade !== null ? <p>Your score is {random_grade}</p> : <></>}
-
+      <label>&#8203;</label>
+      <label id="result-label">&#8203;</label>
+      {//random_grade !== null ? <p>Your score is {random_grade}</p> : <></>
+      }
+    </Element.Recorder>
+    <Element.AudioDiv>
       <audio controls="controls" id="audio" style={{marginTop: '10px'}}>
         Your browser does not support the &lt;audio&gt; tag. 
         <source id="source" src="" type="audio/wav" />
       </audio>
-    </Element.Recorder>
+    </Element.AudioDiv>
+    </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
   random_grade: state.mode12Reducer.randomGrade,
+  question: state.mode12Reducer.question,
 });
 
-export default connect(mapStateToProps, { answerQuestion2, answerQuestion })(
+export default connect(mapStateToProps, { answerQuestion2, answerQuestion, getSession })(
   Recorder
 );
-
-/*
-      <AudioRecorder 
-      onRecordingComplete={addAudioElement}
-      audioTrackConstraints={{
-        noiseSuppression: true,
-        echoCancellation: true,
-      }} 
-      />
-      <button onClick={startRecording} disabled={recording}>
-        Start Recording
-      </button>
-      <button onClick={stopRecording} disabled={!recording}>
-        Stop Recording
-      </button>
-
-*/
