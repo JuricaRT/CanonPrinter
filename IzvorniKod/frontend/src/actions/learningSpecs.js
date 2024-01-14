@@ -87,8 +87,6 @@ export const start_learning = (mode, dict, lang) => async (dispatch) => {
     mode: mode,
   });
 
-  console.log(mode);
-
   try {
     const res = await axios.post(`${baseURL}/initialize_session`, body, config);
 

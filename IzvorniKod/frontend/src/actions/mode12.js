@@ -51,7 +51,6 @@ export const initializeSession = (dict, lang, mode) => async (dispatch) => {
     if (res.data.error) {
       dispatch({ type: INITIALIZE_SESSION_FAIL });
     } else {
-      console.log('il ovdje?');
       dispatch({ type: INITIALIZE_SESSION, payload: res.data });
     }
   } catch (error) {

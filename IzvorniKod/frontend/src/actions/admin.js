@@ -244,7 +244,6 @@ export const add_word_to_dictionary =
       word_type: wordType,
       word_str: word,
     });
-    console.log(body);
     try {
       const res = await axios.post(`${baseURL}/add_word`, body, config);
       if (res.data.success) {
