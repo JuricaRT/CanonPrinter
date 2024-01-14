@@ -6,6 +6,7 @@
 			 \noindent{Za izradu UML dijagrama korišten je alat Astah UML\footnote{\url{https://astah.net/products/astah-uml/}}}. Kao razvojno okruženje korišten je Visual Studio Code\footnote{\url{https://code.visualstudio.com/}}. Korišten je Git\footnote{\url{https://git-scm.com/}} kao sustav za upravljanje verzijama zajedno sa GitHub-om\footnote{\url{https://github.com/}} na kojem se nalazi udaljeni repozitorij projekta. Za potrebe izrade dokumentacije korišten je TeXstudio\footnote{\url{https://www.texstudio.org/}}, višeplatformski LaTeX editor otvorenog koda.\\
 			 \indent{Za izradu backenda korišten je Django\footnote{\url{https://www.djangoproject.com/}}, besplatni radni okvir otvorenog koda za izradu web aplikacija u programskom jeziku Python\footnote{\url{https://www.python.org/}}. Za izradu frontenda korišten je React\footnote{\url{https://react.dev/}}, biblioteka napisana u programskom jeziku JavaScript\footnote{\url{https://developer.mozilla.org/en-US/docs/Web/JavaScript}}.}\\
 			 \indent{Za potrebe baze podataka korišten je MongoDB\footnote{\url{https://www.mongodb.com/}}. Sama baza podataka nalazi se na udaljenom poslužitelju. Usluga koja omogućuje pristup, rad i postavljanje udaljene MongoDB baze podataka je MongoDB Atlas\footnote{\url{https://www.mongodb.com/atlas/database}}. Aplikacija je puštena u pogon na udaljenom poslužitelju pomoću usluge koje nudi Heroku\footnote{\url{https://www.heroku.com/}}. Heroku je cloud platforma kao usluga koja omogućuje puštanje u pogon aplikacija i podržava više programskih jezika.}\\
+			 \indent{Aplikacija koristi Datamuse API\footnote{\url{https://www.datamuse.com/api/}} za pretraživanje i dohvat podataka o riječima. Za potrebe generiranja zvučnih datoteka izgovora riječi koristi Google Text-to-Speech API koji omogućuje sintezu govora iz teksta.\footnote{\url{https://cloud.google.com/text-to-speech/docs/reference/rest}}}\\
 			 \indent{Za potrebe komunikacije tima korištene su aplikacije WhatsApp\footnote{\url{https://www.whatsapp.com/}} i Microsoft Teams\footnote{\url{https://www.microsoft.com/en-us/microsoft-teams/group-chat-software}}.
 			 Za potrebe testiranja aplikacije osim ugrađene potpore za testiranje koju nudi Django korišten je i Selenium WebDriver\footnote{\url{https://www.selenium.dev/documentation/webdriver/}} koji omogućuje pisanje i automatizaciju testova za web aplikacije.}
 			 
@@ -207,7 +208,8 @@
 			
 			\indent{Web aplikacija se kao programski artefakt izvršava u Heroku Dyno spremniku koji je vrsta Linux spremnika proširen sa raznim mogućnostima upravljanja koje nudi Heroku platforma.}
 			
-			\indent{Aplikacija ovisi o bazi podataka koja se nalazi na MongoDB Atlas poslužitelju. Pristup i rad s bazom podataka omogućuje usluga MongoDB Atlas Cluster. Za potrebe dohvata podataka o riječima aplikacija koristi Datamuse API.}
+			\indent{Aplikacija ovisi o bazi podataka koja se nalazi na MongoDB Atlas poslužitelju. Pristup i rad s bazom podataka omogućuje usluga MongoDB Atlas Cluster. Za potrebe dohvata podataka o riječima aplikacija koristi Datamuse API, a za potrebe generiranja zvučnih datoteka izgovora riječi koristi Google Text-to-Speech API.	
+			}
 			
 			\indent{Korisnici (učenici i administratori riječi) koriste web preglednik kako bi pristupili web aplikaciji. Arhitektura sustava bazira se na arhitekturi "klijent - poslužitelj". Komunikacija između korisničkog računala i poslužitelja odvija se preko HTTPS veze.}
 			
