@@ -144,7 +144,6 @@ const MainScreen = ({
     }
 
     get_dictionaries();
-    getSession();
 
     if (selected_mode !== null) {
       navigate("/mode12Screen");
@@ -158,6 +157,7 @@ const MainScreen = ({
 
   useEffect(() => {
     if (sessionExists) {
+      getSession();
       setDisplayLoading(false);
       navigate("/mode12Screen");
     }

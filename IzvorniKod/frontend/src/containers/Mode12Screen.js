@@ -38,10 +38,6 @@ const Mode12Screen = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    getSession();
-  }, [getSession, sessionExists]);
-
-  useEffect(() => {
     if (!sessionExists) {
       navigate("/");
     }
@@ -56,8 +52,10 @@ const Mode12Screen = ({
     finishLearning();
 
     destroySession();
-
-    navigate("/mainScreen");
+    
+    if (!sessionExists) {
+      navigate("/mainScreen")
+    }
   }
 
   // function handleNewAnswer(ans) {
