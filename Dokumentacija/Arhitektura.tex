@@ -224,20 +224,21 @@
 			\indent{Model razredi zapravo preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno
 			komuniciraju s bazom podataka i vraćaju tražene podatke. Razred CustomUser predstavlja korisnika koji se može
 			registrirati u aplikaciju (ako nema već kreiran korisnički račun), ulogirati u aplikaciju, pregledavati i mijenjati
-			svoje korisničke podatke te izbrisati svoj korisnički račun. Na razred CustomUser se vežu razredi Administrator i
-			Student koji predstavljaju korisnike aplikacije. Razred CustomUser je također povezan s razredom PermissionLevel
-			u kojem je zapisano koju razinu dozvole ima korisnik te se prema tome određuje je li korisnik Student ili Administrator.
-			Razred Administrator je povezan s razredima Dictionary i Word jer administrator ima mogućnost uređivanja rječnika
-			u aplikaciji. Razred Student je povezan s razredima Dictionary (student može odabrati rječnik za učenje), LearningMode
-			(student odabire način učenja jezika) i s razredom Session. Razred Session predstavlja srž aplikacije, što je učenje
-			stranog jezika. Povezan je s razredima Answer, Question i LearningMode, a preko tih razreda i s razredima Dictionary,
-			Word itd. Taj razred služi za pohranu studentovog odgovora, pitanja, izgovora riječi, načina učenja... te u njemu
-			student prekida svoje učenje.}
+			svoje korisničke podatke, izbrisati svoj korisnički račun, dodavati i brisati riječi i rječnike... Na razred
+			CustomUser se vežu razredi StudyData i RuntimeSession. Razred CustomUser je također povezan s razredima Word i Dictionary
+			kako bi mogao mijenjati određene riječi i rječnike. Razred RuntimeSession predstavlja srž aplikacije, što je učenje
+			stranog jezika. Povezan je s razredom SessionData, a SessionData je povezana s razredima Question i Mode koji omogućavaju
+			stvaranje kviza. SessionData je također spojena s razredom Dictionary koji je spojen s razredom Word te preko tih razreda
+			SessionData vuće podatke za pravljenje pitanja i odgovora kviza. S druge strane razred StudyData služi za pohranu
+			studentovog napretka u učenju. To sprema preko razreda StudyDataDictionary gdje pamti iz kojeg rječnika student uči,
+			a studentove riječi (krive ili točne) pamti preko razreda StudyDataWords koji je spojen s razredom StudyDataDictionary i
+			razredom Word. U razredu Word se definiraju riječi, te su spojene s razredom Dictionary u kojem je zapisan rječnik u koje
+			su te riječi spremljene.}
 
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classmodel.png} %veličina u odnosu na širinu linije
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_model.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Models}
-				\label{fig:classmodel} %label mora biti drugaciji za svaku sliku
+				\label{fig:Dijagram_razreda_model} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 					
 			
