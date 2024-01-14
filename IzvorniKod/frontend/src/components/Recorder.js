@@ -102,7 +102,7 @@ const Recorder = ({ answerQuestion2, answerQuestion, random_grade, question, get
 
     setTimeout(() => {
       getSession();
-    }, 3001);
+    }, 3000);
   }
 
   return (
