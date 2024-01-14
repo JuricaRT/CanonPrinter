@@ -145,19 +145,14 @@ const MainScreen = ({
 
     get_dictionaries();
 
-    if (selected_mode !== null) {
-      navigate("/mode12Screen");
-    }
-
     if (is_superuser) {
       steps[2] = "View or edit word"
     }
 
-  }, [isAuthenticated, navigate, selectedMode, steps]);
+  }, [isAuthenticated, navigate, steps]);
 
   useEffect(() => {
     if (sessionExists) {
-      getSession();
       setDisplayLoading(false);
       navigate("/mode12Screen");
     }

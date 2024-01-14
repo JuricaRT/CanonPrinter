@@ -36,4 +36,5 @@ urlpatterns = [
     path("get_session", session_views.GetSessionView.as_view()),
     path("answer_question", session_views.AnswerQuestionView.as_view()),
     path("destroy_session", session_views.DestroySessionView.as_view()),
+    path("session_exists", session_views.SessionExistsView.as_view()),
 ]

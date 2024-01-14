@@ -30,23 +30,17 @@ const Mode12Screen = ({
   randomGrade,
   sessionExists
 }) => {
-  const [selectedAnswer, setselectedAnswer] = useState(null);
-
-  // const location = useLocation();
-  // const selectedMode = location.state || {};
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getSession();
+  }, []);
 
   useEffect(() => {
     if (!sessionExists) {
       navigate("/");
     }
   }, [sessionExists])
-
-  function handleNextClick() {
-    getSession();
-    setselectedAnswer(null);
-  }
 
   function handleFinishClick() {
     finishLearning();
@@ -58,10 +52,6 @@ const Mode12Screen = ({
     }
   }
 
-  // function handleNewAnswer(ans) {
-  //   answerQuestion(ans);
-  // }
-
   function renderComponent() {
     switch (mode) {
       case modes.mode1:
@@ -71,8 +61,6 @@ const Mode12Screen = ({
             question={question}
             answers={answers}
             correct={correct}
-            selectedAnswer={selectedAnswer}
-            setselectedAnswer={setselectedAnswer}
             // newAnswer={handleNewAnswer}
           ></Question>
         );
@@ -83,8 +71,6 @@ const Mode12Screen = ({
             question={question}
             answers={answers}
             correct={correct}
-            selectedAnswer={selectedAnswer}
-            setselectedAnswer={setselectedAnswer}
             // newAnswer={handleNewAnswer}
           ></Question>
         );

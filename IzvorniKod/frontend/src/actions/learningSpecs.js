@@ -101,3 +101,4 @@ export const start_learning = (mode, dict, lang) => async (dispatch) => {
     dispatch({ type: INITIALIZE_SESSION_FAIL });
   }
 };
+

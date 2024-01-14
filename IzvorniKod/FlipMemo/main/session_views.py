@@ -113,6 +113,20 @@ class GetSessionView(APIView):
         except Exception as e:
             print(e)
             return JsonResponse({'error': 'Something went wrong when trying to get session for particular user'})
+        
+class SessionExistsView(APIView):
+    def get(self, request, format=None):
+        try:
+            session_exists = request.user._id in runtime_session.session_data.keys()
+
+            return JsonResponse(
+                {
+                    'session_exists': session_exists
+                }
+            )
+        except Exception as e:
+            print(e)
+            return JsonResponse({'error': 'Something went wrong when checking session status of a user.'})
 
 class DestroySessionView(APIView):
     def get(self, request, format=None):

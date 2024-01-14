@@ -14,6 +14,8 @@ import {
   DESTROY_SESSION_FAIL,
   GET_AUDIO_FILE_FAIL,
   GET_AUDIO_FILE_SUCCESS,
+  SESSION_EXISTS_FAIL,
+  SESSION_EXISTS_SUCCESS
 } from "./types";
 
 export const initializeSession = (dict, lang, mode) => async (dispatch) => {
@@ -178,5 +180,27 @@ export const getAudioFile = (word) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({ type: GET_AUDIO_FILE_FAIL });
+  }
+};
+
+export const session_exists = () => async (dispatch) => {
+  const config = {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.get(`${baseURL}/session_exists`, config);
+
+    if (res.data.error) {
+      dispatch({ type: SESSION_EXISTS_FAIL });
+    } else {
+      dispatch({ type: SESSION_EXISTS_SUCCESS, payload: res.data.session_exists });
+    }
+  } catch (error) {
+    dispatch({ type: SESSION_EXISTS_FAIL });
   }
 };

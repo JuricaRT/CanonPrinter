@@ -9,6 +9,8 @@ import {
   DESTROY_SESSION_FAIL,
   GET_AUDIO_FILE_FAIL,
   GET_AUDIO_FILE_SUCCESS,
+  SESSION_EXISTS_SUCCESS,
+  SESSION_EXISTS_FAIL
 } from "../actions/types";
 
 const initalState = {
@@ -66,6 +68,10 @@ export default function mode12Reducer(state = initalState, action) {
       return { ...state, audioFile: action.payload };
     case GET_AUDIO_FILE_FAIL:
       return state;
+    case SESSION_EXISTS_SUCCESS:
+      return { ...state, sessionExists: action.payload }
+    case SESSION_EXISTS_FAIL:
+      return { ...state, sessionExists: false }
     default:
       return state;
   }
