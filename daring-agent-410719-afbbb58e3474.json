@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "daring-agent-410719",
+  "private_key_id": "afbbb58e3474e9334196331a23d535e0bbab72f1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzkvLTy5CH8OrS\nhxbxjbQ4WOtEMNiRVCMOlD1Y3T9DeYWhGwd781DeM1F4hzIfokSU8F7i3AfifGnn\nmnraaK47kTEBWwbe622/wFRQjK3xrrIteMjNqAcQfkgvjVvHzIBgMB4ntTPeB/TO\nvaZ5PZpGl3pFip7kJAQnN2FP7mKNvoTn9nhYbFUh3Wg0TNRIFFp+oucUfQROztBo\nFz1Lth2dOWuglIfbz4eQhqBzUk8y4jWguqkrVTSDkD5Erf8SNO9eVOi20XOQW0qF\nwx3guDuxzpDFn/89AIEg1xZr6N1xZGesssWXpCs2EEYAljulOrMLcOuzywbJt2+i\nKzXIAMX9AgMBAAECggEAOK3ZqkL20AmZPLD5621EJILgY0odmSVa2Vet01YmCTia\nloKvBo8Ch9ffz7Cwf+6aQf5qnKVBcdm+HaWTQEvJLrEBrEFcdlEN93ePxUrZ/k4b\nHCIjE1KFRE3vn964yOQB4xpc8kCN6fdN7FFM8bihcMWQCNIbm7vIec5Pj0iZX85p\nEhAIuS7RyGzmYgBqd/B3Y5PRzcpHgjJKUXxaVVLgPtMNhfGsZgSKq/okfpkfDJID\n8KvymG8EbUEcy0f748NVzlSYo5NqYrTc1qCzVB4SQrpZXRERhJtiHB5iYlyOOR9t\nXwRzbWYm+ab2DlgjAkkEoPzWcrMKvYw/MNOJUeIZ6wKBgQD7r7C4L/aRhG1EE2js\n0HWWWItS9wH3C2iPogugcIBsSI4jyelIdDhvmd8duXknKruB0NNJK4HAiQgO5aJ2\nYG8aqwgcJzvpdriV6imVydRcRvZWP6DBKMm0DeJQM7uM8y/7sW6eyC0l8xuPGVUX\nrUGacc1O/Pl+E0M0lutJ64y1swKBgQC2ptr0xWpyZUllEmHQ7S9hON6tED5jVl/B\narWu91MztR9cixfz32a4am6zJko56ZtbUpzGxQPDhuw7BkBVUcCQaJg2JJ6H7Tpi\nCut0MPxcGzFIq4cNvjc5sL3hndBtOjj4UVrIDosiACiBM2zcIlj10vOyZv0Hk3x+\npvJyZ+YdjwKBgGvnIcuFfJ9cd//klmpY4ODJK0oxbd09PeG+Zl+te9FwtcewK9yN\nPxjRji9PMhrRnjwEjGDlTyZ9WUARwTohE+EKDFsNkwj/hhl3n8aBFhNNtRS7CK9n\nTjpsbWdXFoRSSnMM2dEnHvwTIvCRusKA3Axb19qSaGBd38UvIsa5PsUzAoGAVrv7\nQ7qvZq1EYhONkZngIunPjB0nkyKEDCPxLKnTv70lrFt8v1j5vV8FPFtVahTNqlsb\niaQqumHKseixChLtP2X7ydIv2dpEHCSVVLKiU9ax25Fga51FOkb8lDPNsuCwBvMT\nCecmGLo8gcX6zrocxncrNC+FvmBCAR6kCMHf228CgYEAnGugsznj+UwCDZw4Zs4z\n3BOfJNwfWtYpJOijIGpiaYpkQncTxow5hP9SBrNcxfDQ1Sq/F16pkdjjD3Thksvw\n7D5iSJBO9fwy/dtCL5q3YHI/AuR3VcGr+ECkiYPNLuVHzwLgrMnj10Ag756hPTAT\nXFbgL9z7VH8QJj6QBV/ddp8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "flipmemoservice@daring-agent-410719.iam.gserviceaccount.com",
+  "client_id": "115670664864054782445",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flipmemoservice%40daring-agent-410719.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

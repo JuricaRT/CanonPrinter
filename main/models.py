@@ -1,11 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from enum import Enum
-from . import dto
-import uuid
-from djongo.models import ObjectIdField
+import uuid, djongo
+from djongo.models import ObjectIdField, ManyToManyField, ForeignKey
+from django.forms.models import model_to_dict
 
-class CustomIDField(models.CharField):
+class CustomIDField(models.CharField): # :(
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.get('max_length', 36)
         kwargs['unique'] = kwargs.get('unique', True)
@@ -14,10 +13,14 @@ class CustomIDField(models.CharField):
 
     def generate_id(self):
         return str(uuid.uuid4())
+    
+class TransientModel(models.Model): # :( 
+    def save(*args, **kwargs):
+        pass
 
-class PermissionLevel(models.TextChoices):
-    ADMIN_LEVEL = 'ADMIN'
-    USER_LEVEL = 'USER'
+    class Meta:
+        abstract = True
+        managed = False
 
 class CustomUser(AbstractUser):
 
@@ -27,68 +30,79 @@ class CustomUser(AbstractUser):
     name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.CharField(max_length=255, unique=True)
-    permission_level = models.CharField(max_length=5, choices=PermissionLevel.choices, default=PermissionLevel.USER_LEVEL)
     has_initial_pass = models.BooleanField(default=True)
 
-    @staticmethod
-    def register(self):
-        return
-    
-    @staticmethod
-    def login(self):
-        return
-    
-    @staticmethod
-    def view_user_data(self):
-        return
-    
-    @staticmethod
-    def change_user_data(self):
-        return
-    
-    @staticmethod
-    def delete_user(self):
-        return  
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
-    def to_dto(self):
-        user_dto = dto.UserDTO()
-        user_dto.username = self.username
-        user_dto.password = self.password
-        user_dto.name = self.name 
-        user_dto.email = self.email      
-        user_dto.permission_level = dto.permission_level_to_int(self.permission_level)
-        user_dto.has_initial_pass = self.has_initial_pass
-        return user_dto      
-
+    def to_dict(self):
+        return model_to_dict(self, fields=["username", "name", "last_name", "email", "has_initial_pass"])
+    
     def __str__(self) -> str:
         return self.email
     
-class Administrator(CustomUser):
-    def add_administrator(self, user_name):
-        return
-    
-    def create_dictionary(self): #passes dictionary
-        return
-    
-    def add_word(self): #passes dictionary, word
-        return
-    
-    def remove_word(self): #passes dictionary, word
-        return
-    
-    def change_word(self): #passes dictionary, old_word, new_word
-        return
-    
-    def delete_user(self, user_name):
-        return
-    
-class Student(CustomUser):
-    #session attr
-    def select_learning_mode(self): #passes mode
-        return
-    
-    def select_dictionary(self): #passes dictionary
-        return
-    
-    def init_learning(self): #passes nothing
-        return
+class StudyData(models.Model):
+    _id = ObjectIdField()
+    student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+class StudyDataDictionary(models.Model):
+    _id = ObjectIdField()
+    study_data = ForeignKey(StudyData, on_delete=models.CASCADE)
+    _dict = ForeignKey('Dictionary', on_delete=models.CASCADE)
+
+class StudyDataWords(models.Model):
+    _id = ObjectIdField()
+    study_data_dictionary = ForeignKey(StudyDataDictionary, on_delete=models.CASCADE)
+    _word = ForeignKey('Word', on_delete=models.CASCADE)
+    hidden_for = models.IntegerField()
+
+    def to_dict(self):
+        return model_to_dict(self, fields=["_id", "study_data_dictionary", "_word", "hidden_for"])
+
+class Dictionary(models.Model):
+    _id = ObjectIdField()
+    dict_name = models.CharField(max_length=64)
+    language = models.CharField(max_length=32)
+
+    def to_dict(self):
+        return model_to_dict(self, fields=["dict_name", "language"])
+
+class Word(models.Model):
+    _id = ObjectIdField()
+    parent_dict = ManyToManyField(Dictionary)
+    language = models.CharField(max_length=32)
+    word_str = models.TextField()
+    cro_translation = models.TextField()
+    definition = models.TextField()
+    word_type = models.CharField(max_length=32)
+    audio_bytes = models.BinaryField(null=True)
+
+    def to_dict(self):
+        return model_to_dict(self, fields=["_id", "language", "word_str", "cro_translation", "definition", "word_type", "audio_bytes"])
+
+# class Session(models.Model):
+#     MODE_CHOICES = (
+#         ("LTC", "LangToCro"),
+#         ("CTL", "CroToLang"),
+#         ("AUD", "AudioPrompt"),
+#         ("REC", "VoiceRecording")
+#     )
+
+#     _id = ObjectIdField()
+#     student_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     answers_correct = models.IntegerField()
+#     answers_incorrect = models.IntegerField()
+#     mode = models.CharField(max_length=16, choices=MODE_CHOICES, default="LTC")
+#     selected_dictionary = ForeignKey(Dictionary, on_delete=models.CASCADE)
+#     current_question = ForeignKey('Question', on_delete=models.SET(None)) 
+
+# class Question(models.Model):
+#     _id = ObjectIdField()
+#     session_id = ForeignKey(Session, on_delete=models.CASCADE)
+#     word_question = ForeignKey(Word, related_name='word_question', on_delete=models.CASCADE)
+#     word_answers = ManyToManyField(Word, related_name='word_answers')
+#     word_correct = ForeignKey(Word, related_name='word_correct', on_delete=models.CASCADE)
+
+
+
+

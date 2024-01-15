@@ -1,26 +1,44 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import PassChange from "./pages/PassChange";
-import MainScreen from "./pages/MainScreen";
-import ProfileSettings from "./pages/ProfileSettings";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./hocs/Layout";
 
-function App() {
-  return (
+import Homepage from "./containers/Homepage";
+import Login from "./containers/Login";
+import SignUp from "./containers/SignUp";
+import PassChange from "./containers/PassChange";
+import MainScreen from "./containers/MainScreen";
+import ProfileSettings from "./containers/ProfileSettings";
+import Mode12Screen from "./containers/Mode12Screen";
+import Mode4Screen from "./containers/Mode4Screen";
+
+import store from "./store";
+import { Provider } from "react-redux";
+import ModifyUsers from "./containers/ModifyUsers";
+import ModifyDictionaries from "./containers/ModifyDictionaries";
+
+const App = () => (
+  <Provider store={store}>
     <BrowserRouter>
-      <Routes>
-        
-        {/* <Route path="/" element={<Homepage />}></Route> */}
-        <Route path="login" element={<Login />}></Route>
-        <Route path="signup" element={<SignUp />}></Route>
-        <Route path="passChange" element={<PassChange />}></Route>
-        <Route path="mainScreen" element={<MainScreen />}></Route>
-        <Route path="profileSettings" element={<ProfileSettings />}></Route>
-        <Route path="*" element={<Homepage />}></Route>
-      </Routes>
+      <Layout>
+        <Routes>
+          {/* <Route exact path="/" element={<Homepage />} /> */}
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/passChange" element={<PassChange />} />
+          <Route exact path="/mainScreen" element={<MainScreen />} />
+          <Route exact path="/modifyUsers" element={<ModifyUsers />} />
+          <Route exact path="/profileSettings" element={<ProfileSettings />} />
+          <Route exact path="/quiz" element={<Mode12Screen />} />
+          <Route exact path="/mode4Screen" element={<Mode4Screen />} />
+          <Route
+            exact
+            path="/modifyDictionaries"
+            element={<ModifyDictionaries />}
+          />
+          <Route path="*" element={<Homepage />}></Route>
+        </Routes>
+      </Layout>
     </BrowserRouter>
-  );
-}
+  </Provider>
+);
 
 export default App;
