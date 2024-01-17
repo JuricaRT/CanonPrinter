@@ -205,10 +205,14 @@
 			istom dijelu dijagrama. Također se iz naziva i tipova atributa može zaključiti vrsta ovisnosti i povezanosti između
 			različitih razreda.}
 
+			\indent{Controller je povezan sa 4 klase. To su klase AdminViews, UserViews, DictViews i SessionViews. Sve 4 klase u
+			sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer, klasa DictViews u sebi sadrži
+			metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
+
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classcont.png} %veličina u odnosu na širinu linije
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_controller.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Controllers}
-				\label{fig:classcont} %label mora biti drugaciji za svaku sliku
+				\label{fig:Dijagram_razreda_controller} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 
 			\begin{figure}[H]
@@ -220,20 +224,21 @@
 			\indent{Model razredi zapravo preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno
 			komuniciraju s bazom podataka i vraćaju tražene podatke. Razred CustomUser predstavlja korisnika koji se može
 			registrirati u aplikaciju (ako nema već kreiran korisnički račun), ulogirati u aplikaciju, pregledavati i mijenjati
-			svoje korisničke podatke te izbrisati svoj korisnički račun. Na razred CustomUser se vežu razredi Administrator i
-			Student koji predstavljaju korisnike aplikacije. Razred CustomUser je također povezan s razredom PermissionLevel
-			u kojem je zapisano koju razinu dozvole ima korisnik te se prema tome određuje je li korisnik Student ili Administrator.
-			Razred Administrator je povezan s razredima Dictionary i Word jer administrator ima mogućnost uređivanja rječnika
-			u aplikaciji. Razred Student je povezan s razredima Dictionary (student može odabrati rječnik za učenje), LearningMode
-			(student odabire način učenja jezika) i s razredom Session. Razred Session predstavlja srž aplikacije, što je učenje
-			stranog jezika. Povezan je s razredima Answer, Question i LearningMode, a preko tih razreda i s razredima Dictionary,
-			Word itd. Taj razred služi za pohranu studentovog odgovora, pitanja, izgovora riječi, načina učenja... te u njemu
-			student prekida svoje učenje.}
+			svoje korisničke podatke, izbrisati svoj korisnički račun, dodavati i brisati riječi i rječnike... Na razred
+			CustomUser se vežu razredi StudyData i RuntimeSession. Razred CustomUser je također povezan s razredima Word i Dictionary
+			kako bi mogao mijenjati određene riječi i rječnike. Razred RuntimeSession predstavlja srž aplikacije, što je učenje
+			stranog jezika. Povezan je s razredom SessionData, a SessionData je povezana s razredima Question i Mode koji omogućavaju
+			stvaranje kviza. SessionData je također spojena s razredom Dictionary koji je spojen s razredom Word te preko tih razreda
+			SessionData vuće podatke za pravljenje pitanja i odgovora kviza. S druge strane razred StudyData služi za pohranu
+			studentovog napretka u učenju. To sprema preko razreda StudyDataDictionary gdje pamti iz kojeg rječnika student uči,
+			a studentove riječi (krive ili točne) pamti preko razreda StudyDataWords koji je spojen s razredom StudyDataDictionary i
+			razredom Word. U razredu Word se definiraju riječi, te su spojene s razredom Dictionary u kojem je zapisan rječnik u koje
+			su te riječi spremljene.}
 
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classmodel.png} %veličina u odnosu na širinu linije
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_model.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Models}
-				\label{fig:classmodel} %label mora biti drugaciji za svaku sliku
+				\label{fig:Dijagram_razreda_model} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 					
 			
@@ -241,19 +246,34 @@
 		
 		\section{Dijagram stanja}
 			
+			\noindent{Slika \ref{fig:Dijagram stanja učenika} prikazuje stanja kroz koje se može naći učenik koristeći aplikaciju.} \\
+			\indent{Svakom korisniku prilikom posjeta aplikaciji se prikazuje uvodna stranica gdje se korisnik može, ukoliko već posjeduje račun, prijaviti pritiskom na tipku "Login" u gornjem desnom kutku prilikom čega će se od korisnika tražiti adresa e-pošte i lozinka. Nakon unosa te pritiskom na tiku Log in ispod unosa, ukoliko su vjerodajnice ispravne, korisnik će biti prijavljen. Ako korisnik ne posjeduje račun, moguće ga je registrati pritiskom na tipku "Sign up" u gornjem desnom kutku prilikom čega se od korisnika zahtjeva da upiše svoju adresu e-pošte na koju će se poslati inicijalna lozinka. Nakon unosa adrese e-pošte te pritiskom na tipku "Sign up" ispod unosa, korisnika se vraća na uvodnu stranicu gdje se može prijaviti s inicijalnom lozinkom dobivenu na adresu e-pošte. Nakon prve prijave od registracije, od korisnika se zahtjeva promjena inicijalne lozinke. Ovaj korak nije moguće zaobići i od korisnika će se zahtjevati promjena inicijalne lozinke prilikom svake prijave dok ju ne promijeni. } \\			\indent{Kada se učenik uspješno prijavi u sustav, prikazuje mu se učenička stranica na kojoj može nastaviti učiti rječnike, pregledavati sve rječnike, ažurirati podatke računa i odjaviti se. Dodantno, nakon svake prijave se u web-preglednik zapisiju kolačići vezani za prijavu tako da kada korisnik ponovno posjeti aplikaciju u istom web-pregledniku, biti će automatski prijavljen.} \\
+			\indent{Da bi učenik započeo, ili nastavio, učenje nekog rječnika, potrebno ga je odabrati pritiskom na tipku "Customize learning" prilikom čega će se ponuditi opcija odabira jezika, a nakon odabira jezika ponudit će se svi rječnici na odabranom jeziku. Odabirom jednog od ponuđenih rječnika potrebno je još i odabrati načine učenja. Dostupna su 4 načina učenja: (1) upitom riječi iz rječnika uz odabir hrvatskog prijevoda: (2) upitom hrvatske riječi uz odabir prijevoda na jezik rječnika; (3) izgovorom riječi iz rječnika uz slovkanje riječi; (4) upitom riječi iz rječnika uz snimanje izgovora riječi. Svi načini učenja sastoje se od niza pitanja gdje se od učenika zahtjeva odabri točnog odgovora, točan izgovor ili točno slovkanje. Učenje se prekida pritiskom na tipku "FINISH" prilikom čega se učenika vraća na učeničku stranicu. } \\
+			\indent{Na učeničkoj stranici moguće je i pregledati sve rječnike pritiskom na tipku "View dictionary" prilikom čega se od učenika traži jezik rječnika, a tek onda odabir rječnika na odabranom jeziku. Prikazati će se samo riječi iz rječinka bez prijevoda ili mogućnosti slušanja izgovora.} \\
+			\indent{Učenik je u mogućnositi u svakom trenutku pregledati podatke svojeg računa i upravljati računom pritiskom na tipku "Profile" u gornjem  desnom kutku prilikom čega se učeniku prikazuje stranica za pregled i upravljanje računom. Ukoliko učenik želi promijeniti neki podatak, klikom na odgovrajuće polje može unijeti ažurirani podatak. Učenik može više podataka promijeniti odjednom, a svi promijenjeni podaci se ažuriraju tek nakon pritiska tipke "Save Changes". Važno je napomenuti da adresu e-pošte nije moguće promijeniti. Ukoliko učenik želi izbrisati račun, potrebno je pritisnuti tipku "Delete Account". Također je u svakom trenutku moguće odjaviti se čime se korisnika vraća na uvodnu stranica aplikacije, a kolačići za prijavu brišu tako da prilikom sljedećeg posjeta aplikaciji ne bude automatski prijavljen.}
 			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_stanja_ucenika.png}
+				\caption{Dijagram stanja učenika}
+				\label{fig:Dijagram stanja učenika}
+			\end{figure}
 			
 			
 			\eject 
 		
 		\section{Dijagram aktivnosti}
-			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
+		
+			\noindent{Slika \ref{fig:Dijagram aktivnosti dodavanja nove riječi} prikazuje dijagram aktivnosti sustava kada administrator dodaje novu riječ.} \\
+			\indent{Za dodavanje nove riječi administrator je dužan unjeti podatke o novoj riječi, a to su: vrsta riječi, sama riječ, opis riječi na jeziku rječnika, prijevod na hrvatski i riječnik kojem će riječ pripadati. Prilikom tipkanja same riječi, web-aplikacija će na svaku promjenu upisa regairati tako da predloži nekolicinu riječi na osnovi teksta koje je administrator do tada utipkao. Administrator tada može odabrati svoju riječ ako se nalazi u listi prijedloga, a ako ne, natipkati ju do kraja. Dodatno, kada administrator upiše riječ, web-aplikacija će automatski popuniti polje za opis riječi prikladnim opisom za tu riječ na osnovi vrste riječi. Administrator opis po volji može mijenjati.} \\
+			\indent{Kada je administrator upisao sve potrebne podatke o novoj riječi, može pritisnuti gumb "Add word" prilikom čega će web-aplikacija slati zahtjev na server za dodaju nove riječi. Prije dodaje riječi, server u svojoj bazi podataka provjerava je li ista riječ već postoji u zadanom rječniku, ako postoji, ignorirat će zahtjev, a ako riječ ne postoji u rječniku, onda će ju uspješno dodati.}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{dijagrami/Dijagram_aktivnosti_dodavanja_nove_rijeci.png}
+				\caption{Dijagram aktivnosti dodavanja nove riječi}
+				\label{fig:Dijagram aktivnosti dodavanja nove riječi}
+			\end{figure}
 			
 			\eject
 		\section{Dijagram komponenti}
