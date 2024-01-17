@@ -278,6 +278,11 @@
 			\eject
 		\section{Dijagram komponenti}
 		
-			\textbf{\textit{dio 2. revizije}}\\
-		
-			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+			\indent{Dijagram komponenti na slici \ref{fig:Dijagram komponenti aplikacije} prikazuje strukturu i ovisnost komponenti aplikacije. Aplikacija se sastoij od frontend dijela i backend dijela. Web-pregledniku se poslužuju DOM objekti od strane \textit{frontend-a}. \textit{Frontend} ovisi o React i Redux bibliotekama. Router komponenta služi za mapiranje datoteka pripadajućim URL-om. Store komponenta pohranjuje sva stanja \textit{frontend-a} aplikacije. React i Redux biblioteke mogu međusobno komunicirati te s time stanjima možemo pristupiti sa svakog Container-a i Component-a. Containers i Components omogućuju dinamično kreiranje DOM objekata. Reducers su skupine funkcija koja manipuliraju stanjima Redux-a. Actions nam omogućuju komunikaciju s \textit{backend} dijelom aplikacije preko axios biblioteke. Komunikacija se odvija preko REST API komponente. Django koristi "database engine" kako bi komunicirao s bazom podataka. Dohvaćeni podaci se procesiraju u View-ovima te se JSON odgovor vraća \textit{frontend} dijelu aplikacije.}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{dijagrami/dijagramkomponenta.png}
+				\caption{Dijagram komponenti aplikacije}
+				\label{fig:Dijagram komponenti aplikacije}
+			\end{figure}
