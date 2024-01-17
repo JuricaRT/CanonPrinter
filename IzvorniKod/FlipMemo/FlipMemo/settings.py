@@ -39,20 +39,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 
     #Local
-    'apps.main',
+    'main',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware', Potencijalno vidjet zasto browser ne moze dat svoj csrf nakon kaj dobije response
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = 'FlipMemo.urls'
@@ -87,16 +97,6 @@ auth_source = full_db_string.path.split('/')[0]
 match = re.search(r'@([^.]*)\.', os.environ["DB_CONNECTION_STRING"])
 database_name = match.group(1)
 
-g = """
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'tempDB',
-        'TEST': {
-            'NAME': 'testDB',
-        }
-    }
-}"""
 
 DATABASES = {
     'default': {
@@ -170,22 +170,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # FlipMemo dev settings
 AUTH_USER_MODEL = 'main.CustomUser'
 
+
+#CORS_ALLOW_ALL_ORIGINS = True
+
+
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+     'http://localhost:3000',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
+     'http://localhost:3000',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+#CORS_ALLOW_HEADERS = ['*']
 
-AUTHENTICATION_BACKENDS = ['apps.main.auth_backends.FlipMemoAuthBackend']
+
+
+AUTHENTICATION_BACKENDS = ['main.auth_backends.FlipMemoAuthBackend']
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_HTTPONLY = True
+#CSRF_COOKIE_HTTPONLY = True
 
+
+"""
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -198,7 +204,16 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'csrf',
     'mail',
-    'password'
+    'password',
 ]
+"""
 
+CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SAMESITE = None
+SESSION_COOKIE_HTTPONLY = False
+#CSRF_COOKIE_NAME = "XSRF-TOKEN"
+
+GOOGLE_LANGUAGE_CODE = "en-US"
+GOOGLE_VOICE_NAME = "en-US-Wavenet-D"
+GOOGLE_SERVICE_ACCOUNT_PATH = os.path.join(BASE_DIR, "daring-agent-410719-afbbb58e3474.json")
