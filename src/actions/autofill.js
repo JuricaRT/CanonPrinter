@@ -6,7 +6,7 @@ import {
         RESET_AUTOFILL
 } from './types';
 
-const MIN_PREFIX_LENGTH = 1
+const MIN_PREFIX_LENGTH = 3
 const NUMBER_OF_SUGGESTIONS = 50
 
 function autofillSuggestionsApi(word, num) {
