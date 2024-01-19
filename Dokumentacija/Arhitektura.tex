@@ -194,31 +194,22 @@
 			
 		\section{Dijagram razreda}
 
-			\indent{Na slikama 4.3, 4.4 i 4.5 su prikazani razredi koji pripadaju {\textit{backend}} dijelu MVC (MTV)
-			arhitekture. Razredi prikazani na slici 4.3 pirkazuju Controller razred. Metode implementirane u tim razredima
-			manipuliraju s DTO razredima ({\textit{Data transfer object}}) koji služe za prijenos podataka između baze podataka i
-			aplikacije. Atributi koji se nalaze u DTO razredima dohvaćaju se pomoću metoda implementiranih unutra Model razreda. 
-			Metode implementirane unutar Controller razreda vraćaju JSON datoteke.}
+			\indent{Na slikama 4.3, 4.4 su prikazani razredi koji pripadaju {\textit{backend}} dijelu MVC (MTV)
+			arhitekture. Razredi prikazani na slici 4.3 prikazuju controller razred, gdje controller predstavlja APIView razred.
+			Metode implementirane u tim razredima manipuliraju s APIView razredom ({\textit{Data transfer object}}) koji služi
+			za prijenos podataka između fronted i backend dijela aplikacije. Metode implementirane unutar Controller razreda vraćaju
+			JSON datoteke.}
 
-			\indent{Zbog lakše oraganizacije, razredi su podijeljeni logički po pravu pristupa metodama određenih aktora. Kako
-			bi se smanjila prenatrpanost unutar pojedinog dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju
-			istom dijelu dijagrama. Također se iz naziva i tipova atributa može zaključiti vrsta ovisnosti i povezanosti između
-			različitih razreda.}
-
-			\indent{Controller je povezan sa 4 klase. To su klase AdminViews, UserViews, DictViews i SessionViews. Sve 4 klase u
-			sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer, klasa DictViews u sebi sadrži
-			metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
+			\indent{APIView je povezan sa 4 klase odnosno te klase nasljeđuju APIView. To su klase AdminViews, UserViews,
+			DictViews i SessionViews. Zbog lakše oraganizacije, razredi su podijeljeni logički na temelju dijela aplikacije kojim
+			manipuliraju. UserViews razred recimo služi za obradu korisničkih zahtijeva, dok DictViews razred služi za rad s riječima
+			i rječnicima. Sve 4 klase u sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer,
+			klasa DictViews u sebi sadrži metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
 
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_controller.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Controllers}
 				\label{fig:Dijagram_razreda_controller} %label mora biti drugaciji za svaku sliku
-			\end{figure}
-
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classdto.png} %veličina u odnosu na širinu linije
-				\caption{Dijagram razreda - dio Data Transfer Objects}
-				\label{fig:classdto} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 
 			\indent{Model razredi zapravo preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno
@@ -248,8 +239,8 @@
 			
 			\noindent{Slika \ref{fig:Dijagram stanja učenika} prikazuje stanja kroz koje se može naći učenik koristeći aplikaciju.} \\
 			\indent{Svakom korisniku prilikom posjeta aplikaciji se prikazuje uvodna stranica gdje se korisnik može, ukoliko već posjeduje račun, prijaviti pritiskom na tipku "Login" u gornjem desnom kutku prilikom čega će se od korisnika tražiti adresa e-pošte i lozinka. Nakon unosa te pritiskom na tiku Log in ispod unosa, ukoliko su vjerodajnice ispravne, korisnik će biti prijavljen. Ako korisnik ne posjeduje račun, moguće ga je registrati pritiskom na tipku "Sign up" u gornjem desnom kutku prilikom čega se od korisnika zahtjeva da upiše svoju adresu e-pošte na koju će se poslati inicijalna lozinka. Nakon unosa adrese e-pošte te pritiskom na tipku "Sign up" ispod unosa, korisnika se vraća na uvodnu stranicu gdje se može prijaviti s inicijalnom lozinkom dobivenu na adresu e-pošte. Nakon prve prijave od registracije, od korisnika se zahtjeva promjena inicijalne lozinke. Ovaj korak nije moguće zaobići i od korisnika će se zahtjevati promjena inicijalne lozinke prilikom svake prijave dok ju ne promijeni. } \\			\indent{Kada se učenik uspješno prijavi u sustav, prikazuje mu se učenička stranica na kojoj može nastaviti učiti rječnike, pregledavati sve rječnike, ažurirati podatke računa i odjaviti se. Dodantno, nakon svake prijave se u web-preglednik zapisiju kolačići vezani za prijavu tako da kada korisnik ponovno posjeti aplikaciju u istom web-pregledniku, biti će automatski prijavljen.} \\
-			\indent{Da bi učenik započeo, ili nastavio, učenje nekog rječnika, potrebno ga je odabrati pritiskom na tipku "Customize learning" prilikom čega će se ponuditi opcija odabira jezika, a nakon odabira jezika ponudit će se svi rječnici na odabranom jeziku. Odabirom jednog od ponuđenih rječnika potrebno je još i odabrati načine učenja. Dostupna su 4 načina učenja: (1) upitom riječi iz rječnika uz odabir hrvatskog prijevoda: (2) upitom hrvatske riječi uz odabir prijevoda na jezik rječnika; (3) izgovorom riječi iz rječnika uz slovkanje riječi; (4) upitom riječi iz rječnika uz snimanje izgovora riječi. Svi načini učenja sastoje se od niza pitanja gdje se od učenika zahtjeva odabri točnog odgovora, točan izgovor ili točno slovkanje. Učenje se prekida pritiskom na tipku "FINISH" prilikom čega se učenika vraća na učeničku stranicu. } \\
-			\indent{Na učeničkoj stranici moguće je i pregledati sve rječnike pritiskom na tipku "View dictionary" prilikom čega se od učenika traži jezik rječnika, a tek onda odabir rječnika na odabranom jeziku. Prikazati će se samo riječi iz rječinka bez prijevoda ili mogućnosti slušanja izgovora.} \\
+			\indent{Da bi učenik započeo, ili nastavio, učenje nekog rječnika, potrebno ga je odabrati pritiskom na tipku "Customize learning" prilikom čega će se ponuditi opcija odabira jezika, a nakon odabira jezika ponudit će se svi rječnici na odabranom jeziku. Odabirom jednog od ponuđenih rječnika potrebno je još i odabrati načine učenja. Dostupna su 4 načina učenja: (1) upitom riječi iz rječnika uz odabir hrvatskog prijevoda: (2) upitom hrvatske riječi uz odabir prijevoda na jezik rječnika; (3) izgovorom riječi iz rječnika uz slovkanje riječi; (4) upitom riječi iz rječnika uz snimanje izgovora riječi. Svi načini učenja sastoje se od niza pitanja gdje se od učenika zahtjeva odabri točnog odgovora, točan izgovor ili točno slovkanje. Učenje se prekida pritiskom na tipku "Quir" prilikom čega se učenika vraća na učeničku stranicu. } \\
+			\indent{Na učeničkoj stranici moguće je i pregledati sve rječnike pritiskom na tipku "View dictionary" prilikom čega se od učenika traži jezik rječnika, a tek onda odabir rječnika na odabranom jeziku. Učenik tada može odabrati koju riječ želi pregledati, a u pregledu riječi prikazuje se riječ, prijevod na hrvatski, opis riječi i vrsta riječi.} \\
 			\indent{Učenik je u mogućnositi u svakom trenutku pregledati podatke svojeg računa i upravljati računom pritiskom na tipku "Profile" u gornjem  desnom kutku prilikom čega se učeniku prikazuje stranica za pregled i upravljanje računom. Ukoliko učenik želi promijeniti neki podatak, klikom na odgovrajuće polje može unijeti ažurirani podatak. Učenik može više podataka promijeniti odjednom, a svi promijenjeni podaci se ažuriraju tek nakon pritiska tipke "Save Changes". Važno je napomenuti da adresu e-pošte nije moguće promijeniti. Ukoliko učenik želi izbrisati račun, potrebno je pritisnuti tipku "Delete Account". Također je u svakom trenutku moguće odjaviti se čime se korisnika vraća na uvodnu stranica aplikacije, a kolačići za prijavu brišu tako da prilikom sljedećeg posjeta aplikaciji ne bude automatski prijavljen.}
 			
 			\begin{figure}[H]
@@ -278,6 +269,11 @@
 			\eject
 		\section{Dijagram komponenti}
 		
-			\textbf{\textit{dio 2. revizije}}\\
-		
-			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+			\indent{Dijagram komponenti na slici \ref{fig:Dijagram komponenti aplikacije} prikazuje strukturu i ovisnost komponenti aplikacije. Aplikacija se sastoij od frontend dijela i backend dijela. Web-pregledniku se poslužuju DOM objekti od strane \textit{frontend-a}. \textit{Frontend} ovisi o React i Redux bibliotekama. Router komponenta služi za mapiranje datoteka pripadajućim URL-om. Store komponenta pohranjuje sva stanja \textit{frontend-a} aplikacije. React i Redux biblioteke mogu međusobno komunicirati te s time stanjima možemo pristupiti sa svakog Container-a i Component-a. Containers i Components omogućuju dinamično kreiranje DOM objekata. Reducers su skupine funkcija koja manipuliraju stanjima Redux-a. Actions nam omogućuju komunikaciju s \textit{backend} dijelom aplikacije preko axios biblioteke. Komunikacija se odvija preko REST API komponente. Django koristi "database engine" kako bi komunicirao s bazom podataka. Dohvaćeni podaci se procesiraju u View-ovima te se JSON odgovor vraća \textit{frontend} dijelu aplikacije.}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{dijagrami/dijagramkomponenta.png}
+				\caption{Dijagram komponenti aplikacije}
+				\label{fig:Dijagram komponenti aplikacije}
+			\end{figure}
