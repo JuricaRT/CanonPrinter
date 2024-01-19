@@ -194,31 +194,22 @@
 			
 		\section{Dijagram razreda}
 
-			\indent{Na slikama 4.3, 4.4 i 4.5 su prikazani razredi koji pripadaju {\textit{backend}} dijelu MVC (MTV)
-			arhitekture. Razredi prikazani na slici 4.3 pirkazuju Controller razred. Metode implementirane u tim razredima
-			manipuliraju s DTO razredima ({\textit{Data transfer object}}) koji služe za prijenos podataka između baze podataka i
-			aplikacije. Atributi koji se nalaze u DTO razredima dohvaćaju se pomoću metoda implementiranih unutra Model razreda. 
-			Metode implementirane unutar Controller razreda vraćaju JSON datoteke.}
+			\indent{Na slikama 4.3, 4.4 su prikazani razredi koji pripadaju {\textit{backend}} dijelu MVC (MTV)
+			arhitekture. Razredi prikazani na slici 4.3 prikazuju controller razred, gdje controller predstavlja APIView razred.
+			Metode implementirane u tim razredima manipuliraju s APIView razredom ({\textit{Data transfer object}}) koji služi
+			za prijenos podataka između fronted i backend dijela aplikacije. Metode implementirane unutar Controller razreda vraćaju
+			JSON datoteke.}
 
-			\indent{Zbog lakše oraganizacije, razredi su podijeljeni logički po pravu pristupa metodama određenih aktora. Kako
-			bi se smanjila prenatrpanost unutar pojedinog dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju
-			istom dijelu dijagrama. Također se iz naziva i tipova atributa može zaključiti vrsta ovisnosti i povezanosti između
-			različitih razreda.}
-
-			\indent{Controller je povezan sa 4 klase. To su klase AdminViews, UserViews, DictViews i SessionViews. Sve 4 klase u
-			sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer, klasa DictViews u sebi sadrži
-			metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
+			\indent{APIView je povezan sa 4 klase odnosno te klase nasljeđuju APIView. To su klase AdminViews, UserViews,
+			DictViews i SessionViews. Zbog lakše oraganizacije, razredi su podijeljeni logički na temelju dijela aplikacije kojim
+			manipuliraju. UserViews razred recimo služi za obradu korisničkih zahtijeva, dok DictViews razred služi za rad s riječima
+			i rječnicima. Sve 4 klase u sebi sadrže metode koje su povezane sa naslovom te klase, ali i druge klase. Na primjer,
+			klasa DictViews u sebi sadrži metode za rad s rječnicima i riječima, no te metode koriste ili administrator ili korisnik.}
 
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{dijagrami/Dijagram_razreda_controller.png} %veličina u odnosu na širinu linije
 				\caption{Dijagram razreda - dio Controllers}
 				\label{fig:Dijagram_razreda_controller} %label mora biti drugaciji za svaku sliku
-			\end{figure}
-
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{dijagrami/classdto.png} %veličina u odnosu na širinu linije
-				\caption{Dijagram razreda - dio Data Transfer Objects}
-				\label{fig:classdto} %label mora biti drugaciji za svaku sliku
 			\end{figure}
 
 			\indent{Model razredi zapravo preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno
