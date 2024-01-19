@@ -1,8 +1,12 @@
-### Link: https://canonprinterflipmemo-e26446ab5129.herokuapp.com
+### Link (NOVI LINK!): https://canonprinterflipmemo-ac2b52d6f303.herokuapp.com
 
 ### Podaci za prijavu:
 
 #### Korisnik
+* email: jurica.runtas2345@gmail.com
+* lozinka: admin
+
+#### Admin
 * email: runtas.j@gmail.com
 * lozinka: admin
 
